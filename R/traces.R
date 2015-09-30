@@ -1,0 +1,64 @@
+
+#' @title Traces
+#'
+#' @description \code{traces} computes the different activity sequences of an event log
+#' together with their absolute and relative frequencies.
+#' Activity sequences are based on the start timestamp of activities.
+#'
+#' @param eventlog The event log to be used. An object of class
+#' \code{eventlog}.
+#'
+#' @param output_traces,output_cases Logicals specifying what should be
+#' returned, a list of traces or a list of cases. If both are TRUE, a list of
+#' both is returned.
+#'
+#'
+#' @seealso \code{\link{cases}}, \code{\link{eventlog}}
+#' @examples
+#'
+#'
+#' data(example_log)
+#' traces(example_log)
+#'
+#'
+#'
+#' @export traces
+#'
+#'
+traces <- function(eventlog,
+				   output_traces = TRUE,
+				   output_cases = FALSE){
+
+	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
+	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+	colnames(eventlog)[colnames(eventlog) == life_cycle_id(eventlog)] <- "life_cycle_classifier"
+	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
+
+
+	cases <- eventlog %>%
+		filter(life_cycle_classifier == "start") %>%
+		arrange(case_classifier, timestamp_classifier) %>%
+		group_by(case_classifier) %>%
+		summarize(trace = paste(event_classifier, collapse = ",")) %>% ungroup()
+
+	cases <- mutate(cases, trace_id = as.numeric(factor(trace)))
+	cases <- cases %>% ungroup() %>% arrange(trace_id)
+	colnames(cases)[colnames(cases) == "case_classifier"] <- case_id(eventlog)
+
+	traces <- cases %>% group_by(trace, trace_id) %>% summarize(absolute_frequency = n())
+	traces <- traces %>% ungroup() %>% arrange(desc(absolute_frequency))
+	traces$relative_frequency <- traces$absolute_frequency/sum(traces$absolute_frequency)
+
+
+	if(output_traces == TRUE && output_cases == TRUE)
+		return(list(traces,cases))
+	else if(output_traces == TRUE && output_cases == FALSE)
+		return(traces)
+	else if(output_traces == FALSE && output_cases == TRUE)
+		return(cases)
+	else
+		return(nrow(traces))
+
+}
+
+
