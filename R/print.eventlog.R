@@ -1,4 +1,5 @@
 #' @title Generic print function for eventlog
+#'
 #' @export print.eventlog
 
 print.eventlog <- function(x, ...) {
