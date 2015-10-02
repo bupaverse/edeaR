@@ -1,26 +1,26 @@
 
-createXES<- function(file, 
-                     traces, 
-                     events, 
-                     classifiers = NULL, 
-                     logattributes = NULL, 
+createXES<- function(file,
+                     traces,
+                     events,
+                     classifiers = NULL,
+                     logattributes = NULL,
                      caseid_field = NULL){
   # File: The location of the output file
-  # Traces: a dataframe where each row represents a trace and each column represents 
-  #         a trace attribute. 
+  # Traces: a dataframe where each row represents a trace and each column represents
+  #         a trace attribute.
   # Events: a dataframe where each row represents an event and each column represents
-  #         an event attribute. (This dataframe also has a column which refers to the 
+  #         an event attribute. (This dataframe also has a column which refers to the
   #         traceid)
-  # Classifiers: A list of classifiers. The key represents the name of the classifier 
+  # Classifiers: A list of classifiers. The key represents the name of the classifier
   #              and the value contains a string vector of the respective event attributes
   # Logatrributes:  A list of log atributes. The key represents the attribute name and the
   #                 value represents the attribute value. The attribute type is derived from
   #                 the attribute value
   # Caseid_field: The columnname which acts as traceid in the events dataframe.
   #               DEFAULT: The first column of the events dataframe is used as traceID.
-  
-  
-  
+
+
+
   ##################HELPER FUNCTIONS############################
   add <- function(text){
     xml_i <<- xml_i + 1
@@ -28,7 +28,7 @@ createXES<- function(file,
     #xml
     #cat(text, file, append=TRUE)
   }
-  
+
   addAttribute <- function(datatype, key, value){
     if(is.null(value)){
       return()
@@ -38,7 +38,7 @@ createXES<- function(file,
     }
     add(paste0('<',datatype,' key="',key,'" value="',value,'"/>'))
   }
-  
+
   addExtensions <- function(attrs){
     #add concept extension if any of the event attributes start with the "concept:" prefix
     if(any(grepl("^concept:", names(attrs)))){
@@ -49,11 +49,11 @@ createXES<- function(file,
       add('<extension name="Time" prefix="concept" uri="http://www.xes-standard.org/time.xesext" />')
     }
   }
-  
+
   addGlobals <- function(data, attrs, scope){
     temp <- sapply(data[,names(attrs)],function(x){all(!is.na(x))})
     globals <- names(temp[temp==TRUE])
-    
+
     add(paste0('<global scope="',scope,'">'))
       for(key in globals){
         datatype <- attrs[key]
@@ -61,7 +61,7 @@ createXES<- function(file,
       }
     add('</global>')
   }
-  
+
   addClassifiers <- function(){
     if(is.null(classifiers)){
       return()
@@ -70,7 +70,7 @@ createXES<- function(file,
       add(paste0('<classifier name="',name,'" keys="', paste(classifiers[[name]], collapse=" "),'"/>'))
     }
   }
-  
+
   addLogAttributes <- function(){
     if(is.null(logattributes)){
       return()
@@ -82,9 +82,9 @@ createXES<- function(file,
         value = strftime(value,format="%Y-%m-%dT%H:%M:%S.000+00:00")
       }
       add(paste0('<', datatype,' key="',name,'" value="', value,'"/>'))
-    }    
+    }
   }
-  
+
   addTraces <- function(){
 #    apply(traces, 1, addTrace)
     total = dim(traces)[1]
@@ -95,7 +95,7 @@ createXES<- function(file,
       setTxtProgressBar(pb, i)
     }
   }
-  
+
   addTrace <- function(trace){
     add('<trace>')
     for(name in names(trace_attrs)){
@@ -105,11 +105,11 @@ createXES<- function(file,
     addEvents(events_per_trace[[trace_id]])
     add('</trace>')
   }
-  
+
   addEvents <- function(trace_events){
     apply(trace_events, 1, addEvent)
   }
-  
+
   addEvent <- function(event){
     add('<event>')
     for(name in names(event_attrs)){
@@ -117,20 +117,20 @@ createXES<- function(file,
     }
     add('</event>')
   }
-  
+
   detectAttrType <- function(key, data){
     detected = class(data[[key]])[1]
     attribute_types[[detected]]
   }
-  
+
   get_attr_info<- function(data){
     sapply(colnames(data), detectAttrType, data)
   }
-  
-  
+
+
   ############PRELIMINARIES##################
-  defaultvalues <- list("string"="default", 
-                        "int"="0", 
+  defaultvalues <- list("string"="default",
+                        "int"="0",
                         "date"="1970-01-01T00:00:00.000+00:00")
   attribute_types <- list("factor"="string",
                           "POSIXct"="date",
@@ -138,19 +138,23 @@ createXES<- function(file,
                           "ordered"="string",
                           "character"="string")
   trace_attrs <- get_attr_info(traces)
-  
+
   if(is.null(caseid_field)){
     event_attrs <- get_attr_info(events[,-1])
   }
   else{
     event_attrs <- get_attr_info(events[,names(events)!=caseid_field])
   }
-  
+
   if(is.null(caseid_field)){
     events_caseid_field <- colnames(events)[1]
   }
+  else { #adjustment Gert
+  	events_caseid_field <- caseid_field
+  }
+
   events_per_trace <- split(events,events[events_caseid_field])
-  
+
   if("concept:name" %in% names(trace_attrs)){
     trace_caseid_field <- "concept:name"
   }
@@ -160,7 +164,7 @@ createXES<- function(file,
   else{
     trace_caseid_field <- colnames(traces)[1]
   }
-  
+
   n_event_attrs = length(event_attrs)
   n_trace_attrs = length(trace_attrs)
   n_classifiers = length(classifiers)

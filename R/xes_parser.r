@@ -1,4 +1,5 @@
 
+
 csv_from_xes <- function(xesfile) {
 
 	parsed_xes <- parseXES(xesfile)
@@ -16,15 +17,16 @@ csv_from_xes <- function(xesfile) {
 		for(j in 1:n_events){
 			result[n,1]  <- c(caseids[i])
 			for(k in 1:length(data)){
-				print(k)
-				print(j)
-				result[n,(k+1)] <- data[[k]][[j]]
+				if(j > length(data[[k]]))
+					result[n,(k+1)] <- NA
+				else
+					result[n,(k+1)] <- data[[k]][[j]]
 
 			}
 			n <- n +1
 		}
 	}
-	colnames(result)[1]<-paste("trace",names(parsed_xes$traces), sep = ".")
+	colnames(result)[1]<-paste("trace",names(parsed_xes$traces), sep = ".")[1]
 	for(i in 1:n_event_att)
 		colnames(result)[i+1] <- paste("event",names(parsed_xes$events[[1]])[i], sep = ".")
 	return(result)

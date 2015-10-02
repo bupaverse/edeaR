@@ -33,11 +33,13 @@ traces <- function(eventlog,
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
 	colnames(eventlog)[colnames(eventlog) == life_cycle_id(eventlog)] <- "life_cycle_classifier"
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
+	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
 
 	cases <- eventlog %>%
-		filter(life_cycle_classifier == "start") %>%
-		arrange(case_classifier, timestamp_classifier) %>%
+		group_by(case_classifier, activity_instance_classifier, event_classifier) %>%
+		summarize(min_timestamp = min(timestamp_classifier)) %>% ungroup() %>%
+		arrange(case_classifier, min_timestamp) %>%
 		group_by(case_classifier) %>%
 		summarize(trace = paste(event_classifier, collapse = ",")) %>% ungroup()
 

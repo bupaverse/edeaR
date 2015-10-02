@@ -29,10 +29,8 @@ durations <- function(eventlog,
 
 	e <- eventlog
 
-	s_durations <- e %>% filter(life_cycle_classifier == "start") %>% group_by(case_classifier) %>% summarize(s = min(timestamp_classifier))
-	e_durations <- e %>% filter(life_cycle_classifier == "complete") %>% group_by(case_classifier) %>% summarize(e = max(timestamp_classifier))
+	durations <- e %>% group_by(case_classifier) %>% summarize(s = min(timestamp_classifier), e = max(timestamp_classifier))
 
-	durations <- merge(s_durations, e_durations)
 	durations$duration <- durations$e - durations$s
 	durations$duration <- as.double(durations$duration, units = units)
 

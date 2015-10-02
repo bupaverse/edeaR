@@ -70,10 +70,16 @@ filter_time_period <- function(eventlog,
 	}
 	else if(filter_method == "trim") {
 
-		colnames(eventlog)[colnames(eventlog) == "case_classifier"] <- case_id(eventlog)
 
-		e <- eventlog_wide(eventlog)
 
+		colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
+		colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+		colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
+		colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
+
+		e <- eventlog %>%
+			group_by(case_classifier, event_classifier, activity_instance_classifier) %>%
+			summarize(start = min(timestamp_classifier), complete = max(timestamp_classifier))
 
 		if(reverse == FALSE)
 			f_eventlog <- filter(e, start >= start_point &
@@ -82,11 +88,13 @@ filter_time_period <- function(eventlog,
 			f_eventlog <- filter(e, !(start >= start_point &
 							   	complete <= end_point))
 
-		colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
 		output <- filter(eventlog, activity_instance_classifier %in% f_eventlog$activity_instance_classifier)
-		colnames(output)[colnames(output) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
 
+		colnames(output)[colnames(output) == "case_classifier"] <- case_id(eventlog)
+		colnames(output)[colnames(output) == "event_classifier"] <- activity_id(eventlog)
+		colnames(output)[colnames(output) == "timestamp_classifier"] <- timestamp(eventlog)
+		colnames(output)[colnames(output) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
 
 		return(eventlog(eventlog = output,
 						activity_id = activity_id(eventlog),

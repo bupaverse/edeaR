@@ -1,7 +1,6 @@
 
 
-throughput_time_trace <- function(eventlog,
-								  units = "days") {
+throughput_time_trace <- function(eventlog) {
 	stop_eventlog(eventlog)
 
 	csum <- cases(eventlog)

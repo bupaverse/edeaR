@@ -27,7 +27,6 @@ filter_trim <- function(eventlog,
 
 
 
-	e <- eventlog_wide(eventlog)
 	if(is.null(start_activities))
 		start_activities <- unique(e$event_classifier)
 	if(is.null(end_activities))
@@ -35,24 +34,35 @@ filter_trim <- function(eventlog,
 
 
 
-	ranked_eventlog <- group_by(e, case_classifier) %>% mutate(r = dense_rank(start))
+	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
+	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
+	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
+
+
+	ranked_eventlog <- group_by(eventlog, case_classifier, activity_instance_classifier, event_classifier) %>%
+		summarize(min_timestamp = min(timestamp_classifier)) %>%
+		group_by(case_classifier) %>%
+		mutate(r = dense_rank(min_timestamp))
 	min_ranks <- ranked_eventlog %>% filter(event_classifier %in% start_activities) %>% summarize(min_rank = min(r))
 	max_ranks <- ranked_eventlog %>% filter(event_classifier %in% end_activities) %>% summarize(max_rank = max(r))
-
 	ranked_eventlog <- merge(merge(ranked_eventlog, min_ranks), max_ranks)
+	ranked_eventlog$included <- ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank
+
 
 	if(reverse == F)
 		ranked_eventlog <- ranked_eventlog[ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank,]
 	else
 		ranked_eventlog <- ranked_eventlog[!(ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank),]
-
 	ranked_eventlog <- select(ranked_eventlog, -r, -min_rank, -max_rank)
 
 
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
-	f_eventlog <- filter(eventlog, activity_instance_classifier %in% ranked_eventlog$activity_instance_classifier)
+	f_eventlog <- eventlog[eventlog$activity_instance_classifier %in% ranked_eventlog$activity_instance_classifier,]
 
+	colnames(f_eventlog)[colnames(f_eventlog) == "case_classifier"] <- case_id(eventlog)
+	colnames(f_eventlog)[colnames(f_eventlog) == "event_classifier"] <- activity_id(eventlog)
+	colnames(f_eventlog)[colnames(f_eventlog) == "timestamp_classifier"] <- timestamp(eventlog)
 	colnames(f_eventlog)[colnames(f_eventlog) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
 
 

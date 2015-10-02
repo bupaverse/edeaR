@@ -38,20 +38,9 @@ cases <- function(eventlog){
 	summary <- eventlog %>%
 		group_by(case_classifier) %>%
 		summarize(trace_length = n_distinct(activity_instance_classifier),
-				  number_of_activities = n_distinct(event_classifier))
-
-	summary1 <- eventlog %>%
-		filter(life_cycle_classifier == "start") %>%
-		group_by(case_classifier) %>%
-		summarize(start_timestamp = min(timestamp_classifier))
-
-	summary2 <- eventlog %>%
-		filter(life_cycle_classifier == "complete") %>%
-		group_by(case_classifier) %>%
-		summarize(complete_timestamp = max(timestamp_classifier))
-
-	summary <- merge(summary, merge(summary1, summary2))
-
+				  number_of_activities = n_distinct(event_classifier),
+				  start_timestamp = min(timestamp_classifier),
+				  complete_timestamp = max(timestamp_classifier))
 
 	summary <- merge(summary, traces_per_case, "case_classifier")
 	summary <- merge(summary, durations, "case_classifier")
