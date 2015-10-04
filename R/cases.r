@@ -52,6 +52,8 @@ cases <- function(eventlog){
 		summary$first_activity[i] <- strsplit(summary$trace[i], split = ",")[[1]][1]
 		summary$last_activity[i] <- strsplit(summary$trace[i], split = ",")[[1]][length(strsplit(summary$trace[i], split =",")[[1]])]
 	}
+	summary$first_activity <- as.factor(summary$first_activity)
+	summary$last_activity <- as.factor(summary$last_activity)
 
 	colnames(summary)[colnames(summary)=="case_classifier"] <- case_id(eventlog)
 
