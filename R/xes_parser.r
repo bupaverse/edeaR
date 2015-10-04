@@ -12,25 +12,32 @@ csv_from_xes <- function(xesfile) {
 
 	n<-1
 	for(i in 1:n_cases){
-		data <- parsed_xes$events[[i]]
+		data <- add_NAS_to_event_attributes_per_case(parsed_xes$events[[i]])
 		n_events <- length(data[[1]])
-		for(j in 1:n_events){
-			result[n,1]  <- c(caseids[i])
-			for(k in 1:length(data)){
-				if(j > length(data[[k]]))
-					result[n,(k+1)] <- NA
-				else
-					result[n,(k+1)] <- data[[k]][[j]]
+		case <- as.data.frame(data, stringsAsFactors = F)
+		case <- bind_cols(data.frame(rep(caseids[i], n_events), stringsAsFactors = F), case)
+		result <- bind_rows(result, case)
 
+	}
+	colnames(result)[1]<-"case_concept.name"
+	for(i in 1:n_event_att)
+		colnames(result)[i+1] <- paste("event",colnames(result)[i+1], sep = "_")
+	return(result)
+}
+
+add_NAS_to_event_attributes_per_case <- function(x) {
+	for(i in 1:length(x))
+		v <- (as.vector(sapply(x, length)))
+	if(length(unique(v)) > 1){
+		# meer dan 1 waarde
+		m <- max(v) # max aantal attributen
+		for(i in 1:length(x)){
+			if(length(x[[i]]) < m){
+				x[[i]] <- c(x[[i]], rep(NA, times = (m - length(x[[i]]))))
 			}
-			n <- n +1
 		}
 	}
-	colnames(result)[1]<-paste("trace",names(parsed_xes$traces), sep = ".")[1]
-	for(i in 1:n_event_att)
-		colnames(result)[i+1] <- paste("event",names(parsed_xes$events[[1]])[i], sep = ".")
-	return(result)
-
+	return(x)
 }
 
 

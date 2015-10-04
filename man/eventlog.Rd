@@ -5,7 +5,7 @@
 \title{Eventlog}
 \usage{
 eventlog(eventlog, case_id = NULL, activity_id = NULL,
-  activity_instance_id = NULL, life_cycle_id = NULL, timestamp = NULL)
+  activity_instance_id = NULL, lifecycle_id = NULL, timestamp = NULL)
 }
 \arguments{
 \item{eventlog}{The data object to be used as event log. This can be a
@@ -17,7 +17,7 @@ eventlog(eventlog, case_id = NULL, activity_id = NULL,
 
 \item{activity_instance_id}{The activity instance classifier of the event log.}
 
-\item{life_cylce_id}{The life cylce classifier of the event log.}
+\item{lifecylce_id}{The life cylce classifier of the event log.}
 
 \item{imestamp}{The timestamp of the event log.}
 }

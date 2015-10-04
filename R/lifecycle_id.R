@@ -11,7 +11,7 @@
 #'
 lifecycle_id <- function(eventlog){
 	if("eventlog" %in% class(eventlog))
-		return(attr(eventlog, "life_cycle_id"))
+		return(attr(eventlog, "lifecycle_id"))
 	else
 		stop("Function only applicable on objects of type 'eventlog'")
 }

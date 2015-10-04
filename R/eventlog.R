@@ -14,7 +14,7 @@
 #'
 #' @param activity_instance_id The activity instance classifier of the event log.
 #'
-#' @param life_cylce_id The life cylce classifier of the event log.
+#' @param lifecylce_id The life cylce classifier of the event log.
 #'
 #' @param imestamp The timestamp of the event log.
 #'
@@ -29,7 +29,7 @@ eventlog <- function(eventlog,
 					 case_id = NULL,
 					 activity_id = NULL,
 					 activity_instance_id = NULL,
-					 life_cycle_id = NULL,
+					 lifecycle_id = NULL,
 					 timestamp = NULL){
 	library(dplyr)
 
@@ -75,17 +75,17 @@ eventlog <- function(eventlog,
 		else
 			attr(eventlog, "activity_instance_id") <- activity_instance_id
 	}
-	if(is.null(life_cycle_id)) {
-		if(!is.null(life_cycle_id(eventlog)))
-			message("Recovered existing life cycle id")
+	if(is.null(lifecycle_id)) {
+		if(!is.null(lifecycle_id(eventlog)))
+			message("Recovered existing lifecycle id")
 		else
-			stop("No life cycle id provided nor found")
+			stop("No lifecycle id provided nor found")
 	}
 	else {
-		if(!(life_cycle_id %in% colnames(eventlog)))
-			stop("life cycle id classifier not found")
+		if(!(lifecycle_id %in% colnames(eventlog)))
+			stop("lifecycle id classifier not found")
 		else
-			attr(eventlog, "life_cycle_id") <- life_cycle_id
+			attr(eventlog, "lifecycle_id") <- lifecycle_id
 	}
 	if(is.null(timestamp)) {
 		if(!is.null(timestamp(eventlog)))
