@@ -6,11 +6,11 @@ summary.eventlog <- function(object, ...){
 	library(dplyr)
 		eventlog <- object
 
-		log_traces <- traces(eventlog)
+		ca <- cases_light(eventlog)
 
 		number_of_events <- nrow(eventlog)
-		number_of_cases <- sum(log_traces$absolute_frequency)
-		number_of_traces <- nrow(log_traces)
+		number_of_cases <- nrow(ca)
+		number_of_traces <- length(unique(ca$trace_id))
 		number_of_activities <- nrow(activities(eventlog))
 
 
