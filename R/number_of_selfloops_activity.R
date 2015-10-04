@@ -11,7 +11,7 @@ number_of_selfloops_activity <- function(eventlog) {
 	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
 
 	r <- group_by(r, event_classifier) %>% summarize(absolute = sum(absolute_frequency))
-	r <- arrange(r, desc(absolute_frequency))
+	r <- arrange(r, desc(absolute))
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
 
 	return(r)
