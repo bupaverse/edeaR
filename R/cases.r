@@ -49,8 +49,8 @@ cases <- function(eventlog){
 	summary$complete_timestamp <- ymd_hms(summary$complete_timestamp)
 
 	for(i in 1:nrow(summary)){
-		summary$first_event[i] <- strsplit(summary$trace[i], split = ",")[[1]][1]
-		summary$last_event[i] <- strsplit(summary$trace[i], split = ",")[[1]][length(strsplit(summary$trace[i], split =",")[[1]])]
+		summary$first_activity[i] <- strsplit(summary$trace[i], split = ",")[[1]][1]
+		summary$last_activity[i] <- strsplit(summary$trace[i], split = ",")[[1]][length(strsplit(summary$trace[i], split =",")[[1]])]
 	}
 
 	colnames(summary)[colnames(summary)=="case_classifier"] <- case_id(eventlog)
