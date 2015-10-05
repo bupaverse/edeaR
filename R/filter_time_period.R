@@ -100,7 +100,7 @@ filter_time_period <- function(eventlog,
 						activity_id = activity_id(eventlog),
 						case_id = case_id(eventlog),
 						timestamp =timestamp(eventlog),
-						life_cycle_id = life_cycle_id(eventlog),
+						lifecycle_id = lifecycle_id(eventlog),
 						activity_instance_id = activity_instance_id(eventlog)))
 	}
 
@@ -116,6 +116,6 @@ filter_time_period <- function(eventlog,
 					activity_id = activity_id(eventlog),
 					case_id = case_id(eventlog),
 					timestamp =timestamp(eventlog),
-					life_cycle_id = life_cycle_id(eventlog),
+					lifecycle_id = lifecycle_id(eventlog),
 					activity_instance_id = activity_instance_id(eventlog)))
 }

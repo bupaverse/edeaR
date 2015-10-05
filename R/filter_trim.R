@@ -70,7 +70,7 @@ filter_trim <- function(eventlog,
 						 activity_id = activity_id(eventlog),
 						 case_id = case_id(eventlog),
 						 activity_instance_id = activity_instance_id(eventlog),
-						 life_cycle_id = life_cycle_id(eventlog),
+						 lifecycle_id = lifecycle_id(eventlog),
 						 timestamp = timestamp(eventlog))
 
 	return(eventlog)
