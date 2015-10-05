@@ -18,14 +18,14 @@ filter_activity_frequency <- function(eventlog,
 									 reverse = F){
 	stop_eventlog(eventlog)
 
+	act_freq <- mutate(activity_type_frequency_activity(eventlog), r = percent_rank(-absolute))
 
 	if(reverse == F)
-		event_selection <- activity_type_frequency_activity(eventlog) %>%
-		filter(cum_sum <= percentile_cut_off)
+		event_selection <- act_freq %>% filter(r <= percentile_cut_off)
 
 	else
-		event_selection <- activity_type_frequency_activity(eventlog) %>%
-		filter(cum_sum > percentile_cut_off)
+		event_selection <- act_freq %>% filter(r > percentile_cut_off)
+
 
 	colnames(event_selection)[colnames(event_selection) == activity_id(eventlog)] <- "event_classifier"
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
