@@ -8,51 +8,167 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r echo = F, message=F}
+library(edeaR)
+library(ggplot2)
+library(dplyr)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+The goal of this vignette is to illustrated the different methods for performing data selection provided by the package `edeaR`. The data from municipality 1 of the BPI challenge 2015 will be used as running example. A preprocessed event log is available in the package under te name `BPIC15_1`.
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r}
+data(BPIC15_1)
 ```
 
-Also a quote using `>`:
+### Select on activity frequency
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+In the vignettes discussing the descriptives, it was already observed than only a limited fraction of the activities occurs very often. Below, we repeat the cumulative distribution of the activity frequences.
+
+```{r echo = F, fig.width = 7}
+activity_information <- activities(BPIC15_1)
+ggplot(activity_information) +
+	stat_ecdf(aes(absolute_frequency), lwd = 1, col = "#0072B2") + 
+	scale_x_continuous(breaks = seq(0, 1000, by = 100)) + 
+	xlab("Absolute activity frequencies") +
+	ylab("Cumulative percentage") +
+	geom_hline(y = 0.75)
+```
+
+A horizontal line has been added at 75\%. Recall that 75% of the activities only occures less than 100 times, approximately. To select only these activities, we use the filter `activity_frequency`, as follows
+
+```{r}
+filtered_log <- filter_activity_frequency(BPIC15_1, percentile_cut_off = 0.25, reverse = T)
+summary(activities(filtered_log)$absolute_frequency)
+```
+
+Note that the combination of a percentile cut off of 25\% and reverse equalt to TRUE, will select __all but__ the 25\% most frequenct activities, i.e. the 75% least frequent activities.
+
+### Select on throughput time
+
+The throughput time of the original eventlog is visualized in the graph below. It can be observed that most cases have a throughput time lower that circa 100 days, while there are some outliers.
+
+```{r fig.width = 7}
+case_throughput <- durations(BPIC15_1)
+ggplot(case_throughput) +
+	geom_histogram(aes(duration_in_days), fill = "#0072B2") +
+	xlab("Duration (in days)") +
+	ylab("Number of cases")
+```
+
+To discard the outliers with a throughput time greater than 500 days, we can use the filter `throughput_time` as follows. We can than clearly observe a peak at circa 50 days, which was not apperent from the data before.
+
+```{r fig.width = 7}
+filtered_log <- filter_throughput_time(BPIC15_1, lower_threshold = 0, upper_threshold = 500)
+case_throughput <- durations(filtered_log)
+ggplot(case_throughput) +
+	geom_histogram(aes(duration_in_days), fill = "#0072B2", binwidth = 10) +
+	xlab("Duration (in days)") +
+	ylab("Number of cases")
+```
+
+Alternatively, we could only look at the outliers and select for instance the 1\% longest cases. 
+
+```{r fig.width = 7}
+filtered_log <- filter_throughput_time(BPIC15_1, percentile_cut_off = 0.99, reverse = T)
+durations(filtered_log)
+```
+
+### Select on time period
+
+Finally, let us select cases on a specific time period. To get an idea of the distribution of cases over time, the graph below shows the number of cases according to the starting timestamp and complete timestamp
+
+```{r fig.width = 7}
+library(tidyr)
+cases(BPIC15_1) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+	
+```
+
+### Contained
+
+Suppose we are only interested the first quarter of the year 2012. We can filter the data in different ways. Firstly, we can filter on cases which started and completed in this period.
+
+```{r fig.width = 7}
+library(lubridate)
+a <- ymd("20120101")
+b <- ymd("20120331")
+filtered_log <- filter_time_period(BPIC15_1, a, b, "contained")
+cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+```
+
+#### Started
+
+Alternatively, we could select cases who started or completed in this period, respectively.
+
+```{r fig.width = 7}
+filtered_log <- filter_time_period(BPIC15_1, a, b, "start")
+cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+```
+
+#### Completed
+```{r fig.width = 7}
+filtered_log <- filter_time_period(BPIC15_1, a, b, "complete")
+cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+```
+
+
+#### Intersected
+
+Still another option is to select cases who intersected the time period, i.e. at least part of the case happened in the time period.
+
+```{r fig.width = 7}
+filtered_log <- filter_time_period(BPIC15_1, a, b, "intersecting")
+cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+```
+
+#### Trim
+
+Finally, we can trim the cases to the time period.
+
+```{r fig.width = 7}
+filtered_log <- filter_time_period(BPIC15_1, a, b, "trim")
+cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+	ggplot() +
+	geom_histogram(aes(timestamp, fill = type)) +
+	facet_grid(type ~ .) +
+	scale_fill_brewer(palette = "Dark2") +
+	theme(legend.position = "none")
+```
+
+## Other filters
+
+Other filters provided are listed below. Look at the help file for their workings.
+
+*	Endpoint filter
+*	Precendence filter
+*	Trace frequency filter
+*	Trace length filter
+*	Trim filter
+
+
+
+
