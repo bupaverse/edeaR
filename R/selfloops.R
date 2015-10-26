@@ -1,4 +1,5 @@
 
+
 selfloops <- function(eventlog) {
 
 	stop_eventlog(eventlog)
