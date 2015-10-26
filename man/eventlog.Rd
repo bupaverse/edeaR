@@ -17,9 +17,9 @@ eventlog(eventlog, case_id = NULL, activity_id = NULL,
 
 \item{activity_instance_id}{The activity instance classifier of the event log.}
 
-\item{lifecylce_id}{The life cylce classifier of the event log.}
+\item{timestamp}{The timestamp of the event log.}
 
-\item{imestamp}{The timestamp of the event log.}
+\item{lifecylce_id}{The life cylce classifier of the event log.}
 }
 \description{
 A function to instantiate an object of class \code{eventlog} by specifying a

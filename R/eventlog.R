@@ -16,7 +16,7 @@
 #'
 #' @param lifecylce_id The life cylce classifier of the event log.
 #'
-#' @param imestamp The timestamp of the event log.
+#' @param timestamp The timestamp of the event log.
 #'
 #' @seealso \code{\link{case_id}}, \code{\link{activity_id}},
 #' \code{\link{activity_instance_id}},\code{\link{life_cycle_id}},
@@ -31,7 +31,6 @@ eventlog <- function(eventlog,
 					 activity_instance_id = NULL,
 					 lifecycle_id = NULL,
 					 timestamp = NULL){
-	library(dplyr)
 
 	eventlog <- tbl_df(as.data.frame(eventlog))
 
