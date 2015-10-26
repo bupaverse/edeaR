@@ -34,7 +34,7 @@ durations <- function(eventlog,
 	durations$duration <- durations$e - durations$s
 	durations$duration <- as.double(durations$duration, units = units)
 
-	durations <- durations %>% select(case_classifier, duration)
+	durations <- durations %>% select(case_classifier, duration) %>% arrange(desc(duration))
 
 	colnames(durations)[colnames(durations)=="case_classifier"] <- case_id(eventlog)
 	colnames(durations)[colnames(durations)=="duration"] <- paste("duration_in_", units, sep ="")
