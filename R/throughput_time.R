@@ -16,8 +16,8 @@
 #'
 
 throughput_time <- function(eventlog,
-							units = "days",
-							level_of_analysis){
+							level_of_analysis,
+							units = "days"){
 
 	stop_eventlog(eventlog)
 

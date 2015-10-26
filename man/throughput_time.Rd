@@ -4,15 +4,15 @@
 \alias{throughput_time}
 \title{Metric: Throughput time of cases}
 \usage{
-throughput_time(eventlog, units = "days", level_of_analysis)
+throughput_time(eventlog, level_of_analysis, units = "days")
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{units}{The time unit in which the throughput times should be reported.}
-
 \item{level_of_analysis}{At which level the analysis of throughput times should be performed: log or trace.}
+
+\item{units}{The time unit in which the throughput times should be reported.}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.
