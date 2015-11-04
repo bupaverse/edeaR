@@ -26,7 +26,9 @@ processing_time_activity <- function(eventlog,
 															   max = max(dur),
 															   st_dev = sd(dur),
 															   iqr = quantile(dur, probs = c(0.75)) - quantile(dur,probs = c(0.25))
-	)
+	) %>%
+		mutate(relative_frequency = relative_frequency/sum(relative_frequency))
+
 
 
 	r <- r %>% arrange(desc(relative_frequency))

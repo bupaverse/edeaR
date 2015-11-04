@@ -39,6 +39,8 @@ durations <- function(eventlog,
 	colnames(durations)[colnames(durations)=="case_classifier"] <- case_id(eventlog)
 	colnames(durations)[colnames(durations)=="duration"] <- paste("duration_in_", units, sep ="")
 
+	durations <- tbl_df(durations)
+
 	return(durations)
 
 }
