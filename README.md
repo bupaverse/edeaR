@@ -9,5 +9,5 @@ The package can be installed from github through the use of the _devtools_ packa
 
 devtools::install_github("gertjanssenswillen/edeaR", build_vignettes = T)
 
-For more information, check the manual on github or one of the several vignettes. 
+For more information, check the manual on github or one of the several vignettes using browseVignettes("edeaR"). 
 
