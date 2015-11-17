@@ -13,7 +13,7 @@ vignette: >
 library(edeaR)
 ```
 
-To goal of this vignette is to illustrate how event data can be preprocessed in R to create an `eventlog` object. Two different approaches are discussed: importing an event log from a XES-file, and importing an event log in csv-format.
+The goal of this vignette is to illustrate how event data can be preprocessed in R to create an `eventlog` object. Two different approaches are discussed: importing an event log from a XES-file, and importing an event log in csv-format.
 
 ## Import event log from XES
 
@@ -47,7 +47,8 @@ table(data$event_lifecycle.transition)
 
 As a result, each single event conforms to a seperate activity instance. Thus, there are as many activity instances as there are events.
 ```{r}
-length(unique(data$activity_instance))
+n_events(data)
+n_activity_instances(data)
 ```
 
 The event log classifiers are initialized as follows
@@ -59,7 +60,7 @@ lifecycle_id(data)
 timestamp(data)
 ```
 
-The only preprocessing step that needs to be done is to convert the timestamps to objects of the `POSIXct`. This can be done using the `lubridate` package and by looking at the format the timestamps are in.
+The only preprocessing step that needs to be done is to convert the timestamps to objects of the `POSIXct` class. This can be done using the `lubridate` package and by looking at the format the timestamps are in.
 
 ```{r}
 library(lubridate)
@@ -69,6 +70,7 @@ data$event_time.timestamp <- ymd_hms(data$event_time.timestamp)
 ```
 
 Note that case attributes can be extracted from a XES-file using the function `case_attributes_from_xes`
+
 
 ## Import from csv file
 
@@ -97,18 +99,26 @@ csv_example$activity_instance <- 1:nrow(csv_example)
 
 This can be easily done using the `tidyr` package. Look to `?tidyr` for more information.
 
-```{r}
+```{r eval = F}
 library(tidyr)
-csv_example <- gather(csv_example, lifecycle, timestamp, -CASE, - ACTIVITY, -activity_instance)
+csv_example <- gather(csv_example, LIFECYCLE, TIMESTAMP, -CASE, - ACTIVITY, -ACTIVITY_INSTANCE)
 head(csv_example)
 ```
+```{r echo = F}
+data(example_log)
+example_log <- as.data.frame(example_log)
+example_log$LIFE_CYCLE <- factor(example_log$LIFE_CYCLE, labels = c("START","COMPLETE"))
+csv_example <- example_log %>% rename(LIFECYCLE = LIFE_CYCLE)
+head(csv_example)
+```
+
 
 ### Converting the lifecycle values
 
 By changing this column in a factor, their levels can easily be changed
 
 ```{r}
-csv_example$lifecycle <- factor(csv_example$lifecycle, levels = c("complete","start"))
+csv_example$LIFECYCLE <- factor(csv_example$LIFECYCLE, labels = c("start","complete"))
 head(csv_example)
 ```
 
@@ -117,7 +127,7 @@ head(csv_example)
 Using `lubridate`, as before.
 
 ```{r}
-csv_example$timestamp <- ymd_hms(csv_example$timestamp)
+csv_example$TIMESTAMP <- ymd_hms(csv_example$TIMESTAMP)
 ```
 
 ### Creating an eventlog object
@@ -126,9 +136,9 @@ csv_example$timestamp <- ymd_hms(csv_example$timestamp)
 log <- eventlog(eventlog = csv_example, 
 				case_id = "CASE",
 				activity_id = "ACTIVITY", 
-				activity_instance_id = "activity_instance", 
-				lifecycle_id = "lifecycle", 
-				timestamp = "timestamp")
+				activity_instance_id = "ACTIVITY_INSTANCE", 
+				lifecycle_id = "LIFECYCLE", 
+				timestamp = "TIMESTAMP")
 
 log
 ```
