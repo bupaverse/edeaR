@@ -92,7 +92,7 @@ cases(BPIC15_1) %>% gather(type, timestamp, start_timestamp, complete_timestamp)
 
 Suppose we are only interested the first quarter of the year 2012. We can filter the data in different ways. Firstly, we can filter on cases which started and completed in this period.
 
-```{r fig.width = 7}
+```{r eval = F, fig.width = 7}
 library(lubridate)
 a <- ymd("20120101")
 b <- ymd("20120331")
@@ -109,7 +109,7 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 
 Alternatively, we could select cases who started or completed in this period, respectively.
 
-```{r fig.width = 7}
+```{r eval = F, fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "start")
 cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
 	ggplot() +
@@ -120,7 +120,7 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 ```
 
 #### Completed
-```{r fig.width = 7}
+```{r eval = F, fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "complete")
 cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
 	ggplot() +
@@ -135,7 +135,7 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 
 Still another option is to select cases who intersected the time period, i.e. at least part of the case happened in the time period.
 
-```{r fig.width = 7}
+```{r eval = F, fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "intersecting")
 cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
 	ggplot() +
@@ -149,7 +149,7 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 
 Finally, we can trim the cases to the time period.
 
-```{r fig.width = 7}
+```{r eval = F, fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "trim")
 cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
 	ggplot() +
