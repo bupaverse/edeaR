@@ -3,7 +3,6 @@
 #' @export eventlog_from_xes
 
 eventlog_from_xes <- function(xesfile = file.choose()){
-
 	log <- csv_from_xes(xesfile)
 	colnames(log) <- gsub(":",".", colnames(log))
 	log <- arrange(log, case_concept.name, event_concept.name, event_time.timestamp)
@@ -15,7 +14,6 @@ eventlog_from_xes <- function(xesfile = file.choose()){
 			log$activity_instance[i] <- log$activity_instance[i-1] + 1
 		else
 			log$activity_instance[i] <- log$activity_instance[i-1]
-
 
 	elog <- eventlog(eventlog = log,
 					 case_id = "case_concept.name",

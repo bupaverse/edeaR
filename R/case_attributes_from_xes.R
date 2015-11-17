@@ -23,7 +23,7 @@ case_attributes_from_xes <- function(xesfile = file.choose()) {
 
 	for(i in 1:n_case_att)
 		colnames(result)[i] <- paste("case",gsub(":",".", names(parsed_xes$traces)[i]), sep = "_")
-
+	result <- tbl_df(result)
 	return(result)
 
 }
