@@ -77,7 +77,7 @@ durations(filtered_log)
 
 Finally, let us select cases on a specific time period. To get an idea of the distribution of cases over time, the graph below shows the number of cases according to the starting timestamp and complete timestamp
 
-```{r fig.width = 7}
+```{r eval = F,  fig.width = 7}
 library(tidyr)
 cases(BPIC15_1) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
 	ggplot() +
