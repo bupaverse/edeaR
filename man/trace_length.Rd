@@ -10,7 +10,7 @@ trace_length(eventlog, level_of_analysis)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of  trace_length should be performed: log or trace.}
+\item{level_of_analysis}{At which level the analysis of  trace_length should be performed: log, case or trace.}
 }
 \description{
 Computes the length of each trace, in terms of the number of events, at the level of the eventlog or the level of a trace.

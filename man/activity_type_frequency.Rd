@@ -10,10 +10,10 @@ activity_type_frequency(eventlog, level_of_analysis)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of activity type frequency should be performed: trace or activity.}
+\item{level_of_analysis}{At which level the analysis of activity type frequency should be performed: trace, case or activity.}
 }
 \description{
-Provides summary statistics about the frequency of activity types at the level of traces or activity types
+Provides summary statistics about the frequency of activity types at the level of traces, cases or activity types
 '
 }
 

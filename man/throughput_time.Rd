@@ -10,13 +10,13 @@ throughput_time(eventlog, level_of_analysis, units = "days")
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of throughput times should be performed: log or trace.}
+\item{level_of_analysis}{At which level the analysis of throughput times should be performed: log, case or trace.}
 
 \item{units}{The time unit in which the throughput times should be reported.}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.
 The throughput time of cases is defined as the time between the start of the first event and the completion of the last event.
-Can be performed at the level of the log as well as the level of traces.
+Can be performed at the level of the log as well as the level of traces and cases.
 }
 

@@ -10,9 +10,9 @@ repetitions(eventlog, level_of_analysis)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of repetitions should be performed: trace or activity.}
+\item{level_of_analysis}{At which level the analysis of repetitions should be performed: log, case, trace or activity.}
 }
 \description{
-Provides summuary statistics on the number of repetitions, at the level of activity types, traces and the eventlog.
+Provides summuary statistics on the number of repetitions, at the level of activity types, traces, cases and the eventlog.
 }
 
