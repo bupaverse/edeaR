@@ -1,4 +1,3 @@
-
 #' @title Traces
 #'
 #' @description \code{traces} computes the different activity sequences of an event log
@@ -12,45 +11,37 @@
 #' returned, a list of traces or a list of cases. If both are TRUE, a list of
 #' both is returned.
 #'
-#'
 #' @seealso \code{\link{cases}}, \code{\link{eventlog}}
 #' @examples
-#'
 #'
 #' data(example_log)
 #' traces(example_log)
 #'
-#'
-#'
 #' @export traces
-#'
-#'
+
 traces <- function(eventlog,
 				   output_traces = TRUE,
 				   output_cases = FALSE){
 
 	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
-	colnames(eventlog)[colnames(eventlog) == life_cycle_id(eventlog)] <- "life_cycle_classifier"
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
 
 	cases <- eventlog %>%
-		group_by(case_classifier, activity_instance_classifier, event_classifier) %>%
-		summarize(min_timestamp = min(timestamp_classifier)) %>% ungroup() %>%
-		arrange(case_classifier, min_timestamp) %>%
 		group_by(case_classifier) %>%
-		summarize(trace = paste(event_classifier, collapse = ",")) %>% ungroup()
+		arrange(timestamp_classifier) %>%
+		summarize(trace = paste(event_classifier, collapse = ",")) %>%
+		mutate(trace_id = as.numeric(factor(trace)))
 
-	cases <- mutate(cases, trace_id = as.numeric(factor(trace)))
-	cases <- cases %>% ungroup() %>% arrange(trace_id)
 	colnames(cases)[colnames(cases) == "case_classifier"] <- case_id(eventlog)
 
-	traces <- cases %>% group_by(trace, trace_id) %>% summarize(absolute_frequency = n())
-	traces <- traces %>% ungroup() %>% arrange(desc(absolute_frequency))
-	traces$relative_frequency <- traces$absolute_frequency/sum(traces$absolute_frequency)
-
+	traces <- cases %>%
+		group_by(trace, trace_id) %>%
+		summarize(absolute_frequency = n()) %>%
+		ungroup() %>%
+		arrange(desc(absolute_frequency)) %>%
+		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency))
 
 	if(output_traces == TRUE && output_cases == TRUE)
 		return(list(traces,cases))

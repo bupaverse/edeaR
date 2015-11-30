@@ -1,14 +1,5 @@
-#' @title Metric: Trace Frequency
-#'
-#' @description Computes the absolute and relative frequency of the traces in the event log.
-#' #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
-#'
-#'
-#' @export trace_frequency
 
-trace_frequency <- function(eventlog) {
+trace_coverage_trace <- function(eventlog) {
 	library(dplyr)
 
 	stop_eventlog(eventlog)

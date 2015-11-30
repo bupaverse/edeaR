@@ -14,7 +14,8 @@ throughput_time_case <- function(eventlog, units = "days") {
 
 	e$dur  <- as.double(e$dur , units = units)
 
-	e <- e %>% rename(throughput_time = dur) %>% arrange(throughput_time)
+	e <- e %>% rename(throughput_time = dur) %>% arrange(throughput_time) %>% select(-s, -e)
+	colnames(e)[colnames(e) == "case_classifier"] <- case_id(eventlog)
 
 	return(e)
 

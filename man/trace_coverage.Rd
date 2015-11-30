@@ -2,18 +2,23 @@
 % Please edit documentation in R/trace_coverage.R
 \name{trace_coverage}
 \alias{trace_coverage}
-\title{Metric: Trace Coverage}
+\title{Metric: Trace coverage}
 \usage{
-trace_coverage(eventlog, threshold = 0.8)
+trace_coverage(eventlog, level_of_analysis, threshold = 0.8)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{threshold}{The percentage of cases to cover.}
+\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log or trace.}
+
+\item{threshold}{The threshold to be used for the analysis at log level. Default is at 0.8 (80\%)}
 }
 \description{
-Computes how many traces are needed to cover a certain percentage of the log.
-When a tie exist, the two nearest breakpoints are returned.
+Analyses the structuredness of an event log by use of trace frequencies. Applicable at log and trace level
+
+Trace: The absolute and relative frequency of each trace is return
+
+Log: The number of traces to cover a certain percentage (default is 80\%) of a log is computed. If a tie exists, the two nearest points are returned.
 }
 
