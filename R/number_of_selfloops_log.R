@@ -4,7 +4,7 @@ number_of_selfloops_log <- function(eventlog) {
 
 	stop_eventlog(eventlog)
 
-	res <- number_of_selfloops_trace(eventlog)
+	res <- number_of_selfloops_case(eventlog)
 
 	r <- summary(res$absolute)
 	r <- c(r, St.Dev = sd(res$absolute))

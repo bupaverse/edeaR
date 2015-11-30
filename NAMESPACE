@@ -3,7 +3,7 @@
 export(activities)
 export(activity_id)
 export(activity_instance_id)
-export(activity_presence_in_traces)
+export(activity_presence_in_cases)
 export(activity_type_frequency)
 export(case_attributes_from_xes)
 export(case_id)
