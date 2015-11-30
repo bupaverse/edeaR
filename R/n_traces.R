@@ -6,5 +6,5 @@
 
 n_traces <- function(eventlog) {
 	stop_eventlog(eventlog)
-	return(nrow(traces(eventlog)))
+	return(nrow(traces_light(eventlog)))
 }
