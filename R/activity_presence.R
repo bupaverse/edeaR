@@ -1,4 +1,4 @@
-#' @title Metric: Activity Presence in cases
+#' @title Metric: Activity Presence
 #'
 #' @description Calculates for each activity type in what percentage of cases it is present.
 #'
@@ -14,10 +14,10 @@
 #' activity_presence_in_cases(example_log)
 #'
 #'
-#' @export activity_presence_in_cases
+#' @export activity_presence
 
 
-activity_presence_in_cases <- function(eventlog) {
+activity_presence <- function(eventlog) {
 	stop_eventlog(eventlog)
 
 	event_classifier <- activity_id(eventlog)
