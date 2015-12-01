@@ -4,17 +4,17 @@ repetitions_log <- function(eventlog) {
 
 	stop_eventlog(eventlog)
 
-	rep <- repetitions_trace(eventlog)
+	rep <- repetitions_case(eventlog)
 
-	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
-	ncases <- length(unique(eventlog$case_classifier))
+	s <- summary(rep$absolute)
+	s <- c(s, St.Dev = sd(rep$absolute))
+	s <- c(s, IQR = s[5] - s[2])
+	s <- c(s, tot = sum(rep$absolute))
+	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr", "tot")
 
-	r<- data.frame(c(sum(rep$absolute*rep$relative_trace_frequency)*ncases,
-					 sum(rep$absolute*rep$relative_trace_frequency)*ncases/nrow(eventlog)))
-	r <- as.data.frame(t(r))
-	colnames(r) <- c("absolute","relative")
-	row.names(r) <- NULL
-	r <- tbl_df(r)
-	return(r)
+	s <- as.data.frame(s)
+	s <- t(s)
+	row.names(s) <- NULL
+	return(s)
 
 }
