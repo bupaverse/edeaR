@@ -11,8 +11,6 @@ size_of_selfloops(eventlog, level_of_analysis)
 \code{eventlog}.}
 
 \item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, trace or activity.}
-
-\item{include_non_selfloops}{\code{Logical}. When true, also singular events, i.e. selfloops of size 1, are considered.}
 }
 \description{
 Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
