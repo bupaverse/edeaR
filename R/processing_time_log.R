@@ -4,7 +4,7 @@ processing_time_log <- function(eventlog,
 								units = "days") {
 	stop_eventlog(eventlog)
 
-	r <- processing_time_case(eventlog)
+	r <- processing_time_case(eventlog, units = units)
 
 	s <- summary(r$processing_time)
 	s <- c(s, St.Dev = sd(r$processing_time))
