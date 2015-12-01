@@ -1,7 +1,7 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-based data Analysis
-Version: 0.1
+Version: 0.2
 Date: 2015-09-21
 Author: Gert Janssenswillen
 Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
