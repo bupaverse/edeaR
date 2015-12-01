@@ -17,9 +17,9 @@ number_of_traces <- function(eventlog) {
 
 	tr <- traces(eventlog)
 
-	r<- data.frame( c(nrow(tr),100*nrow(tr)/sum(tr$absolute_frequency)))
+	r<- data.frame( c(nrow(tr),sum(tr$absolute_frequency)/nrow(tr)))
 	r <- as.data.frame(t(r))
-	colnames(r) <- c("absolute","relative")
+	colnames(r) <- c("absolute","average_coverage")
 	r <- tbl_df(r)
 	return(r)
 }
