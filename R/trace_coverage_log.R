@@ -2,8 +2,9 @@
 trace_coverage_log <- function(eventlog,
 						   threshold = NULL) {
 	stop_eventlog(eventlog)
-	if(is.null(threhold)) {
+	if(is.null(threshold)) {
 		warning("Threshold defaulted to 0.8. Use `threshold = x` to adjust this")
+		threshold = 0.8
 	}
 
 	tra <- traces(eventlog)

@@ -4,7 +4,7 @@
 \alias{trace_coverage}
 \title{Metric: Trace coverage}
 \usage{
-trace_coverage(eventlog, level_of_analysis, threshold)
+trace_coverage(eventlog, level_of_analysis, threshold = NULL)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class

@@ -18,7 +18,7 @@
 #' @export trace_coverage
 
 
-trace_coverage <- function(eventlog, level_of_analysis, threshold) {
+trace_coverage <- function(eventlog, level_of_analysis, threshold = NULL) {
 	stop_eventlog(eventlog)
 
 
