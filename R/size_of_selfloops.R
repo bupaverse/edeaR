@@ -8,13 +8,11 @@
 #'
 #' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, trace or activity.
 #'
-#' @param include_non_selfloops \code{Logical}. When true, also singular events, i.e. selfloops of size 1, are considered.
 #'
 #' @export size_of_selfloops
 
 size_of_selfloops <- function(eventlog,
-							  level_of_analysis,
-							  include_non_selfloops = FALSE){
+							  level_of_analysis){
 
 	stop_eventlog(eventlog)
 
@@ -24,15 +22,15 @@ size_of_selfloops <- function(eventlog,
 
 
 	if(level_of_analysis == "trace") {
-		return(size_of_selfloops_trace(eventlog = eventlog, include_non_selfloops = include_non_selfloops))
+		return(size_of_selfloops_trace(eventlog = eventlog))
 	}
 	else if(level_of_analysis == "activity"){
-		return(size_of_selfloops_activity(eventlog = eventlog, include_non_selfloops = include_non_selfloops))
+		return(size_of_selfloops_activity(eventlog = eventlog))
 	}
 	else if(level_of_analysis == "case") {
-		return(size_of_selfloops_case(eventlog = eventlog, include_non_selfloops = include_non_selfloops))
+		return(size_of_selfloops_case(eventlog = eventlog))
 	}
 	else {
-		return(size_of_selfloops_log(eventlog = eventlog, include_non_selfloops = include_non_selfloops))
+		return(size_of_selfloops_log(eventlog = eventlog))
 	}
 }

@@ -4,7 +4,7 @@
 \alias{size_of_selfloops}
 \title{Metric: Size of selfloops}
 \usage{
-size_of_selfloops(eventlog, level_of_analysis, include_non_selfloops = FALSE)
+size_of_selfloops(eventlog, level_of_analysis)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
