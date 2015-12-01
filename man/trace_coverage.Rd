@@ -4,20 +4,22 @@
 \alias{trace_coverage}
 \title{Metric: Trace coverage}
 \usage{
-trace_coverage(eventlog, level_of_analysis, threshold = 0.8)
+trace_coverage(eventlog, level_of_analysis, threshold)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log or trace.}
+\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log, case or trace.}
 
 \item{threshold}{The threshold to be used for the analysis at log level. Default is at 0.8 (80\%)}
 }
 \description{
-Analyses the structuredness of an event log by use of trace frequencies. Applicable at log and trace level
+Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level
 
-Trace: The absolute and relative frequency of each trace is return
+Trace: The absolute and relative frequency of each trace is returned
+
+Case: for each case, the coverage of the corresponding trace is returned
 
 Log: The number of traces to cover a certain percentage (default is 80\%) of a log is computed. If a tie exists, the two nearest points are returned.
 }
