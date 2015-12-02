@@ -31,7 +31,7 @@ cases <- function(eventlog){
 
 	colnames(eventlog)[colnames(eventlog)==activity_instance_id(eventlog)] <- "activity_instance_classifier"
 	colnames(eventlog)[colnames(eventlog)==activity_id(eventlog)] <- "event_classifier"
-	colnames(eventlog)[colnames(eventlog)==life_cycle_id(eventlog)] <- "life_cycle_classifier"
+	colnames(eventlog)[colnames(eventlog)==lifecycle_id(eventlog)] <- "life_cycle_classifier"
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==timestamp(eventlog)] <- "timestamp_classifier"
 
