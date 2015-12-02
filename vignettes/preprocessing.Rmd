@@ -1,7 +1,7 @@
 ---
 title: "Getting your event log in the right format"
 author: "Gert Janssenswillen"
-date: "`r Sys.Date()`"
+date: 2/12/2015
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting your event log in the right format}

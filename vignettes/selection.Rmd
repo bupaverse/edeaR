@@ -22,7 +22,7 @@ data(BPIC15_1)
 
 ### Select on activity frequency
 
-In the vignettes discussing the descriptives, it was already observed than only a limited fraction of the activities occurs very often. Below, we repeat the cumulative distribution of the activity frequences.
+In the vignette discussing the descriptives, it was already observed than only a limited fraction of the activities occurs very often. Below, we repeat the cumulative distribution of the activity frequences.
 
 ```{r echo = F, fig.width = 7}
 activity_information <- activities(BPIC15_1)
@@ -38,30 +38,30 @@ A horizontal line has been added at 75\%. Recall that 75% of the activities only
 
 ```{r}
 filtered_log <- filter_activity_frequency(BPIC15_1, percentile_cut_off = 0.25, reverse = T)
-summary(activities(filtered_log)$absolute_frequency)
+activities(filtered_log) %>% select(absolute_frequency) %>% summary
 ```
 
-Note that the combination of a percentile cut off of 25\% and reverse equalt to TRUE, will select __all but__ the 25\% most frequenct activities, i.e. the 75% least frequent activities.
+Note that the combination of a percentile cut off of 25\% and reverse equal to TRUE, will select __all but__ the 25\% most frequenct activities, i.e. the 75% least frequent activities. It can be seen that the remaining activities have a absolute frequency of 105 or less.
 
 ### Select on throughput time
 
 The throughput time of the original eventlog is visualized in the graph below. It can be observed that most cases have a throughput time lower that circa 100 days, while there are some outliers.
 
 ```{r fig.width = 7}
-case_throughput <- durations(BPIC15_1)
+case_throughput <- throughput_time(BPIC15_1, "case")
 ggplot(case_throughput) +
-	geom_histogram(aes(duration_in_days), fill = "#0072B2") +
+	geom_histogram(aes(throughput_time), fill = "#0072B2", binwidth = 10) +
 	xlab("Duration (in days)") +
 	ylab("Number of cases")
 ```
 
-To discard the outliers with a throughput time greater than 500 days, we can use the filter `throughput_time` as follows. We can than clearly observe a peak at circa 50 days, which was not apperent from the data before.
+To discard the outliers with a throughput time greater than 500 days, we can use the filter `throughput_time` as follows. 
 
 ```{r fig.width = 7}
 filtered_log <- filter_throughput_time(BPIC15_1, lower_threshold = 0, upper_threshold = 500)
-case_throughput <- durations(filtered_log)
+case_throughput <- throughput_time(filtered_log, "case")
 ggplot(case_throughput) +
-	geom_histogram(aes(duration_in_days), fill = "#0072B2", binwidth = 10) +
+	geom_histogram(aes(throughput_time), fill = "#0072B2", binwidth = 10) +
 	xlab("Duration (in days)") +
 	ylab("Number of cases")
 ```
@@ -70,36 +70,38 @@ Alternatively, we could only look at the outliers and select for instance the 1\
 
 ```{r fig.width = 7}
 filtered_log <- filter_throughput_time(BPIC15_1, percentile_cut_off = 0.99, reverse = T)
-durations(filtered_log)
+throughput_time(filtered_log, "case")
 ```
 
 ### Select on time period
 
 Finally, let us select cases on a specific time period. To get an idea of the distribution of cases over time, the graph below shows the number of cases according to the starting timestamp and complete timestamp
 
-```{r eval = F,  fig.width = 7}
-library(tidyr)
-cases(BPIC15_1) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+```{r  fig.width = 7}
+start <- BPIC15_1 %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- BPIC15_1 %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>% 
 	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*30) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
-	
 ```
 
 ### Contained
 
-Suppose we are only interested the first quarter of the year 2012. We can filter the data in different ways. Firstly, we can filter on cases which started and completed in this period.
+Suppose we are only interested in the first quarter of the year 2012. We can filter the data in different ways. Firstly, we can filter on cases which started and completed in this period.
 
-```{r eval = F, fig.width = 7}
+```{r fig.width = 7}
 library(lubridate)
 a <- ymd("20120101")
 b <- ymd("20120331")
 filtered_log <- filter_time_period(BPIC15_1, a, b, "contained")
-cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+start <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>% 	
 	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*7) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
@@ -109,22 +111,25 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 
 Alternatively, we could select cases who started or completed in this period, respectively.
 
-```{r eval = F, fig.width = 7}
+```{r fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "start")
-cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
-	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+start <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>% 		ggplot() +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*7) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
 ```
 
 #### Completed
-```{r eval = F, fig.width = 7}
+```{r fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "complete")
-cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+start <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>% 	
 	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*7) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
@@ -135,11 +140,13 @@ cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timest
 
 Still another option is to select cases who intersected the time period, i.e. at least part of the case happened in the time period.
 
-```{r eval = F, fig.width = 7}
+```{r fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "intersecting")
-cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+start <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>%
 	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*7) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
@@ -151,9 +158,11 @@ Finally, we can trim the cases to the time period.
 
 ```{r eval = F, fig.width = 7}
 filtered_log <- filter_time_period(BPIC15_1, a, b, "trim")
-cases(filtered_log) %>% gather(type, timestamp, start_timestamp, complete_timestamp) %>%
+start <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = min(event_time.timestamp)) %>% mutate(type = "start")
+complete <- filtered_log %>% group_by(case_concept.name) %>% summarize(timestamp = max(event_time.timestamp)) %>% mutate(type = "end")
+bind_rows(start, complete) %>%
 	ggplot() +
-	geom_histogram(aes(timestamp, fill = type)) +
+	geom_histogram(aes(timestamp, fill = type), binwidth = 60*60*24*7) +
 	facet_grid(type ~ .) +
 	scale_fill_brewer(palette = "Dark2") +
 	theme(legend.position = "none")
