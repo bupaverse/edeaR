@@ -47,6 +47,6 @@ repetitions_trace <- function(eventlog) {
 
 	colnames(r)[colnames(r)=="relative_frequency"] <- "relative_trace_frequency"
 
-	r <- r %>% arrange(desc(relative_trace_frequency))
+	r <- r %>% arrange(desc(relative_trace_frequency)) %>% tbl_df()
 	return(r)
 }
