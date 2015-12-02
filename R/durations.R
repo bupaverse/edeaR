@@ -23,7 +23,7 @@ durations <- function(eventlog,
 	library(lubridate)
 	library(dplyr)
 
-	colnames(eventlog)[colnames(eventlog)==life_cycle_id(eventlog)] <- "life_cycle_classifier"
+	colnames(eventlog)[colnames(eventlog)==lifecycle_id(eventlog)] <- "life_cycle_classifier"
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==timestamp(eventlog)] <- "timestamp_classifier"
 
