@@ -1,7 +1,7 @@
 ---
 title: "Unleashing the power of R for event data"
 author: "Gert Janssenswillen"
-date: "`r Sys.Date()`"
+date: 2/12/2015
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Unleashing the power of R for event data}
