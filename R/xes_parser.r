@@ -99,8 +99,7 @@ handler <- function(){
 }
 
 parseXES <- function(logfile){
-	library(XML)
-	temp <- xmlEventParse(logfile,handler())
+	temp <- XML::xmlEventParse(logfile,handler())
 	tracedata <- temp$trace.data()
 	trace.att <- names(tracedata)
 	eventdata <- temp$event.data()

@@ -1,6 +1,5 @@
 
 trace_coverage_case <- function(eventlog) {
-	library(dplyr)
 
 	stop_eventlog(eventlog)
 

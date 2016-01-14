@@ -6,7 +6,13 @@
 \usage{
 eventlog_from_xes(xesfile = file.choose())
 }
+\arguments{
+\item{xesfile}{Reference to a .xes file, conforming to the xes-standard.}
+}
 \description{
-eventlog_from_xes
+Extracts eventlog from a xes-file.
+}
+\seealso{
+\url{http://www.xes-standard.org/}
 }
 

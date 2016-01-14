@@ -6,7 +6,7 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param antecedents, consequents The set of antecendent and consequent activities. All pairs of antecedents and consequents are checked for.
+#' @param antecedents,consequents The set of antecendent and consequent activities. All pairs of antecedents and consequents are checked for.
 #'
 #' @param precedence_type When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
 #' When \code{eventually_follows}, other events are allowed to happen in between.

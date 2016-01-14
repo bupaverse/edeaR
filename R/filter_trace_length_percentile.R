@@ -3,8 +3,6 @@ filter_trace_length_percentile <- function(eventlog,
 								percentile_cut_off,
 								reverse = F)
 {
-	library(dplyr)
-
 
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==activity_instance_id(eventlog)] <- "activity_instance_classifier"

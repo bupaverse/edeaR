@@ -11,7 +11,7 @@
 #' @examples
 #'
 #' data(example_log)
-#' activity_presence_in_cases(example_log)
+#' activity_presence(example_log)
 #'
 #'
 #' @export activity_presence
@@ -27,7 +27,7 @@ activity_presence <- function(eventlog) {
 	r <- eventlog %>%
 		group_by_(event_classifier, "case_classifier") %>%
 		summarize() %>%
-		summarize(absolute = n_distinct(case_classifier)) %>%
+		summarize("absolute" = n_distinct(case_classifier)) %>%
 		mutate(relative = absolute/n_cases(eventlog)) %>%
 		arrange(desc(absolute))
 	return(r)

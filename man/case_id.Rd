@@ -18,6 +18,6 @@ case_id(example_log)
 }
 \seealso{
 \code{\link{eventlog}}, \code{\link{activity_id}},
-\code{\link{start_timestamp}}, \code{\link{complete_timestamp}}
+\code{\link{lifecycle_id}}, \code{\link{activity_instance_id}}
 }
 

@@ -6,6 +6,10 @@
 \usage{
 mapping(eventlog)
 }
+\arguments{
+\item{eventlog}{The event log to be used. An object of class
+\code{eventlog}.}
+}
 \description{
 Prints the mapping of an event log object.
 }

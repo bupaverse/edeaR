@@ -6,7 +6,11 @@
 \usage{
 n_activity_instances(eventlog)
 }
+\arguments{
+\item{eventlog}{The event log to be used. An object of class
+\code{eventlog}.}
+}
 \description{
-n_activity_instances
+Returns the number of activity instances in an event log
 }
 

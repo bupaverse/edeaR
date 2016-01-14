@@ -2,6 +2,9 @@
 #'
 #' @description Prints the mapping of an event log object.
 #'
+#' @param eventlog The event log to be used. An object of class
+#' \code{eventlog}.
+#'
 #' @export mapping
 
 mapping <- function(eventlog) {

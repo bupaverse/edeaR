@@ -5,6 +5,12 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
+#' @param lower_threshold The lower trace length threshold.
+#' When \code{reverse} is FALSE, all traces with a lower frequency are discarded.
+#'
+#' @param upper_threshold The upper trace length threshold.
+#' When \code{reverse} is FALSE, all traces with a lo frequency are discarded.
+#'
 #' @param percentile_cut_off Alternatively to providing thresholds, a percentile cut off can be provided.
 #' A percentile cut off value of 0.9 will return the 90\% shortest cases.
 #' When \code{reverse} is set to TRUE, it will return the 10\% longest cases.

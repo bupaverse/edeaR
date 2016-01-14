@@ -6,7 +6,13 @@
 \usage{
 case_attributes_from_xes(xesfile = file.choose())
 }
+\arguments{
+\item{xesfile}{Reference to a .xes file, conforming to the xes-standard.}
+}
 \description{
-Case Attributes from Xes-file
+Extracts case attributes from a xes-file.
+}
+\seealso{
+\url{http://www.xes-standard.org/}
 }
 

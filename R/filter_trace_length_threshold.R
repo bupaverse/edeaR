@@ -4,8 +4,6 @@ filter_trace_length_threshold <- function(eventlog,
 									  upper_threshold = NULL,
 									  reverse = F)
 {
-	library(dplyr)
-
 	if(is.null(lower_threshold) & is.null(upper_threshold)){
 		stop("Upper threshold or lower threshold must be defined")
 	}

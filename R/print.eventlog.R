@@ -1,6 +1,9 @@
 #' @title Generic print function for eventlog
-#'
-#' @export print.eventlog
+#' @description Generic print function for eventlog
+#' @param x Eventlog object
+#' @param ... Additional Arguments
+#' @method print eventlog
+#' @export
 
 print.eventlog <- function(x, ...) {
 	log <- x

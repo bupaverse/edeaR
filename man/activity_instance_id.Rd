@@ -10,10 +10,7 @@ activity_instance_id(eventlog)
 \item{eventlog}{An object of class \code{eventlog}.}
 }
 \description{
-Get the activity instance classifier of an object of class \code{eventlog}
-}
-\details{
-
+Get the activity instance classifier of an object of class \code{eventlog}.
 }
 \examples{
 data(example_log)
@@ -21,7 +18,7 @@ activity_instance_id(example_log)
 }
 \seealso{
 \code{\link{eventlog}}, \code{\link{activity_id}},
-\code{\link{timestamp}}, \code{\link{life_cycle_id}},
+\code{\link{timestamp}},
 \code{\link{case_id}}
 }
 

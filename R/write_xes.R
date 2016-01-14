@@ -1,10 +1,14 @@
 #' @title Write XES file
+#' @description Function for writing xes-file
+#' @param eventlog An event log object
+#' @param case_attributes Data object containing case attributes
+#' @param file Destination file
 #'
 #' @export write_xes
 
 write_xes <- function(eventlog,
 					  case_attributes = NULL,
-					  file) {
+					  file = file.choose()) {
 	e <- eventlog
 	colnames(e)[colnames(e) == case_id(eventlog)] <- "case_classifier"
 

@@ -27,7 +27,4 @@ filter_time_period(eventlog, start_point, end_point,
 \description{
 Function to filter eventlog using a time period.
 }
-\details{
-
-}
 

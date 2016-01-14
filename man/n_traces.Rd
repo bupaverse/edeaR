@@ -6,7 +6,11 @@
 \usage{
 n_traces(eventlog)
 }
+\arguments{
+\item{eventlog}{The event log to be used. An object of class
+\code{eventlog}.}
+}
 \description{
-n_traces
+Returns the number of traces in an event log
 }
 

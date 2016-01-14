@@ -6,6 +6,11 @@
 \usage{
 \method{print}{eventlog}(x, ...)
 }
+\arguments{
+\item{x}{Eventlog object}
+
+\item{...}{Additional Arguments}
+}
 \description{
 Generic print function for eventlog
 }

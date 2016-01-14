@@ -6,7 +6,11 @@
 \usage{
 n_cases(eventlog)
 }
+\arguments{
+\item{eventlog}{The event log to be used. An object of class
+\code{eventlog}.}
+}
 \description{
-n_cases
+Returns the number of cases in an event log
 }
 

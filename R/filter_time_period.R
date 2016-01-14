@@ -1,26 +1,17 @@
-#'
-#'@title Filter: Time Period
-#'
-#'@description Function to filter eventlog using a time period.
-#'
-#'
+#' @title Filter: Time Period
+#' @description Function to filter eventlog using a time period.
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
-#'
 #' @param start_point Start timestamp of the time period. This should be a date object.
-#'
 #' @param end_point End timestamp of the time period. This should be a data object.
-#'
 #' @param filter_method Can be \code{contained, start, complete, intersecting} or \code{trim}.
 #' \code{contained} keeps all the events related to cases contained in the time period.
 #' \code{start} keeps all the events related to cases started in the time period.
 #' \code{complete} keeps all the events related to cases complete in the time period.
 #' \code{intersecting} keeps all the events related to cases in which at least one event started and/or ended in the time period.
 #' \code{trim} keeps all the events which started and ended in the time frame.
-#'
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
-#'@export filter_time_period
+#' @export
 
 filter_time_period <- function(eventlog,
 							   start_point,

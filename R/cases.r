@@ -21,9 +21,6 @@
 cases <- function(eventlog){
 	stop_eventlog(eventlog)
 
-	library(dplyr)
-	library(lubridate)
-
 	traces_per_case <- cases_light(eventlog)
 	durations <- durations(eventlog)
 	colnames(traces_per_case)[colnames(traces_per_case)==case_id(eventlog )] <- "case_classifier"
@@ -45,8 +42,6 @@ cases <- function(eventlog){
 	summary <- merge(summary, traces_per_case, "case_classifier")
 	summary <- merge(summary, durations, "case_classifier")
 
-	summary$start_timestamp <- ymd_hms(summary$start_timestamp)
-	summary$complete_timestamp <- ymd_hms(summary$complete_timestamp)
 
 	for(i in 1:nrow(summary)){
 		summary$first_activity[i] <- strsplit(summary$trace[i], split = ",")[[1]][1]

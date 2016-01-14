@@ -1,7 +1,5 @@
 
 trace_coverage_trace <- function(eventlog) {
-	library(dplyr)
-
 	stop_eventlog(eventlog)
 
 

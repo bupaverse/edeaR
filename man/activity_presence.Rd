@@ -15,7 +15,7 @@ Calculates for each activity type in what percentage of cases it is present.
 }
 \examples{
 data(example_log)
-activity_presence_in_cases(example_log)
+activity_presence(example_log)
 }
 \seealso{
 \code{\link{activity_type_frequency}}

@@ -11,7 +11,7 @@ filter_precedence(eventlog, antecedents, consequents, precedence_type,
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{antecedents,}{consequents The set of antecendent and consequent activities. All pairs of antecedents and consequents are checked for.}
+\item{antecedents,consequents}{The set of antecendent and consequent activities. All pairs of antecedents and consequents are checked for.}
 
 \item{precedence_type}{When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
 When \code{eventually_follows}, other events are allowed to happen in between.}

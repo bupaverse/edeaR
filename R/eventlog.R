@@ -14,12 +14,12 @@
 #'
 #' @param activity_instance_id The activity instance classifier of the event log.
 #'
-#' @param lifecylce_id The life cylce classifier of the event log.
+#' @param lifecycle_id The life cylce classifier of the event log.
 #'
 #' @param timestamp The timestamp of the event log.
 #'
 #' @seealso \code{\link{case_id}}, \code{\link{activity_id}},
-#' \code{\link{activity_instance_id}},\code{\link{life_cycle_id}},
+#' \code{\link{activity_instance_id}},\code{\link{lifecycle_id}},
 #'  \code{\link{timestamp}}
 #'
 #'

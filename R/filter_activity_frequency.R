@@ -5,11 +5,10 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param percentile cut off The target coverage of events
+#' @param percentile_cut_off The target coverage of events
 #' A percentile of 0.9 will return the most common activity types of the eventlog, which account for 90\% of the events.
 #'
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
 #'
 #' @export filter_activity_frequency
 #'
