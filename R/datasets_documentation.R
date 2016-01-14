@@ -3,7 +3,6 @@
 #' @title BPI Challenge 2014 Incidents
 #' @docType data
 #' @format tbl_df containing 4000 observations with 28 variables
-#' @references \url{https://data.3tu.nl/repository/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}
 #' @keywords datasets
 "BPIC14_incident_case_attributes"
 
@@ -11,7 +10,6 @@
 #' @title BPI Challenge 2014 Incident Activities
 #' @docType data
 #' @format eventlog containing 39911 events
-#' @references \url{https://data.3tu.nl/repository/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}
 #' @keywords datasets
 "BPIC14_incident_log"
 
@@ -19,7 +17,6 @@
 #' @title BPI Challenge 2015 Log Municipality 1
 #' @docType data
 #' @format eventlog containing 52217 events
-#' @references \url{https://data.3tu.nl/repository/uuid:31a308ef-c844-48da-948c-305d167a0ec1}
 #' @keywords datasets
 "BPIC15_1"
 
@@ -27,7 +24,6 @@
 #' @title BPI Challenge 2015 Log Municipality 1
 #' @docType data
 #' @format eventlog containing 52217 events, as imported from xes
-#' @references \url{https://data.3tu.nl/repository/uuid:31a308ef-c844-48da-948c-305d167a0ec1}
 #' @keywords datasets
 "BPIC15_1_imported"
 

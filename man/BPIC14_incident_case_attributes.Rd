@@ -11,8 +11,5 @@ BPIC14_incident_case_attributes
 \description{
 BPI Challenge 2014 Incidents
 }
-\references{
-\url{https://data.3tu.nl/repository/uuid:c3e5d162-0cfd-4bb0-bd82-af5268819c35}
-}
 \keyword{datasets}
 

@@ -11,8 +11,5 @@ BPIC15_1
 \description{
 BPI Challenge 2015 Log Municipality 1
 }
-\references{
-\url{https://data.3tu.nl/repository/uuid:31a308ef-c844-48da-948c-305d167a0ec1}
-}
 \keyword{datasets}
 

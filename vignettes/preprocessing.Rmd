@@ -9,8 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r echo = F, message=F}
+```{r echo = F, message=F, warning=FALSE}
 library(edeaR)
+library(dplyr)
 ```
 
 The goal of this vignette is to illustrate how event data can be preprocessed in R to create an `eventlog` object. Two different approaches are discussed: importing an event log from a XES-file, and importing an event log in csv-format.
@@ -18,7 +19,7 @@ The goal of this vignette is to illustrate how event data can be preprocessed in
 ## Import event log from XES
 
 A very easy way to create event logs in `R` is to import the event log stored in XES-format. For example, we take the eventlog of municipality 1 of the BPI Challenge 2015, which can be found at the 
-[Process Mining Data Repository](https://data.3tu.nl/repository/collection:event_logs). In order to follow this Vignette, just store the data somewhere on your local pc.
+Process Mining Data Repository. In order to follow this Vignette, just store the data somewhere on your local pc.
 
 Once you have the data op your pc, you can input the location to the `eventlog_from_xes` function. Alternatively, calling this function without any arguments, as is done below, will open a dialog-box, allowing us to navigate to the event log.
 
@@ -76,8 +77,10 @@ Note that case attributes can be extracted from a XES-file using the function `c
 
 Alternatively, the event log might be stored in a csv-file. For importing csv files, more information can be found in `?read.csv` or using the `readr` package. An example of an event log imported from a csv-file has been included under the name `csv_example`.
 
+```{r cache = F}
+data("csv_example", package = "edeaR")
+```
 ```{r}
-data(csv_example)
 head(csv_example)
 ```
 
