@@ -1,8 +1,8 @@
 Package: edeaR
 Type: Package
-Title: Exploratory and Descriptive Event-based data Analysis
+Title: Exploratory and Descriptive Event-Based Data Analysis
 Version: 0.3
-Date: 2015-09-21
+Date: 2016-01-14
 Author: Gert Janssenswillen
 Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
 Description: Functions for exploratory and descriptive analysis of event based data. Can be used to import and export xes-files in R. Provides methods for describing and selecting process data.
