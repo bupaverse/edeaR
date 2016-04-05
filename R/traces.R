@@ -50,6 +50,7 @@ traces <- function(eventlog,
 	colnames(cases)[colnames(cases) == "case_classifier"] <- case_id(eventlog)
 
 	casesDT <- data.table(cases)
+	cases <- cases %>% data.frame
 
 	traces <- casesDT[, .(absolute_frequency = .N), by = .(trace, trace_id)]
 
