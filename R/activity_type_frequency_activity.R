@@ -17,7 +17,7 @@ activity_type_frequency_activity <- function(eventlog) {
 				  q3 =quantile(Freq, probs=0.75),
 				  max = max(Freq),
 				  st_dev = sd(Freq),
-				  iqr = quantile(Freq, probs=0.75) - quantile(Freqcd , probs=0.25),
+				  iqr = quantile(Freq, probs=0.75) - quantile(Freq , probs=0.25),
 				  tot = sum(Freq))
 
 	return(r)
