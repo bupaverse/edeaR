@@ -22,28 +22,45 @@
 traces <- function(eventlog,
 				   output_traces = TRUE,
 				   output_cases = FALSE){
-
 	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
 	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
-	cases <- eventlog %>%
-		group_by(case_classifier, activity_instance_classifier, event_classifier) %>%
-		summarize(timestamp_classifier = min(timestamp_classifier)) %>%
-		group_by(case_classifier) %>%
-		arrange(timestamp_classifier) %>%
-		summarize(trace = paste(event_classifier, collapse = ",")) %>%
-		mutate(trace_id = as.numeric(factor(trace)))
+	eDT <- data.table::data.table(eventlog)
+
+	cases <- eDT[,
+				 .(timestamp_classifier = min(timestamp_classifier)),
+				 by = .(case_classifier, activity_instance_classifier,  event_classifier)]
+
+	cases <- cases[order(timestamp_classifier), .(trace = paste(event_classifier, collapse = ",")),
+				   by = .(case_classifier)]
+
+	cases <- cases %>% mutate(trace_id = as.numeric(factor(trace)))
+
+	#	cases <- eventlog %>%
+	#		group_by(case_classifier, activity_instance_classifier, event_classifier) %>%
+	#		summarize(timestamp_classifier = min(timestamp_classifier)) %>%
+	#		group_by(case_classifier) %>%
+	#		arrange(timestamp_classifier) %>%
+	#		summarize(trace = paste(event_classifier, collapse = ",")) %>%
+	#		mutate(trace_id = as.numeric(factor(trace)))
+
 
 	colnames(cases)[colnames(cases) == "case_classifier"] <- case_id(eventlog)
 
-	traces <- cases %>%
-		group_by(trace, trace_id) %>%
-		summarize(absolute_frequency = n()) %>%
-		ungroup() %>%
-		arrange(desc(absolute_frequency)) %>%
-		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency))
+	casesDT <- data.table(cases)
+
+	traces <- casesDT[, .(absolute_frequency = .N), by = .(trace, trace_id)]
+
+	traces <- traces[order(absolute_frequency, decreasing = T),relative_frequency:=absolute_frequency/sum(absolute_frequency)]
+	traces <- tbl_df(traces)
+	#traces <- cases %>%
+	#	group_by(trace, trace_id) %>%
+	#	summarize(absolute_frequency = n()) %>%
+	#	ungroup() %>%
+	#	arrange(desc(absolute_frequency)) %>%
+	#	mutate(relative_frequency = absolute_frequency/sum(absolute_frequency))
 
 	if(output_traces == TRUE && output_cases == TRUE)
 		return(list(traces,cases))

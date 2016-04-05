@@ -12,11 +12,15 @@
 #'
 #' @param activity_id The activity classifier of the event log.
 #'
+#' @param resource_id The resource classifier of the event log.
+#'
 #' @param activity_instance_id The activity instance classifier of the event log.
 #'
 #' @param lifecycle_id The life cylce classifier of the event log.
 #'
 #' @param timestamp The timestamp of the event log.
+#'  @param resource_id The resource identifier of the event log.
+
 #'
 #' @seealso \code{\link{case_id}}, \code{\link{activity_id}},
 #' \code{\link{activity_instance_id}},\code{\link{lifecycle_id}},
@@ -30,7 +34,8 @@ eventlog <- function(eventlog,
 					 activity_id = NULL,
 					 activity_instance_id = NULL,
 					 lifecycle_id = NULL,
-					 timestamp = NULL){
+					 timestamp = NULL,
+					 resource_id = NULL){
 
 	eventlog <- tbl_df(as.data.frame(eventlog))
 
@@ -98,10 +103,20 @@ eventlog <- function(eventlog,
 		else
 			attr(eventlog, "timestamp") <- timestamp
 	}
-
-
-
-
+	if(is.null(resource_id)) {
+		if(!is.null(resource_id(eventlog)))
+			message("Recovered existing resource identifier")
+		else {
+			warning("No resource identifier provided nor found. Set to default: NA")
+			attr(eventlog, "resource_id") <- NA
+		}
+	}
+	else {
+		if(!(resource_id %in% colnames(eventlog)))
+			stop("Resource identifier not found")
+		else
+			attr(eventlog, "resource_id") <- resource_id
+	}
 	return(eventlog)
 }
 

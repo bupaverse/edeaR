@@ -21,6 +21,7 @@
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' @importFrom utils data
+#' @import data.table
 
 
 globalVariables(c("event_classifier", "activity_instance_classifier", "absolute_frequency", "Freq","q1", "q3","st_dev",
