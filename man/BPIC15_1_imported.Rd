@@ -8,5 +8,8 @@
 \usage{
 BPIC15_1_imported
 }
+\description{
+Dataset originating of the BPI Challenge 2014, organized by the BPI Workshop
+}
 \keyword{datasets}
 

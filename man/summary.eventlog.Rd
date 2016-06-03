@@ -7,10 +7,11 @@
 \method{summary}{eventlog}(object, ...)
 }
 \arguments{
+\item{object}{Eventlog object}
+
 \item{...}{Additional Arguments}
 }
 \description{
 Generic summary function for eventlog class
- @param object Eventlog object
 }
 

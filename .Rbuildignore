@@ -4,3 +4,4 @@ edeaR-manual.pdf
 .gitignore
 .Rhistory
 .RData
+R\eventlog_from_xes2.R

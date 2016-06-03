@@ -6,7 +6,7 @@
 #' @examples
 #' data(example_log)
 #' resource_id(example_log)
-#' @export activity_id
+#' @export resource_id
 
 resource_id <- function(eventlog){
 	if("eventlog" %in% class(eventlog))

@@ -15,8 +15,8 @@ start_activities <- function(eventlog,
 							 level_of_analysis) {
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log", "case", "activity", "resource")))
-		stop("Level of analysis should be one of the following: log, case, activity, resource.")
+	if(!(level_of_analysis %in% c("log", "case", "activity", "resource", "resource-activity")))
+		stop("Level of analysis should be one of the following: log, case, activity, resource, resource-activity.")
 
 
 	if (level_of_analysis == "log")
@@ -25,6 +25,8 @@ start_activities <- function(eventlog,
 		return(start_activities_case(eventlog = eventlog))
 	else if(level_of_analysis == "activity")
 		return(start_activities_activity(eventlog = eventlog))
-	else
+	else if(level_of_analysis == "resource")
 		return(start_activities_resource(eventlog = eventlog))
+	else
+		return(start_activities_resource_activity(eventlog = eventlog))
 }

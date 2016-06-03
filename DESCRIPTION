@@ -1,18 +1,19 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.3.5
-Date: 2016-01-14
+Version: 0.4.1
+Date: 2016-06-02
 Author: Gert Janssenswillen
 Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
 Description: Functions for exploratory and descriptive analysis of event based
-    data. Can be used to import and export xes-files, the IEEE eXtensible Event
-    Stream standard. Provides methods for describing and selecting process data.
+    data. Can be used to import and export Xes-files, the IEEE eXtensible Event
+    Stream standard. Provides methods for describing and selecting process data,
+    and for preparing event log data for process mining.
 License: GPL-3
 Depends:
     R(>= 3.0.0)
 Imports:
-    dplyr,ggplot2,lubridate,tidyr,XML,data.table
+    dplyr,ggplot2,lubridate,tidyr,XML, xml2,data.table
 LazyData: true
 Suggests:
     knitr,

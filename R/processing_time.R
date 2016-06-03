@@ -7,7 +7,7 @@
 #'
 #' @param units The time unit in which the throughput times should be reported.
 #'
-#' @param level_of_analysis At which level the analysis of processing times should be performed: log, trace, case or activity.
+#' @param level_of_analysis At which level the analysis of processing times should be performed: log, trace, case, resource or activity.
 #'
 #' @export processing_time
 
@@ -17,8 +17,8 @@ processing_time <- function(eventlog,
 
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log","trace","case","activity")))
-		stop("Level of analysis should be one of the following: log, trace, case,  activity.")
+	if(!(level_of_analysis %in% c("log","trace","case","activity", "resource", "resource-activity")))
+		stop("Level of analysis should be one of the following: log, trace, case, resource,  activity, resource-activity.")
 
 	if(level_of_analysis == "trace"){
 		return(processing_time_trace(eventlog = eventlog, units = units))
@@ -29,7 +29,13 @@ processing_time <- function(eventlog,
 	else if(level_of_analysis == "case") {
 		return(processing_time_case(eventlog = eventlog, units = units))
 	}
-	else {
+	else if(level_of_analysis == "activity") {
 		return(processing_time_activity(eventlog = eventlog, units = units))
+	}
+	else if(level_of_analysis == "resource"){
+		return(processing_time_resource(eventlog = eventlog, units = units))
+	}
+	else {
+		return(processing_time_resource_activity(eventlog = eventlog, units = units))
 	}
 }

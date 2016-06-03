@@ -25,12 +25,11 @@ filter_trim <- function(eventlog,
 	if(is.null(start_activities) & is.null(end_activities))
 		stop("At least on start or end activity should be provided")
 
-
-
+	acts <- activities(eventlog) %>% select(1) %>% t %>% as.vector
 	if(is.null(start_activities))
-		start_activities <- unique(e$event_classifier)
+		start_activities <- acts
 	if(is.null(end_activities))
-		end_activities <- unique(e$event_classifier)
+		end_activities <- acts
 
 
 

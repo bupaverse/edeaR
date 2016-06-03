@@ -8,5 +8,8 @@
 \usage{
 BPIC14_incident_case_attributes
 }
+\description{
+Dataset originating of the BPI Challenge 2014, organized by the BPI Workshop
+}
 \keyword{datasets}
 

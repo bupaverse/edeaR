@@ -8,5 +8,8 @@
 \usage{
 csv_example
 }
+\description{
+Artifical eventlog
+}
 \keyword{datasets}
 

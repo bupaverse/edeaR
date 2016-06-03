@@ -13,8 +13,8 @@ activity_type_frequency <- function(eventlog,
 									level_of_analysis) {
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("trace", "activity","case", "resource")))
-		stop("Level of analysis should be one of the following: trace, case,activity.")
+	if(!(level_of_analysis %in% c("trace", "activity","case", "resource", "resource-activity")))
+		stop("Level of analysis should be one of the following: trace, case, activity, resource, resource-activity.")
 
 	if (level_of_analysis == "trace")
 		return(activity_type_frequency_trace(eventlog))
@@ -22,6 +22,8 @@ activity_type_frequency <- function(eventlog,
 		return(activity_type_frequency_case(eventlog))
 	else if(level_of_analysis == "activity")
 		return(activity_type_frequency_activity(eventlog))
-	else
+	else if(level_of_analysis == "resource")
 		return(activity_type_frequency_resource(eventlog))
+	else
+		return(activity_type_frequency_resource_activity(eventlog))
 }

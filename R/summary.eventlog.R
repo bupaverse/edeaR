@@ -1,6 +1,6 @@
 #' @title Generic summary function for eventlog class
 #' @description Generic summary function for eventlog class
-#'  @param object Eventlog object
+#' @param object Eventlog object
 #' @param ... Additional Arguments
 #' @method summary eventlog
 #' @export

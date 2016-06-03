@@ -10,7 +10,7 @@ processing_time(eventlog, level_of_analysis, units = "days")
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of processing times should be performed: log, trace, case or activity.}
+\item{level_of_analysis}{At which level the analysis of processing times should be performed: log, trace, case, resource or activity.}
 
 \item{units}{The time unit in which the throughput times should be reported.}
 }

@@ -8,5 +8,8 @@
 \usage{
 example_log
 }
+\description{
+Artifical eventlog
+}
 \keyword{datasets}
 
