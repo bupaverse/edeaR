@@ -95,7 +95,7 @@ In this example, it can be seen that each row is in fact an activity instance, b
 ### Creating an activity instance classifier
 
 ```{r}
-csv_example$activity_instance <- 1:nrow(csv_example)
+csv_example$ACTIVITY_INSTANCE <- 1:nrow(csv_example)
 ```
 
 ### Reshaping the data
@@ -104,7 +104,7 @@ This can be easily done using the `tidyr` package. Look to `?tidyr` for more inf
 
 ```{r eval = F}
 library(tidyr)
-csv_example <- gather(csv_example, LIFECYCLE, TIMESTAMP, -CASE, - ACTIVITY, -ACTIVITY_INSTANCE)
+csv_example <- gather(csv_example, LIFECYCLE, TIMESTAMP, -CASE, -ACTIVITY, -ACTIVITY_INSTANCE)
 head(csv_example)
 ```
 ```{r echo = F}
