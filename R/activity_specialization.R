@@ -1,12 +1,12 @@
 #' @title Metric: Activity Specialization
 #'
-#' @description Analyses whether activities are specialize in by specific resources
+#' @description Analyses whether activities are specialized in by specific resources
 #'
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param level_of_analysis At which level the analysis of  coverage should be performed: case, activity
+#' @param level_of_analysis At which level the analysis of coverage should be performed: case, activity
 #'
 #' @export activity_specialization
 
