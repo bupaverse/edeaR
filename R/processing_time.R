@@ -9,11 +9,13 @@
 #'
 #' @param level_of_analysis At which level the analysis of processing times should be performed: log, trace, case, resource or activity.
 #'
+#' @param raw Show raw data instead of summary data.
+#'
 #' @export processing_time
 
 processing_time <- function(eventlog,
 							level_of_analysis,
-							units = "days"){
+							units = "days", raw = F){
 
 	stop_eventlog(eventlog)
 
@@ -30,12 +32,12 @@ processing_time <- function(eventlog,
 		return(processing_time_case(eventlog = eventlog, units = units))
 	}
 	else if(level_of_analysis == "activity") {
-		return(processing_time_activity(eventlog = eventlog, units = units))
+		return(processing_time_activity(eventlog = eventlog, units = units, raw = raw))
 	}
 	else if(level_of_analysis == "resource"){
-		return(processing_time_resource(eventlog = eventlog, units = units))
+		return(processing_time_resource(eventlog = eventlog, units = units, raw = raw))
 	}
 	else {
-		return(processing_time_resource_activity(eventlog = eventlog, units = units))
+		return(processing_time_resource_activity(eventlog = eventlog, units = units, raw = raw))
 	}
 }

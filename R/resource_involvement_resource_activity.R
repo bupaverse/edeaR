@@ -1,17 +1,6 @@
-#' @title Metric: Resource Activity Involvement
-#'
-#' @description Calculates for each resource in what percentage of cases it perform a specific activity.
-#'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
-#'
-#'
-#'
-#'
-#' @export resource_activity_involvement
 
 
-resource_activity_involvement <- function(eventlog) {
+resource_involvement_resource_activity <- function(eventlog) {
 	stop_eventlog(eventlog)
 
 	event_classifier <- activity_id(eventlog)

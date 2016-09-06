@@ -33,6 +33,7 @@ repetitions_activity <- function(eventlog) {
 
 	colnames(r)[colnames(r)=="event_classifier"] <- activity_id(eventlog)
 	colnames(r)[colnames(r)=="number_of_repetitions"] <- "absolute"
-	r <- arrange(r, desc(relative_frequency))
+	r <- arrange(r, desc(relative_frequency)) %>%
+		filter(absolute > 0)
 	return(r)
 }

@@ -4,7 +4,7 @@
 \alias{processing_time}
 \title{Metric: Processing time}
 \usage{
-processing_time(eventlog, level_of_analysis, units = "days")
+processing_time(eventlog, level_of_analysis, units = "days", raw = F)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -13,6 +13,8 @@ processing_time(eventlog, level_of_analysis, units = "days")
 \item{level_of_analysis}{At which level the analysis of processing times should be performed: log, trace, case, resource or activity.}
 
 \item{units}{The time unit in which the throughput times should be reported.}
+
+\item{raw}{Show raw data instead of summary data.}
 }
 \description{
 Provides summary statistics about the processing time of events on the level of activities, traces, cases or log.

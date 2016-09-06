@@ -8,11 +8,14 @@
 #'
 #' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, trace or activity.
 #'
+#' @param raw When raw values are needed as output, instead of summary statistics. Only applicable when level of analysis is trace or activity.
+#'
 #'
 #' @export size_of_selfloops
 
 size_of_selfloops <- function(eventlog,
-							  level_of_analysis){
+							  level_of_analysis,
+							  raw = FALSE){
 
 	stop_eventlog(eventlog)
 
@@ -22,10 +25,10 @@ size_of_selfloops <- function(eventlog,
 
 
 	if(level_of_analysis == "trace") {
-		return(size_of_selfloops_trace(eventlog = eventlog))
+		return(size_of_selfloops_trace(eventlog = eventlog,raw = raw))
 	}
 	else if(level_of_analysis == "activity"){
-		return(size_of_selfloops_activity(eventlog = eventlog))
+		return(size_of_selfloops_activity(eventlog = eventlog, raw = raw))
 	}
 	else if(level_of_analysis == "case") {
 		return(size_of_selfloops_case(eventlog = eventlog))

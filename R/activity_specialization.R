@@ -1,12 +1,19 @@
 #' @title Metric: Activity Specialization
 #'
-#' @description Analyses whether activities are specialize in by specific resources
+#' @description Analyses whether activities are specialize in by specific resources.
 #'
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
 #' @param level_of_analysis At which level the analysis of  coverage should be performed: case, activity
+#'
+#' @return At the activity level, calculated the number of resources which execute an activity in absolute value and relative to the
+#' total number of resources.
+#'
+#' At case level, calculates the number of resources which work on the case in absolute value and relative to the total number of resources.
+#'
+#'
 #'
 #' @export activity_specialization
 
@@ -16,7 +23,7 @@ activity_specialization <- function(eventlog, level_of_analysis) {
 
 
 	if(!(level_of_analysis %in% c("case", "activity")))
-		stop("Level of analysis should be one of the following: case, activity")
+		stop("Level of analysis should be one of the following: case, activity", call. = F)
 
 	if(level_of_analysis == "case")
 		return(activity_specialization_case(eventlog = eventlog))

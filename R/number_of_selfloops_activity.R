@@ -8,9 +8,7 @@ number_of_selfloops_activity <- function(eventlog) {
 	tr <- traces(eventlog)
 	act <- activities(eventlog) %>% rename(act_freq = absolute_frequency) %>% select(1:2)
 	r <- merge(sl, tr, "trace")
-
 	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-
 	r <- group_by(r, event_classifier) %>% summarize(absolute = sum(absolute_frequency), total_length = sum(absolute_frequency*(length-1)))
 
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)

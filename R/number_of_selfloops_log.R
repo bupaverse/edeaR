@@ -12,9 +12,9 @@ number_of_selfloops_log <- function(eventlog) {
 	r <- c(r, tot = sum(res$absolute))
 	names(r) <- c("min","q1","median","mean","q3","max","st_dev","iqr", "tot")
 	r <- data.frame(r)
-	r <- as.data.frame(t(r))
+	r <- as.data.frame(r)
+	r <- t(r)
 	row.names(r) <- NULL
-	r <- tbl_df(r)
 	return(r)
 
 }

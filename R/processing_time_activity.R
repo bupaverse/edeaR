@@ -1,6 +1,7 @@
 
 processing_time_activity <- function(eventlog,
-									 units = "days") {
+									 units,
+									 raw) {
 	stop_eventlog(eventlog)
 
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
@@ -10,19 +11,26 @@ processing_time_activity <- function(eventlog,
 	r <- eventlog %>%
 		group_by_(event_classifier, activity_instance_classifier) %>%
 		summarize(s = min(timestamp_classifier), e = max(timestamp_classifier)) %>%
-		mutate(dur = as.double(e - s, units = units)) %>%
-		summarize(relative_frequency = n(),
-				  min = min(dur),
-				  q1 = quantile(dur, probs = c(0.25)),
-				  median = median(dur),
-				  mean = mean(dur),
-				  q3 = quantile(dur, probs = c(0.75)),
-				  max = max(dur),
-				  st_dev = sd(dur),
-				  iqr = quantile(dur, probs = c(0.75)) - quantile(dur,probs = c(0.25)),
-				  tot = sum(dur)) %>%
-		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
-		arrange(desc(relative_frequency))
+		mutate(processing_time = as.double(e - s, units = units))
 
-	return(r)
+	if(raw == T) {
+		return(r)
+	}
+	else {
+		r <- r %>%
+			summarize(relative_frequency = n(),
+					  min = min(processing_time),
+					  q1 = quantile(processing_time, probs = c(0.25)),
+					  median = median(processing_time),
+					  mean = mean(processing_time),
+					  q3 = quantile(processing_time, probs = c(0.75)),
+					  max = max(processing_time),
+					  st_dev = sd(processing_time),
+					  iqr = quantile(processing_time, probs = c(0.75)) - quantile(processing_time,probs = c(0.25)),
+					  tot = sum(processing_time)) %>%
+			mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
+			arrange(desc(relative_frequency))
+
+		return(r)
+	}
 }

@@ -11,7 +11,7 @@ resource_frequency_activity <- function(eventlog) {
 		group_by_(event_classifier, resource_classifier, activity_instance_classifier) %>%
 		summarize() %>%
 		summarize(freq = n()) %>%
-		summarize(nr_of_activites= n(),
+		summarize(nr_of_resources= n(),
 				  min = min(freq),
 				  q1 = quantile(freq, 0.25),
 				  median = median(freq),
@@ -19,6 +19,5 @@ resource_frequency_activity <- function(eventlog) {
 				  q3 = quantile(freq, 0.75),
 				  max = max(freq)) %>%
 		return()
-
 
 }

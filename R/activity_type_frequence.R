@@ -1,6 +1,6 @@
 #' @title Metric: Activity Type Frequency
 #'
-#' @description Provides summary statistics about the frequency of activity types at the level of traces, cases or activity types
+#' @description Provides summary statistics about the frequency of activity types at the level of traces, cases, resources or activity types.
 #''
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.

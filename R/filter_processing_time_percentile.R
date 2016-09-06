@@ -1,28 +1,24 @@
 
 
-filter_throughput_time_threshold <- function(eventlog,
-									  lower_threshold = NULL,
-									  upper_threshold = NULL,
-									  reverse = F,
-									  units)
-{
+filter_processing_time_percentile <- function(eventlog,
+											  percentile_cut_off = NULL,
+											  reverse = F) {
 
 
-	if(is.null(lower_threshold))
-		lower_threshold <- -Inf
-	if(is.null(upper_threshold))
-		upper_threshold <- Inf
 
+	case_durations <- processing_time(eventlog = eventlog, "case") %>% arrange(processing_time)
 
-	case_durations <- throughput_time(eventlog = eventlog, "case", units = units)
 	colnames(case_durations)[colnames(case_durations)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 
-	case_selection <- filter(case_durations, throughput_time >= lower_threshold, throughput_time <= upper_threshold)$case_classifier
+
+	case_selection <- case_durations$case_classifier[1:(nrow(case_durations)*percentile_cut_off)]
+
 	if(reverse == FALSE)
 		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)
 	else
 		f_eventlog <- filter(eventlog, !(case_classifier %in% case_selection))
+
 
 	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
 
@@ -34,5 +30,4 @@ filter_throughput_time_threshold <- function(eventlog,
 					   activity_instance_id = activity_instance_id(eventlog))
 
 	return(output)
-
 }

@@ -1,6 +1,6 @@
-#' @title Filter: Throughput Time
+#' @title Filter: Processing Time
 #'
-#' @description Filters cases based on their throughput time.
+#' @description Filters cases based on their processing time.
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
@@ -18,12 +18,11 @@
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
 #'
 #' @param units The time unit used for filtering.
-
 #'
-#' @export filter_throughput_time
+#' @export filter_processing_time
 #'
 
-filter_throughput_time <- function(eventlog,
+filter_processing_time <- function(eventlog,
 								   lower_threshold = NULL,
 								   upper_threshold = NULL,
 								   percentile_cut_off = NULL,
@@ -41,11 +40,11 @@ filter_throughput_time <- function(eventlog,
 
 
 	if(!is.null(percentile_cut_off))
-		return(filter_throughput_time_percentile(eventlog,
+		return(filter_processing_time_percentile(eventlog,
 												 percentile_cut_off = percentile_cut_off,
 												 reverse = reverse ))
 	else
-		return(filter_throughput_time_threshold(eventlog,
+		return(filter_processing_time_threshold(eventlog,
 												lower_threshold = lower_threshold,
 												upper_threshold = upper_threshold,
 												reverse = reverse,

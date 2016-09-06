@@ -8,10 +8,12 @@
 #'
 #' @param level_of_analysis At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.
 #'
+#' @param include_zeros At the resource-activity level, included pairs which do not occur.
+#'
 #' @export resource_frequency
 
 
-resource_frequency <- function(eventlog, level_of_analysis) {
+resource_frequency <- function(eventlog, level_of_analysis, include_zeros = F) {
 	stop_eventlog(eventlog)
 
 
@@ -27,5 +29,5 @@ resource_frequency <- function(eventlog, level_of_analysis) {
 	else if(level_of_analysis == "resource")
 		return(resource_frequency_resource(eventlog = eventlog))
 	else
-		return(resource_frequency_resource_activity(eventlog = eventlog))
+		return(suppressWarnings(resource_frequency_resource_activity(eventlog = eventlog, include_zeros = include_zeros)))
 }

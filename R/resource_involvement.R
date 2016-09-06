@@ -1,28 +1,26 @@
 #' @title Metric: Resource Involvement
 #'
-#' @description Calculates for each resource in what percentage of cases it is present.
+#' @description Calculates for each resource/resource-activity in what percentage of cases it is present.
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#'
+#' @param level_of_analysis The level of analysis: resource or resource-activity.
 #'
 #' @export resource_involvement
 
+resource_involvement <- function(eventlog, level_of_analysis) {
 
-resource_involvement <- function(eventlog) {
 	stop_eventlog(eventlog)
 
-	event_classifier <- activity_id(eventlog)
-	case_classifier <- case_id(eventlog)
-	resource_classifier <- resource_id(eventlog)
-	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 
-	r <- eventlog %>%
-		group_by_(resource_classifier, "case_classifier") %>%
-		summarize() %>%
-		summarize("absolute" = n_distinct(case_classifier)) %>%
-		mutate(relative = absolute/n_cases(eventlog)) %>%
-		arrange(desc(absolute))
-	return(r)
+	if(!(level_of_analysis %in% c("resource","resource-activity")))
+		stop("Level of analysis should be one of the following: resource, resource-activity.")
+
+
+	if(level_of_analysis == "resource")
+		return(resource_involvement_resource(eventlog = eventlog))
+	else
+		return(resource_involvement_resource_activity(eventlog = eventlog))
+
 }

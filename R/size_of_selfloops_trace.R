@@ -1,12 +1,43 @@
 
-size_of_selfloops_trace <- function(eventlog, include_non_selfloops = FALSE) {
+size_of_selfloops_trace <- function(eventlog, raw = FALSE) {
 
 	stop_eventlog(eventlog)
 	tr <- traces(eventlog)
 	sl <- selfloops(eventlog)
 
 
-	tr <- tr %>% arrange(desc(absolute_frequency))
+
+	if(raw) {
+		suppressMessages(sl %>%
+			right_join(tr) %>%
+			mutate(length = length - 1) -> tr)
+
+		tr <- arrange(tr, desc(relative_frequency))
+		colnames(tr)[colnames(tr)== "relative_frequency"] <- "relative_trace_frequency"
+		return(tr)
+	}
+
+
+	suppressMessages(sl %>%
+			right_join(tr) %>%
+			mutate(length = length - 1) %>%
+			group_by(trace, relative_frequency) %>%
+			summarize(min = min(length,na.rm = T),
+					  q1 = quantile(length, 0.25, na.rm = T),
+					  mean = mean(length, na.rm = T),
+					  median = median(length, na.rm = T),
+					  q3 = quantile(length, 0.75, na.rm =T),
+					  max = max(length, na.rm =T),
+					  st_dev = sd(length, na.rm = T)) %>%
+			mutate(iqr = q3 - q1) -> tr)
+
+
+	tr <- arrange(tr, desc(relative_frequency))
+	colnames(tr)[colnames(tr)=="relative_frequency"] <- "relative_trace_frequency"
+	return(tr)
+
+
+	#legacy
 
 	for(i in 1:nrow(tr)){
 		selfloops_lengths <- filter(sl, trace == tr$trace[i])$length

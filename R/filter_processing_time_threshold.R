@@ -1,10 +1,10 @@
 
 
-filter_throughput_time_threshold <- function(eventlog,
-									  lower_threshold = NULL,
-									  upper_threshold = NULL,
-									  reverse = F,
-									  units)
+filter_processing_time_threshold <- function(eventlog,
+											 lower_threshold = NULL,
+											 upper_threshold = NULL,
+											 reverse = F,
+											 units)
 {
 
 
@@ -14,11 +14,11 @@ filter_throughput_time_threshold <- function(eventlog,
 		upper_threshold <- Inf
 
 
-	case_durations <- throughput_time(eventlog = eventlog, "case", units = units)
+	case_durations <- processing_time(eventlog = eventlog, "case", units = units)
 	colnames(case_durations)[colnames(case_durations)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 
-	case_selection <- filter(case_durations, throughput_time >= lower_threshold, throughput_time <= upper_threshold)$case_classifier
+	case_selection <- filter(case_durations, processing_time >= lower_threshold, processing_time <= upper_threshold)$case_classifier
 	if(reverse == FALSE)
 		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)
 	else

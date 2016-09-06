@@ -1,7 +1,7 @@
 
 
 
-size_of_selfloops_activity <- function(eventlog, include_non_selfloops = FALSE) {
+size_of_selfloops_activity <- function(eventlog, raw = FALSE) {
 
 	stop_eventlog(eventlog)
 
@@ -10,6 +10,48 @@ size_of_selfloops_activity <- function(eventlog, include_non_selfloops = FALSE) 
 	sl <- selfloops(eventlog)
 	colnames(act)[colnames(act) == activity_id(eventlog)] <- "event_classifier"
 	colnames(sl)[colnames(sl) ==   activity_id(eventlog)] <- "event_classifier"
+	ca <- cases_light(eventlog)
+
+	if(raw) {
+		suppressMessages(sl %>%
+			right_join(act) %>%
+			inner_join(ca) %>%
+			mutate(length = length - 1) -> act)
+
+		act <- arrange(act, desc(relative_frequency))
+		colnames(act)[colnames(act)== "relative_frequency"] <- "relative_activity_frequency"
+		colnames(act)[colnames(act)=="event_classifier"] <- activity_id(eventlog)
+		return(act)
+	}
+
+
+	suppressMessages(sl %>%
+			right_join(act) %>%
+			inner_join(ca) %>%
+			mutate(length = length - 1) %>%
+			group_by(event_classifier, relative_frequency) %>%
+			summarize(number_of_selfloops = n(),
+					  min = min(length,na.rm = T),
+					  q1 = quantile(length, 0.25, na.rm = T),
+					  mean = mean(length, na.rm = T),
+					  median = median(length, na.rm = T),
+					  q3 = quantile(length, 0.75, na.rm =T),
+					  max = max(length, na.rm =T),
+					  st_dev = sd(length, na.rm = T)) %>%
+			mutate(iqr = q3 - q1) -> act)
+
+
+
+	act <- arrange(act, desc(relative_frequency))
+	colnames(act)[colnames(act)== "relative_frequency"] <- "relative_activity_frequency"
+	colnames(act)[colnames(act)=="event_classifier"] <- activity_id(eventlog)
+	return(act)
+
+	## versions with include non selfloops no longer supported!
+
+
+	#old code
+
 
 	for(i in 1:nrow(act)){
 		selfloops_lengths <- filter(sl, event_classifier == act$event_classifier[i])$length

@@ -6,10 +6,12 @@ activity_type_frequency_resource <- function(eventlog) {
 	resource_classifier <- resource_id(eventlog)
 	case_classifier <- case_id(eventlog)
 	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
+	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+
 
 	r <- eventlog %>%
 		group_by_(resource_classifier, case_classifier) %>%
-		summarize(Freq = n_distinct(activity_instance_classifier)) %>%
+		summarize(Freq = n_distinct(event_classifier)) %>%
 		summarize(min = min(Freq),
 				   q1 =quantile(Freq, probs=0.25),
 				   mean = mean(Freq),

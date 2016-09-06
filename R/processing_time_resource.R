@@ -1,6 +1,7 @@
 
 processing_time_resource <- function(eventlog,
-									 units = "days") {
+									 units = "days",
+									 raw) {
 	stop_eventlog(eventlog)
 
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
@@ -23,16 +24,23 @@ processing_time_resource <- function(eventlog,
 		summarize(dur = sum(dur)) %>%
 		merge(res_cas_pair_list, all.y = T) %>%
 		mutate(dur = ifelse(is.na(dur),0,dur)) %>%
+		rename(processing_time = dur)
+
+	if(raw == T) {
+		return(r)
+	}
+
+	r %>%
 		group_by_(resource_classifier) %>%
-		summarize(min = min(dur),
-				  q1 = quantile(dur, probs = c(0.25)),
-				  median = median(dur),
-				  mean = mean(dur),
-				  q3 = quantile(dur, probs = c(0.75)),
-				  max = max(dur),
-				  st_dev = sd(dur),
-				  iqr = quantile(dur, probs = c(0.75)) - quantile(dur,probs = c(0.25)),
-				  tot = sum(dur))
+		summarize(min = min(processing_time),
+				  q1 = quantile(processing_time, 0.25),
+				  median = median(processing_time),
+				  mean = mean(processing_time),
+				  q3 = quantile(processing_time, probs = c(0.75)),
+				  max = max(processing_time),
+				  st_dev = sd(processing_time),
+				  iqr = quantile(processing_time, probs = c(0.75)) - quantile(processing_time,probs = c(0.25)),
+				  tot = sum(processing_time)) -> r
 
 	return(r)
 }

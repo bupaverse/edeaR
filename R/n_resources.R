@@ -3,7 +3,7 @@
 #' @description Returns the number of resources in an event log
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
-#' @export n_events
+#' @export n_resources
 
 n_resources <- function(eventlog) {
 	stop_eventlog(eventlog)

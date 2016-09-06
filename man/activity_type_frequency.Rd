@@ -13,7 +13,7 @@ activity_type_frequency(eventlog, level_of_analysis)
 \item{level_of_analysis}{At which level the analysis of activity type frequency should be performed: trace, case, activity or resource.}
 }
 \description{
-Provides summary statistics about the frequency of activity types at the level of traces, cases or activity types
+Provides summary statistics about the frequency of activity types at the level of traces, cases, resources or activity types.
 '
 }
 

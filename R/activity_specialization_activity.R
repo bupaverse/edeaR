@@ -8,6 +8,6 @@ activity_specialization_activity <- function(eventlog) {
 		summarize() %>%
 		summarize(absolute = n()) %>%
 		mutate(relative = absolute/n_resources(eventlog)) %>%
-		arrange(-absolute) %>%
+		arrange(absolute) %>%
 		return()
 }

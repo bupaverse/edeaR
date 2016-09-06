@@ -17,7 +17,9 @@ filter_activity_frequency <- function(eventlog,
 									 reverse = F){
 	stop_eventlog(eventlog)
 
-	act_freq <- mutate(activities(eventlog), r = percent_rank(-absolute_frequency))
+	act_freq <- activities(eventlog) %>%
+		arrange(-absolute_frequency) %>%
+		mutate(r = cumsum(relative_frequency))
 
 	if(reverse == F)
 		event_selection <- act_freq %>% filter(r <= percentile_cut_off)
