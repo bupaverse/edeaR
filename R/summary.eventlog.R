@@ -30,7 +30,7 @@ summary.eventlog <- function(object, ...){
 	cat(number_of_cases)
 	cat("\nNumber of traces:  ")
 	cat(number_of_traces)
-	cat("\nNumber of activities:  ")
+	cat("\nNumber of distinct activities:  ")
 	cat(number_of_activities)
 	cat("\nAverage trace length:  ")
 	cat(events_per_case)
