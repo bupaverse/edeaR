@@ -1,4 +1,4 @@
-activity_specialization_case <- function(eventlog) {
+resource_involvement_case <- function(eventlog) {
 
 	case_classifier <- case_id(eventlog)
 	resource_classifier <- resource_id(eventlog)

@@ -1,4 +1,4 @@
-resource_specialization_case <- function(eventlog) {
+resource_specialisation_log <- function(eventlog) {
 
 
 	resource_classifier <- resource_id(eventlog)
@@ -7,7 +7,7 @@ resource_specialization_case <- function(eventlog) {
 
 
 	eventlog %>%
-		group_by_(case_classifier, resource_classifier, event_classifier) %>%
+		group_by_(resource_classifier, event_classifier) %>%
 		summarize() %>%
 		summarize(freq = n()) %>%
 		summarize(nr_of_activity_types = n_activities(eventlog),
@@ -16,6 +16,8 @@ resource_specialization_case <- function(eventlog) {
 				  median = median(freq),
 				  mean = mean(freq),
 				  q3 = quantile(freq, 0.75),
-				  max = max(freq)) %>%
+				  max = max(freq),
+				  st_dev = sd(freq)) %>%
+		mutate(iqr = q3 - q1) %>%
 		return()
 }

@@ -17,7 +17,9 @@ resource_frequency_activity <- function(eventlog) {
 				  median = median(freq),
 				  mean = mean(freq),
 				  q3 = quantile(freq, 0.75),
-				  max = max(freq)) %>%
+				  max = max(freq),
+				  st_dev = sd(freq)) %>%
+		mutate(iqr = q3 - q1) %>%
 		return()
 
 }

@@ -11,7 +11,7 @@ activities(eventlog)
 \code{eventlog}.}
 }
 \description{
-Returns a \code{tbl_df}  containing a list of all activity types in the event log, with there absolute and relative frequency
+Returns a \code{tbl_df}  containing a list of all activity types in the event log, with their absolute and relative frequency
 }
 \examples{
 

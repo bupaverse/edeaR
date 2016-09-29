@@ -14,12 +14,14 @@ resource_involvement <- function(eventlog, level_of_analysis) {
 	stop_eventlog(eventlog)
 
 
-	if(!(level_of_analysis %in% c("resource","resource-activity")))
-		stop("Level of analysis should be one of the following: resource, resource-activity.")
+	if(!(level_of_analysis %in% c("case","resource","resource-activity")))
+		stop("Level of analysis should be one of the following: case, resource, resource-activity.")
 
 
 	if(level_of_analysis == "resource")
 		return(resource_involvement_resource(eventlog = eventlog))
+	else if(level_of_analysis == "case")
+		return(resource_involvement_case(eventlog = eventlog))
 	else
 		return(resource_involvement_resource_activity(eventlog = eventlog))
 

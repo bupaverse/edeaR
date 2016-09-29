@@ -5,7 +5,7 @@ filter_endpoints_sets <- function(eventlog,
 							 end_activities = NULL,
 							 reverse = F) {
 
-	stop_eventlog(eventlog)
+	colnames(eventlog)[colnames(eventlog)==activity_id(eventlog)] <- "event_classifier"
 
 	if(is.null(start_activities) & is.null(end_activities)){
 		stop("At least on start or end activity for filtering should be provided")
@@ -20,7 +20,7 @@ filter_endpoints_sets <- function(eventlog,
 	colnames(c_sum)[colnames(c_sum)==case_id(eventlog)] <- "case_classifier"
 	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
 
-	case_selection <- filter(c_sum, first_event %in% start_activities, last_event %in% end_activities)$case_classifier
+	case_selection <- filter(c_sum, first_activity %in% start_activities, last_activity %in% end_activities)$case_classifier
 
 	if(reverse == FALSE)
 		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)

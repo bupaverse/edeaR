@@ -1,4 +1,4 @@
-resource_specialization_resource <- function(eventlog) {
+resource_specialisation_resource <- function(eventlog) {
 
 
 	resource_classifier <- resource_id(eventlog)

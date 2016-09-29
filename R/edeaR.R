@@ -33,7 +33,7 @@ globalVariables(c(".N","event_classifier", "activity_instance_classifier", "abso
 				  "s","dur","start", "relative_frequency","tot_dur","number_of_repetitions","denom", "instance",
 				  "total_length","perc", "relative","activity_frequency","absolute_trace_coverage","instances",
 				  "cnt", "trace_frequency", "V1","V2",".","event_id","freq", "element_type", "min_r","max_r","endpoints",
-				  "ts","next_event","next_act","next_r","remove_next","present","diff_r","selfloop_group","include_non_selfloops"))
+				  "ts","next_event","resource_classifier","next_act","next_r","remove_next","present","diff_r","selfloop_group","include_non_selfloops"))
 
 
 NULL

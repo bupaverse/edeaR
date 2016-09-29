@@ -18,12 +18,11 @@ eventlog(eventlog, case_id = NULL, activity_id = NULL,
 
 \item{activity_instance_id}{The activity instance classifier of the event log.}
 
-\item{lifecycle_id}{The life cylce classifier of the event log.}
+\item{lifecycle_id}{The life cycle classifier of the event log.}
 
-\item{timestamp}{The timestamp of the event log.
-@param resource_id The resource identifier of the event log.}
+\item{timestamp}{The timestamp of the event log.}
 
-\item{resource_id}{The resource classifier of the event log.}
+\item{resource_id}{The resource identifier of the event log.}
 }
 \description{
 A function to instantiate an object of class \code{eventlog} by specifying a

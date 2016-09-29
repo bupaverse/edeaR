@@ -27,7 +27,7 @@ traces <- function(eventlog,
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
 	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
 
-	eDT <- data.table::data.table(eventlog)
+	eDT <- data.table::as.data.table(eventlog)
 
 	cases <- eDT[,
 				 .(timestamp_classifier = min(timestamp_classifier)),

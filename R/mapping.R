@@ -8,11 +8,16 @@
 #' @export mapping
 
 mapping <- function(eventlog) {
-	stop_eventlog(eventlog)
-	cat(paste0("Case identifier:\t\t", case_id(eventlog)),"\n")
-	cat(paste0("Activity identifier:\t\t", activity_id(eventlog)),"\n")
-	cat(paste0("Resource identifier:\t\t", resource_id(eventlog)),"\n")
-	cat(paste0("Activity instance identifier:\t", activity_instance_id(eventlog)),"\n")
-	cat(paste0("Timestamp:\t\t\t", timestamp(eventlog)),"\n")
-	cat(paste0("Lifecycle transition:\t\t", lifecycle_id(eventlog = eventlog)),"\n")
-}
+	mapping <- list()
+
+	mapping$case_identifier <- case_id(eventlog)
+	mapping$activity_identifier <- activity_id(eventlog)
+	mapping$activity_instance_identifier <- activity_instance_id(eventlog)
+	mapping$timestamp_identifier <- timestamp(eventlog)
+	mapping$lifecycle_identifier <- lifecycle_id(eventlog)
+	mapping$resource_identifier <- resource_id(eventlog)
+
+	class(mapping) <- c("eventlog_mapping",class(mapping))
+
+	return(mapping)
+	}
