@@ -20,7 +20,4 @@ activity_presence(example_log)
 
 
 }
-\seealso{
-\code{\link{activity_type_frequency}}
-}
 

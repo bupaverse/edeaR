@@ -4,15 +4,17 @@
 \alias{size_of_selfloops}
 \title{Metric: Size of selfloops}
 \usage{
-size_of_selfloops(eventlog, level_of_analysis, raw = FALSE)
+size_of_selfloops(eventlog, type, level_of_analysis, raw = F)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, trace or activity.}
+\item{type}{Type of selfloops. I.e. repeat or redo}
 
-\item{raw}{When raw values are needed as output, instead of summary statistics. Only applicable when level of analysis is trace or activity.}
+\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, activity, resource, resource activity.}
+
+\item{raw}{Return raw data (only applicable for log level)}
 }
 \description{
 Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events

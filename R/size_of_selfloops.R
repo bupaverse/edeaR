@@ -6,34 +6,46 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, trace or activity.
+#' @param type Type of selfloops. I.e. repeat or redo
 #'
-#' @param raw When raw values are needed as output, instead of summary statistics. Only applicable when level of analysis is trace or activity.
+#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, activity, resource, resource activity.
 #'
+#' @param raw Return raw data (only applicable for log level)
 #'
 #' @export size_of_selfloops
 
 size_of_selfloops <- function(eventlog,
+							  type,
 							  level_of_analysis,
-							  raw = FALSE){
+							  raw = F){
 
 	stop_eventlog(eventlog)
 
+	if(!(type %in% c("repeat","redo")))
+		stop("Type should be \"repeat\" or \"redo\"")
 
-	if(!(level_of_analysis %in% c("trace","activity","case", "log")))
-		stop("Level of analysis should be one of the following: log, trace, activity.")
+	if(!(level_of_analysis %in% c("activity", "case","log", "resource","resource-activity")))
+		stop("Level of analysis should be one of the following: activity, case, log, resource, resource-activity.")
 
 
-	if(level_of_analysis == "trace") {
-		return(size_of_selfloops_trace(eventlog = eventlog,raw = raw))
+
+	if(type == "repeat") {
+		switch(level_of_analysis,
+			   log = repeat_selfloops_size_log(eventlog, raw),
+			   case = repeat_selfloops_size_case(eventlog),
+			   activity = repeat_selfloops_size_activity(eventlog),
+			   resource = repeat_selfloops_size_resource(eventlog),
+			   "resource-activity" = repeat_selfloops_size_resource_activity(eventlog)
+		)
 	}
-	else if(level_of_analysis == "activity"){
-		return(size_of_selfloops_activity(eventlog = eventlog, raw = raw))
-	}
-	else if(level_of_analysis == "case") {
-		return(size_of_selfloops_case(eventlog = eventlog))
-	}
-	else {
-		return(size_of_selfloops_log(eventlog = eventlog))
+	else if (type == "redo") {
+		switch(level_of_analysis,
+			   log = redo_selfloops_size_log(eventlog, raw),
+			   case = redo_selfloops_size_case(eventlog),
+			   activity = redo_selfloops_size_activity(eventlog),
+			   resource = redo_selfloops_size_resource(eventlog),
+			   "resource-activity" = redo_selfloops_size_resource_activity(eventlog)
+		)
+
 	}
 }

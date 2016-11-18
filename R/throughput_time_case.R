@@ -8,16 +8,12 @@ throughput_time_case <- function(eventlog, units = "days") {
 	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
 
 
-	e <- data.table::as.data.table(eventlog)
-
-	min <- e[, .(min = min(timestamp_classifier)), by = case_classifier]
-	max <- e[, .(max = max(timestamp_classifier)), by = case_classifier]
-	e <- merge(min, max, by = "case_classifier")[, .(case_classifier, dur = max - min)]
-
-	e <- e[, .(case_classifier,throughput_time = as.double(dur, units = units)),]
-	e %>%
-		tbl_df %>%
-		arrange(-throughput_time)  -> e
+	e <- eventlog %>%
+		group_by(case_classifier) %>%
+		summarize(min = min(timestamp_classifier),
+				  max = max(timestamp_classifier)) %>%
+		mutate(throughput_time = as.double(max - min, units = "days")) %>%
+		arrange(-throughput_time)
 
 	colnames(e)[colnames(e) == "case_classifier"] <- case_id(eventlog)
 

@@ -6,7 +6,6 @@
 #' \code{eventlog}.
 #'
 #'
-#' @seealso \code{\link{activity_type_frequency}}
 #'
 #' @examples
 #'

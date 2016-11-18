@@ -4,13 +4,15 @@
 \alias{number_of_selfloops}
 \title{Metric: Number of selfloops in trace}
 \usage{
-number_of_selfloops(eventlog, level_of_analysis)
+number_of_selfloops(eventlog, type, level_of_analysis)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, trace, case, activity}
+\item{type}{The type of selfloops, either repeat or redo.}
+
+\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.}
 }
 \description{
 Returns the number of selfloops in each trace. Can be performed at the level of traces, activities, or the level of the event log.

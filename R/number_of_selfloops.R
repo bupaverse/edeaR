@@ -5,27 +5,43 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, trace, case, activity
+#' @param type The type of selfloops, either repeat or redo.
 #'
-#'
+#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.
 #' @export number_of_selfloops
 
 
 number_of_selfloops <- function(eventlog,
+								type,
 								level_of_analysis) {
 
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("activity", "trace","case","log")))
-		stop("Level of analysis should be one of the following: activity, case, trace, log.")
+	if(!(type %in% c("repeat","redo")))
+		stop("Type should be \"repeat\" or \"redo\"")
 
-	if(level_of_analysis == "trace") {
-		return(number_of_selfloops_trace(eventlog = eventlog))
+	if(!(level_of_analysis %in% c("activity","case","log", "resource","resource-activity")))
+		stop("Level of analysis should be one of the following: activity, case, log, resource, resource-activity.")
+
+
+
+	if(type == "repeat") {
+		switch(level_of_analysis,
+			   log = repeat_selfloops_log(eventlog),
+			   case = repeat_selfloops_case(eventlog),
+			   activity = repeat_selfloops_activity(eventlog),
+			   resource = repeat_selfloops_resource(eventlog),
+			   "resource-activity" = repeat_selfloops_resource_activity(eventlog)
+		)
 	}
-	else if (level_of_analysis == "activity")
-		return(number_of_selfloops_activity(eventlog = eventlog))
-	else if(level_of_analysis == "case")
-		return(number_of_selfloops_case(eventlog = eventlog))
-	else
-		return(number_of_selfloops_log(eventlog = eventlog))
+	else if (type == "redo") {
+		switch(level_of_analysis,
+			   log = redo_selfloops_log(eventlog),
+			   case = redo_selfloops_case(eventlog),
+			   activity = redo_selfloops_activity(eventlog),
+			   resource = redo_selfloops_resource(eventlog),
+			  "resource-activity" = redo_selfloops_resource_activity(eventlog)
+		)
+
+	}
 }
