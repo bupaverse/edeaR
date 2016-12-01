@@ -1,3 +1,20 @@
+
+#' @export
+magrittr::`%>%`
+
+is_attached <- function(x) {
+	paste0("package:", x) %in% search()
+}
+
+
+cases_light <- function(eventlog){
+	if(!("eventlog" %in% class(eventlog)))
+		stop("Function only applicable for eventlog object")
+
+	traces(eventlog, output_traces = FALSE, output_cases = TRUE)
+}
+
+
 traces_light <- function(eventlog){
 
 	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
@@ -39,6 +56,24 @@ traces_light <- function(eventlog){
 	#	group_by(trace) %>%
 	#	summarize()
 
-		return(traces)
+	return(traces)
 
 }
+
+summary_statistics <- function(vector) {
+
+
+	s <- summary(vector)
+	s <- c(s, St.Dev = sd(vector))
+	s <- c(s, IQR = s[5] - s[2])
+	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
+	s <- as.data.frame(s)
+	s <- t(s)
+	row.names(s) <- NULL
+
+	return(s)
+}
+
+stop_eventlog <- function(eventlog)
+	if(!("eventlog" %in% class(eventlog)))
+		stop("Function only applicable for class eventlog")

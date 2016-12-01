@@ -3,7 +3,7 @@ Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
 Version: 0.4.7
 Date: 2016-11-13
-Author: Gert Janssenswillen
+Author: Gert Janssenswillen [aut, cre], Marijke Swennen [ctb]
 Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
 Description: Functions for exploratory and descriptive analysis of event based
     data. Can be used to import and export Xes-files, the IEEE eXtensible Event

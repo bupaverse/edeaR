@@ -10,7 +10,7 @@ end_activities(eventlog, level_of_analysis)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of end activities should be performed: log, case, activity or resource.}
+\item{level_of_analysis}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
 }
 \description{
 At log level, computes how many activity types occur as the last event in a case, both absolute and relative.

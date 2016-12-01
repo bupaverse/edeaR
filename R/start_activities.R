@@ -4,7 +4,7 @@
 #'At activity level, shows the activities which occur as first, and how often.
 #'The first event in a case is the one which started the first.
 #'#'
-#' @param level_of_analysis At which level the analysis of start activities should be performed: log, case, activity or resource.
+#' @param level_of_analysis At which level the analysis of start activities should be performed: log, case, activity, resource and resource-activity.
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.

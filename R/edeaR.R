@@ -16,6 +16,7 @@
 #' @importFrom data.table data.table
 #' @importFrom data.table :=
 #' @import dplyr
+#' @import bupaR
 #' @importFrom stats median
 #' @importFrom stats na.omit
 #' @importFrom stats quantile

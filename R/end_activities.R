@@ -4,7 +4,7 @@
 #'At activity level, shows the activities which occur as last, and how often.
 #'The last event in a case is the one which completed the last.
 #'
-#' @param level_of_analysis At which level the analysis of end activities should be performed: log, case, activity or resource.
+#' @param level_of_analysis At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.
 #'
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
