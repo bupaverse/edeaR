@@ -8,36 +8,43 @@
 #' @param units The time unit in which the throughput times should be reported.
 #'
 #' @param level_of_analysis At which level the analysis of processing times should be performed: log, trace, case, resource or activity.
-#'
-#' @param raw Show raw data instead of summary data.
-#'
+#'#'
 #' @export processing_time
 
 processing_time <- function(eventlog,
-							level_of_analysis,
-							units = "days", raw = F){
+							level_of_analysis = c("log","trace","case","activity","resource","resource-activity"),
+							units = c("hours","days","weeks","mins")){
+
+	level_of_analysis <- match.arg(level_of_analysis)
+	units <- match.arg(units)
 
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log","trace","case","activity", "resource", "resource-activity")))
-		stop("Level of analysis should be one of the following: log, trace, case, resource,  activity, resource-activity.")
-
 	if(level_of_analysis == "trace"){
-		return(processing_time_trace(eventlog = eventlog, units = units))
+		output <- processing_time_trace(eventlog = eventlog, units = units)
 	}
 	else if(level_of_analysis == "log") {
-		return(processing_time_log(eventlog = eventlog, units = units))
+		output <- processing_time_log(eventlog = eventlog, units = units)
 	}
 	else if(level_of_analysis == "case") {
-		return(processing_time_case(eventlog = eventlog, units = units))
+		output <- processing_time_case(eventlog = eventlog, units = units)
 	}
 	else if(level_of_analysis == "activity") {
-		return(processing_time_activity(eventlog = eventlog, units = units, raw = raw))
+		output <- processing_time_activity(eventlog = eventlog, units = units)
 	}
 	else if(level_of_analysis == "resource"){
-		return(processing_time_resource(eventlog = eventlog, units = units, raw = raw))
+		output <- processing_time_resource(eventlog = eventlog, units = units)
 	}
 	else {
-		return(processing_time_resource_activity(eventlog = eventlog, units = units, raw = raw))
+		output <- processing_time_resource_activity(eventlog = eventlog, units = units)
 	}
+
+
+	class(output) <- c("processing_time", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "units") <- units
+
+	return(output)
+
 }

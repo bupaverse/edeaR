@@ -17,5 +17,7 @@ throughput_time_log <- function(eventlog,
 	s <- t(s)
 	row.names(s) <- NULL
 
+	attr(s, "raw") <- r
+
 	return(s)
 }

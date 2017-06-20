@@ -2,10 +2,14 @@
 % Please edit documentation in R/filter_time_period.R
 \name{filter_time_period}
 \alias{filter_time_period}
+\alias{ifilter_time_period}
 \title{Filter: Time Period}
 \usage{
 filter_time_period(eventlog, start_point, end_point,
-  filter_method = "contained", reverse = FALSE)
+  filter_method = c("contained", "intersecting", "start", "complete", "trim"),
+  reverse = FALSE)
+
+ifilter_time_period(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -27,4 +31,3 @@ filter_time_period(eventlog, start_point, end_point,
 \description{
 Function to filter eventlog using a time period.
 }
-

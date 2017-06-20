@@ -2,11 +2,14 @@
 % Please edit documentation in R/filter_throughput_time.R
 \name{filter_throughput_time}
 \alias{filter_throughput_time}
+\alias{ifilter_throughput_time}
 \title{Filter: Throughput Time}
 \usage{
 filter_throughput_time(eventlog, lower_threshold = NULL,
   upper_threshold = NULL, percentile_cut_off = NULL, reverse = F,
   units = "days")
+
+ifilter_throughput_time(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -29,4 +32,3 @@ When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
 \description{
 Filters cases based on their throughput time.
 }
-

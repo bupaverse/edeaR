@@ -2,9 +2,12 @@
 % Please edit documentation in R/filter_resource.R
 \name{filter_resource}
 \alias{filter_resource}
+\alias{ifilter_resource}
 \title{Filter: Resource}
 \usage{
 filter_resource(eventlog, resources = NULL, reverse = F)
+
+ifilter_resource(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -17,4 +20,3 @@ filter_resource(eventlog, resources = NULL, reverse = F)
 \description{
 Filters the log based on resources
 }
-

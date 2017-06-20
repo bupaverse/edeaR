@@ -4,7 +4,8 @@
 \alias{trace_coverage}
 \title{Metric: Trace coverage}
 \usage{
-trace_coverage(eventlog, level_of_analysis, threshold = NULL)
+trace_coverage(eventlog, level_of_analysis = c("log", "trace", "case"),
+  threshold = NULL)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -23,4 +24,3 @@ Case: for each case, the coverage of the corresponding trace is returned
 
 Log: The number of traces to cover a certain percentage (default is 80\%) of a log is computed. If a tie exists, the two nearest points are returned.
 }
-

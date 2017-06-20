@@ -1,16 +1,11 @@
 
 end_activities_resource_activity <- function(eventlog) {
 
-	resource_classifier <- resource_id(eventlog)
-	case_classifier <- case_id(eventlog)
-	event_classifier <- activity_id(eventlog)
-	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-
 	eventlog %>%
-		group_by_(case_classifier) %>%
-		mutate(rank = row_number(timestamp_classifier)) %>%
+		group_by(!!as.symbol(case_id(eventlog))) %>%
+		mutate(rank = row_number(desc(!!as.symbol(timestamp(eventlog))))) %>%
 		filter(rank == 1) %>%
-		group_by_(resource_classifier, event_classifier) %>%
+		group_by(!!as.symbol(resource_id(eventlog)), !!as.symbol(activity_id(eventlog))) %>%
 		summarize(absolute = n()) %>%
 		ungroup() %>%
 		arrange(desc(absolute)) %>%

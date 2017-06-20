@@ -4,7 +4,8 @@
 \alias{end_activities}
 \title{Metric: End activities}
 \usage{
-end_activities(eventlog, level_of_analysis)
+end_activities(eventlog, level_of_analysis = c("log", "case", "activity",
+  "resource", "resource-activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -17,4 +18,3 @@ At log level, computes how many activity types occur as the last event in a case
 At activity level, shows the activities which occur as last, and how often.
 The last event in a case is the one which completed the last.
 }
-

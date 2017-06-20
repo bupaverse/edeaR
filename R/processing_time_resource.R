@@ -1,7 +1,6 @@
 
 processing_time_resource <- function(eventlog,
-									 units = "days",
-									 raw) {
+									 units = "days") {
 	stop_eventlog(eventlog)
 
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
@@ -26,9 +25,7 @@ processing_time_resource <- function(eventlog,
 		mutate(dur = ifelse(is.na(dur),0,dur)) %>%
 		rename(processing_time = dur)
 
-	if(raw == T) {
-		return(r)
-	}
+	raw <- r
 
 	r %>%
 		group_by_(resource_classifier) %>%
@@ -41,6 +38,9 @@ processing_time_resource <- function(eventlog,
 				  st_dev = sd(processing_time),
 				  iqr = quantile(processing_time, probs = c(0.75)) - quantile(processing_time,probs = c(0.25)),
 				  tot = sum(processing_time)) -> r
+
+
+	attr(r, "raw") <- raw
 
 	return(r)
 }

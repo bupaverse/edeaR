@@ -12,8 +12,8 @@
 #' @export filter_activity
 #'
 filter_activity <- function(eventlog,
-									  activities = NULL,
-									  reverse = F){
+							activities = NULL,
+							reverse = F){
 	stop_eventlog(eventlog)
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
 
@@ -31,7 +31,37 @@ filter_activity <- function(eventlog,
 					   case_id = case_id(eventlog),
 					   timestamp =timestamp(eventlog),
 					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog))
+					   activity_instance_id = activity_instance_id(eventlog),
+					   resource_id = resource_id(eventlog))
 
 	return(output)
+}
+
+
+#' @rdname filter_activity
+#' @export ifilter_activity
+ifilter_activity <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter activities"),
+		miniContentPanel(
+			fillRow(flex = c(10,1,8),
+				selectizeInput("selected_activities", label = "Select activities:", choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+							   	unique %>% sort, selected = NA,  multiple = T), " ",
+				radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			filtered_log <- filter_activity(eventlog, activities = input$selected_activities, reverse = ifelse(input$reverse == "Yes", T, F))
+
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Activities", height = 400))
+
 }

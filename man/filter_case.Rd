@@ -2,9 +2,12 @@
 % Please edit documentation in R/filter_case.R
 \name{filter_case}
 \alias{filter_case}
+\alias{ifilter_case}
 \title{Filter: Case}
 \usage{
 filter_case(eventlog, cases = NULL, reverse = F)
+
+ifilter_case(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -17,4 +20,3 @@ filter_case(eventlog, cases = NULL, reverse = F)
 \description{
 Filters the log based on case identifier
 }
-

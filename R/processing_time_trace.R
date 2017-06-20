@@ -18,7 +18,11 @@ processing_time_trace <- function(eventlog,
 	ca <- cases_light(eventlog)
 
 	r <- merge(ca,e, by = case_classifier) %>%
-		select(trace, tot_dur) %>%
+		select(trace, tot_dur)
+
+	raw <- r
+
+	r %>%
 		group_by(trace) %>%
 		summarize(relative_frequency = n(),
 				  min = min(tot_dur),
@@ -32,6 +36,8 @@ processing_time_trace <- function(eventlog,
 				  tot = sum(tot_dur)) %>%
 		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
 		arrange(desc(relative_frequency))
+
+	attr(r, "raw") <- raw
 
 	return(r)
 

@@ -17,4 +17,3 @@ number_of_repetitions(eventlog, type, level_of_analysis)
 \description{
 Provides summuary statistics on the number of repetitions, at the level of activity types, traces, cases and the eventlog.
 }
-

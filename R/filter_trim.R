@@ -70,7 +70,50 @@ filter_trim <- function(eventlog,
 						 case_id = case_id(eventlog),
 						 activity_instance_id = activity_instance_id(eventlog),
 						 lifecycle_id = lifecycle_id(eventlog),
-						 timestamp = timestamp(eventlog))
+						 timestamp = timestamp(eventlog),
+						 resource_id = resource_id(eventlog))
 
 	return(eventlog)
 }
+
+#' @rdname filter_trim
+#' @export ifilter_trim
+#'
+#'
+ifilter_trim <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Trim cases"),
+		miniContentPanel(
+			fillCol(flex = c(5,3,2),
+					fillRow(flex = c(10,1,10),
+							selectizeInput("start", label = "Select start activities:",
+										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   	unique %>% sort, selected = NA,  multiple = T), " ",
+							selectizeInput("end", label = "Select end activities:",
+										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   	unique %>% sort, selected = NA,  multiple = T)),
+					fillRow(
+						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
+					"Trim all cases from the first event of a set of start activities to the last event of a set of end activities. Traces that do not have at least one event of both sets are discarded."			)
+
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			filtered_log <- filter_trim(eventlog,
+											  start_activities = input$start,
+											  end_activities = input$end,
+											  reverse = ifelse(input$reverse == "Yes", T, F))
+
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Trim cases", height = 400))
+
+}
+
+

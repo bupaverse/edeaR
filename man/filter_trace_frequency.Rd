@@ -2,10 +2,13 @@
 % Please edit documentation in R/filter_trace_frequency.R
 \name{filter_trace_frequency}
 \alias{filter_trace_frequency}
+\alias{ifilter_trace_frequency}
 \title{Filter: Trace frequency percentile}
 \usage{
 filter_trace_frequency(eventlog, lower_threshold = NULL,
   upper_threshold = NULL, percentile_cut_off = NULL, reverse = F)
+
+ifilter_trace_frequency(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -26,4 +29,3 @@ When \code{reverse} is set to TRUE, it will return the least common traces, acoo
 \description{
 Filters the log based the frequency of traces, using an upper and lower threshold or a percentile cut off.
 }
-

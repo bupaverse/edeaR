@@ -2,10 +2,14 @@
 % Please edit documentation in R/filter_precedence.R
 \name{filter_precedence}
 \alias{filter_precedence}
+\alias{ifilter_precedence}
 \title{Filter: precedence relations}
 \usage{
-filter_precedence(eventlog, antecedents, consequents, precedence_type,
-  filter_method, reverse = F)
+filter_precedence(eventlog, antecedents, consequents,
+  precedence_type = c("directly_follows", "eventually_follows"),
+  filter_method = c("each", "one_of"), reverse = F)
+
+ifilter_precedence(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -25,4 +29,3 @@ at least one of the conditions hold are preserved.}
 Filters cases based on the precedence relations between two sets of activities: antecedents and consequent.
 The filter can detect directly following activities as well as eventually following activites.
 }
-

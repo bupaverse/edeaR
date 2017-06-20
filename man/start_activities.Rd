@@ -4,7 +4,8 @@
 \alias{start_activities}
 \title{Metric: Start activities}
 \usage{
-start_activities(eventlog, level_of_analysis)
+start_activities(eventlog, level_of_analysis = c("log", "case", "activity",
+  "resource", "resource-activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -18,4 +19,3 @@ At activity level, shows the activities which occur as first, and how often.
 The first event in a case is the one which started the first.
 #'
 }
-

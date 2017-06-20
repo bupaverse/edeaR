@@ -14,7 +14,7 @@
 #'
 filter_activity_frequency <- function(eventlog,
 									 percentile_cut_off = 0.8,
-									 reverse = F){
+									 reverse = F) {
 	stop_eventlog(eventlog)
 
 	act_freq <- activities(eventlog) %>%
@@ -42,7 +42,41 @@ filter_activity_frequency <- function(eventlog,
 					   case_id = case_id(eventlog),
 					   timestamp =timestamp(eventlog),
 					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog))
+					   activity_instance_id = activity_instance_id(eventlog),
+					   resource_id = resource_id(eventlog))
 
 	return(output)
+}
+
+
+#' @rdname filter_activity_frequency
+#' @export ifilter_activity_frequency
+ifilter_activity_frequency <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter activities based on frequency"),
+		miniContentPanel(
+			fillCol(flex = c(2,1),
+				fillRow(flex = c(10,1,8),
+			sliderInput("percentile_cut_off", "Cumulative Percentile Cut-off", 0, 100, value = 80),
+			" ",
+			radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+			),
+			"A percentile of 0.9 will return the most common activity types of the eventlog, which account for 90% of the events."
+		))
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			filtered_log <- filter_activity_frequency(eventlog,
+													  percentile_cut_off = input$percentile_cut_off/100,
+													  reverse = ifelse(input$reverse == "Yes", T, F))
+
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter activities based on frequency", height = 400))
+
 }

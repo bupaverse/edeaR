@@ -2,10 +2,13 @@
 % Please edit documentation in R/filter_trim.R
 \name{filter_trim}
 \alias{filter_trim}
+\alias{ifilter_trim}
 \title{Filter: Trim cases}
 \usage{
 filter_trim(eventlog, start_activities = NULL, end_activities = NULL,
   reverse = F)
+
+ifilter_trim(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -21,4 +24,3 @@ filter_trim(eventlog, start_activities = NULL, end_activities = NULL,
 Trim all cases from the first event of a set of start activities to the last event of a set of end activities.
 Traces that don't have at least one event of both sets are discarded.
 }
-

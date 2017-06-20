@@ -11,19 +11,23 @@
 #' @export trace_length
 
 trace_length <- function(eventlog,
-						 level_of_analysis) {
+						 level_of_analysis = c("trace","case","log")) {
 
 	stop_eventlog(eventlog)
-
-
-	if(!(level_of_analysis %in% c("log","case","trace")))
-		stop("Level of analysis should be one of the following: log, case, trace.")
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(level_of_analysis == "trace")
-		return(trace_length_trace(eventlog = eventlog))
+		output <- trace_length_trace(eventlog = eventlog)
 	else if (level_of_analysis == "case")
-		return(trace_length_case(eventlog = eventlog))
+		output <- trace_length_case(eventlog = eventlog)
 	else
-		return(trace_length_log(eventlog = eventlog))
+		output <- trace_length_log(eventlog = eventlog)
+
+
+	class(output) <- c("trace_length", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+
+	return(output)
 
 }

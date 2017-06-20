@@ -44,3 +44,66 @@ filter_endpoints <- function(eventlog,
 									 end_activities = end_activities,
 									 reverse = reverse))
 }
+#' @rdname filter_endpoints
+#' @export ifilter_endpoints
+#'
+
+ifilter_endpoints <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter End Points"),
+		miniContentPanel(
+			fillCol(flex = c(3,8),
+					fillRow(
+						radioButtons("filter_type", "Filter type:", choices = c("Select from list" = "list", "Use percentile cutoff" = "percentile")),
+						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+					),
+					uiOutput("filter_ui")
+					)
+		)
+	)
+
+	server <- function(input, output, session){
+
+		output$filter_ui <- renderUI({
+			if(input$filter_type == "list") {
+				fillRow(flex = c(8,1,8),
+					selectizeInput("start", label = "Select start activities:",
+								   choices = eventlog %>%
+								   	start_activities_activity %>%
+								   	pull(!!as.symbol(activity_id(eventlog))) %>%
+								   	unique, selected = NA,  multiple = T), " ",
+					selectizeInput("end", label = "Select end activities:",
+								   choices = eventlog %>%
+								   	end_activities_activity %>%
+								   	pull(!!as.symbol(activity_id(eventlog))) %>%
+								   	unique, selected = NA,  multiple = T)
+				) %>% return()
+			}
+			else if(input$filter_type == "percentile") {
+				sliderInput("percentile_slider", "Percentile cut off:", min = 0, max = 100, value = 80) %>% return()
+			}
+		})
+
+
+
+		observeEvent(input$done, {
+			if(input$filter_type == "list")
+				filtered_log <- filter_endpoints(eventlog,
+												 start_activities = input$start,
+												 end_activities = input$end,
+												 reverse = ifelse(input$reverse == "Yes", T, F))
+			else if(input$filter_type == "percentile") {
+				filtered_log <- filter_endpoints(eventlog,
+												percentile_cut_off = input$percentile_slider/100,
+												 reverse = ifelse(input$reverse == "Yes", T, F))
+			}
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter End Points", height = 400))
+
+}
+
+

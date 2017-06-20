@@ -11,19 +11,25 @@
 #' @export resource_specialisation
 
 
-resource_specialisation <- function(eventlog, level_of_analysis) {
+resource_specialisation <- function(eventlog, level_of_analysis = c("log","case","resource","activity")) {
 	stop_eventlog(eventlog)
 
-
-	if(!(level_of_analysis %in% c("log","case", "resource", "activity")))
-		stop("Level of analysis should be one of the following: log, case, activity, resource")
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(level_of_analysis == "log")
-		return(resource_specialisation_log(eventlog = eventlog))
+		output <- resource_specialisation_log(eventlog = eventlog)
 	else if(level_of_analysis == "case")
-		return(resource_specialisation_case(eventlog = eventlog))
+		output <- resource_specialisation_case(eventlog = eventlog)
 	else if(level_of_analysis == "activity")
-		return(resource_specialisation_activity(eventlog = eventlog))
+		output <- resource_specialisation_activity(eventlog = eventlog)
 	else
-		return(resource_specialisation_resource(eventlog = eventlog))
+		output <- resource_specialisation_resource(eventlog = eventlog)
+
+
+
+	class(output) <- c("resource_specialisation", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+
+	return(output)
 }

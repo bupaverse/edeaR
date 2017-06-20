@@ -8,26 +8,37 @@
 #'
 #' @param level_of_analysis At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.
 #'
-#' @param include_zeros At the resource-activity level, included pairs which do not occur.
+#' @param include_zeros At the resource-activity level, include pairs which do not occur.
 #'
 #' @export resource_frequency
 
 
-resource_frequency <- function(eventlog, level_of_analysis, include_zeros = F) {
+resource_frequency <- function(eventlog, level_of_analysis = c("log","case","activity","resource","resource-activity"),
+							   include_zeros = F) {
 	stop_eventlog(eventlog)
 
-
-	if(!(level_of_analysis %in% c("log","case", "activity","resource","resource-activity")))
-		stop("Level of analysis should be one of the following: log, case, activity, resource, resource-activity.")
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(level_of_analysis == "log")
-		return(resource_frequency_log(eventlog = eventlog))
+		output <- resource_frequency_log(eventlog = eventlog)
 	else if(level_of_analysis == "case")
-		return(resource_frequency_case(eventlog = eventlog))
+		output <- resource_frequency_case(eventlog = eventlog)
 	else if(level_of_analysis == "activity")
-		return(resource_frequency_activity(eventlog = eventlog))
+		output <- resource_frequency_activity(eventlog = eventlog)
 	else if(level_of_analysis == "resource")
-		return(resource_frequency_resource(eventlog = eventlog))
+		output <- resource_frequency_resource(eventlog = eventlog)
 	else
-		return(suppressWarnings(resource_frequency_resource_activity(eventlog = eventlog, include_zeros = include_zeros)))
+		output <- suppressWarnings(resource_frequency_resource_activity(eventlog = eventlog, include_zeros = include_zeros))
+
+
+	class(output) <- c("resource_frequency", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "units") <- units
+
+	return(output)
+
+
+
+
 }

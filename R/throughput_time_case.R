@@ -12,7 +12,7 @@ throughput_time_case <- function(eventlog, units = "days") {
 		group_by(case_classifier) %>%
 		summarize(min = min(timestamp_classifier),
 				  max = max(timestamp_classifier)) %>%
-		mutate(throughput_time = as.double(max - min, units = "days")) %>%
+		mutate(throughput_time = as.double(max - min, units = units)) %>%
 		arrange(-throughput_time)
 
 	colnames(e)[colnames(e) == "case_classifier"] <- case_id(eventlog)

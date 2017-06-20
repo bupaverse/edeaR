@@ -4,7 +4,8 @@
 \alias{resource_specialisation}
 \title{Metric: Resource Specialisation}
 \usage{
-resource_specialisation(eventlog, level_of_analysis)
+resource_specialisation(eventlog, level_of_analysis = c("log", "case",
+  "resource", "activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -15,4 +16,3 @@ resource_specialisation(eventlog, level_of_analysis)
 \description{
 Analyses whether resources specialise in specific activities
 }
-

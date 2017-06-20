@@ -1,7 +1,6 @@
 
 processing_time_activity <- function(eventlog,
-									 units,
-									 raw) {
+									 units) {
 	stop_eventlog(eventlog)
 
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
@@ -13,11 +12,9 @@ processing_time_activity <- function(eventlog,
 		summarize(s = min(timestamp_classifier), e = max(timestamp_classifier)) %>%
 		mutate(processing_time = as.double(e - s, units = units))
 
-	if(raw == T) {
-		return(r)
-	}
-	else {
-		r <- r %>%
+
+	raw <- r
+			r <- r %>%
 			summarize(relative_frequency = n(),
 					  min = min(processing_time),
 					  q1 = quantile(processing_time, probs = c(0.25)),
@@ -31,6 +28,8 @@ processing_time_activity <- function(eventlog,
 			mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
 			arrange(desc(relative_frequency))
 
+		attr(r, "raw") <- raw
+
 		return(r)
-	}
+
 }

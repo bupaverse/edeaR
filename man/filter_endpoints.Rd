@@ -2,10 +2,13 @@
 % Please edit documentation in R/filter_endpoints.R
 \name{filter_endpoints}
 \alias{filter_endpoints}
+\alias{ifilter_endpoints}
 \title{Filter: Filter based on percentile of start and end activities}
 \usage{
 filter_endpoints(eventlog, start_activities = NULL, end_activities = NULL,
   percentile_cut_off = NULL, reverse = F)
+
+ifilter_endpoints(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -24,4 +27,3 @@ When \code{reverse} is set to TRUE, it will return the 10\% cases with the least
 \description{
 Filters the log based on a provided set of start and end activities
 }
-

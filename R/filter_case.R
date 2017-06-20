@@ -30,3 +30,32 @@ filter_case <- function(eventlog,
 
 	return(output)
 }
+
+
+#' @rdname filter_case
+#' @export ifilter_case
+
+ifilter_case <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter Cases"),
+		miniContentPanel(
+			fillRow(flex = c(10,1,8),
+					selectizeInput("selected_cases", label = "Select cases:", choices = eventlog %>% pull(!!as.symbol(case_id(eventlog))) %>%
+								   	unique, selected = NA,  multiple = T), " ",
+					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			filtered_log <- filter_case(eventlog, cases = input$selected_cases, reverse = ifelse(input$reverse == "Yes", T, F))
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Cases", height = 400))
+
+}

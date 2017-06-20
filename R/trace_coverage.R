@@ -18,17 +18,22 @@
 #' @export trace_coverage
 
 
-trace_coverage <- function(eventlog, level_of_analysis, threshold = NULL) {
+trace_coverage <- function(eventlog, level_of_analysis = c("log","trace","case"), threshold = NULL) {
 	stop_eventlog(eventlog)
 
-
-	if(!(level_of_analysis %in% c("log","trace", "case")))
-		stop("Level of analysis should be one of the following: log, case, trace.")
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(level_of_analysis == "trace")
-		return(trace_coverage_trace(eventlog = eventlog))
+		output <- trace_coverage_trace(eventlog = eventlog)
 	else if(level_of_analysis == "case")
-		return(trace_coverage_case(eventlog = eventlog))
+		output <- trace_coverage_case(eventlog = eventlog)
 	else
-		return(trace_coverage_log(eventlog = eventlog, threshold = threshold))
+		output <- trace_coverage_log(eventlog = eventlog, threshold = threshold)
+
+
+	class(output) <- c("trace_coverage", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+
+	return(output)
 }

@@ -13,4 +13,3 @@ redo_selfloops_referral_matrix(eventlog)
 \description{
 Provides a list of initatiors and completers of  redo selfloops
 }
-

@@ -39,7 +39,7 @@ repeat_selfloops <- function(eventlog) {
 				  nr_of_resources = n_distinct(resource_classifier),
 				  resource_classifier = first(resource_classifier)) -> r
 
-		r <- r[r$nr_of_resources == 1 & r$t_length > 1, ]
+	r <- r[r$nr_of_resources == 1 & r$t_length > 1, ]
 
 	r %>%
 		mutate(length = t_length - 1) %>%
@@ -72,7 +72,7 @@ redo_selfloops <- function(eventlog) {
 				  first_resource = first(resource_classifier),
 				  last_resource = last(resource_classifier)) -> r
 
-	r <- r[r$t_length > 1 & nr_of_resources > 1, ]
+	r <- r[r$t_length > 1 & r$nr_of_resources > 1, ]
 
 	r %>%
 		mutate(length = t_length - 1) %>%
@@ -162,37 +162,37 @@ repeat_selfloops_log <- function(eventlog) {
 	eventlog %>%
 		repeat_selfloops_case -> r
 
-	summary_statistics(r$absolute) %>%
-		return()
+	output <- summary_statistics(r$absolute)
+
+	attr(output, "raw") <- r
+	return(output)
 }
 repeat_selfloops_size_log <- function(eventlog, raw) {
 	eventlog %>%
 		repeat_selfloops -> r
 
-	if(raw == T)
-		return(r)
-	else{
-	summary_statistics(r$length) %>%
-		return
-	}
+
+	output <- summary_statistics(r$length)
+	attr(output, "raw") <- r
+	return(output)
+
 }
 redo_selfloops_log <- function(eventlog) {
 	eventlog %>%
 		redo_selfloops_case -> r
 
-	summary_statistics(r$absolute) %>%
-		return()
+	output <- summary_statistics(r$absolute)
+	attr(output, "raw") <- r
+	return(output)
 }
 redo_selfloops_size_log <- function(eventlog, raw) {
 	eventlog %>%
 		redo_selfloops -> r
 
-	if(raw == T)
-		return(r)
-	else{
-		summary_statistics(r$length) %>%
-			return
-	}
+	output <- summary_statistics(r$length)
+	attr(output, "raw") <- r
+	return(output)
+
 }
 
 repeat_selfloops_activity <- function(eventlog) {

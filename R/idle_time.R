@@ -7,22 +7,31 @@
 #'
 #' @param level_of_analysis At which level the analysis of activity type frequency should be performed: log, trace, case, resource.
 #'
+#' @param units Time units to be used
+#'
 #' @export idle_time
 
 idle_time <- function(eventlog,
-							   level_of_analysis,
-							  	units = "days") {
+							   level_of_analysis = c("trace","resource","case","log"),
+							  	units = c("hours","days", "weeks","mins")) {
 	stop_eventlog(eventlog)
-
-	if(!(level_of_analysis %in% c("trace", "resource","case", "log")))
-		stop("Level of analysis should be one of the following: log,  trace, case, resource")
+	level_of_analysis <- match.arg(level_of_analysis)
+	units <- match.arg(units)
 
 	if (level_of_analysis == "trace")
-		return(idle_time_trace(eventlog, units = units))
+		output <- idle_time_trace(eventlog, units = units)
 	else if (level_of_analysis == "case")
-		return(idle_time_case(eventlog, units = units))
+		output <- idle_time_case(eventlog, units = units)
 	else if(level_of_analysis == "resource")
-		return(idle_time_resource(eventlog, units = units))
+		output <- idle_time_resource(eventlog, units = units)
 	else if (level_of_analysis == "log")
-		return(idle_time_log(eventlog, units = units))
+		output <- idle_time_log(eventlog, units = units)
+
+
+	class(output) <- c("idle_time", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "units") <- units
+
+	return(output)
 }

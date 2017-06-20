@@ -17,12 +17,12 @@ filter_trace_frequency_threshold <- function(eventlog,
 
 	if(reverse == F)
 		case_selection <- merge(cases_light(eventlog),
-								trace_frequency(eventlog) %>%
+								trace_coverage(eventlog, "trace") %>%
 									filter(absolute >= lower_threshold,
 										   absolute <= upper_threshold))
 	else
 		case_selection <- merge(cases_light(eventlog),
-								trace_frequency(eventlog) %>%
+								trace_coverage(eventlog, "trace") %>%
 									filter(absolute < lower_threshold |
 										   absolute > upper_threshold))
 

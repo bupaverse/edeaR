@@ -2,9 +2,12 @@
 % Please edit documentation in R/filter_activity.R
 \name{filter_activity}
 \alias{filter_activity}
+\alias{ifilter_activity}
 \title{Filter: Activity}
 \usage{
 filter_activity(eventlog, activities = NULL, reverse = F)
+
+ifilter_activity(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -17,4 +20,3 @@ filter_activity(eventlog, activities = NULL, reverse = F)
 \description{
 Filters the log based on activities
 }
-

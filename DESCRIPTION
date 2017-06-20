@@ -1,22 +1,17 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.4.7
-Date: 2016-11-13
+Version: 0.6.0
+Date: 2017-06-18
 Author: Gert Janssenswillen [aut, cre], Marijke Swennen [ctb]
 Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
-Description: Functions for exploratory and descriptive analysis of event based
-    data. Can be used to import and export Xes-files, the IEEE eXtensible Event
-    Stream standard (see <http://standards.ieee.org/findstds/standard/1849-2016.html> for more info). Provides methods for describing and selecting process data,
-    and for preparing event log data for process mining.
-License: GPL-3
+Description: Functions for exploratory and descriptive analysis of event based data. Provides methods for describing and selecting process data, and for preparing event log data for process mining. Builds on the S3-class for event logs implemented in the package 'bupaR'.
+License: MIT + file LICENSE
 Depends:
     R(>= 3.0.0)
 Imports:
-    dplyr,ggplot2,lubridate,tidyr,XML, xml2,data.table, magrittr
+    bupaR,dplyr,XML, xml2,data.table, ggplot2, ggthemes, glue, tibble, shiny, miniUI, tidyr, shinyTime, lubridate
 LazyData: true
-Suggests:
-    knitr,
-    rmarkdown
-VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
+URL: http://www.bupar.net
+

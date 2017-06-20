@@ -12,21 +12,15 @@
 
 
 number_of_selfloops <- function(eventlog,
-								type,
-								level_of_analysis) {
+								type = c("repeat","redo"),
+								level_of_analysis = c("log","case","activity","resource","resource-activity")) {
 
 	stop_eventlog(eventlog)
-
-	if(!(type %in% c("repeat","redo")))
-		stop("Type should be \"repeat\" or \"redo\"")
-
-	if(!(level_of_analysis %in% c("activity","case","log", "resource","resource-activity")))
-		stop("Level of analysis should be one of the following: activity, case, log, resource, resource-activity.")
-
-
+	type <- match.arg(type)
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(type == "repeat") {
-		switch(level_of_analysis,
+		output <- switch(level_of_analysis,
 			   log = repeat_selfloops_log(eventlog),
 			   case = repeat_selfloops_case(eventlog),
 			   activity = repeat_selfloops_activity(eventlog),
@@ -35,7 +29,7 @@ number_of_selfloops <- function(eventlog,
 		)
 	}
 	else if (type == "redo") {
-		switch(level_of_analysis,
+		output <- switch(level_of_analysis,
 			   log = redo_selfloops_log(eventlog),
 			   case = redo_selfloops_case(eventlog),
 			   activity = redo_selfloops_activity(eventlog),
@@ -43,5 +37,12 @@ number_of_selfloops <- function(eventlog,
 			  "resource-activity" = redo_selfloops_resource_activity(eventlog)
 		)
 
+		class(output) <- c("number_of_selfloops", class(output))
+		attr(output, "level") <- level_of_analysis
+		attr(output, "mapping") <- mapping(eventlog)
+		attr(output, "type") <- type
+
+
+		return(output)
 	}
 }

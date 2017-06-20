@@ -2,10 +2,13 @@
 % Please edit documentation in R/filter_trace_length.R
 \name{filter_trace_length}
 \alias{filter_trace_length}
+\alias{ifilter_trace_length}
 \title{Filter: Trace length percentile}
 \usage{
 filter_trace_length(eventlog, lower_threshold = NULL,
   upper_threshold = NULL, percentile_cut_off = NULL, reverse = F)
+
+ifilter_trace_length(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -26,4 +29,3 @@ When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
 \description{
 Filters cases on length, using a percentile threshold.
 }
-

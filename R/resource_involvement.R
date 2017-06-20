@@ -9,20 +9,25 @@
 #'
 #' @export resource_involvement
 
-resource_involvement <- function(eventlog, level_of_analysis) {
+resource_involvement <- function(eventlog, level_of_analysis = c("case","resource","resource-activity")) {
 
 	stop_eventlog(eventlog)
 
+	level_of_analysis <- match.arg(level_of_analysis)
 
-	if(!(level_of_analysis %in% c("case","resource","resource-activity")))
-		stop("Level of analysis should be one of the following: case, resource, resource-activity.")
 
 
 	if(level_of_analysis == "resource")
-		return(resource_involvement_resource(eventlog = eventlog))
+		output <- resource_involvement_resource(eventlog = eventlog)
 	else if(level_of_analysis == "case")
-		return(resource_involvement_case(eventlog = eventlog))
+		output <- resource_involvement_case(eventlog = eventlog)
 	else
-		return(resource_involvement_resource_activity(eventlog = eventlog))
+		output <- resource_involvement_resource_activity(eventlog = eventlog)
 
+	class(output) <- c("resource_involvement", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "units") <- units
+
+	return(output)
 }

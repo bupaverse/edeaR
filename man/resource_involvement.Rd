@@ -4,7 +4,8 @@
 \alias{resource_involvement}
 \title{Metric: Resource Involvement}
 \usage{
-resource_involvement(eventlog, level_of_analysis)
+resource_involvement(eventlog, level_of_analysis = c("case", "resource",
+  "resource-activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -15,4 +16,3 @@ resource_involvement(eventlog, level_of_analysis)
 \description{
 Calculates for each resource/resource-activity in what percentage of cases it is present.
 }
-

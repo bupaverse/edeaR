@@ -2,11 +2,14 @@
 % Please edit documentation in R/filter_processing_time.R
 \name{filter_processing_time}
 \alias{filter_processing_time}
+\alias{ifilter_processing_time}
 \title{Filter: Processing Time}
 \usage{
 filter_processing_time(eventlog, lower_threshold = NULL,
   upper_threshold = NULL, percentile_cut_off = NULL, reverse = F,
   units = "days")
+
+ifilter_processing_time(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -29,4 +32,3 @@ When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
 \description{
 Filters cases based on their processing time.
 }
-

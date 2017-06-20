@@ -19,4 +19,3 @@ Provides summary statistics concerning the throughput times of cases.
 The throughput time of cases is defined as the time between the start of the first event and the completion of the last event.
 Can be performed at the level of the log as well as the level of traces and cases.
 }
-

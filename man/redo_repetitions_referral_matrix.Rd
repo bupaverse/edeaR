@@ -13,4 +13,3 @@ redo_repetitions_referral_matrix(eventlog)
 \description{
 Provides a list of initatiors and completers of  redo repetitons
 }
-

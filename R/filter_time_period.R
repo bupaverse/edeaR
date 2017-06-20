@@ -16,17 +16,12 @@
 filter_time_period <- function(eventlog,
 							   start_point,
 							   end_point,
-							   filter_method = "contained",
+							   filter_method = c("contained","intersecting","start","complete","trim"),
 							   reverse = FALSE)
 {
 	stop_eventlog(eventlog)
 
-	if(!(filter_method %in% c("contained","intersecting","start","complete","trim"))){
-		stop(paste("Filter_method",
-				   filter_method,
-				   "non-valid. Should be one of: contained, intersecting, start, complete, trim.", sep = " "))
-	}
-
+	filter_method <- match.arg(filter_method)
 
 
 	if(!("POSIXct" %in% class(start_point))) {
@@ -74,10 +69,10 @@ filter_time_period <- function(eventlog,
 
 		if(reverse == FALSE)
 			f_eventlog <- filter(e, start >= start_point &
-							   	complete <= end_point)
+								 	complete <= end_point)
 		else
 			f_eventlog <- filter(e, !(start >= start_point &
-							   	complete <= end_point))
+									  	complete <= end_point))
 
 
 		output <- filter(eventlog, activity_instance_classifier %in% f_eventlog$activity_instance_classifier)
@@ -108,5 +103,56 @@ filter_time_period <- function(eventlog,
 					case_id = case_id(eventlog),
 					timestamp =timestamp(eventlog),
 					lifecycle_id = lifecycle_id(eventlog),
-					activity_instance_id = activity_instance_id(eventlog)))
+					activity_instance_id = activity_instance_id(eventlog),
+					resource_id = resource_id(eventlog)))
 }
+
+
+
+#' @rdname filter_time_period
+#' @export ifilter_time_period
+ifilter_time_period <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter time period"),
+		miniContentPanel(
+			fillRow(flex = c(3,3,3),
+					fillCol(
+						dateInput("start_date", "Start Date", value = as.Date(min(eventlog %>% pull(!!timestamp(eventlog))))),
+						timeInput("start_time", "Start Time")
+					),
+					fillCol(
+						dateInput("end_date", "End Date", value = as.Date(max(eventlog %>% pull(!!timestamp(eventlog))))),
+						timeInput("end_time", "End Time")
+					)
+			),
+			fillRow(
+				radioButtons("method", "Filter method: ", choices = c("contained","intersecting","start","complete","trim"), selected = "contained"),
+				radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+			print(input$start_date)
+			print(input$start_time)
+			print(input$end_date)
+			print(input$end_time)
+			start_date <- ymd_hms(paste(as.character(input$start_date), strftime(input$start_time, "%T")))
+			end_date <- ymd_hms(paste(as.character(input$end_date), strftime(input$end_time, "%T")))
+			print(start_date)
+			print(end_date)
+
+			filtered_log <- filter_time_period(eventlog, start_point = start_date,
+											   end_point = end_date,filter_method = input$method,
+											   reverse = ifelse(input$reverse == "Yes", T, F))
+
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Time Period", height = 600))
+
+}
+

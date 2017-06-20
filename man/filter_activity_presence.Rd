@@ -2,9 +2,13 @@
 % Please edit documentation in R/filter_activity_presence.R
 \name{filter_activity_presence}
 \alias{filter_activity_presence}
+\alias{ifilter_activity_presence}
 \title{Filter: Activity Presence}
 \usage{
-filter_activity_presence(eventlog, activities = NULL, method = "all")
+filter_activity_presence(eventlog, activities = NULL, method = c("all",
+  "one_of", "none"))
+
+ifilter_activity_presence(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -12,9 +16,8 @@ filter_activity_presence(eventlog, activities = NULL, method = "all")
 
 \item{activities}{A vector of activities to withhold.}
 
-\item{method}{Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none",}
+\item{method}{Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.}
 }
 \description{
 Filters cases based on the presence (or absence) of activities
 }
-

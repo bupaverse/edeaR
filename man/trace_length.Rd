@@ -4,7 +4,7 @@
 \alias{trace_length}
 \title{Metric: Trace length}
 \usage{
-trace_length(eventlog, level_of_analysis)
+trace_length(eventlog, level_of_analysis = c("trace", "case", "log"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -16,4 +16,3 @@ trace_length(eventlog, level_of_analysis)
 Computes the length of each trace, in terms of the number of events, at the level of the eventlog or the level of a trace.
 The relative numbers at trace level measure trace length compared to the average trace length of the top 80% cases, approximately.
 }
-

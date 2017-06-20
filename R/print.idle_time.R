@@ -1,0 +1,22 @@
+#' @title Idle Time Print
+#'
+#' @description  Print idle time Information
+#' @param x Data to print
+#' @param ... Additional arguments
+#' @method print idle_time
+
+#' @export
+
+print.idle_time <- function(x, ...) {
+	data <- x
+
+	if(attr(data, "level") == "log") {
+		attr(data, "raw") <- NULL
+		attr(data, "level") <- NULL
+		attr(data, "mapping") <- NULL
+		print.default(data)
+	}
+	else {
+		print(tibble::trunc_mat(data))
+	}
+}

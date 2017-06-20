@@ -20,4 +20,3 @@ size_of_repetitions(eventlog, type, level_of_analysis, raw = F)
 Provides summary statistics on the sizes of repetitions at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
 of that activity type.
 }
-

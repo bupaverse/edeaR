@@ -25,10 +25,17 @@ throughput_time <- function(eventlog,
 		stop("Level of analysis should be one of the following: log, trace, case.")
 
 	if(level_of_analysis == "trace")
-		return(throughput_time_trace(eventlog = eventlog, units = units))
+		output <- throughput_time_trace(eventlog = eventlog, units = units)
 	else if(level_of_analysis == "case")
-		return(throughput_time_case(eventlog = eventlog, units = units))
+		output <- throughput_time_case(eventlog = eventlog, units = units)
 	else
-		return(throughput_time_log(eventlog = eventlog, units = units))
+		output <- throughput_time_log(eventlog = eventlog, units = units)
 
+
+	class(output) <- c("throughput_time", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "units") <- units
+
+	return(output)
 }

@@ -51,3 +51,57 @@ filter_throughput_time <- function(eventlog,
 												reverse = reverse,
 												units = units))
 }
+
+#' @rdname filter_throughput_time
+#' @export ifilter_throughput_time
+
+ifilter_throughput_time <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter Througput Time"),
+		miniContentPanel(
+			fillCol(
+				fillRow(
+					radioButtons("filter_type", "Filter type:", choices = c("Interval" = "int", "Use percentile cutoff" = "percentile")),
+					radioButtons("units", "Time units: ", choices = c("weeks","days","hours","mins"), selected = "hours"),
+					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+				),
+				uiOutput("filter_ui")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+
+		output$filter_ui <- renderUI({
+			if(input$filter_type == "int") {
+				sliderInput("interval_slider", "Throguhput time interval",
+							min = 0, max = max(eventlog %>% throughput_time("case", units = input$units) %>% pull(throughput_time)), value = c(0,1))
+
+			}
+			else if(input$filter_type == "percentile") {
+				sliderInput("percentile_slider", "Percentile cut off:", min = 0, max = 100, value = 80)
+			}
+		})
+
+		observeEvent(input$done, {
+			if(input$filter_type == "int")
+				filtered_log <- filter_throughput_time(eventlog,
+													   lower_threshold = input$interval_slider[1],
+													   upper_threshold = input$interval_slider[2],
+													   reverse = ifelse(input$reverse == "Yes", T, F),
+													   units = input$units)
+			else if(input$filter_type == "percentile") {
+				filtered_log <- filter_throughput_time(eventlog,
+													   percentile_cut_off = input$percentile_slider/100,
+													   reverse = ifelse(input$reverse == "Yes", T, F),
+													   units = input$units)
+			}
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Througput Time", height = 400))
+
+}
+

@@ -14,20 +14,26 @@
 
 
 end_activities <- function(eventlog,
-						   level_of_analysis) {
+						   level_of_analysis = c("log","case","activity","resource","resource-activity")) {
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log", "case", "activity", "resource", "resource-activity")))
-		stop("Level of analysis should be one of the following: log, case, activity, resource, resource-activity.")
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if (level_of_analysis == "log")
-		return(end_activities_log(eventlog = eventlog))
+		output <- end_activities_log(eventlog = eventlog)
 	else if (level_of_analysis == "case")
-		return(end_activities_case(eventlog = eventlog))
+		output <- end_activities_case(eventlog = eventlog)
 	else if (level_of_analysis == "activity")
-		return(end_activities_activity(eventlog = eventlog))
+		output <- end_activities_activity(eventlog = eventlog)
 	else if(level_of_analysis == "resource")
-		return(end_activities_resource(eventlog = eventlog))
+		output <- end_activities_resource(eventlog = eventlog)
 	else
-		return(end_activities_resource_activity(eventlog = eventlog))
+		output <- end_activities_resource_activity(eventlog = eventlog)
+
+
+	class(output) <- c("end_activities", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+
+	return(output)
 }

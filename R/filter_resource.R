@@ -30,3 +30,32 @@ filter_resource <- function(eventlog,
 
 	return(output)
 }
+
+
+#' @rdname filter_resource
+#' @export ifilter_resource
+ifilter_resource <- function(eventlog) {
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter Resources"),
+		miniContentPanel(
+			fillRow(flex = c(10,1,8),
+					selectizeInput("selected_resources", label = "Select resources:", choices = eventlog %>% pull(!!as.symbol(resource_id(eventlog))) %>%
+								   	unique %>% sort, selected = NA,  multiple = T), " ",
+					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			filtered_log <- filter_resource(eventlog, resources = input$selected_resources, reverse = ifelse(input$reverse == "Yes", T, F))
+
+
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Resources", height = 400))
+
+}

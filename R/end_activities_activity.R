@@ -1,14 +1,10 @@
 
 end_activities_activity <- function(eventlog) {
 
-	stop_eventlog(eventlog)
-
 	eventlog %>%
-		rename_("event_classifier" = activity_id(eventlog),
-				"timestamp_classifier" = timestamp(eventlog)) %>%
-		group_by_(case_id(eventlog)) %>%
-		arrange(timestamp_classifier) %>%
-		summarize(last_event = last(event_classifier)) %>%
+		group_by(!!as.symbol(case_id(eventlog))) %>%
+		arrange(!!as.symbol(timestamp(eventlog))) %>%
+		summarize(last_event = last(!!as.symbol(activity_id(eventlog)))) %>%
 		group_by(last_event) %>%
 		summarize(absolute = n()) %>%
 		ungroup() %>%

@@ -14,4 +14,3 @@ number_of_traces(eventlog)
 Computes how many traces there are. The result is returned as absolute number as well as a relative number.
 The relative number refers to the number of traces per 100 cases.
 }
-

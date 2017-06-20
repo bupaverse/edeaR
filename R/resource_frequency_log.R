@@ -11,5 +11,7 @@ resource_frequency_log <- function(eventlog) {
 
 	s <- summary_statistics(r$freq)
 
+	attr(s, "raw") <- r
+
 	return(s)
 }

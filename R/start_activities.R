@@ -12,21 +12,28 @@
 #'@export start_activities
 
 start_activities <- function(eventlog,
-							 level_of_analysis) {
+							 level_of_analysis = c("log","case","activity","resource","resource-activity")) {
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log", "case", "activity", "resource", "resource-activity")))
-		stop("Level of analysis should be one of the following: log, case, activity, resource, resource-activity.")
-
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if (level_of_analysis == "log")
-		return(start_activities_log(eventlog = eventlog))
+		output <- start_activities_log(eventlog = eventlog)
 	else if (level_of_analysis == "case")
-		return(start_activities_case(eventlog = eventlog))
+		output <- start_activities_case(eventlog = eventlog)
 	else if(level_of_analysis == "activity")
-		return(start_activities_activity(eventlog = eventlog))
+		output <- start_activities_activity(eventlog = eventlog)
 	else if(level_of_analysis == "resource")
-		return(start_activities_resource(eventlog = eventlog))
-	else
-		return(start_activities_resource_activity(eventlog = eventlog))
+		output <- start_activities_resource(eventlog = eventlog)
+	else if(level_of_analysis == "resource-activity")
+		output <- start_activities_resource_activity(eventlog = eventlog)
+
+
+
+	class(output) <- c("start_activities", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+
+	return(output)
+
 }
