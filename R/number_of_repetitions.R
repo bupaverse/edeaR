@@ -15,20 +15,16 @@
 
 
 number_of_repetitions <- function(eventlog,
-								  type,
-						level_of_analysis){
+								  type = c("repeat","redo"),
+						level_of_analysis = c("log","case","activity","resource","resource-activity")){
 
 	stop_eventlog(eventlog)
 
-	if(!(type %in% c("repeat","redo")))
-		stop("Type should be \"repeat\" or \"redo\"")
-
-	if(!(level_of_analysis %in% c("activity","case","log", "resource","resource-activity")))
-		stop("Level of analysis should be one of the following: activity, case, log, resource, resource-activity.")
-
+	type <- match.arg(type)
+	level_of_analysis <- match.arg(level_of_analysis)
 
 	if(type == "repeat") {
-		switch(level_of_analysis,
+		output <- switch(level_of_analysis,
 			   log = repeat_repetitions_log(eventlog),
 			   case = repeat_repetitions_case(eventlog),
 			   activity = repeat_repetitions_activity(eventlog),
@@ -37,7 +33,7 @@ number_of_repetitions <- function(eventlog,
 		)
 	}
 	else if (type == "redo") {
-		switch(level_of_analysis,
+		output <- switch(level_of_analysis,
 			   log = redo_repetitions_log(eventlog),
 			   case = redo_repetitions_case(eventlog),
 			   activity = redo_repetitions_activity(eventlog),
@@ -46,4 +42,12 @@ number_of_repetitions <- function(eventlog,
 		)
 
 	}
+
+	class(output) <- c("number_of_repetitions", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "type") <- type
+
+	return(output)
+
 }

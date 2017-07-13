@@ -4,7 +4,9 @@
 \alias{number_of_repetitions}
 \title{Metric:  Number of repetitions}
 \usage{
-number_of_repetitions(eventlog, type, level_of_analysis)
+number_of_repetitions(eventlog, type = c("repeat", "redo"),
+  level_of_analysis = c("log", "case", "activity", "resource",
+  "resource-activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class

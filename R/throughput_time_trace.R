@@ -1,6 +1,6 @@
 
 
-throughput_time_trace <- function(eventlog, units = "days") {
+throughput_time_trace <- function(eventlog, units) {
 	stop_eventlog(eventlog)
 
 	case_classifier <- case_id(eventlog)

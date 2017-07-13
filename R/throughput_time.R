@@ -16,13 +16,13 @@
 #'
 
 throughput_time <- function(eventlog,
-							level_of_analysis,
-							units = "days"){
+							level_of_analysis = c("log","trace","case"),
+							units = c("days", "hours","mins","weeks")){
 
 	stop_eventlog(eventlog)
 
-	if(!(level_of_analysis %in% c("log","trace","case")))
-		stop("Level of analysis should be one of the following: log, trace, case.")
+	level_of_analysis <- match.arg(level_of_analysis)
+	units <- match.arg(units)
 
 	if(level_of_analysis == "trace")
 		output <- throughput_time_trace(eventlog = eventlog, units = units)

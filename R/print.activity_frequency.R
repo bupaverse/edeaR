@@ -14,6 +14,7 @@ print.activity_frequency <- function(x, ...) {
 		attr(data, "raw") <- NULL
 		attr(data, "level") <- NULL
 		attr(data, "mapping") <- NULL
+		class(data) <- c("numeric")
 		print.default(data)
 	}
 	else {

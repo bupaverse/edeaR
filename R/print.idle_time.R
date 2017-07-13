@@ -14,6 +14,7 @@ print.idle_time <- function(x, ...) {
 		attr(data, "raw") <- NULL
 		attr(data, "level") <- NULL
 		attr(data, "mapping") <- NULL
+		class(data) <- "numeric"
 		print.default(data)
 	}
 	else {

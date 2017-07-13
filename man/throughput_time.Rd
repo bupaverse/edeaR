@@ -4,7 +4,8 @@
 \alias{throughput_time}
 \title{Metric: Throughput time of cases}
 \usage{
-throughput_time(eventlog, level_of_analysis, units = "days")
+throughput_time(eventlog, level_of_analysis = c("log", "trace", "case"),
+  units = c("days", "hours", "mins", "weeks"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
