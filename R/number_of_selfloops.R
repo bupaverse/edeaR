@@ -27,6 +27,8 @@ number_of_selfloops <- function(eventlog,
 			   resource = repeat_selfloops_resource(eventlog),
 			   "resource-activity" = repeat_selfloops_resource_activity(eventlog)
 		)
+
+		return(output)
 	}
 	else if (type == "redo") {
 		output <- switch(level_of_analysis,

@@ -1,20 +1,30 @@
 rework_base <- function(eventlog) {
+
+
+
+
 	eventlog %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
-				"timestamp_classifier" = timestamp(eventlog)) %>%
-		group_by_("case_classifier", "event_classifier", resource_id(eventlog), activity_instance_id(eventlog)) %>%
-		summarize(timestamp = min(timestamp_classifier)) %>%
-		group_by_("case_classifier") %>%
-		arrange(case_classifier, timestamp) %>%
-		mutate(next_activity = lead(event_classifier)) %>%
-		mutate(same_activity = lag(event_classifier == next_activity)) %>%
-		mutate(same_activity = ifelse(is.na(same_activity), FALSE, same_activity)) %>%
-		mutate(activity_group = paste(case_classifier, cumsum(!same_activity), sep = "-")) %>%
-		select(-next_activity, -same_activity, -timestamp) -> r
+				"timestamp_classifier" = timestamp(eventlog),
+				"aid" = activity_instance_id(eventlog),
+				"resource_classifier" = resource_id(eventlog)) %>%
+		as.data.table %>%
+		.[, .(timestamp = min(timestamp_classifier)), .(case_classifier, aid, event_classifier, resource_classifier)] %>%
+		.[order(timestamp), .SD , by =  .(case_classifier)] %>%
+		.[,next_activity := lead(event_classifier), .(case_classifier)] %>%
+		.[, same_activity := lag(event_classifier == next_activity)] %>%
+		.[, same_activity := ifelse(is.na(same_activity), FALSE, same_activity)]  %>%
+		.[, activity_group := paste(case_classifier, cumsum(!same_activity), sep = "-")] %>%
+		.[,.(case_classifier, aid, event_classifier, resource_classifier, activity_group)] %>%
+		as.data.frame -> r
+
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
+	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
+	colnames(r)[colnames(r) == "aid"] <- activity_instance_id(eventlog)
+
 
 	return(r)
 }
@@ -25,26 +35,19 @@ repeat_selfloops <- function(eventlog) {
 	eventlog %>%
 		rework_base -> r
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
-
-	r	%>%
-		group_by(case_classifier) %>%
-		mutate(trace_length = n()) %>%
-		group_by(event_classifier) %>%
-		mutate(activity_frequency = n()) %>%
-		group_by(case_classifier, activity_group, event_classifier, trace_length, activity_frequency) %>%
-		summarize(t_length = n(),
-				  nr_of_resources = n_distinct(resource_classifier),
-				  resource_classifier = first(resource_classifier)) -> r
-
-	r <- r[r$nr_of_resources == 1 & r$t_length > 1, ]
-
 	r %>%
-		mutate(length = t_length - 1) %>%
-		ungroup() %>%
-		select(-activity_group, -nr_of_resources, -t_length) -> r
+		rename_("case_classifier" = case_id(eventlog),
+				"event_classifier" = activity_id(eventlog),
+				"resource_classifier" = resource_id(eventlog)) %>%
+		as.data.table %>%
+		.[, trace_length := .N, by = .(case_classifier)] %>%
+		.[, activity_frequency := .N, by = .(event_classifier)] %>%
+		.[, .(t_length = .N, nr_of_resources = n_distinct(resource_classifier), resource_classifier = first(resource_classifier)),
+		  .(case_classifier, activity_group, event_classifier, trace_length, activity_frequency)] %>%
+		.[nr_of_resources == 1 &  t_length > 1] %>%
+		.[, length := t_length -1] %>%
+		.[, .(case_classifier, event_classifier, resource_classifier, trace_length, activity_frequency, length)] %>%
+		as.data.frame -> r
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
@@ -57,27 +60,26 @@ redo_selfloops <- function(eventlog) {
 	eventlog %>%
 		rework_base -> r
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
 
-	r	%>%
-		group_by(case_classifier) %>%
-		mutate(trace_length = n()) %>%
-		group_by(event_classifier) %>%
-		mutate(activity_frequency = n()) %>%
-		group_by(case_classifier, activity_group, event_classifier, trace_length, activity_frequency) %>%
-		summarize(t_length = n(),
-				  nr_of_resources = n_distinct(resource_classifier),
-				  first_resource = first(resource_classifier),
-				  last_resource = last(resource_classifier)) -> r
-
-	r <- r[r$t_length > 1 & r$nr_of_resources > 1, ]
 
 	r %>%
-		mutate(length = t_length - 1) %>%
-		ungroup() %>%
-		select(-activity_group, -nr_of_resources, -t_length) -> r
+		rename_("case_classifier" = case_id(eventlog),
+				"event_classifier" = activity_id(eventlog),
+				"resource_classifier" = resource_id(eventlog)) %>%
+		as.data.table %>%
+		.[, trace_length := .N, by = .(case_classifier)] %>%
+		.[, activity_frequency := .N, by = .(event_classifier)] %>%
+		.[, .(t_length = .N,
+			  nr_of_resources = n_distinct(resource_classifier),
+			  first_resource = first(resource_classifier),
+			  last_resource = last(resource_classifier)),
+		  .(case_classifier, activity_group, event_classifier, trace_length, activity_frequency)] %>%
+		.[nr_of_resources > 1 &  t_length > 1] %>%
+		.[, length := t_length -1] %>%
+		.[, .(case_classifier, event_classifier, first_resource, last_resource, trace_length, activity_frequency, length)] %>%
+		as.data.frame -> r
+
+
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
@@ -406,7 +408,7 @@ repeat_selfloops_size_resource_activity <- function(eventlog) {
 
 	resources_activities <- eventlog %>%
 		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = n_distinct(aid)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
@@ -458,7 +460,7 @@ redo_selfloops_size_resource_activity <- function(eventlog) {
 
 	resources_activities <- eventlog %>%
 		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = n_distinct(aid)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
@@ -486,23 +488,20 @@ repeat_repetitions <- function(eventlog) {
 	eventlog %>%
 		rework_base -> r
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
 
-	r	%>%
-		group_by(case_classifier) %>%
-		mutate(trace_length = n()) %>%
-		group_by(event_classifier) %>%
-		mutate(activity_frequency = n()) %>%
-		group_by(case_classifier, event_classifier, trace_length, activity_frequency) %>%
-		summarize(length = n_distinct(activity_group),
-				  nr_of_resources = n_distinct(resource_classifier),
-				  resource_classifier = first(resource_classifier)) %>%
-		mutate(length = length - 1) %>%
-		filter(length > 0, nr_of_resources == 1) %>%
-		ungroup() %>%
-		select(-nr_of_resources) -> r
+	r %>%
+		rename_("case_classifier" = case_id(eventlog),
+				"event_classifier" = activity_id(eventlog),
+				"resource_classifier" = resource_id(eventlog)) %>%
+		as.data.table %>%
+		.[, trace_length := .N, by = .(case_classifier)] %>%
+		.[, activity_frequency := .N, by = .(event_classifier)] %>%
+		.[, .(length = n_distinct(activity_group), nr_of_resources = n_distinct(resource_classifier), resource_classifier = first(resource_classifier)),
+		  .(case_classifier, event_classifier, trace_length, activity_frequency)]%>%
+		.[nr_of_resources == 1 &  length > 1]	%>%
+		.[, length := length -1] %>%
+		.[, .(case_classifier, event_classifier, trace_length, activity_frequency, length, resource_classifier)] %>%
+		as.data.frame() -> r
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
@@ -515,24 +514,22 @@ redo_repetitions <- function(eventlog) {
 	eventlog %>%
 		rework_base -> r
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
-
-	r	%>%
-		group_by(case_classifier) %>%
-		mutate(trace_length = n()) %>%
-		group_by(event_classifier) %>%
-		mutate(activity_frequency = n()) %>%
-		group_by(case_classifier, event_classifier, trace_length, activity_frequency) %>%
-		summarize(length = n_distinct(activity_group),
-				  nr_of_resources = n_distinct(resource_classifier),
-				  first_resource = first(resource_classifier),
-				  last_resource = last(resource_classifier)) %>%
-		mutate(length = length - 1) %>%
-		filter(length > 0, nr_of_resources > 1) %>%
-		ungroup() %>%
-		select(-nr_of_resources) -> r
+	r %>%
+		rename_("case_classifier" = case_id(eventlog),
+				"event_classifier" = activity_id(eventlog),
+				"resource_classifier" = resource_id(eventlog)) %>%
+		as.data.table %>%
+		.[, trace_length := .N, by = .(case_classifier)] %>%
+		.[, activity_frequency := .N, by = .(event_classifier)] %>%
+		.[, .(length = n_distinct(activity_group),
+			  nr_of_resources = n_distinct(resource_classifier),
+			  first_resource = data.table::first(resource_classifier),
+			  last_resource = data.table::last(resource_classifier)),
+		  .(case_classifier, event_classifier, trace_length, activity_frequency)]%>%
+		.[nr_of_resources > 1 &  length > 1]	%>%
+		.[, length := length -1] %>%
+		.[, .(case_classifier, event_classifier, trace_length, activity_frequency, length, first_resource, last_resource)] %>%
+		as.data.frame() -> r
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
@@ -867,7 +864,7 @@ repeat_repetitions_size_resource_activity <- function(eventlog) {
 
 	resources_activities <- eventlog %>%
 		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = n_distinct(aid)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
@@ -919,7 +916,7 @@ redo_repetitions_size_resource_activity <- function(eventlog) {
 
 	resources_activities <- eventlog %>%
 		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = n_distinct(aid)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)

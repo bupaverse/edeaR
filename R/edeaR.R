@@ -9,6 +9,7 @@
 #' @import xml2
 #' @importFrom data.table data.table
 #' @importFrom data.table :=
+#' @importFrom data.table as.data.table
 #' @import bupaR
 #' @import dplyr
 #' @import ggplot2
