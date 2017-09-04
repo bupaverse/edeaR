@@ -2,9 +2,13 @@
 % Please edit documentation in R/resource_specialisation.R
 \name{resource_specialisation}
 \alias{resource_specialisation}
+\alias{resource_specialization}
 \title{Metric: Resource Specialisation}
 \usage{
 resource_specialisation(eventlog, level_of_analysis = c("log", "case",
+  "activity", "resource"))
+
+resource_specialization(eventlog, level_of_analysis = c("log", "case",
   "resource", "activity"))
 }
 \arguments{

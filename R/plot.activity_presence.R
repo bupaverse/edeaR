@@ -1,14 +1,4 @@
-#' @title Activity Presence Plot
-#'
-#' @description  Visualize activity presence data.
-#' @param x Data to plot
-#' @param ... Additional variables
-#' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @method plot activity_presence
-
-#' @export
-
-plot.activity_presence <- function(x, ...) {
+plot_activity_presence <- function(x, ...) {
 
 	mapping <- attr(x, "mapping")
 
@@ -19,5 +9,11 @@ plot.activity_presence <- function(x, ...) {
 		theme_light() +
 		coord_flip() +
 		labs(x = "Activity", y = "Relative Activity Presence") -> p
+
+
+	if(!is.null(attr(x, "groups"))) {
+		p <-	p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+	}
+
 	return(p)
 }

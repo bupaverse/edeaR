@@ -1,29 +1,20 @@
-#' @title Trace Coverage Plot
-#'
-#' @description  Visualize trace coverage data.
-#' @param x Data to plot
-#' @param ... Additional variables
-#' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @method plot trace_coverage
 
-#' @export
 
-plot.trace_coverage <- function(x, ...) {
-	data <- x
+plot_trace_coverage <- function(x, ...) {
 
-	mapping <- attr(data, "mapping")
-	level <- attr(data, "level")
-	units <- attr(data, "units")
+	mapping <- attr(x, "mapping")
+	level <- attr(x, "level")
+	units <- attr(x, "units")
 
 	if(level == "log") {
-		stop("Plot only available at case level")
+		stop("Plot only available at trace level")
 	}
 	else if(level == "case") {
-		stop("Plot only available at case level")
+		stop("Plot only available at trace level")
 
 	}
 	else if(level == "trace") {
-		data %>%
+		x %>%
 			mutate(id = row_number(cum_sum)/n()) %>%
 			ggplot(aes(id, relative)) +
 			geom_col(aes(fill = relative)) +
@@ -31,6 +22,21 @@ plot.trace_coverage <- function(x, ...) {
 			theme_light() +
 			labs(x = "Relative Number of traces", y = "(Cumulative) relative frequency") +
 			scale_fill_continuous_tableau(name = "Relative frequency", palette = "Blue") -> p
+	}
+
+	if(!is.null(attr(x, "groups"))) {
+		x %>%
+			group_by_(as.character(attr(x, "groups"))) %>%
+			mutate(id = row_number(cum_sum)/n()) %>%
+			ggplot(aes(id, relative)) +
+			geom_col(aes(fill = relative)) +
+			geom_line(aes(id, cum_sum)) +
+			theme_light() +
+			labs(x = "Relative Number of traces", y = "(Cumulative) relative frequency") +
+			scale_fill_continuous_tableau(name = "Relative frequency", palette = "Blue") -> p
+	}
+	if(!is.null(attr(x, "groups"))) {
+		p <- p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
 	}
 
 	return(p)

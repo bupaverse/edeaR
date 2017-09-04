@@ -15,6 +15,7 @@ filter_activity <- function(eventlog,
 							activities = NULL,
 							reverse = F){
 	stop_eventlog(eventlog)
+	mapping <- mapping(eventlog)
 	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
 
 
@@ -26,13 +27,7 @@ filter_activity <- function(eventlog,
 
 	colnames(output)[colnames(output)=="event_classifier"] <- activity_id(eventlog)
 
-	output <- eventlog(output,
-					   activity_id = activity_id(eventlog),
-					   case_id = case_id(eventlog),
-					   timestamp =timestamp(eventlog),
-					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog),
-					   resource_id = resource_id(eventlog))
+	output <- output %>% re_map(mapping)
 
 	return(output)
 }

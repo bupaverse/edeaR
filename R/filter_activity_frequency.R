@@ -16,6 +16,7 @@ filter_activity_frequency <- function(eventlog,
 									 percentile_cut_off = 0.8,
 									 reverse = F) {
 	stop_eventlog(eventlog)
+	mapping <- mapping(eventlog)
 
 	act_freq <- activities(eventlog) %>%
 		arrange(-absolute_frequency) %>%
@@ -37,13 +38,8 @@ filter_activity_frequency <- function(eventlog,
 
 	colnames(output)[colnames(output)=="event_classifier"] <- activity_id(eventlog)
 
-	output <- eventlog(output,
-					   activity_id = activity_id(eventlog),
-					   case_id = case_id(eventlog),
-					   timestamp =timestamp(eventlog),
-					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog),
-					   resource_id = resource_id(eventlog))
+	output <- output %>%
+		re_map(mapping)
 
 	return(output)
 }

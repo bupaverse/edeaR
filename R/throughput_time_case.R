@@ -15,6 +15,8 @@ throughput_time_case <- function(eventlog, units) {
 
 	colnames(e)[colnames(e) == "case_classifier"] <- case_id(eventlog)
 
+	e %>% as.data.frame() %>%
+		mutate(throughput_time = as.numeric(throughput_time, units = units)) -> e
 
 	return(e)
 

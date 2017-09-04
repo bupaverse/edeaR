@@ -22,14 +22,25 @@ trace_coverage <- function(eventlog, level_of_analysis = c("log","trace","case")
 	stop_eventlog(eventlog)
 
 	level_of_analysis <- match.arg(level_of_analysis)
+	mapping <- mapping(eventlog)
 
-	if(level_of_analysis == "trace")
-		output <- trace_coverage_trace(eventlog = eventlog)
-	else if(level_of_analysis == "case")
-		output <- trace_coverage_case(eventlog = eventlog)
-	else
-		output <- trace_coverage_log(eventlog = eventlog, threshold = threshold)
 
+	FUN <- switch(level_of_analysis,
+				  log = trace_coverage_log,
+				  case = trace_coverage_case,
+				  trace = trace_coverage_trace)
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+		eventlog %>%
+			nest %>%
+			mutate(data = map(data, re_map, mapping)) %>%
+			mutate(data = map(data, FUN)) %>%
+			unnest -> output
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
 
 	class(output) <- c("trace_coverage", class(output))
 	attr(output, "level") <- level_of_analysis

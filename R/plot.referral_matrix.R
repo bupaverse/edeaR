@@ -1,14 +1,6 @@
-#' @title Referral Matrix Plot
-#'
-#' @description  Visualize referral matrix
-#' @param x Data to plot
-#' @param ... Additional variables
-#' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @method plot referral_matrix
 
-#' @export
 
-plot.referral_matrix <- function(x, ...) {
+plot_referral_matrix <- function(x, ...) {
 
 	data <- x
 

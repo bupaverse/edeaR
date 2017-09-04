@@ -11,18 +11,48 @@
 #' @export trace_length
 
 trace_length <- function(eventlog,
-						 level_of_analysis = c("trace","case","log")) {
+						 level_of_analysis = c("log","trace","case")) {
 
 	stop_eventlog(eventlog)
 	level_of_analysis <- match.arg(level_of_analysis)
+	mapping <- mapping(eventlog)
 
-	if(level_of_analysis == "trace")
-		output <- trace_length_trace(eventlog = eventlog)
-	else if (level_of_analysis == "case")
-		output <- trace_length_case(eventlog = eventlog)
-	else
-		output <- trace_length_log(eventlog = eventlog)
+	FUN <- switch(level_of_analysis,
+				  log = trace_length_log,
+				  case = trace_length_case,
+				  trace = trace_length_trace)
 
+	if("grouped_eventlog" %in% class(eventlog)) {
+		if(!(level_of_analysis %in% c("log"))) {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) %>%
+				unnest -> output
+		}
+		else {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) -> temp
+
+			temp %>%
+				mutate(raw = map(data, attr, "raw")) %>%
+				select(-data) %>%
+				unnest() -> raw
+
+			temp %>%
+				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
+				unnest() -> output
+
+			attr(output, "raw") <- raw
+		}
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
 
 	class(output) <- c("trace_length", class(output))
 	attr(output, "level") <- level_of_analysis

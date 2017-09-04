@@ -1,24 +1,14 @@
-#' @title Resource Involvement Plot
-#'
-#' @description  Visualize resource involvement data.
-#' @param x Data to plot
-#' @param ... Additional variables
-#' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @method plot resource_involvement
 
-#' @export
 
-plot.resource_involvement <- function(x, ...) {
+plot_resource_involvement <- function(x, ...) {
 
-	data <- x
-
-	mapping <- attr(data, "mapping")
-	level <- attr(data, "level")
-	units <- attr(data, "units")
+	mapping <- attr(x, "mapping")
+	level <- attr(x, "level")
+	units <- attr(x, "units")
 
 
 if(level == "case") {
-		data %>%
+		x %>%
 			ggplot(aes_string(glue("reorder({mapping$case_id}, relative)"), "relative")) +
 			geom_col(aes(fill = relative)) +
 			scale_fill_continuous_tableau(name = "Relative number of resources involved", palette = "Blue") +
@@ -29,7 +19,7 @@ if(level == "case") {
 			labs(x = "Cases",y = "Relative number of resources") -> p
 	}
 	else if(level == "resource-activity") {
-		data %>%
+		x %>%
 			ggplot(aes_string(mapping$activity_id, mapping$resource_id)) +
 			geom_tile(aes(fill = absolute)) +
 			geom_text(aes(label = absolute), fontface = "bold", color = "white") +
@@ -39,7 +29,7 @@ if(level == "case") {
 			labs(x = "Activities",y = "Resources") -> p
 	}
 	else if(level == "resource") {
-		data %>%
+		x %>%
 			ggplot(aes_string(glue("reorder({mapping$resource_id}, absolute)"), "absolute")) +
 			geom_col(aes(fill = absolute)) +
 			scale_fill_continuous_tableau(name = "Number of cases Resource involved in", palette = "Blue") +
@@ -47,5 +37,10 @@ if(level == "case") {
 			theme_light() +
 			labs(x = "Resources",y = "Resource frequency") -> p
 	}
+
+	if(!is.null(attr(x, "groups"))) {
+		p <- p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+	}
+
 	return(p)
 }

@@ -10,42 +10,74 @@
 #'
 #' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, activity, resource, resource activity.
 #'
-#' @param raw Return raw data (only applicable for log level)
 #'
 #' @export size_of_selfloops
 
 size_of_selfloops <- function(eventlog,
-							  type,
-							  level_of_analysis,
-							  raw = F){
+							  type = c("repeat","redo"),
+							  level_of_analysis = c("log","case","activity","resource","resource-acitivty")){
+
 
 	stop_eventlog(eventlog)
-
-	if(!(type %in% c("repeat","redo")))
-		stop("Type should be \"repeat\" or \"redo\"")
-
-	if(!(level_of_analysis %in% c("activity", "case","log", "resource","resource-activity")))
-		stop("Level of analysis should be one of the following: activity, case, log, resource, resource-activity.")
-
-
+	type <- match.arg(type)
+	level_of_analysis <- match.arg(level_of_analysis)
+	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
-		switch(level_of_analysis,
-			   log = repeat_selfloops_size_log(eventlog, raw),
-			   case = repeat_selfloops_size_case(eventlog),
-			   activity = repeat_selfloops_size_activity(eventlog),
-			   resource = repeat_selfloops_size_resource(eventlog),
-			   "resource-activity" = repeat_selfloops_size_resource_activity(eventlog)
+		FUN <- switch(level_of_analysis,
+			   log = repeat_selfloops_size_log,
+			   case = repeat_selfloops_size_case,
+			   activity = repeat_selfloops_size_activity,
+			   resource = repeat_selfloops_size_resource,
+			   "resource-activity" = repeat_selfloops_size_resource_activity
 		)
 	}
 	else if (type == "redo") {
-		switch(level_of_analysis,
-			   log = redo_selfloops_size_log(eventlog, raw),
-			   case = redo_selfloops_size_case(eventlog),
-			   activity = redo_selfloops_size_activity(eventlog),
-			   resource = redo_selfloops_size_resource(eventlog),
-			   "resource-activity" = redo_selfloops_size_resource_activity(eventlog)
+		FUN <- switch(level_of_analysis,
+			   log = redo_selfloops_size_log,
+			   case = redo_selfloops_size_case,
+			   activity = redo_selfloops_size_activity,
+			   resource = redo_selfloops_size_resource,
+			   "resource-activity" = redo_selfloops_size_resource_activity
 		)
 
 	}
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+		if(level_of_analysis != "log") {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) %>%
+				unnest -> output
+		}
+		else {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) -> temp
+
+			# temp %>%
+			# 	mutate(raw = map(data, attr, "raw")) %>%
+			# 	select(-data) %>%
+			# 	unnest() -> raw
+
+			temp %>%
+				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
+				unnest() -> output
+
+			attr(output, "raw") <- raw
+		}
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
+
+	class(output) <- c("size_of_selfloops", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "type") <- type
+	return(output)
 }

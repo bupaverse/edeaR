@@ -9,11 +9,13 @@ filter_trace_frequency_percentile <- function(eventlog,
 	if(reverse == F)
 		case_selection <- merge(cases_light(eventlog),
 								trace_coverage(eventlog, "trace") %>%
-									filter(cum_sum <= percentile_cut_off))
+									mutate(lag_cum_sum = lag(cum_sum, default = 0)) %>%
+									filter(lag_cum_sum <= percentile_cut_off))
 	else
 		case_selection <- merge(cases_light(eventlog),
 								trace_coverage(eventlog, "trace") %>%
-									filter(cum_sum > percentile_cut_off))
+									mutate(lag_cum_sum = lag(cum_sum, default = 0)) %>%
+									filter(lag_cum_sum > percentile_cut_off))
 
 
 
@@ -24,12 +26,8 @@ filter_trace_frequency_percentile <- function(eventlog,
 	output <- filter(eventlog,  case_classifier %in% case_selection$case_classifier)
 	colnames(output)[colnames(output) == "case_classifier"] <- case_id(eventlog)
 
-	output <- eventlog(output,
-					   activity_id = activity_id(eventlog),
-					   case_id = case_id(eventlog),
-					   timestamp =timestamp(eventlog),
-					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog))
+	output <- re_map(output, mapping(eventlog))
+
 
 	return(output)
 

@@ -11,7 +11,32 @@
 #' @export number_of_traces
 
 
+
 number_of_traces <- function(eventlog) {
+	stop_eventlog(eventlog)
+	FUN <- number_of_traces_intern
+	mapping <- mapping(eventlog)
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) %>%
+				unnest -> output
+			attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
+
+	class(output) <- c("number_of_traces", class(output))
+	attr(output, "mapping") <- mapping(eventlog)
+	return(output)
+}
+
+
+
+number_of_traces_intern <- function(eventlog) {
 
 	stop_eventlog(eventlog)
 

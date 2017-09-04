@@ -4,7 +4,9 @@
 \alias{size_of_repetitions}
 \title{Metric: Size of repetitions}
 \usage{
-size_of_repetitions(eventlog, type, level_of_analysis, raw = F)
+size_of_repetitions(eventlog, type = c("repeat", "redo"),
+  level_of_analysis = c("log", "case", "activity", "resource",
+  "resource-acitivty"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -13,8 +15,6 @@ size_of_repetitions(eventlog, type, level_of_analysis, raw = F)
 \item{type}{Type of repetitions, repeat or redo.}
 
 \item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, activity, resource, resource-activity.}
-
-\item{raw}{Return raw data (only applicable for log level)}
 }
 \description{
 Provides summary statistics on the sizes of repetitions at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events

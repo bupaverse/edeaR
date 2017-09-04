@@ -16,19 +16,27 @@ start_activities <- function(eventlog,
 	stop_eventlog(eventlog)
 
 	level_of_analysis <- match.arg(level_of_analysis)
+	mapping <- mapping(eventlog)
 
-	if (level_of_analysis == "log")
-		output <- start_activities_log(eventlog = eventlog)
-	else if (level_of_analysis == "case")
-		output <- start_activities_case(eventlog = eventlog)
-	else if(level_of_analysis == "activity")
-		output <- start_activities_activity(eventlog = eventlog)
-	else if(level_of_analysis == "resource")
-		output <- start_activities_resource(eventlog = eventlog)
-	else if(level_of_analysis == "resource-activity")
-		output <- start_activities_resource_activity(eventlog = eventlog)
+	FUN <- switch(level_of_analysis,
+				  log = start_activities_log,
+				  case = start_activities_case,
+				  activity = start_activities_activity,
+				  resource = start_activities_resource,
+				  "resource-activity" = start_activities_resource_activity)
 
 
+	if("grouped_eventlog" %in% class(eventlog)) {
+		eventlog %>%
+			nest %>%
+			mutate(data = map(data, re_map, mapping)) %>%
+			mutate(data = map(data, FUN)) %>%
+			unnest -> output
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
 
 	class(output) <- c("start_activities", class(output))
 	attr(output, "level") <- level_of_analysis

@@ -14,7 +14,7 @@ activity_presence(eventlog)
 Calculates for each activity type in what percentage of cases it is present.
 }
 \examples{
-
+\dontrun{
 data <- data.frame(case = rep("A",5),
 activity_id = c("A","B","C","D","E"),
 activity_instance_id = 1:5,
@@ -30,5 +30,5 @@ timestamp = "timestamp",
 resource_id = "resource")
 
 activity_presence(log)
-
+}
 }

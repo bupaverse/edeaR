@@ -5,15 +5,13 @@
 \title{Metric: Resource frequency}
 \usage{
 resource_frequency(eventlog, level_of_analysis = c("log", "case", "activity",
-  "resource", "resource-activity"), include_zeros = F)
+  "resource", "resource-activity"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
 \item{level_of_analysis}{At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.}
-
-\item{include_zeros}{At the resource-activity level, include pairs which do not occur.}
 }
 \description{
 Analyses the frequency of resources at different levels of analysis

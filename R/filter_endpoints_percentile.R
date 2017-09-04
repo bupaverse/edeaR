@@ -34,14 +34,9 @@ filter_endpoints_percentile <- function(eventlog,
 	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
 	colnames(f_eventlog)[colnames(f_eventlog)=="event_classifier"] <- activity_id(eventlog)
 
+	f_eventlog <- re_map(f_eventlog, mapping(eventlog))
 
-	output <- eventlog(eventlog = f_eventlog,
-					   activity_id = activity_id(eventlog),
-					   case_id = case_id(eventlog),
-					   timestamp =timestamp(eventlog),
-					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog))
 
-	return(output)
+	return(f_eventlog)
 
 }

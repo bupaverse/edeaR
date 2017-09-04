@@ -22,12 +22,8 @@ filter_processing_time_percentile <- function(eventlog,
 
 	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
 
-	output <- eventlog(f_eventlog,
-					   activity_id = activity_id(eventlog),
-					   case_id = case_id(eventlog),
-					   timestamp =timestamp(eventlog),
-					   lifecycle_id = lifecycle_id(eventlog),
-					   activity_instance_id = activity_instance_id(eventlog))
+	output <- re_map(f_eventlog, mapping(eventlog))
+
 
 	return(output)
 }

@@ -10,7 +10,9 @@ processing_time_case <- function(eventlog,
 	event_classifier <- activity_id(eventlog)
 	activity_instance_classifier <- activity_instance_id(eventlog)
 
-	e <- eventlog %>%
+	e <- eventlog %>% as.data.frame()
+
+	e <- e %>%
 		group_by_(case_classifier, activity_instance_classifier) %>%
 		mutate(r = row_number(timestamp_classifier),
 			   min_r = min(r),

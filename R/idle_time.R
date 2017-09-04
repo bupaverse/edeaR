@@ -12,21 +12,50 @@
 #' @export idle_time
 
 idle_time <- function(eventlog,
-							   level_of_analysis = c("trace","resource","case","log"),
+							   level_of_analysis = c("log","case","trace","resource"),
 							  	units = c("hours","days", "weeks","mins")) {
 	stop_eventlog(eventlog)
 	level_of_analysis <- match.arg(level_of_analysis)
 	units <- match.arg(units)
+	mapping <- mapping(eventlog)
 
-	if (level_of_analysis == "trace")
-		output <- idle_time_trace(eventlog, units = units)
-	else if (level_of_analysis == "case")
-		output <- idle_time_case(eventlog, units = units)
-	else if(level_of_analysis == "resource")
-		output <- idle_time_resource(eventlog, units = units)
-	else if (level_of_analysis == "log")
-		output <- idle_time_log(eventlog, units = units)
+	FUN <- switch(level_of_analysis,
+				  log = idle_time_log,
+				  case = idle_time_case,
+				  trace = idle_time_trace,
+				  resource = idle_time_resource)
 
+	if("grouped_eventlog" %in% class(eventlog)) {
+		if(level_of_analysis != "log") {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN, units = units)) %>%
+				unnest -> output
+		}
+		else {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN, units = units)) -> temp
+
+			temp %>%
+				mutate(raw = map(data, attr, "raw")) %>%
+				select(-data) %>%
+				unnest() -> raw
+
+			temp %>%
+				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
+				unnest() -> output
+
+			attr(output, "raw") <- raw
+		}
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog, units = units)
+	}
 
 	class(output) <- c("idle_time", class(output))
 	attr(output, "level") <- level_of_analysis

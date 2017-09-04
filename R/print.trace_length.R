@@ -1,20 +1,20 @@
-#' @title Throughput Time Print
+#' @title Trace length Print
 #'
-#' @description  Print Throughput Time Information
+#' @description  Print Trace length Information
 #' @param x Data to print
 #' @param ... Additional arguments
-#' @method print throughput_time
+#' @method print trace_length
 
 #' @export
 
-print.throughput_time <- function(x, ...) {
+print.trace_length <- function(x, ...) {
 	data <- x
 
 	if(attr(data, "level") == "log" & is.null(attr(data, "groups"))) {
 		attr(data, "raw") <- NULL
 		attr(data, "level") <- NULL
 		attr(data, "mapping") <- NULL
-		class(data) <- "numeric"
+		class(data) <- c("numeric")
 		print.default(data)
 	}
 	else {

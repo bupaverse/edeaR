@@ -1,5 +1,5 @@
 
-resource_frequency_resource_activity <- function(eventlog, include_zeros) {
+resource_frequency_resource_activity <- function(eventlog, include_zeros = F) {
 	resource_classifier <- resource_id(eventlog)
 	activity_instance_classifier <- activity_instance_id(eventlog)
 	event_classifier <- activity_id(eventlog)

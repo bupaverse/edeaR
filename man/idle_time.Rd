@@ -4,7 +4,7 @@
 \alias{idle_time}
 \title{Metric: Idle Time}
 \usage{
-idle_time(eventlog, level_of_analysis = c("trace", "resource", "case", "log"),
+idle_time(eventlog, level_of_analysis = c("log", "case", "trace", "resource"),
   units = c("hours", "days", "weeks", "mins"))
 }
 \arguments{

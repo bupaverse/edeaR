@@ -12,17 +12,28 @@
 resource_involvement <- function(eventlog, level_of_analysis = c("case","resource","resource-activity")) {
 
 	stop_eventlog(eventlog)
-
+	mapping <- mapping(eventlog)
 	level_of_analysis <- match.arg(level_of_analysis)
 
+	FUN <- switch(level_of_analysis,
+				  case = resource_involvement_case,
+				  resource = resource_involvement_resource,
+				  "resource-activity" = resource_involvement_resource_activity)
 
 
-	if(level_of_analysis == "resource")
-		output <- resource_involvement_resource(eventlog = eventlog)
-	else if(level_of_analysis == "case")
-		output <- resource_involvement_case(eventlog = eventlog)
-	else
-		output <- resource_involvement_resource_activity(eventlog = eventlog)
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+		eventlog %>%
+			nest %>%
+			mutate(data = map(data, re_map, mapping)) %>%
+			mutate(data = map(data, FUN)) %>%
+			unnest -> output
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
 
 	class(output) <- c("resource_involvement", class(output))
 	attr(output, "level") <- level_of_analysis

@@ -18,33 +18,65 @@ number_of_selfloops <- function(eventlog,
 	stop_eventlog(eventlog)
 	type <- match.arg(type)
 	level_of_analysis <- match.arg(level_of_analysis)
+	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
-		output <- switch(level_of_analysis,
-			   log = repeat_selfloops_log(eventlog),
-			   case = repeat_selfloops_case(eventlog),
-			   activity = repeat_selfloops_activity(eventlog),
-			   resource = repeat_selfloops_resource(eventlog),
-			   "resource-activity" = repeat_selfloops_resource_activity(eventlog)
+		FUN <- switch(level_of_analysis,
+					  log = repeat_selfloops_log,
+					  case = repeat_selfloops_case,
+					  activity = repeat_selfloops_activity,
+					  resource = repeat_selfloops_resource,
+					  "resource-activity" = repeat_selfloops_resource_activity
 		)
 
-		return(output)
 	}
 	else if (type == "redo") {
-		output <- switch(level_of_analysis,
-			   log = redo_selfloops_log(eventlog),
-			   case = redo_selfloops_case(eventlog),
-			   activity = redo_selfloops_activity(eventlog),
-			   resource = redo_selfloops_resource(eventlog),
-			  "resource-activity" = redo_selfloops_resource_activity(eventlog)
+		FUN <- switch(level_of_analysis,
+					  log = redo_selfloops_log,
+					  case = redo_selfloops_case,
+					  activity = redo_selfloops_activity,
+					  resource = redo_selfloops_resource,
+					  "resource-activity" = redo_selfloops_resource_activity
 		)
-
-		class(output) <- c("number_of_selfloops", class(output))
-		attr(output, "level") <- level_of_analysis
-		attr(output, "mapping") <- mapping(eventlog)
-		attr(output, "type") <- type
-
-
-		return(output)
 	}
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+		if(level_of_analysis != "log") {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) %>%
+				unnest -> output
+		}
+		else {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) -> temp
+
+			# temp %>%
+			# 	mutate(raw = map(data, attr, "raw")) %>%
+			# 	select(-data) %>%
+			# 	unnest() -> raw
+
+			temp %>%
+				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
+				unnest() -> output
+
+			attr(output, "raw") <- raw
+		}
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
+
+	class(output) <- c("number_of_selfloops", class(output))
+	attr(output, "level") <- level_of_analysis
+	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "type") <- type
+
+	return(output)
+
 }

@@ -1,14 +1,5 @@
-#' @title End Activities Plot
-#'
-#' @description  Visualize end activities data.
-#' @param x Data to plot
-#' @param ... Additional variables
-#' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @method plot end_activities
 
-#' @export
-
-plot.end_activities <- function(x, ...) {
+plot_end_activities <- function(x, ...) {
 
 	mapping <- attr(x, "mapping")
 	level <- attr(x, "level")
@@ -49,5 +40,11 @@ plot.end_activities <- function(x, ...) {
 			labs(x = "Resource", y = "Activity") +
 			theme(axis.text.x = element_text(angle = 45, hjust = 1)) -> p
 	}
+
+	if(!is.null(attr(x, "groups"))) {
+		p <- p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+	}
+
+
 	return(p)
 }

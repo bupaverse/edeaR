@@ -169,7 +169,7 @@ repeat_selfloops_log <- function(eventlog) {
 	attr(output, "raw") <- r
 	return(output)
 }
-repeat_selfloops_size_log <- function(eventlog, raw) {
+repeat_selfloops_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
 		repeat_selfloops -> r
 
@@ -187,7 +187,7 @@ redo_selfloops_log <- function(eventlog) {
 	attr(output, "raw") <- r
 	return(output)
 }
-redo_selfloops_size_log <- function(eventlog, raw) {
+redo_selfloops_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
 		redo_selfloops -> r
 
@@ -623,7 +623,7 @@ repeat_repetitions_log <- function(eventlog) {
 	summary_statistics(r$absolute) %>%
 		return()
 }
-repeat_repetitions_size_log <- function(eventlog, raw) {
+repeat_repetitions_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
 		repeat_repetitions -> r
 
@@ -641,7 +641,7 @@ redo_repetitions_log <- function(eventlog) {
 	summary_statistics(r$absolute) %>%
 		return()
 }
-redo_repetitions_size_log <- function(eventlog, raw) {
+redo_repetitions_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
 		redo_repetitions -> r
 

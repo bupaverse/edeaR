@@ -3,8 +3,9 @@ idle_time_resource <- function(eventlog, units) {
 	colnames(eventlog)[colnames(eventlog) == lifecycle_id(eventlog)] <- "lifecycle_identifier"
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
 
+	e <- eventlog %>% as.data.frame()
 
-	eventlog %>%
+	e %>%
 		mutate(activate = ifelse(lifecycle_identifier == "start", 1, ifelse(lifecycle_identifier == "complete", -1, 0))) %>%
 		group_by_(resource_id(eventlog)) %>%
 		arrange_("timestamp_classifier") %>%

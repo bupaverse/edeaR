@@ -4,7 +4,7 @@
 \alias{trace_length}
 \title{Metric: Trace length}
 \usage{
-trace_length(eventlog, level_of_analysis = c("trace", "case", "log"))
+trace_length(eventlog, level_of_analysis = c("log", "trace", "case"))
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class

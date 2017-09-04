@@ -15,14 +15,46 @@ activity_frequency <- function(eventlog,
 
 	level_of_analysis <- match.arg(level_of_analysis)
 
-	if (level_of_analysis == "trace")
-		output <- activity_frequency_trace(eventlog)
-	else if (level_of_analysis == "case")
-		output <- activity_frequency_case(eventlog)
-	else if(level_of_analysis == "activity")
-		output <- activity_frequency_activity(eventlog)
-	else if (level_of_analysis == "log")
-		output <- activity_frequency_log(eventlog)
+
+	FUN <- switch(level_of_analysis,
+				  log = activity_frequency_log,
+				  case = activity_frequency_case,
+				  trace = activity_frequency_trace,
+				  activity = activity_frequency_activity)
+
+	mapping <- mapping(eventlog)
+
+	if("grouped_eventlog" %in% class(eventlog)) {
+		if(level_of_analysis != "log") {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) %>%
+				unnest -> output
+		}
+		else {
+			eventlog %>%
+				nest %>%
+				mutate(data = map(data, re_map, mapping)) %>%
+				mutate(data = map(data, FUN)) -> temp
+
+			temp %>%
+				mutate(raw = map(data, attr, "raw")) %>%
+				select(-data) %>%
+				unnest() -> raw
+
+			temp %>%
+				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
+				unnest() -> output
+
+			attr(output, "raw") <- raw
+		}
+
+		attr(output, "groups") <- groups(eventlog)
+	}
+	else{
+		output <- FUN(eventlog = eventlog)
+	}
 
 	class(output) <- c("activity_frequency", class(output))
 	attr(output, "level") <- level_of_analysis

@@ -24,10 +24,10 @@ filter_time_period <- function(eventlog,
 	filter_method <- match.arg(filter_method)
 
 
-	if(!("POSIXct" %in% class(start_point))) {
+	if(!any(c("POSIXct", "Date") %in% class(start_point))) {
 		stop("Start_point should be a date object.")
 	}
-	if(!("POSIXct" %in% class(end_point))) {
+	if(!any(c("POSIXct", "Date") %in% class(end_point))) {
 		stop("End_point should be a date object.")
 	}
 
@@ -82,12 +82,7 @@ filter_time_period <- function(eventlog,
 		colnames(output)[colnames(output) == "timestamp_classifier"] <- timestamp(eventlog)
 		colnames(output)[colnames(output) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
 
-		return(eventlog(eventlog = output,
-						activity_id = activity_id(eventlog),
-						case_id = case_id(eventlog),
-						timestamp =timestamp(eventlog),
-						lifecycle_id = lifecycle_id(eventlog),
-						activity_instance_id = activity_instance_id(eventlog)))
+		output %>% re_map(mapping(eventlog)) %>% return()
 	}
 
 
@@ -98,13 +93,7 @@ filter_time_period <- function(eventlog,
 
 	colnames(f_eventlog)[colnames(f_eventlog) == "case_classifier"] <- case_id(eventlog)
 
-	return(eventlog(eventlog = f_eventlog,
-					activity_id = activity_id(eventlog),
-					case_id = case_id(eventlog),
-					timestamp =timestamp(eventlog),
-					lifecycle_id = lifecycle_id(eventlog),
-					activity_instance_id = activity_instance_id(eventlog),
-					resource_id = resource_id(eventlog)))
+	f_eventlog %>% re_map(mapping(eventlog))  %>% return()
 }
 
 
@@ -135,10 +124,6 @@ ifilter_time_period <- function(eventlog) {
 
 	server <- function(input, output, session){
 		observeEvent(input$done, {
-			print(input$start_date)
-			print(input$start_time)
-			print(input$end_date)
-			print(input$end_time)
 			start_date <- ymd_hms(paste(as.character(input$start_date), strftime(input$start_time, "%T")))
 			end_date <- ymd_hms(paste(as.character(input$end_date), strftime(input$end_time, "%T")))
 			print(start_date)
