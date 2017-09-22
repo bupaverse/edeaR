@@ -111,3 +111,18 @@ plot.trace_coverage <- function(x, ...) {
 plot.trace_length <- function(x, ...) {
 	return(plot_trace_length(x, ...))
 }
+
+#' @rdname plot
+#' @method plot number_of_selfloops
+#' @export
+#'
+plot.number_of_selfloops <- function(x, ...) {
+	return(plot_number_of_selfloops(x, ...))
+}
+
+#' @rdname plot
+#' @method plot number_of_repetitions
+#' @export
+plot.number_of_repetitions <- function(x, ...) {
+	return(plot_number_of_repetitions(x, ...))
+}

@@ -54,10 +54,10 @@ number_of_selfloops <- function(eventlog,
 				mutate(data = map(data, re_map, mapping)) %>%
 				mutate(data = map(data, FUN)) -> temp
 
-			# temp %>%
-			# 	mutate(raw = map(data, attr, "raw")) %>%
-			# 	select(-data) %>%
-			# 	unnest() -> raw
+			 temp %>%
+			 	mutate(raw = map(data, attr, "raw")) %>%
+			 	select(-data) %>%
+			 	unnest() -> raw
 
 			temp %>%
 				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%

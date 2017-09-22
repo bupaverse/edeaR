@@ -1,8 +1,5 @@
 rework_base <- function(eventlog) {
 
-
-
-
 	eventlog %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
@@ -24,7 +21,6 @@ rework_base <- function(eventlog) {
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
 	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
 	colnames(r)[colnames(r) == "aid"] <- activity_instance_id(eventlog)
-
 
 	return(r)
 }
@@ -60,8 +56,6 @@ redo_selfloops <- function(eventlog) {
 	eventlog %>%
 		rework_base -> r
 
-
-
 	r %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
@@ -78,8 +72,6 @@ redo_selfloops <- function(eventlog) {
 		.[, length := t_length -1] %>%
 		.[, .(case_classifier, event_classifier, first_resource, last_resource, trace_length, activity_frequency, length)] %>%
 		as.data.frame -> r
-
-
 
 	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
 	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
@@ -620,37 +612,36 @@ repeat_repetitions_log <- function(eventlog) {
 	eventlog %>%
 		repeat_repetitions_case -> r
 
-	summary_statistics(r$absolute) %>%
-		return()
+	summary_statistics(r$absolute) -> output
+
+	attr(output, "raw") <- r
+	return(output)
 }
-repeat_repetitions_size_log <- function(eventlog, raw = F) {
+repeat_repetitions_size_log <- function(eventlog) {
 	eventlog %>%
 		repeat_repetitions -> r
 
-	if(raw == T)
-		return(r)
-	else{
-		summary_statistics(r$length) %>%
-			return
-	}
+	summary_statistics(r$length) -> output
+	attr(output, "raw") <- r
+	return(output)
+
 }
 redo_repetitions_log <- function(eventlog) {
 	eventlog %>%
 		redo_repetitions_case -> r
 
-	summary_statistics(r$absolute) %>%
-		return()
+	summary_statistics(r$absolute) -> output
+	attr(output, "raw") <- r
+	return(output)
 }
-redo_repetitions_size_log <- function(eventlog, raw = F) {
+redo_repetitions_size_log <- function(eventlog) {
 	eventlog %>%
 		redo_repetitions -> r
 
-	if(raw == T)
-		return(r)
-	else{
-		summary_statistics(r$length) %>%
-			return
-	}
+	summary_statistics(r$length) -> output
+	attr(output, "raw") <- r
+	return(output)
+
 }
 
 repeat_repetitions_activity <- function(eventlog) {

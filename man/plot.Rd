@@ -14,6 +14,8 @@
 \alias{plot.throughput_time}
 \alias{plot.trace_coverage}
 \alias{plot.trace_length}
+\alias{plot.number_of_selfloops}
+\alias{plot.number_of_repetitions}
 \title{Plot}
 \usage{
 \method{plot}{activity_frequency}(x, ...)
@@ -41,6 +43,10 @@
 \method{plot}{trace_coverage}(x, ...)
 
 \method{plot}{trace_length}(x, ...)
+
+\method{plot}{number_of_selfloops}(x, ...)
+
+\method{plot}{number_of_repetitions}(x, ...)
 }
 \arguments{
 \item{x}{Data to plot}

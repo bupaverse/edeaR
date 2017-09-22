@@ -5,7 +5,7 @@ activity_frequency_case <- function(eventlog) {
 	s <- eventlog %>%
 		group_by(!!as.symbol(case_id(eventlog))) %>%
 		summarize(absolute = n_distinct(!!as.symbol(activity_id(eventlog))),
-				  relative = absolute/n())
+				  relative = absolute/n_distinct(!!as.symbol(activity_instance_id(eventlog))))
 
 	return(s)
 
