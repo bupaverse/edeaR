@@ -1,6 +1,6 @@
 #' @title Metric: Size of selfloops
 #'
-#' @description Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
+#' @description Provides summary statistics on the sizes of selfloops at the level of activity types, cases, resources, resource-activity combinations or log. A selfloop of size x refers to the occurrence of x consecutive events
 #' of that activity type.
 #'
 #' @param eventlog The event log to be used. An object of class
@@ -15,7 +15,7 @@
 
 size_of_selfloops <- function(eventlog,
 							  type = c("repeat","redo"),
-							  level_of_analysis = c("log","case","activity","resource","resource-acitivty")){
+							  level_of_analysis = c("log","case","activity","resource","resource-activity")){
 
 
 	stop_eventlog(eventlog)
