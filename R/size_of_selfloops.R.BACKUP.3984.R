@@ -16,6 +16,7 @@ size_of_selfloops <- function(eventlog, type, level, append, ...) {
 
 size_of_selfloops.eventlog <- function(eventlog,
 							  type = c("repeat","redo"),
+<<<<<<< HEAD
 							  level = c("log","case","activity","resource","resource-acitivty"),
 							  append = F,
 							  ...){
@@ -42,6 +43,9 @@ size_of_selfloops.eventlog <- function(eventlog,
 					  resource = redo_selfloops_size_resource,
 					  "resource-activity" = redo_selfloops_size_resource_activity
 		)
+=======
+							  level_of_analysis = c("log","case","activity","resource","resource-activity")){
+>>>>>>> ad96118cccfdc90a7bed94f5aef2ee0cfab3aac8
 
 	}
 

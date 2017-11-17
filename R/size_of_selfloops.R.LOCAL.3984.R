@@ -1,6 +1,6 @@
 #' @title Metric: Size of selfloops
 #'
-#' @description Provides summary statistics on the sizes of selfloops at the level of activity types, cases, resources, resource-activity combinations or log. A selfloop of size x refers to the occurrence of x consecutive events
+#' @description Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
 #' of that activity type.
 #'
 #' @inheritParams number_of_selfloops
