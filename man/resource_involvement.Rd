@@ -2,17 +2,35 @@
 % Please edit documentation in R/resource_involvement.R
 \name{resource_involvement}
 \alias{resource_involvement}
+\alias{resource_involvement.eventlog}
+\alias{resource_involvement.grouped_eventlog}
 \title{Metric: Resource Involvement}
 \usage{
-resource_involvement(eventlog, level_of_analysis = c("case", "resource",
-  "resource-activity"))
+resource_involvement(eventlog, level, append, ...)
+
+\method{resource_involvement}{eventlog}(eventlog, level = c("case",
+  "resource", "resource-activity"), append = F, ...)
+
+\method{resource_involvement}{grouped_eventlog}(eventlog, level = c("case",
+  "resource", "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
+
+\item{append}{Logical indicating whether result should be append to original event log}
+
+\item{...}{}
 
 \item{level_of_analysis}{The level of analysis: resource or resource-activity.}
 }
 \description{
 Calculates for each resource/resource-activity in what percentage of cases it is present.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Resource involvement for eventlog
+
+\item \code{grouped_eventlog}: Resource involvement for grouped eventlog
+}}
+

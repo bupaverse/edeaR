@@ -2,11 +2,19 @@
 % Please edit documentation in R/filter_endpoints.R
 \name{filter_endpoints}
 \alias{filter_endpoints}
+\alias{filter_endpoints.eventlog}
+\alias{filter_endpoints.grouped_eventlog}
 \alias{ifilter_endpoints}
 \title{Filter: Filter based on percentile of start and end activities}
 \usage{
-filter_endpoints(eventlog, start_activities = NULL, end_activities = NULL,
-  percentile_cut_off = NULL, reverse = F)
+filter_endpoints(eventlog, start_activities, end_activities, percentage,
+  reverse, ...)
+
+\method{filter_endpoints}{eventlog}(eventlog, start_activities = NULL,
+  end_activities = NULL, percentage = NULL, reverse = FALSE, ...)
+
+\method{filter_endpoints}{grouped_eventlog}(eventlog, start_activities = NULL,
+  end_activities = NULL, percentage = NULL, reverse = FALSE, ...)
 
 ifilter_endpoints(eventlog)
 }
@@ -18,12 +26,19 @@ ifilter_endpoints(eventlog)
 
 \item{end_activities}{End activities used for filtering.}
 
+\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+
 \item{percentile_cut_off}{Alternatively to using (sets of) start or end activities, a percentile cut off can be provided.
 A percentile cut off value of 0.9 will return the cases starting and ending with the  90\% most common start and end activities.
 When \code{reverse} is set to TRUE, it will return the 10\% cases with the least common start and end activivities.}
-
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
 }
 \description{
 Filters the log based on a provided set of start and end activities
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log stratified
+}}
+

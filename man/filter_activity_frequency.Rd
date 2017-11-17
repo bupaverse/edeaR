@@ -2,10 +2,18 @@
 % Please edit documentation in R/filter_activity_frequency.R
 \name{filter_activity_frequency}
 \alias{filter_activity_frequency}
+\alias{filter_activity_frequency.eventlog}
+\alias{filter_activity_frequency.grouped_eventlog}
 \alias{ifilter_activity_frequency}
 \title{Filter: Activity frequency}
 \usage{
-filter_activity_frequency(eventlog, percentile_cut_off = 0.8, reverse = F)
+filter_activity_frequency(eventlog, interval, percentage, reverse, ...)
+
+\method{filter_activity_frequency}{eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, ...)
+
+\method{filter_activity_frequency}{grouped_eventlog}(eventlog,
+  interval = NULL, percentage = NULL, reverse = FALSE, ...)
 
 ifilter_activity_frequency(eventlog)
 }
@@ -13,11 +21,18 @@ ifilter_activity_frequency(eventlog)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{percentile_cut_off}{The target coverage of events
-A percentile of 0.9 will return the most common activity types of the eventlog, which account for 90\% of the events.}
-
 \item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+
+\item{percentile_cut_off}{The target coverage of events
+A percentile of 0.9 will return the most common activity types of the eventlog, which account for at least 90\% of the events.}
 }
 \description{
 Filters the log based on its most frequent activities, until a specific percentile cut off.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter eventlog on activity frequency
+
+\item \code{grouped_eventlog}: Stratified filter for grouped eventlog
+}}
+

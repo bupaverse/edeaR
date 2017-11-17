@@ -3,20 +3,37 @@
 \name{resource_specialisation}
 \alias{resource_specialisation}
 \alias{resource_specialization}
+\alias{resource_specialisation.eventlog}
+\alias{resource_specialisation.grouped_eventlog}
 \title{Metric: Resource Specialisation}
 \usage{
-resource_specialisation(eventlog, level_of_analysis = c("log", "case",
-  "activity", "resource"))
+resource_specialisation(eventlog, level, append, ...)
 
-resource_specialization(eventlog, level_of_analysis = c("log", "case",
-  "resource", "activity"))
+resource_specialization(eventlog, level, append, ...)
+
+\method{resource_specialisation}{eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource"), append = F, ...)
+
+\method{resource_specialisation}{grouped_eventlog}(eventlog, level = c("log",
+  "case", "activity", "resource"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log, case, resource.}
+\item{level}{At which level the analysis of  coverage should be performed: log, case, resource.}
+
+\item{append}{Logical indicating whether result should be append to original event log}
+
+\item{...}{}
 }
 \description{
 Analyses whether resources specialise in specific activities
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Resource specialization for  eventlog
+
+\item \code{grouped_eventlog}: Resource specialization for grouped eventlog
+}}
+

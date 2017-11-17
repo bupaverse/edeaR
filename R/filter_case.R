@@ -10,27 +10,34 @@
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
 #'
 #' @export filter_case
-#'
-filter_case <- function(eventlog,
+
+filter_case <- function(eventlog, cases, reverse) {
+	UseMethod("filter_case")
+}
+
+
+#' @describeIn filter_case Filter for eventlogs
+#' @export
+filter_case.eventlog <- function(eventlog,
 							cases = NULL,
 							reverse = F){
-	stop_eventlog(eventlog)
-	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
-
 
 	if(reverse == F)
-		output <- filter(eventlog, case_classifier %in% cases)
+		output <- filter(eventlog, (!!as.symbol(case_id(eventlog))) %in% cases)
 
 	else
-		output <- filter(eventlog, !(case_classifier %in% cases))
-
-	colnames(output)[colnames(output)=="case_classifier"] <- case_id(eventlog)
+		output <- filter(eventlog, !((!!as.symbol(case_id(eventlog))) %in% cases))
 
 	output <- re_map(output, mapping(eventlog))
-
 	return(output)
 }
 
+#' @describeIn filter_case Stratified filter for grouped eventlogs
+#' @export
+
+filter_case.grouped_eventlog <- function(eventlog, cases = NULL, reverse = F) {
+	grouped_filter(eventlog, filter_case, cases, reverse)
+}
 
 #' @rdname filter_case
 #' @export ifilter_case
@@ -47,7 +54,6 @@ ifilter_case <- function(eventlog) {
 			)
 		)
 	)
-
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 

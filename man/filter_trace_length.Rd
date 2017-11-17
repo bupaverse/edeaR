@@ -2,17 +2,26 @@
 % Please edit documentation in R/filter_trace_length.R
 \name{filter_trace_length}
 \alias{filter_trace_length}
+\alias{filter_trace_length.eventlog}
+\alias{filter_trace_length.grouped_eventlog}
 \alias{ifilter_trace_length}
 \title{Filter: Trace length percentile}
 \usage{
-filter_trace_length(eventlog, lower_threshold = NULL,
-  upper_threshold = NULL, percentile_cut_off = NULL, reverse = F)
+filter_trace_length(eventlog, interval, percentage, reverse, ...)
+
+\method{filter_trace_length}{eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, ...)
+
+\method{filter_trace_length}{grouped_eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, ...)
 
 ifilter_trace_length(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
+
+\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
 
 \item{lower_threshold}{The lower trace length threshold.
 When \code{reverse} is FALSE, all traces with a lower frequency are discarded.}
@@ -23,9 +32,14 @@ When \code{reverse} is FALSE, all traces with a lo frequency are discarded.}
 \item{percentile_cut_off}{Alternatively to providing thresholds, a percentile cut off can be provided.
 A percentile cut off value of 0.9 will return the 90\% shortest cases.
 When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
-
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
 }
 \description{
 Filters cases on length, using a percentile threshold.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

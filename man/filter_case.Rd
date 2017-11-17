@@ -2,10 +2,16 @@
 % Please edit documentation in R/filter_case.R
 \name{filter_case}
 \alias{filter_case}
+\alias{filter_case.eventlog}
+\alias{filter_case.grouped_eventlog}
 \alias{ifilter_case}
 \title{Filter: Case}
 \usage{
-filter_case(eventlog, cases = NULL, reverse = F)
+filter_case(eventlog, cases, reverse)
+
+\method{filter_case}{eventlog}(eventlog, cases = NULL, reverse = F)
+
+\method{filter_case}{grouped_eventlog}(eventlog, cases = NULL, reverse = F)
 
 ifilter_case(eventlog)
 }
@@ -20,3 +26,10 @@ ifilter_case(eventlog)
 \description{
 Filters the log based on case identifier
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter for eventlogs
+
+\item \code{grouped_eventlog}: Stratified filter for grouped eventlogs
+}}
+

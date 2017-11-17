@@ -2,17 +2,32 @@
 % Please edit documentation in R/activity_presence.R
 \name{activity_presence}
 \alias{activity_presence}
+\alias{activity_presence.eventlog}
+\alias{activity_presence.grouped_eventlog}
 \title{Metric: Activity Presence}
 \usage{
-activity_presence(eventlog)
+activity_presence(eventlog, append)
+
+\method{activity_presence}{eventlog}(eventlog, append = F)
+
+\method{activity_presence}{grouped_eventlog}(eventlog, append = F)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The event log to be used. An object of class}
+
+\item{append}{Logical indicating whether to append the result to the original event log
 \code{eventlog}.}
 }
 \description{
 Calculates for each activity type in what percentage of cases it is present.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute activity presence for event log
+
+\item \code{grouped_eventlog}: Compute activity presence for grouped eventlog
+}}
+
 \examples{
 \dontrun{
 data <- data.frame(case = rep("A",5),

@@ -2,21 +2,39 @@
 % Please edit documentation in R/throughput_time.R
 \name{throughput_time}
 \alias{throughput_time}
+\alias{throughput_time.eventlog}
+\alias{throughput_time.grouped_eventlog}
 \title{Metric: Throughput time of cases}
 \usage{
-throughput_time(eventlog, level_of_analysis = c("log", "trace", "case"),
-  units = c("days", "hours", "mins", "weeks"))
+throughput_time(eventlog, level, append, units, ...)
+
+\method{throughput_time}{eventlog}(eventlog, level = c("log", "trace",
+  "case"), append = F, units = c("days", "hours", "mins", "weeks"), ...)
+
+\method{throughput_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
+  "case"), append = F, units = c("days", "hours", "mins", "weeks"), ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of throughput times should be performed: log, case or trace.}
+\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, resource.}
 
-\item{units}{The time unit in which the throughput times should be reported.}
+\item{append}{Logical indicating whether to append results to original event log.}
+
+\item{units}{Time units to be used}
+
+\item{...}{}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.
 The throughput time of cases is defined as the time between the start of the first event and the completion of the last event.
 Can be performed at the level of the log as well as the level of traces and cases.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Throughput time for eventlog
+
+\item \code{grouped_eventlog}: Throughput time for grouped eventlog
+}}
+

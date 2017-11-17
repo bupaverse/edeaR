@@ -6,22 +6,33 @@
 #' \code{eventlog}.
 #'
 #' @param type The type of selfloops, either repeat or redo.
-#'
-#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.
+#' @param level At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.
+#' @param append Logical indicating whether the result should be appended to the orignal event log
+#' @param ... Deprecated arguments
 #' @export number_of_selfloops
 
+number_of_selfloops <- function(eventlog, type, level, append, ...) {
+	UseMethod("number_of_selfloops")
+}
 
-number_of_selfloops <- function(eventlog,
+#' @describeIn number_of_selfloops Compute number of selfloops for eventlog
+#' @export
+
+number_of_selfloops.eventlog <- function(eventlog,
 								type = c("repeat","redo"),
-								level_of_analysis = c("log","case","activity","resource","resource-activity")) {
+								level = c("log","case","activity","resource","resource-activity"),
+								append = F,
+								...) {
 
 	stop_eventlog(eventlog)
 	type <- match.arg(type)
-	level_of_analysis <- match.arg(level_of_analysis)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+
 	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
-		FUN <- switch(level_of_analysis,
+		FUN <- switch(level,
 					  log = repeat_selfloops_log,
 					  case = repeat_selfloops_case,
 					  activity = repeat_selfloops_activity,
@@ -31,7 +42,7 @@ number_of_selfloops <- function(eventlog,
 
 	}
 	else if (type == "redo") {
-		FUN <- switch(level_of_analysis,
+		FUN <- switch(level,
 					  log = redo_selfloops_log,
 					  case = redo_selfloops_case,
 					  activity = redo_selfloops_activity,
@@ -40,43 +51,65 @@ number_of_selfloops <- function(eventlog,
 		)
 	}
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		if(level_of_analysis != "log") {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		}
-		else {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) -> temp
+	output <- FUN(eventlog = eventlog)
 
-			 temp %>%
-			 	mutate(raw = map(data, attr, "raw")) %>%
-			 	select(-data) %>%
-			 	unnest() -> raw
+	output <- return_metric(eventlog, output, level, append, "number_of_selfloops")
 
-			temp %>%
-				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-				unnest() -> output
-
-			attr(output, "raw") <- raw
-		}
-
-		attr(output, "groups") <- groups(eventlog)
-	}
-	else{
-		output <- FUN(eventlog = eventlog)
-	}
-
-	class(output) <- c("number_of_selfloops", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
 	attr(output, "type") <- type
 
 	return(output)
 
 }
+
+#' @describeIn number_of_selfloops Compute number of selfloops for grouped eventlog
+#' @export
+
+number_of_selfloops.grouped_eventlog <- function(eventlog,
+								type = c("repeat","redo"),
+								level = c("log","case","activity","resource","resource-activity"),
+								append = F,
+								...) {
+
+	stop_eventlog(eventlog)
+	type <- match.arg(type)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+
+
+	mapping <- mapping(eventlog)
+
+	if(type == "repeat") {
+		FUN <- switch(level,
+					  log = repeat_selfloops_log,
+					  case = repeat_selfloops_case,
+					  activity = repeat_selfloops_activity,
+					  resource = repeat_selfloops_resource,
+					  "resource-activity" = repeat_selfloops_resource_activity
+		)
+
+	}
+	else if (type == "redo") {
+		FUN <- switch(level,
+					  log = redo_selfloops_log,
+					  case = redo_selfloops_case,
+					  activity = redo_selfloops_activity,
+					  resource = redo_selfloops_resource,
+					  "resource-activity" = redo_selfloops_resource_activity
+		)
+	}
+
+		if(level != "log") {
+			output <- grouped_metric(eventlog, FUN)
+		}
+		else {
+			output <- grouped_metric_raw_log(eventlog, FUN)
+		}
+
+	output <- return_metric(eventlog, output, level, append, "number_of_selfloops", ifelse(level == "resource-activity", 3,2))
+
+	attr(output, "type") <- type
+
+	return(output)
+
+}
+

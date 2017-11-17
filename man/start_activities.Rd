@@ -2,20 +2,37 @@
 % Please edit documentation in R/start_activities.R
 \name{start_activities}
 \alias{start_activities}
+\alias{start_activities.eventlog}
+\alias{start_activities.grouped_eventlog}
 \title{Metric: Start activities}
 \usage{
-start_activities(eventlog, level_of_analysis = c("log", "case", "activity",
-  "resource", "resource-activity"))
+start_activities(eventlog, level, append = F, ...)
+
+\method{start_activities}{eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource", "resource-activity"), append = F, ...)
+
+\method{start_activities}{grouped_eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource", "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of start activities should be performed: log, case, activity, resource and resource-activity.}
+\item{level}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
+
+\item{append}{Logical indicating whether the results should be appended to the original event log.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 At log level, computes how many activity types occur as the first event in a case, both absolute and relative.
 At activity level, shows the activities which occur as first, and how often.
 The first event in a case is the one which started the first.
-#'
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Start activities for eventlog
+
+\item \code{grouped_eventlog}: Start activities for grouped eventlog
+}}
+

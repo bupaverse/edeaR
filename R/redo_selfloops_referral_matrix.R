@@ -8,8 +8,15 @@
 #'
 #'
 #' @export redo_selfloops_referral_matrix
-
+#'
 redo_selfloops_referral_matrix <- function(eventlog) {
+	UseMethod("redo_selfloops_referral_matrix")
+}
+
+#' @describeIn redo_selfloops_referral_matrix Compute matrix for eventlog
+#' @export
+
+redo_selfloops_referral_matrix.eventlog <- function(eventlog) {
 	eventlog %>%
 		redo_selfloops() %>%
 		group_by(first_resource, last_resource) %>%

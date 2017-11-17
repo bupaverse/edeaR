@@ -2,11 +2,19 @@
 % Please edit documentation in R/number_of_selfloops.R
 \name{number_of_selfloops}
 \alias{number_of_selfloops}
+\alias{number_of_selfloops.eventlog}
+\alias{number_of_selfloops.grouped_eventlog}
 \title{Metric: Number of selfloops in trace}
 \usage{
-number_of_selfloops(eventlog, type = c("repeat", "redo"),
-  level_of_analysis = c("log", "case", "activity", "resource",
-  "resource-activity"))
+number_of_selfloops(eventlog, type, level, append, ...)
+
+\method{number_of_selfloops}{eventlog}(eventlog, type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = F, ...)
+
+\method{number_of_selfloops}{grouped_eventlog}(eventlog, type = c("repeat",
+  "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -14,8 +22,19 @@ number_of_selfloops(eventlog, type = c("repeat", "redo"),
 
 \item{type}{The type of selfloops, either repeat or redo.}
 
-\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.}
+\item{level}{At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.}
+
+\item{append}{Logical indicating whether the result should be appended to the orignal event log}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Returns the number of selfloops in each trace. Can be performed at the level of traces, activities, or the level of the event log.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute number of selfloops for eventlog
+
+\item \code{grouped_eventlog}: Compute number of selfloops for grouped eventlog
+}}
+

@@ -9,25 +9,38 @@
 #'
 #'
 #' @export number_of_traces
-
-
-
+#'
 number_of_traces <- function(eventlog) {
+	UseMethod("number_of_traces")
+}
+
+#' @describeIn number_of_traces Number of traces in eventlog
+#' @export
+
+
+number_of_traces.eventlog <- function(eventlog) {
 	stop_eventlog(eventlog)
-	FUN <- number_of_traces_intern
+	FUN <- number_of_traces_FUN
 	mapping <- mapping(eventlog)
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-			attr(output, "groups") <- groups(eventlog)
-	}
-	else{
-		output <- FUN(eventlog = eventlog)
-	}
+
+	output <- FUN(eventlog = eventlog)
+
+
+	class(output) <- c("number_of_traces", class(output))
+	attr(output, "mapping") <- mapping(eventlog)
+	return(output)
+}
+
+#' @describeIn number_of_traces Number of traces in each group of eventlog
+#' @export
+
+number_of_traces.grouped_eventlog <- function(eventlog) {
+	stop_eventlog(eventlog)
+	FUN <- number_of_traces_FUN
+	mapping <- mapping(eventlog)
+
+	grouped_metric(eventlog, FUN) -> output
 
 	class(output) <- c("number_of_traces", class(output))
 	attr(output, "mapping") <- mapping(eventlog)
@@ -36,7 +49,7 @@ number_of_traces <- function(eventlog) {
 
 
 
-number_of_traces_intern <- function(eventlog) {
+number_of_traces_FUN <- function(eventlog) {
 
 	stop_eventlog(eventlog)
 

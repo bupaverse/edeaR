@@ -2,18 +2,36 @@
 % Please edit documentation in R/activity_frequency.R
 \name{activity_frequency}
 \alias{activity_frequency}
+\alias{activity_frequency.eventlog}
+\alias{activity_frequency.grouped_eventlog}
 \title{Metric: Activity Frequency}
 \usage{
-activity_frequency(eventlog, level_of_analysis = c("log", "trace", "activity",
-  "case"))
+activity_frequency(eventlog, level, append, ...)
+
+\method{activity_frequency}{eventlog}(eventlog, level = c("log", "trace",
+  "activity", "case"), append = F, ...)
+
+\method{activity_frequency}{grouped_eventlog}(eventlog, level = c("log",
+  "trace", "activity", "case"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of traces, cases, resources or activity types.
 '
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute activity frequency for eventlog
+
+\item \code{grouped_eventlog}: Compute activity frequency for grouped event log
+}}
+

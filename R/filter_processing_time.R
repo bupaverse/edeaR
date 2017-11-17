@@ -20,35 +20,61 @@
 #' @param units The time unit used for filtering.
 #'
 #' @export filter_processing_time
-#'
 
-filter_processing_time <- function(eventlog,
-								   lower_threshold = NULL,
-								   upper_threshold = NULL,
-								   percentile_cut_off = NULL,
-								   reverse = F,
-								   units = "days") {
+filter_processing_time <- function(eventlog, interval, percentage, reverse, units, ...) {
+	UseMethod("filter_processing_time")
+}
 
-	stop_eventlog(eventlog)
+#' @describeIn filter_processing_time Filter event log
+#' @export
 
-	if(is.null(lower_threshold) & is.null(upper_threshold) & is.null(percentile_cut_off))
-		stop("At least one threshold or a percentile cut off must be provided.")
+filter_processing_time.eventlog <- function(eventlog,
+								   interval = NULL,
+								   percentage = NULL,
+								   reverse = FALSE,
+								   units = c("days","hours","mins","secs","weeks"),
+								   ...) {
 
+	units <- match.arg(units)
 
-	if((!is.null(lower_threshold) & !is.null(percentile_cut_off)) | (!is.null(upper_threshold) & !is.null(percentile_cut_off)))
-		stop("Cannot filter on both thresholds and percentile cut off simultaneously.")
+	percentage  <- deprecated_perc(percentage, ...)
+	interval[1] <- deprecated_lower_thr(interval[1], ...)
+	interval[2] <- deprecated_upper_thr(interval[2], ...)
 
+	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
+		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
+	}
+	if(!is.null(percentage) && (!is.numeric(percentage) || !between(percentage,0,1) )) {
+		stop("Percentage should be a numeric value between 0 and 1.")
+	}
 
-	if(!is.null(percentile_cut_off))
-		return(filter_processing_time_percentile(eventlog,
-												 percentile_cut_off = percentile_cut_off,
-												 reverse = reverse))
+	if(is.null(interval) & is.null(percentage))
+		stop("At least an interval or a percentage must be provided.")
+	else if((!is.null(interval)) & !is.null(percentage))
+		stop("Cannot filter on both interval and percentage simultaneously.")
+	else if(!is.null(percentage))
+		filter_processing_time_percentile(eventlog,
+												 percentage = percentage,
+												 reverse = reverse)
 	else
-		return(filter_processing_time_threshold(eventlog,
-												lower_threshold = lower_threshold,
-												upper_threshold = upper_threshold,
+		filter_processing_time_threshold(eventlog,
+												lower_threshold = interval[1],
+												upper_threshold = interval[2],
 												reverse = reverse,
-												units = units))
+												units = units)
+}
+
+#' @describeIn filter_processing_time Filter grouped event log
+#' @export
+
+
+filter_processing_time.grouped_eventlog <- function(eventlog,
+											interval = NULL,
+											percentage = NULL,
+											reverse = FALSE,
+											units = c("days","hours","mins","secs","weeks"),
+											...) {
+	grouped_filter(eventlog, filter_processing_time, interval = interval, percentage = percentage, reverse, units, ...)
 }
 
 
@@ -87,13 +113,12 @@ ifilter_processing_time <- function(eventlog) {
 		observeEvent(input$done, {
 			if(input$filter_type == "int")
 				filtered_log <- filter_processing_time(eventlog,
-												 lower_threshold = input$interval_slider[1],
-												 upper_threshold = input$interval_slider[2],
+												 interval = input$interval_slider,
 												 reverse = ifelse(input$reverse == "Yes", T, F),
 												 units = input$units)
 			else if(input$filter_type == "percentile") {
 				filtered_log <- filter_processing_time(eventlog,
-												 percentile_cut_off = input$percentile_slider/100,
+												 percentage = input$percentile_slider/100,
 												 reverse = ifelse(input$reverse == "Yes", T, F),
 												 units = input$units)
 			}

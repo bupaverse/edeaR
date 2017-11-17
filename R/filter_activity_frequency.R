@@ -6,44 +6,87 @@
 #' \code{eventlog}.
 #'
 #' @param percentile_cut_off The target coverage of events
-#' A percentile of 0.9 will return the most common activity types of the eventlog, which account for 90\% of the events.
+#' A percentile of 0.9 will return the most common activity types of the eventlog, which account for at least 90\% of the events.
 #'
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
 #'
 #' @export filter_activity_frequency
-#'
-filter_activity_frequency <- function(eventlog,
-									 percentile_cut_off = 0.8,
-									 reverse = F) {
-	stop_eventlog(eventlog)
-	mapping <- mapping(eventlog)
 
+filter_activity_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+	UseMethod("filter_activity_frequency")
+}
+
+#' @describeIn filter_activity_frequency Filter eventlog on activity frequency
+#' @export
+
+filter_activity_frequency.eventlog <- function(eventlog,
+											   interval = NULL,
+											   percentage = NULL,
+											   reverse = FALSE,
+											   ...) {
+
+	percentage <- deprecated_perc(percentage, ...)
+	stopifnot(is.logical(reverse))
+	if(!is.null(interval) && !is.null(percentage)) {
+		stop("Provide interval OR percentage Cannot filter using both methods.")
+	} else if(!is.null(interval)) {
+		stopifnot(is.numeric(interval))
+		if(length(interval) != 2 || any(interval < 0, na.rm = T) || all(is.na(interval))){
+			stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
+		} else {
+			filter_activity_interval(eventlog, interval[1], interval[2], reverse)
+		}
+	} else if(!is.null(percentage)) {
+		stopifnot(is.numeric(percentage))
+		if(length(percentage) != 1 || percentage > 1 || percentage < 0) {
+			stop("percentage should be a numeric vector of length 1 with a value between 0 and 1")
+		} else{
+			filter_activity_percentage(eventlog, percentage, reverse)
+		}
+	} else {
+		stop("No filter arguments were provided. Please provide percentage or interval.")
+	}
+}
+
+filter_activity_interval <- function(eventlog, lower, upper, reverse) {
+	lower <- ifelse(is.na(lower), -Inf, lower)
+	upper <- ifelse(is.na(upper), Inf, upper)
+
+	act_freq <- activities(eventlog)
+
+	if(reverse == FALSE) {
+		event_selection <- act_freq %>% filter(between(absolute_frequency, lower, upper)) %>% pull(1)
+	} else {
+		event_selection <- act_freq %>% filter(!between(absolute_frequency, lower, upper)) %>% pull(1)
+	}
+	filter_attributes(eventlog, (!!as.symbol(activity_id(eventlog))) %in% event_selection)
+}
+
+
+filter_activity_percentage <- function(eventlog, percentage, reverse) {
 	act_freq <- activities(eventlog) %>%
 		arrange(-absolute_frequency) %>%
 		mutate(r = cumsum(relative_frequency))
 
-	if(reverse == F)
-		event_selection <- act_freq %>% filter(r <= percentile_cut_off)
-
+	if(reverse == FALSE)
+		event_selection <- act_freq %>% filter(dplyr::lag(r, default = 0) < percentage)
 	else
-		event_selection <- act_freq %>% filter(r > percentile_cut_off)
+		event_selection <- act_freq %>% filter(dplyr::lag(r, default = 0) >= percentage)
 
+	event_selection %>% dplyr::pull(1) -> event_selection
 
-	colnames(event_selection)[colnames(event_selection) == activity_id(eventlog)] <- "event_classifier"
-	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+	filter_attributes(eventlog, (!!as.symbol(activity_id(eventlog))) %in% event_selection)
 
-	event_selection <- select(event_selection, event_classifier)
-
-	output <- filter(eventlog, event_classifier %in% event_selection$event_classifier)
-
-	colnames(output)[colnames(output)=="event_classifier"] <- activity_id(eventlog)
-
-	output <- output %>%
-		re_map(mapping)
-
-	return(output)
 }
 
+
+
+#' @describeIn filter_activity_frequency Stratified filter for grouped eventlog
+#' @export
+#'
+filter_activity_frequency.grouped_eventlog <- function(eventlog, interval = NULL, percentage = NULL, reverse = FALSE, ...) {
+	grouped_filter(eventlog, filter_activity_frequency, interval, percentage, reverse, ...)
+}
 
 #' @rdname filter_activity_frequency
 #' @export ifilter_activity_frequency
@@ -53,22 +96,41 @@ ifilter_activity_frequency <- function(eventlog) {
 		gadgetTitleBar("Filter activities based on frequency"),
 		miniContentPanel(
 			fillCol(flex = c(2,1),
-				fillRow(flex = c(10,1,8),
-			sliderInput("percentile_cut_off", "Cumulative Percentile Cut-off", 0, 100, value = 80),
-			" ",
-			radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
-			),
-			"A percentile of 0.9 will return the most common activity types of the eventlog, which account for 90% of the events."
-		))
+					fillRow(flex = c(10,1,8),
+							radioButtons("filter_type", "Filter type:", choices = c("Interval" = "int", "Use percentile cutoff" = "percentile")),
+							" ",
+							radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+					),
+					uiOutput("filter_ui")
+
+			)
+			)
 	)
 
 	server <- function(input, output, session){
+
+		output$filter_ui <- renderUI({
+			if(input$filter_type == "int") {
+				sliderInput("interval_slider", "Process time interval",
+							min = 0, max = max(eventlog %>% activities() %>% pull(absolute_frequency)), value = c(0,1))
+
+			}
+			else if(input$filter_type == "percentile") {
+				sliderInput("percentile_slider", "Percentage", min = 0, max = 100, value = 80)
+			}
+		})
+
 		observeEvent(input$done, {
 
-			filtered_log <- filter_activity_frequency(eventlog,
-													  percentile_cut_off = input$percentile_cut_off/100,
-													  reverse = ifelse(input$reverse == "Yes", T, F))
-
+			if(input$filter_type == "int")
+				filtered_log <- filter_activity_frequency(eventlog,
+													   interval =  input$interval_slider,
+													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			else if(input$filter_type == "percentile") {
+				filtered_log <- filter_activity_frequency(eventlog,
+													   percentage = input$percentile_slider/100,
+													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			}
 
 			stopApp(filtered_log)
 		})

@@ -13,38 +13,64 @@
 #'
 #' @param level_of_analysis At which level the analysis of  coverage should be performed: log, case or trace.
 #'
-#' @param threshold The threshold to be used for the analysis at log level. Default is at 0.8 (80\%)
+#'
+#' @inheritParams activity_frequency
 #'
 #' @export trace_coverage
 
+trace_coverage <- function(eventlog, level, append,  ...) {
+	UseMethod("trace_coverage")
+}
 
-trace_coverage <- function(eventlog, level_of_analysis = c("log","trace","case"), threshold = NULL) {
-	stop_eventlog(eventlog)
 
-	level_of_analysis <- match.arg(level_of_analysis)
+#' @describeIn trace_coverage Trace coverage metric for eventlog
+#' @export
+
+trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), append = F, ...) {
+
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+	if(exists("threshold")) {
+		warning("The threshold parameter is no longer supported")
+	}
 	mapping <- mapping(eventlog)
 
 
-	FUN <- switch(level_of_analysis,
+	FUN <- switch(level,
 				  log = trace_coverage_log,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		eventlog %>%
-			nest %>%
-			mutate(data = map(data, re_map, mapping)) %>%
-			mutate(data = map(data, FUN)) %>%
-			unnest -> output
-		attr(output, "groups") <- groups(eventlog)
-	}
-	else{
 		output <- FUN(eventlog = eventlog)
-	}
 
-	class(output) <- c("trace_coverage", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
 
-	return(output)
+	return_metric(eventlog, output, level, append, "trace_coverage", 2)
+
 }
+
+
+#' @describeIn trace_coverage Trace coverage metric for grouped eventlog
+#' @export
+
+trace_coverage.grouped_eventlog <- function(eventlog, level = c("log","trace","case"), append = F, ...) {
+
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+	if(exists("threshold")) {
+		warning("The threshold parameter is no longer supported")
+	}
+	mapping <- mapping(eventlog)
+
+
+	FUN <- switch(level,
+				  log = trace_coverage_log,
+				  case = trace_coverage_case,
+				  trace = trace_coverage_trace)
+
+		output <- grouped_metric(eventlog, FUN)
+
+
+	return_metric(eventlog, output, level, append, "trace_coverage", 2)
+
+}
+

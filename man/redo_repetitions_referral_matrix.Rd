@@ -2,9 +2,12 @@
 % Please edit documentation in R/redo_repetitions_referral_matrix.R
 \name{redo_repetitions_referral_matrix}
 \alias{redo_repetitions_referral_matrix}
+\alias{redo_repetitions_referral_matrix.eventlog}
 \title{Referral matric repetitons}
 \usage{
 redo_repetitions_referral_matrix(eventlog)
+
+\method{redo_repetitions_referral_matrix}{eventlog}(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -13,3 +16,8 @@ redo_repetitions_referral_matrix(eventlog)
 \description{
 Provides a list of initatiors and completers of  redo repetitons
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute matrix for eventlog
+}}
+

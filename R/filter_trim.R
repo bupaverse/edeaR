@@ -14,11 +14,17 @@
 #'
 #' @export filter_trim
 
+filter_trim <- function(eventlog, start_activities, end_activities, reverse) {
+	UseMethod("filter_trim")
+}
 
-filter_trim <- function(eventlog,
+#' @describeIn filter_trim Filter event log
+#' @export
+
+filter_trim.eventlog <- function(eventlog,
 						start_activities = NULL,
 						end_activities = NULL,
-						reverse = F) {
+						reverse = FALSE) {
 
 	stop_eventlog(eventlog)
 
@@ -69,6 +75,15 @@ filter_trim <- function(eventlog,
 
 
 	return(output)
+}
+#' @describeIn filter_trim Filter grouped event log
+#' @export
+
+filter_trim.grouped_eventlog <- function(eventlog,
+								 start_activities = NULL,
+								 end_activities = NULL,
+								 reverse = FALSE) {
+	grouped_filter(eventlog, filter_trim, start_activities, end_activities, reverse)
 }
 
 #' @rdname filter_trim

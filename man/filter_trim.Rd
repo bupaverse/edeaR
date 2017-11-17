@@ -2,11 +2,18 @@
 % Please edit documentation in R/filter_trim.R
 \name{filter_trim}
 \alias{filter_trim}
+\alias{filter_trim.eventlog}
+\alias{filter_trim.grouped_eventlog}
 \alias{ifilter_trim}
 \title{Filter: Trim cases}
 \usage{
-filter_trim(eventlog, start_activities = NULL, end_activities = NULL,
-  reverse = F)
+filter_trim(eventlog, start_activities, end_activities, reverse)
+
+\method{filter_trim}{eventlog}(eventlog, start_activities = NULL,
+  end_activities = NULL, reverse = FALSE)
+
+\method{filter_trim}{grouped_eventlog}(eventlog, start_activities = NULL,
+  end_activities = NULL, reverse = FALSE)
 
 ifilter_trim(eventlog)
 }
@@ -24,3 +31,10 @@ ifilter_trim(eventlog)
 Trim all cases from the first event of a set of start activities to the last event of a set of end activities.
 Traces that don't have at least one event of both sets are discarded.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

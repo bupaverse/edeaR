@@ -1,7 +1,7 @@
 
 trace_coverage_case <- function(eventlog) {
 
-	tr <- traces(eventlog, F, T) %>%
+	tr <- cases_light(eventlog) %>%
 		group_by(trace) %>%
 		mutate(absolute_trace_coverage = n(),
 			   relative_trace_coverage = absolute_trace_coverage/n_cases(eventlog)) %>%

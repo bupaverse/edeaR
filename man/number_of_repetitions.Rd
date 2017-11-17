@@ -2,11 +2,19 @@
 % Please edit documentation in R/number_of_repetitions.R
 \name{number_of_repetitions}
 \alias{number_of_repetitions}
+\alias{number_of_repetitions.eventlog}
+\alias{number_of_repetitions.grouped_eventlog}
 \title{Metric:  Number of repetitions}
 \usage{
-number_of_repetitions(eventlog, type = c("repeat", "redo"),
-  level_of_analysis = c("log", "case", "activity", "resource",
-  "resource-activity"))
+number_of_repetitions(eventlog, type, level, append, ...)
+
+\method{number_of_repetitions}{eventlog}(eventlog, type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = F, ...)
+
+\method{number_of_repetitions}{grouped_eventlog}(eventlog, type = c("repeat",
+  "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -14,8 +22,19 @@ number_of_repetitions(eventlog, type = c("repeat", "redo"),
 
 \item{type}{The type of repetitions, either repeat or redo}
 
-\item{level_of_analysis}{At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.}
+\item{level}{At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.}
+
+\item{append}{Logical indicating whether result should be appended to original data}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summuary statistics on the number of repetitions, at the level of activity types, traces, cases and the eventlog.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: ""
+
+\item \code{grouped_eventlog}: ""
+}}
+

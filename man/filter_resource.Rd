@@ -2,10 +2,17 @@
 % Please edit documentation in R/filter_resource.R
 \name{filter_resource}
 \alias{filter_resource}
+\alias{filter_resource.eventlog}
+\alias{filter_resource.grouped_eventlog}
 \alias{ifilter_resource}
 \title{Filter: Resource}
 \usage{
-filter_resource(eventlog, resources = NULL, reverse = F)
+filter_resource(eventlog, resources, reverse)
+
+\method{filter_resource}{eventlog}(eventlog, resources, reverse = FALSE)
+
+\method{filter_resource}{grouped_eventlog}(eventlog, resources,
+  reverse = FALSE)
 
 ifilter_resource(eventlog)
 }
@@ -20,3 +27,10 @@ ifilter_resource(eventlog)
 \description{
 Filters the log based on resources
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

@@ -2,21 +2,40 @@
 % Please edit documentation in R/size_of_selfloops.R
 \name{size_of_selfloops}
 \alias{size_of_selfloops}
+\alias{size_of_selfloops.eventlog}
+\alias{size_of_selfloops.grouped_eventlog}
 \title{Metric: Size of selfloops}
 \usage{
-size_of_selfloops(eventlog, type = c("repeat", "redo"),
-  level_of_analysis = c("log", "case", "activity", "resource",
-  "resource-acitivty"))
+size_of_selfloops(eventlog, type, level, append, ...)
+
+\method{size_of_selfloops}{eventlog}(eventlog, type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-acitivty"),
+  append = F, ...)
+
+\method{size_of_selfloops}{grouped_eventlog}(eventlog, type = c("repeat",
+  "redo"), level = c("log", "case", "activity", "resource",
+  "resource-acitivty"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{type}{Type of selfloops. I.e. repeat or redo}
+\item{type}{The type of selfloops, either repeat or redo.}
 
-\item{level_of_analysis}{At which level the analysis of selfloops should be performed: log, case, activity, resource, resource activity.}
+\item{level}{At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.}
+
+\item{append}{Logical indicating whether the result should be appended to the orignal event log}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
 of that activity type.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Size of selfloops for eventlog
+
+\item \code{grouped_eventlog}: Size of selfloops for grouped eventlog
+}}
+

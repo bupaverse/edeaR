@@ -2,22 +2,26 @@
 % Please edit documentation in R/filter_time_period.R
 \name{filter_time_period}
 \alias{filter_time_period}
+\alias{filter_time_period.eventlog}
+\alias{filter_time_period.grouped_eventlog}
 \alias{ifilter_time_period}
 \title{Filter: Time Period}
 \usage{
-filter_time_period(eventlog, start_point, end_point,
+filter_time_period(eventlog, interval, filter_method, reverse, ...)
+
+\method{filter_time_period}{eventlog}(eventlog, interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
-  reverse = FALSE)
+  reverse = FALSE, ...)
+
+\method{filter_time_period}{grouped_eventlog}(eventlog, interval = NULL,
+  filter_method = c("contained", "intersecting", "start", "complete", "trim"),
+  reverse = FALSE, ...)
 
 ifilter_time_period(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
-
-\item{start_point}{Start timestamp of the time period. This should be a date object.}
-
-\item{end_point}{End timestamp of the time period. This should be a data object.}
 
 \item{filter_method}{Can be \code{contained, start, complete, intersecting} or \code{trim}.
 \code{contained} keeps all the events related to cases contained in the time period.
@@ -27,7 +31,18 @@ ifilter_time_period(eventlog)
 \code{trim} keeps all the events which started and ended in the time frame.}
 
 \item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+
+\item{start_point}{Start timestamp of the time period. This should be a date object.}
+
+\item{end_point}{End timestamp of the time period. This should be a data object.}
 }
 \description{
 Function to filter eventlog using a time period.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

@@ -2,10 +2,18 @@
 % Please edit documentation in R/filter_resource_frequency.R
 \name{filter_resource_frequency}
 \alias{filter_resource_frequency}
+\alias{filter_resource_frequency.eventlog}
+\alias{filter_resource_frequency.grouped_eventlog}
 \alias{ifilter_resource_frequency}
 \title{Filter: Resource frequency}
 \usage{
-filter_resource_frequency(eventlog, percentile_cut_off = 0.8, reverse = F)
+filter_resource_frequency(eventlog, interval, percentage, reverse, ...)
+
+\method{filter_resource_frequency}{eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, ...)
+
+\method{filter_resource_frequency}{grouped_eventlog}(eventlog,
+  interval = NULL, percentage = NULL, reverse = FALSE, ...)
 
 ifilter_resource_frequency(eventlog)
 }
@@ -13,11 +21,18 @@ ifilter_resource_frequency(eventlog)
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
+\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+
 \item{percentile_cut_off}{The target coverage of events
 A percentile of 0.9 will return the most common resource types of the eventlog, which account for 90\% of the events.}
-
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
 }
 \description{
 Filters the log based on its most frequent resources, until a specific percentile cut off.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event logs
+
+\item \code{grouped_eventlog}: Filter grouped event logs
+}}
+

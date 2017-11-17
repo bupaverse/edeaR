@@ -20,23 +20,33 @@
 #' @export filter_endpoints
 
 filter_endpoints <- function(eventlog,
+							 start_activities,
+							 end_activities,
+							 percentage,
+							 reverse,
+							 ...) {
+	UseMethod("filter_endpoints")
+}
+
+#' @describeIn filter_endpoints Filter event log
+#' @export
+
+filter_endpoints.eventlog <- function(eventlog,
 							 start_activities = NULL,
 							 end_activities = NULL,
-							 percentile_cut_off = NULL,
-							 reverse = F) {
+							 percentage = NULL,
+							 reverse = FALSE,
+							 ...) {
 
-	stop_eventlog(eventlog)
+	percentage <- deprecated_perc(percentage, ...)
 
-	if(is.null(start_activities) & is.null(end_activities) & is.null(percentile_cut_off))
-		stop("At least one set of start or end activities or a percentile cut off must be provided.")
-
-
-	if((!is.null(start_activities) & !is.null(percentile_cut_off)) | (!is.null(end_activities) & !is.null(percentile_cut_off)))
-		stop("Cannot filter on both sets of start and end activities and percentile cut off simultaneously.")
-
-	if(!is.null(percentile_cut_off))
+	if(is.null(start_activities) & is.null(end_activities) & is.null(percentage))
+		stop("At least one set of start or end activities or a percentage must be provided.")
+	if((!is.null(start_activities) & !is.null(percentage)) | (!is.null(end_activities) & !is.null(percentage)))
+		stop("Cannot filter on both sets of start and end activities and percentage simultaneously.")
+	if(!is.null(percentage))
 		return(filter_endpoints_percentile(eventlog,
-										   percentile_cut_off = percentile_cut_off,
+										   percentage = percentage,
 										   reverse = reverse ))
 	else
 		return(filter_endpoints_sets(eventlog,
@@ -44,6 +54,21 @@ filter_endpoints <- function(eventlog,
 									 end_activities = end_activities,
 									 reverse = reverse))
 }
+#' @describeIn filter_endpoints Filter grouped event log stratified
+#' @export
+
+filter_endpoints.grouped_eventlog <- function(eventlog,
+											  start_activities = NULL,
+											  end_activities = NULL,
+											  percentage = NULL,
+											  reverse = FALSE,
+											  ...) {
+	grouped_filter(eventlog, filter_endpoints, start_activities, end_activity, percentage, reverse, ...)
+}
+
+
+
+
 #' @rdname filter_endpoints
 #' @export ifilter_endpoints
 #'
@@ -72,12 +97,12 @@ ifilter_endpoints <- function(eventlog) {
 								   choices = eventlog %>%
 								   	start_activities_activity %>%
 								   	pull(!!as.symbol(activity_id(eventlog))) %>%
-								   	unique, selected = NA,  multiple = T), " ",
+								   	unique, selected = NA,  multiple = TRUE), " ",
 					selectizeInput("end", label = "Select end activities:",
 								   choices = eventlog %>%
 								   	end_activities_activity %>%
 								   	pull(!!as.symbol(activity_id(eventlog))) %>%
-								   	unique, selected = NA,  multiple = T)
+								   	unique, selected = NA,  multiple = TRUE)
 				) %>% return()
 			}
 			else if(input$filter_type == "percentile") {
@@ -92,11 +117,11 @@ ifilter_endpoints <- function(eventlog) {
 				filtered_log <- filter_endpoints(eventlog,
 												 start_activities = input$start,
 												 end_activities = input$end,
-												 reverse = ifelse(input$reverse == "Yes", T, F))
+												 reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 			else if(input$filter_type == "percentile") {
 				filtered_log <- filter_endpoints(eventlog,
-												percentile_cut_off = input$percentile_slider/100,
-												 reverse = ifelse(input$reverse == "Yes", T, F))
+												percentage = input$percentile_slider/100,
+												 reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 			}
 
 			stopApp(filtered_log)

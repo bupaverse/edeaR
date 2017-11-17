@@ -2,18 +2,30 @@
 % Please edit documentation in R/filter_processing_time.R
 \name{filter_processing_time}
 \alias{filter_processing_time}
+\alias{filter_processing_time.eventlog}
+\alias{filter_processing_time.grouped_eventlog}
 \alias{ifilter_processing_time}
 \title{Filter: Processing Time}
 \usage{
-filter_processing_time(eventlog, lower_threshold = NULL,
-  upper_threshold = NULL, percentile_cut_off = NULL, reverse = F,
-  units = "days")
+filter_processing_time(eventlog, interval, percentage, reverse, units, ...)
+
+\method{filter_processing_time}{eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, units = c("days", "hours", "mins",
+  "secs", "weeks"), ...)
+
+\method{filter_processing_time}{grouped_eventlog}(eventlog, interval = NULL,
+  percentage = NULL, reverse = FALSE, units = c("days", "hours", "mins",
+  "secs", "weeks"), ...)
 
 ifilter_processing_time(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
+
+\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+
+\item{units}{The time unit used for filtering.}
 
 \item{lower_threshold}{The lower duration threshold, specified in number of days.
 When \code{reverse} is FALSE, all cases with a lower duration are discarded.}
@@ -24,11 +36,14 @@ When \code{reverse} is FALSE, all cases with a higher duration are discarded.}
 \item{percentile_cut_off}{Alternatively to providing thresholds, a percentile cut off can be provided.
 A percentile cut off value of 0.9 will return the 90\% shortest cases.
 When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
-
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
-
-\item{units}{The time unit used for filtering.}
 }
 \description{
 Filters cases based on their processing time.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

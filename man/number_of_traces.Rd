@@ -2,9 +2,15 @@
 % Please edit documentation in R/number_of_traces.R
 \name{number_of_traces}
 \alias{number_of_traces}
+\alias{number_of_traces.eventlog}
+\alias{number_of_traces.grouped_eventlog}
 \title{Metric: Number of traces}
 \usage{
 number_of_traces(eventlog)
+
+\method{number_of_traces}{eventlog}(eventlog)
+
+\method{number_of_traces}{grouped_eventlog}(eventlog)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
@@ -14,3 +20,10 @@ number_of_traces(eventlog)
 Computes how many traces there are. The result is returned as absolute number as well as a relative number.
 The relative number refers to the number of traces per 100 cases.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Number of traces in eventlog
+
+\item \code{grouped_eventlog}: Number of traces in each group of eventlog
+}}
+

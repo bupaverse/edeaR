@@ -2,17 +2,36 @@
 % Please edit documentation in R/trace_length.R
 \name{trace_length}
 \alias{trace_length}
+\alias{trace_length.eventlog}
+\alias{trace_length.grouped_eventlog}
 \title{Metric: Trace length}
 \usage{
-trace_length(eventlog, level_of_analysis = c("log", "trace", "case"))
+trace_length(eventlog, level, append, ...)
+
+\method{trace_length}{eventlog}(eventlog, level = c("log", "trace", "case"),
+  append = F, ...)
+
+\method{trace_length}{grouped_eventlog}(eventlog, level = c("log", "trace",
+  "case"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of  trace_length should be performed: log, case or trace.}
+\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Computes the length of each trace, in terms of the number of events, at the level of the eventlog or the level of a trace.
 The relative numbers at trace level measure trace length compared to the average trace length of the top 80% cases, approximately.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Trace length for  eventlog
+
+\item \code{grouped_eventlog}: Trace length for grouped eventlog
+}}
+

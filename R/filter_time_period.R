@@ -13,91 +13,100 @@
 #' @param reverse A logical parameter depicting whether the selection should be reversed.
 #' @export
 
-filter_time_period <- function(eventlog,
-							   start_point,
-							   end_point,
+
+filter_time_period <- function(eventlog, interval, filter_method, reverse, ...) {
+	UseMethod("filter_time_period")
+}
+
+#' @describeIn filter_time_period Filter event log
+#' @export
+
+
+filter_time_period.eventlog <- function(eventlog,
+							   interval = NULL,
 							   filter_method = c("contained","intersecting","start","complete","trim"),
-							   reverse = FALSE)
-{
-	stop_eventlog(eventlog)
+							   reverse = FALSE,
+							   ...) {
 
 	filter_method <- match.arg(filter_method)
 
+	if(length(list(...)) > 0 && stringr::str_detect(names(list(...)), "start_point|end_point" ))
+		stop("Arguments start_point and end point are deprecated. Please use interval instead.")
 
-	if(!any(c("POSIXct", "Date") %in% class(start_point))) {
+	if(!any(c("POSIXct", "Date") %in% class(interval))) {
 		stop("Start_point should be a date object.")
+	} else if(length(interval) != 2) {
+		stop("interval should be a vector of length 2.")
 	}
-	if(!any(c("POSIXct", "Date") %in% class(end_point))) {
-		stop("End_point should be a date object.")
+
+	if(is.na(interval[1])) {
+		start_point <- -Inf
+	} else {
+		start_point <- interval[1]
 	}
 
-	c_sum <- cases(eventlog = eventlog)
-	colnames(c_sum)[colnames(c_sum)==case_id(eventlog)] <- "case_classifier"
-	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
-
-
-	if(filter_method == "contained") {
-		case_selection <- filter(c_sum, start_timestamp >= start_point, complete_timestamp <= end_point) %>%
-			select(case_classifier)
+	if(is.na(interval[2])) {
+		end_point <- -Inf
+	} else {
+		end_point <- interval[2]
 	}
-	else if(filter_method == "intersecting") {
-		case_selection <- filter(c_sum, start_timestamp >= start_point & start_timestamp <= end_point |
-								 	complete_timestamp >= start_point & complete_timestamp <= end_point |
-								 	start_timestamp <= start_point & complete_timestamp >= end_point) %>%
-			select(case_classifier)
-	}
-	else if(filter_method == "start") {
-		case_selection <- filter(c_sum, start_timestamp >= start_point, start_timestamp <= end_point) %>%
-			select(case_classifier)
-	}
-	else if(filter_method == "complete") {
-		case_selection <- filter(c_sum, complete_timestamp >= start_point, complete_timestamp <= end_point) %>%
-			select(case_classifier)
-	}
-	else if(filter_method == "trim") {
 
+	cases <- cases(eventlog = eventlog)
 
+	if(filter_method == "trim") {
+		aid_selection <- eventlog %>%
+			group_by(!!as.symbol(activity_instance_id(eventlog))) %>%
+			summarize(start = min(!!as.symbol(timestamp(eventlog))), complete = max(!!as.symbol(timestamp(eventlog)))) %>%
+			filter(start >= start_point & complete <= end_point) %>%
+			pull(1)
 
-		colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
-		colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
-		colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-		colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
-
-		e <- eventlog %>%
-			group_by(case_classifier, event_classifier, activity_instance_classifier) %>%
-			summarize(start = min(timestamp_classifier), complete = max(timestamp_classifier))
 
 		if(reverse == FALSE)
-			f_eventlog <- filter(e, start >= start_point &
-								 	complete <= end_point)
+			filter(eventlog, (!!as.symbol(activity_instance_id(eventlog))) %in% aid_selection)
 		else
-			f_eventlog <- filter(e, !(start >= start_point &
-									  	complete <= end_point))
+			filter(eventlog, !((!!as.symbol(activity_instance_id(eventlog))) %in% aid_selection))
+	} else {
+		if(filter_method == "contained") {
 
+			cases %>%
+				filter(start_timestamp >= start_point, complete_timestamp <= end_point) %>%
+				pull(1) -> case_selection
+		}
+		else if(filter_method == "intersecting") {
 
-		output <- filter(eventlog, activity_instance_classifier %in% f_eventlog$activity_instance_classifier)
+			cases %>%
+				filter((start_timestamp >= start_point & start_timestamp <= end_point) |
+					   	(complete_timestamp >= start_point & complete_timestamp <= end_point) |
+					   	(start_timestamp <= start_point & complete_timestamp >= end_point)) %>%
+				pull(1) -> case_selection
+		}
+		else if(filter_method == "start") {
+			cases %>%
+				filter(start_timestamp >=  start_point & start_timestamp <= end_point) %>%
+				pull(1) -> case_selection
 
-		colnames(output)[colnames(output) == "case_classifier"] <- case_id(eventlog)
-		colnames(output)[colnames(output) == "event_classifier"] <- activity_id(eventlog)
-		colnames(output)[colnames(output) == "timestamp_classifier"] <- timestamp(eventlog)
-		colnames(output)[colnames(output) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
-
-		output %>% re_map(mapping(eventlog)) %>% return()
+		}
+		else if(filter_method == "complete") {
+			cases %>%
+				filter(complete_timestamp >= start_point & complete_timestamp <= end_point) %>%
+				pull(1) -> case_selection
+		}
+		filter_case(eventlog, case_selection, reverse)
 	}
-
-
-	if(reverse == FALSE)
-		f_eventlog <- filter(eventlog, (case_classifier %in% case_selection$case_classifier))
-	else
-		f_eventlog <- filter(eventlog, !(case_classifier %in% case_selection$case_classifier))
-
-	colnames(f_eventlog)[colnames(f_eventlog) == "case_classifier"] <- case_id(eventlog)
-
-	f_eventlog %>% re_map(mapping(eventlog))  %>% return()
 }
 
+#' @describeIn filter_time_period Filter grouped event log
+#' @export
 
 
+
+filter_time_period.grouped_eventlog <- function(eventlog,
+										interval = NULL,
+										filter_method = c("contained","intersecting","start","complete","trim"),
+										reverse = FALSE,
+										...) {
+	grouped_filter(eventlog, filter_time_period, interval, filter_method, reverse, ...)
+}
 #' @rdname filter_time_period
 #' @export ifilter_time_period
 ifilter_time_period <- function(eventlog) {
@@ -129,9 +138,10 @@ ifilter_time_period <- function(eventlog) {
 			print(start_date)
 			print(end_date)
 
-			filtered_log <- filter_time_period(eventlog, start_point = start_date,
-											   end_point = end_date,filter_method = input$method,
-											   reverse = ifelse(input$reverse == "Yes", T, F))
+			filtered_log <- filter_time_period(eventlog,
+											   interval = c(start_date, end_date),
+											   filter_method = input$method,
+											   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 
 
 			stopApp(filtered_log)

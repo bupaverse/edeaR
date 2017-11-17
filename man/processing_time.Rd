@@ -2,21 +2,39 @@
 % Please edit documentation in R/processing_time.R
 \name{processing_time}
 \alias{processing_time}
+\alias{processing_time.eventlog}
+\alias{processing_time.grouped_eventlog}
 \title{Metric: Processing time}
 \usage{
-processing_time(eventlog, level_of_analysis = c("log", "trace", "case",
-  "activity", "resource", "resource-activity"), units = c("hours", "days",
-  "weeks", "mins"))
+processing_time(eventlog, level, append, units, ...)
+
+\method{processing_time}{eventlog}(eventlog, level = c("log", "trace", "case",
+  "activity", "resource", "resource-activity"), append = F,
+  units = c("hours", "days", "weeks", "mins"), ...)
+
+\method{processing_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
+  "case", "activity", "resource", "resource-activity"), append = F,
+  units = c("hours", "days", "weeks", "mins"), ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of processing times should be performed: log, trace, case, resource or activity.
-#'}
+\item{level}{At which level the analysis of processing times should be performed: log, trace, case, resource or activity.}
+
+\item{append}{Logical indicating whether the result should be appended to the original data.}
 
 \item{units}{The time unit in which the throughput times should be reported.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics about the processing time of events on the level of activities, traces, cases or log.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute processing time for event log
+
+\item \code{grouped_eventlog}: Compute processing time on grouped eventlog
+}}
+

@@ -18,53 +18,61 @@
 #'
 #' @export filter_precedence
 
-
 filter_precedence <- function(eventlog,
+							  antecedents,
+							  consequents,
+							  precedence_type,
+							  filter_method,
+							  reverse) {
+	UseMethod("filter_precedence")
+}
+
+#' @describeIn filter_precedence Filter event log
+#' @export
+
+filter_precedence.export <- function(eventlog,
 							  antecedents,
 							  consequents,
 							  precedence_type = c("directly_follows", "eventually_follows"),
 							  filter_method = c("each","one_of"),
-							  reverse = F) {
-	stop_eventlog(eventlog)
+							  reverse = FALSE) {
 
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
 
-
-	if(precedence_type == "directly_follows")
-		interleavings_allowed = FALSE
-	else
-		interleavings_allowed = TRUE
+	interleavings_allowed <- ifelse(precedence_type == "directly_follows", FALSE, TRUE)
 
 	sequences <- paste(rep(antecedents, each = length(consequents)),
 					   rep(consequents, times = length(antecedents)), sep = ",")
+
 	number_of_conditions <- length(sequences)
 
 	patterns <- data.frame(pattern = sequences)
 	tr <- traces(eventlog)
 
 	dummies <- generate_pattern_dummies(patterns, eventlog, interleavings_allowed = interleavings_allowed)
-	colnames(dummies)[colnames(dummies) == case_id(eventlog)] <- "case_classifier"
-	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
-
 	dummies$conditions_valid <- rowSums(select(dummies, starts_with("X")))
 	if(filter_method == "one_of")
-		case_selection <- filter(dummies, conditions_valid > 0)$case_classifier
+		case_selection <- filter(dummies, conditions_valid > 0) %>% pull(!!as.symbol(case_id(eventlog)))
 	else
-		case_selection <- filter(dummies, conditions_valid == number_of_conditions)$case_classifier
+		case_selection <- filter(dummies, conditions_valid == number_of_conditions) %>% pull(!!as.symbol(case_id(eventlog)))
 
-	if(reverse == FALSE)
-		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)
-	else
-		f_eventlog <- filter(eventlog, !(case_classifier %in% case_selection))
-
-	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
-
-	output <- re_map(f_eventlog, mapping(eventlog))
-
-	return(output)
+	filter_case(eventlog, case_selection, reverse)
 
 }
+
+#' @describeIn filter_precedence Filter grouped event log
+#' @export
+
+filter_precedence.grouped_eventlog <- function(eventlog,
+									 antecedents,
+									 consequents,
+									 precedence_type = c("directly_follows", "eventually_follows"),
+									 filter_method = c("each","one_of"),
+									 reverse = FALSE) {
+	grouped_filter(eventlog, filter_precedence, antecedents, consequents, precendence_type, filter_method, reverse)
+}
+
 
 #' @rdname filter_precedence
 #' @export ifilter_precedence

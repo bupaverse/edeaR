@@ -2,41 +2,21 @@
 
 
 filter_endpoints_percentile <- function(eventlog,
-							 percentile_cut_off,
-							 reverse = F) {
+										percentage,
+										reverse) {
 
+	c_sum <- eventlog %>%
+		cases
 
-	stop_eventlog(eventlog)
+	c_sum %>%
+		count(first_activity, last_activity) %>%
+		mutate(rel_freq = n/sum(n)) %>%
+		mutate(cum_freq = lag(cumsum(rel_freq), default = 0)) %>%
+		filter(cum_freq < percentage) -> selected_pairs
 
-	s_act <- start_activities_activity(eventlog)
-	e_act <- end_activities_activity(eventlog)
+	case_selection <- c_sum %>%
+		filter(first_activity %in% selected_pairs$first_activity, last_activity %in% selected_pairs$last_activity) %>%
+		pull(1)
 
-	start_activities <- filter(s_act, cum_sum <= percentile_cut_off)
-	end_activities <- filter(e_act, cum_sum <= percentile_cut_off)
-
-	colnames(start_activities)[colnames(start_activities) == activity_id(eventlog)] <- "event_Classifier"
-	colnames(end_activities)[colnames(end_activities) == activity_id(eventlog)] <- "event_Classifier"
-
-	c_sum <- cases(eventlog = eventlog)
-	colnames(c_sum)[colnames(c_sum)==case_id(eventlog)] <- "case_classifier"
-	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
-
-
-	case_selection <- filter(c_sum,
-							 first_event %in% start_activities$event_classifier,
-							 last_event %in% end_activities$event_classifier)$case_classifier
-
-	if(reverse == FALSE)
-		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)
-	else
-		f_eventlog <- filter(eventlog, !(case_classifier %in% case_selection))
-
-	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
-	colnames(f_eventlog)[colnames(f_eventlog)=="event_classifier"] <- activity_id(eventlog)
-
-	f_eventlog <- re_map(f_eventlog, mapping(eventlog))
-
-
-	return(f_eventlog)
-
+	filter_case(eventlog, case_selection, reverse)
 }

@@ -6,69 +6,69 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param level_of_analysis At which level the analysis of  coverage should be performed: log, case, resource.
+#' @param level At which level the analysis of  coverage should be performed: log, case, resource.
+#' @inheritParams resource_involvement
 #'
 #' @export resource_specialisation
 
+resource_specialisation <- function(eventlog, level, append, ...) {
+	UseMethod("resource_specialisation")
+}
 
-resource_specialisation <- function(eventlog, level_of_analysis = c("log","case","activity","resource")) {
+#' @rdname resource_specialisation
+#' @export resource_specialization
 
-	stop_eventlog(eventlog)
-	level_of_analysis <- match.arg(level_of_analysis)
+resource_specialization <- function(eventlog, level, append, ...) {
+	UseMethod("resource_specialisation")
+}
+
+
+#' @describeIn resource_specialisation Resource specialization for  eventlog
+#' @export
+
+resource_specialisation.eventlog <- function(eventlog, level = c("log","case","activity","resource"), append = F, ...) {
+
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
 	mapping <- mapping(eventlog)
 
-	FUN <- switch(level_of_analysis,
+	FUN <- switch(level,
+				  log = resource_specialisation_log,
+				  case = resource_specialisation_case,
+				  activity = resource_specialisation_activity,
+				  resource = resource_specialisation_resource)
+
+	output <- FUN(eventlog = eventlog)
+
+
+	return_metric(eventlog, output, level, append, "resource_specialisation", ifelse(level == "case",8,2))
+}
+
+#' @describeIn resource_specialisation Resource specialization for grouped eventlog
+#' @export
+
+resource_specialisation.grouped_eventlog <- function(eventlog, level = c("log","case","activity","resource"), append = F, ...) {
+
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+	mapping <- mapping(eventlog)
+
+	FUN <- switch(level,
 				  log = resource_specialisation_log,
 				  case = resource_specialisation_case,
 				  activity = resource_specialisation_activity,
 				  resource = resource_specialisation_resource)
 
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		if(!(level_of_analysis %in% c("log"))) {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		}
-		else {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) -> temp
-
-			temp %>%
-				mutate(raw = map(data, attr, "raw")) %>%
-				select(-data) %>%
-				unnest() -> raw
-
-			temp %>%
-				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-				unnest() -> output
-
-			attr(output, "raw") <- raw
-		}
-
-		attr(output, "groups") <- groups(eventlog)
+	if(!(level %in% c("log"))) {
+		grouped_metric(eventlog, FUN) -> output
 	}
-	else{
-		output <- FUN(eventlog = eventlog)
+	else {
+		grouped_metric_raw_log(eventlog, FUN) -> output
 	}
 
 
-	class(output) <- c("resource_specialisation", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
-
-	return(output)
+	return_metric(eventlog, output, level, append, "resource_specialisation", ifelse(level == "case",8,2))
 }
 
-#' @rdname resource_specialisation
-#' @export resource_specialization
 
-resource_specialization <- function(eventlog, level_of_analysis = c("log","case","resource","activity")) {
-	eventlog %>%
-		resource_specialisation(level_of_analysis = level_of_analysis) %>%
-		return()
-}

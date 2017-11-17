@@ -2,20 +2,39 @@
 % Please edit documentation in R/idle_time.R
 \name{idle_time}
 \alias{idle_time}
+\alias{idle_time.eventlog}
+\alias{idle_time.grouped_eventlog}
 \title{Metric: Idle Time}
 \usage{
-idle_time(eventlog, level_of_analysis = c("log", "case", "trace", "resource"),
-  units = c("hours", "days", "weeks", "mins"))
+idle_time(eventlog, level, append, units, ...)
+
+\method{idle_time}{eventlog}(eventlog, level = c("log", "case", "trace",
+  "resource"), append = F, units = c("hours", "days", "weeks", "mins"), ...)
+
+\method{idle_time}{grouped_eventlog}(eventlog, level = c("log", "case",
+  "trace", "resource"), append = F, units = c("hours", "days", "weeks",
+  "mins"), ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of activity type frequency should be performed: log, trace, case, resource.}
+\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, resource.}
+
+\item{append}{Logical indicating whether to append results to original event log.}
 
 \item{units}{Time units to be used}
+
+\item{...}{}
 }
 \description{
 Calculates the amount of time that no activity occurs for a case or for a resource. At log level it gives summary statistics of all cases in the log. At trace level it provides summary statistics of all cases related to this case.
 '
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute the idle time for eventlog
+
+\item \code{grouped_eventlog}: Compute idle time for grouped eventlog
+}}
+

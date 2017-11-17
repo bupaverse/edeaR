@@ -2,11 +2,18 @@
 % Please edit documentation in R/filter_activity_presence.R
 \name{filter_activity_presence}
 \alias{filter_activity_presence}
+\alias{filter_activity_presence.eventlog}
+\alias{filter_activity_presence.grouped_eventlog}
 \alias{ifilter_activity_presence}
 \title{Filter: Activity Presence}
 \usage{
-filter_activity_presence(eventlog, activities = NULL, method = c("all",
-  "one_of", "none"))
+filter_activity_presence(eventlog, activities, method)
+
+\method{filter_activity_presence}{eventlog}(eventlog, activities = NULL,
+  method = c("all", "one_of", "none"))
+
+\method{filter_activity_presence}{grouped_eventlog}(eventlog,
+  activities = NULL, method = c("all", "one_of", "none"))
 
 ifilter_activity_presence(eventlog)
 }
@@ -21,3 +28,10 @@ ifilter_activity_presence(eventlog)
 \description{
 Filters cases based on the presence (or absence) of activities
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter event log on presence of activities.
+
+\item \code{grouped_eventlog}: Filter grouped event log on presence of activities.
+}}
+

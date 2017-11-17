@@ -11,26 +11,34 @@
 #'
 #' @export filter_resource
 #'
-filter_resource <- function(eventlog,
-							resources = NULL,
-							reverse = F){
-	stop_eventlog(eventlog)
-	colnames(eventlog)[colnames(eventlog) == resource_id(eventlog)] <- "resource_classifier"
+filter_resource <- function(eventlog, resources, reverse) {
+	UseMethod("filter_resource")
+}
 
+#' @describeIn filter_resource Filter event log
+#' @export
+
+
+filter_resource.eventlog <- function(eventlog,
+							resources,
+							reverse = FALSE){
 
 	if(reverse == F)
-		output <- filter(eventlog, resource_classifier %in% resources)
-
+		output <- filter(eventlog, (!!as.symbol(resource_id(eventlog))) %in% resources)
 	else
-		output <- filter(eventlog, !(resource_classifier %in% resources))
-
-	colnames(output)[colnames(output)=="resource_classifier"] <- resource_id(eventlog)
-
-	output <- re_map(output, mapping(eventlog))
+		output <- filter(eventlog, !((!!as.symbol(resource_id(eventlog))) %in% resources))
 
 	return(output)
 }
 
+#' @describeIn filter_resource Filter grouped event log
+#' @export
+
+filter_resource.grouped_eventlog <- function(eventlog,
+											 resources,
+											 reverse = FALSE) {
+	grouped_filter(eventlog, filter_resource, resources, reverse)
+}
 
 #' @rdname filter_resource
 #' @export ifilter_resource

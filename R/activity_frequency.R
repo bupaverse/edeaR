@@ -5,18 +5,55 @@
 #' @param eventlog The event log to be used. An object of class
 #' \code{eventlog}.
 #'
-#' @param level_of_analysis At which level the analysis of activity type frequency should be performed: log, trace, case, activity.
+#' @param level At which level the analysis of activity type frequency should be performed: log, trace, case, activity.
+#' @param append Logical, indicating whether to append results to original event log. Ignored when level is log or trace.
+#' @param ... Deprecated arguments
 #'
 #' @export activity_frequency
 
-activity_frequency <- function(eventlog,
-									level_of_analysis = c("log","trace","activity","case")) {
-	stop_eventlog(eventlog)
-
-	level_of_analysis <- match.arg(level_of_analysis)
+activity_frequency <- function(eventlog, level,  append, ...) {
+	UseMethod("activity_frequency")
+}
 
 
-	FUN <- switch(level_of_analysis,
+#' @describeIn activity_frequency Compute activity frequency for eventlog
+#' @export
+
+activity_frequency.eventlog <- function(eventlog,
+										level = c("log","trace","activity","case"),
+										append = F,
+										...) {
+
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+
+
+	FUN <- switch(level,
+				  log = activity_frequency_log,
+				  case = activity_frequency_case,
+				  trace = activity_frequency_trace,
+				  activity = activity_frequency_activity)
+
+
+	output <- FUN(eventlog = eventlog)
+
+	return_metric(eventlog, output, level, append, "activity_frequency")
+
+}
+
+
+#' @describeIn activity_frequency Compute activity frequency for grouped event log
+#' @export
+
+activity_frequency.grouped_eventlog <- function(eventlog,
+												level = c("log","trace","activity","case"),
+												append = F,
+												...) {
+	level <- match.arg(level)
+
+	level <- deprecated_level(level, ...)
+
+	FUN <- switch(level,
 				  log = activity_frequency_log,
 				  case = activity_frequency_case,
 				  trace = activity_frequency_trace,
@@ -24,41 +61,15 @@ activity_frequency <- function(eventlog,
 
 	mapping <- mapping(eventlog)
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		if(level_of_analysis != "log") {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		}
-		else {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) -> temp
 
-			temp %>%
-				mutate(raw = map(data, attr, "raw")) %>%
-				select(-data) %>%
-				unnest() -> raw
-
-			temp %>%
-				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-				unnest() -> output
-
-			attr(output, "raw") <- raw
-		}
-
-		attr(output, "groups") <- groups(eventlog)
+	if(level != "log") {
+		grouped_metric(eventlog, FUN) -> output
 	}
-	else{
-		output <- FUN(eventlog = eventlog)
+	else {
+		grouped_metric_raw_log(eventlog, FUN) -> output
 	}
 
-	class(output) <- c("activity_frequency", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
+	return_metric(eventlog, output, level, append, "activity_frequency")
 
-	return(output)
+
 }

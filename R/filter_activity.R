@@ -11,25 +11,39 @@
 #'
 #' @export filter_activity
 #'
-filter_activity <- function(eventlog,
-							activities = NULL,
-							reverse = F){
-	stop_eventlog(eventlog)
-	mapping <- mapping(eventlog)
-	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+filter_activity <- function(eventlog, activities, reverse) {
+	UseMethod("filter_activity")
+}
 
+#' @describeIn filter_activity Filter eventlog for activity labels
+#' @export
+
+filter_activity.eventlog <- function(eventlog,
+							activities,
+							reverse = FALSE){
+	mapping <- mapping(eventlog)
 
 	if(reverse == F)
-		output <- filter(eventlog, event_classifier %in% activities)
+		output <- filter(eventlog, (!!as.symbol(activity_id(eventlog))) %in% activities)
 
 	else
-		output <- filter(eventlog, !(event_classifier %in% activities))
-
-	colnames(output)[colnames(output)=="event_classifier"] <- activity_id(eventlog)
+		output <- filter(eventlog, !((!!as.symbol(activity_id(eventlog))) %in% activities))
 
 	output <- output %>% re_map(mapping)
 
 	return(output)
+}
+
+#' @describeIn filter_activity Filter grouped eventlog for activity labels
+#' @export
+
+filter_activity.grouped_eventlog <- function(eventlog,
+									 activities,
+									 reverse = FALSE){
+
+	grouped_filter(eventlog, filter_activity, activities, reverse)
+
+
 }
 
 

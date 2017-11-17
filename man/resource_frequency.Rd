@@ -2,17 +2,35 @@
 % Please edit documentation in R/resource_frequency.R
 \name{resource_frequency}
 \alias{resource_frequency}
+\alias{resource_frequency.eventlog}
+\alias{resource_frequency.grouped_eventlog}
 \title{Metric: Resource frequency}
 \usage{
-resource_frequency(eventlog, level_of_analysis = c("log", "case", "activity",
-  "resource", "resource-activity"))
+resource_frequency(eventlog, level, append, ...)
+
+\method{resource_frequency}{eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource", "resource-activity"), append = F, ...)
+
+\method{resource_frequency}{grouped_eventlog}(eventlog, level = c("log",
+  "case", "activity", "resource", "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.}
+\item{level}{At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.}
+
+\item{append}{Logical indicated whether to append result to orignal data.frame}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Analyses the frequency of resources at different levels of analysis
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Resource frequency for eventlog
+
+\item \code{grouped_eventlog}: Resource frequency for grouped eventlog
+}}
+

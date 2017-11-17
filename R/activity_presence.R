@@ -3,6 +3,7 @@
 #' @description Calculates for each activity type in what percentage of cases it is present.
 #'
 #' @param eventlog The event log to be used. An object of class
+#' @param append Logical indicating whether to append the result to the original event log
 #' \code{eventlog}.
 #'
 #'
@@ -26,35 +27,43 @@
 #' }
 #' @export activity_presence
 
+activity_presence <- function(eventlog, append) {
+	UseMethod("activity_presence")
+}
 
-activity_presence <- function(eventlog) {
-	stop_eventlog(eventlog)
+#' @describeIn activity_presence Compute activity presence for event log
+#' @export
 
-	FUN <- function(eventlog) {
-		eventlog %>%
-			group_by(!!as.symbol(activity_id(eventlog))) %>%
-			summarize(absolute = n_distinct(!!as.symbol(case_id(eventlog)))) %>%
-			mutate(relative = absolute/n_cases(eventlog)) %>%
-			arrange(-absolute) -> output
-		return(output)
-	}
+activity_presence.eventlog <- function(eventlog, append = F) {
+
+	FUN <- activity_presence_FUN
+	mapping <- mapping(eventlog)
+	output <- FUN(eventlog = eventlog)
+
+
+	return_metric(eventlog, output, "activity", append, "activity_presence")
+}
+
+#' @describeIn activity_presence Compute activity presence for grouped eventlog
+#' @export
+
+activity_presence.grouped_eventlog <- function(eventlog, append = F) {
+
+	FUN <- activity_presence_FUN
 
 	mapping <- mapping(eventlog)
+	output <- grouped_metric(eventlog, FUN)
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		attr(output, "groups") <- groups(eventlog)
-	}
-	else{
-		output <- FUN(eventlog = eventlog)
-	}
-
-
-class(output) <- c("activity_presence", class(output))
-attr(output, "mapping") <- mapping(eventlog)
-return(output)
+	return_metric(eventlog, output, "activity", append, "activity_presence")
 }
+
+activity_presence_FUN <- function(eventlog) {
+	eventlog %>%
+		group_by(!!as.symbol(activity_id(eventlog))) %>%
+		summarize(absolute = n_distinct(!!as.symbol(case_id(eventlog)))) %>%
+		mutate(relative = absolute/n_cases(eventlog)) %>%
+		arrange(-absolute) -> output
+	return(output)
+}
+
+

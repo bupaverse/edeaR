@@ -3,80 +3,99 @@
 #' @description Provides summary statistics on the sizes of repetitions at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
 #' of that activity type.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
 #'
-#' @param type Type of repetitions, repeat or redo.
-#'
-#' @param level_of_analysis At which level the analysis of selfloops should be performed: log, case, activity, resource, resource-activity.
-#'
+#' @inheritParams number_of_selfloops
 #'
 #' @export size_of_repetitions
+#'
+size_of_repetitions <- function(eventlog, type, level, append, ...) {
+	UseMethod("size_of_repetitions")
+}
+#' @describeIn size_of_repetitions Size of repetitions for eventlog
+#' @export
 
-size_of_repetitions <- function(eventlog,
-							  type = c("repeat","redo"),
-							  level_of_analysis = c("log","case","activity","resource","resource-acitivty")){
+size_of_repetitions.eventlog <- function(eventlog,
+								type = c("repeat","redo"),
+								level = c("log","case","activity","resource","resource-activity"),
+								append = F,
+								...){
 
-	stop_eventlog(eventlog)
 	type <- match.arg(type)
-	level_of_analysis <- match.arg(level_of_analysis)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
 	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
-		FUN <- switch(level_of_analysis,
-			   log = repeat_repetitions_size_log,
-			   case = repeat_repetitions_size_case,
-			   activity = repeat_repetitions_size_activity,
-			   resource = repeat_repetitions_size_resource,
-			   "resource-activity" = repeat_repetitions_size_resource_activity
+		FUN <- switch(level,
+					  log = repeat_repetitions_size_log,
+					  case = repeat_repetitions_size_case,
+					  activity = repeat_repetitions_size_activity,
+					  resource = repeat_repetitions_size_resource,
+					  "resource-activity" = repeat_repetitions_size_resource_activity
 		)
 	}
 	else if (type == "redo") {
-		FUN <- 	switch(level_of_analysis,
-			   log = redo_repetitions_size_log,
-			   case = redo_repetitions_size_case,
-			   activity = redo_repetitions_size_activity,
-			   resource = redo_repetitions_size_resource,
-			   "resource-activity" = redo_repetitions_size_resource_activity
+		FUN <- 	switch(level,
+					   log = redo_repetitions_size_log,
+					   case = redo_repetitions_size_case,
+					   activity = redo_repetitions_size_activity,
+					   resource = redo_repetitions_size_resource,
+					   "resource-activity" = redo_repetitions_size_resource_activity
 		)
 
 	}
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		if(level_of_analysis != "log") {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		}
-		else {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) -> temp
+	output <- FUN(eventlog = eventlog)
 
-			# temp %>%
-			# 	mutate(raw = map(data, attr, "raw")) %>%
-			# 	select(-data) %>%
-			# 	unnest() -> raw
 
-			temp %>%
-				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-				unnest() -> output
+	output <- return_metric(eventlog, output, level, append, "size_of_repetitions", 8)
+	attr(output, "type") <- type
+	return(output)
+}
 
-			attr(output, "raw") <- raw
-		}
+#' @describeIn size_of_repetitions Size of repetitions for grouped event log
+#' @export
 
-		attr(output, "groups") <- groups(eventlog)
+size_of_repetitions.grouped_eventlog <- function(eventlog,
+												 type = c("repeat","redo"),
+												 level = c("log","case","activity","resource","resource-activity"),
+												 append = F,
+												 ...){
+
+	type <- match.arg(type)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+	mapping <- mapping(eventlog)
+
+	if(type == "repeat") {
+		FUN <- switch(level,
+					  log = repeat_repetitions_size_log,
+					  case = repeat_repetitions_size_case,
+					  activity = repeat_repetitions_size_activity,
+					  resource = repeat_repetitions_size_resource,
+					  "resource-activity" = repeat_repetitions_size_resource_activity
+		)
 	}
-	else{
-		output <- FUN(eventlog = eventlog)
+	else if (type == "redo") {
+		FUN <- 	switch(level,
+					   log = redo_repetitions_size_log,
+					   case = redo_repetitions_size_case,
+					   activity = redo_repetitions_size_activity,
+					   resource = redo_repetitions_size_resource,
+					   "resource-activity" = redo_repetitions_size_resource_activity
+		)
+
 	}
 
-	class(output) <- c("size_of_repetitions", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
+	if(level != "log") {
+		output <- grouped_metric(eventlog, FUN)
+	}
+	else {
+		output <- grouped_metric_raw_log(eventlog, FUN)
+	}
+
+
+	output <- return_metric(eventlog, output, level, append, "size_of_repetitions", 8)
 	attr(output, "type") <- type
 	return(output)
 }

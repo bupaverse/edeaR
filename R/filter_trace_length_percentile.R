@@ -1,30 +1,13 @@
 
 filter_trace_length_percentile <- function(eventlog,
-								percentile_cut_off,
-								reverse = F)
+								percentage,
+								reverse)
 {
 
-	colnames(eventlog)[colnames(eventlog)==case_id(eventlog)] <- "case_classifier"
-	colnames(eventlog)[colnames(eventlog)==activity_instance_id(eventlog)] <- "activity_instance_classifier"
+	eventlog %>%
+		trace_length("case") %>%
+		slice(1:ceiling(n()*percentage)) %>%
+		pull(1) -> case_selection
 
-	case_lengths <- group_by(eventlog, case_classifier) %>% summarize(length = n_distinct(activity_instance_classifier))
-	case_lengths_grouped <- group_by(case_lengths, length) %>% summarize(freq = n()) %>% arrange(length)
-	case_lengths_grouped$perc <- cumsum(case_lengths_grouped$freq)/sum(case_lengths_grouped$freq)
-	case_lengths <- merge(case_lengths, case_lengths_grouped)
-
-	case_selection <- filter(case_lengths, perc <= percentile_cut_off)$case_classifier
-
-		if(reverse == FALSE)
-		f_eventlog <- filter(eventlog, case_classifier %in% case_selection)
-	else
-		f_eventlog <- filter(eventlog, !(case_classifier %in% case_selection))
-
-	colnames(f_eventlog)[colnames(f_eventlog)=="case_classifier"] <- case_id(eventlog)
-	colnames(f_eventlog)[colnames(f_eventlog)=="activity_instance_classifier"] <- activity_instance_id(eventlog)
-
-	output <- re_map(f_eventlog, mapping(eventlog))
-
-
-	return(output)
-
+	filter_case(eventlog, case_selection, reverse)
 }

@@ -2,19 +2,37 @@
 % Please edit documentation in R/end_activities.R
 \name{end_activities}
 \alias{end_activities}
+\alias{end_activities.eventlog}
+\alias{end_activities.grouped_eventlog}
 \title{Metric: End activities}
 \usage{
-end_activities(eventlog, level_of_analysis = c("log", "case", "activity",
-  "resource", "resource-activity"))
+end_activities(eventlog, level, append, ...)
+
+\method{end_activities}{eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource", "resource-activity"), append = F, ...)
+
+\method{end_activities}{grouped_eventlog}(eventlog, level = c("log", "case",
+  "activity", "resource", "resource-activity"), append = F, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
 \code{eventlog}.}
 
-\item{level_of_analysis}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
+\item{level}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
+
+\item{append}{Logical indicating whether the results should be appended to the original event log.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 At log level, computes how many activity types occur as the last event in a case, both absolute and relative.
 At activity level, shows the activities which occur as last, and how often.
 The last event in a case is the one which completed the last.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Compute end activities for eventlog
+
+\item \code{grouped_eventlog}: Compute end activities for grouped eventlog
+}}
+

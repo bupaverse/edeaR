@@ -2,12 +2,21 @@
 % Please edit documentation in R/filter_precedence.R
 \name{filter_precedence}
 \alias{filter_precedence}
+\alias{filter_precedence.export}
+\alias{filter_precedence.grouped_eventlog}
 \alias{ifilter_precedence}
 \title{Filter: precedence relations}
 \usage{
-filter_precedence(eventlog, antecedents, consequents,
+filter_precedence(eventlog, antecedents, consequents, precedence_type,
+  filter_method, reverse)
+
+\method{filter_precedence}{export}(eventlog, antecedents, consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
-  filter_method = c("each", "one_of"), reverse = F)
+  filter_method = c("each", "one_of"), reverse = FALSE)
+
+\method{filter_precedence}{grouped_eventlog}(eventlog, antecedents, consequents,
+  precedence_type = c("directly_follows", "eventually_follows"),
+  filter_method = c("each", "one_of"), reverse = FALSE)
 
 ifilter_precedence(eventlog)
 }
@@ -29,3 +38,10 @@ at least one of the conditions hold are preserved.}
 Filters cases based on the precedence relations between two sets of activities: antecedents and consequent.
 The filter can detect directly following activities as well as eventually following activites.
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{export}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
+}}
+

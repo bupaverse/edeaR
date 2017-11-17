@@ -8,76 +8,105 @@
 #'
 #' @param type The type of repetitions, either repeat or redo
 #'
-#' @param level_of_analysis At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.
-#'
+#' @param level At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.
+#' @param append Logical indicating whether result should be appended to original data
+#' @param ... Deprecated arguments
 #'
 #' @export number_of_repetitions
 
 
-number_of_repetitions <- function(eventlog,
-								  type = c("repeat","redo"),
-						level_of_analysis = c("log","case","activity","resource","resource-activity")){
+number_of_repetitions <- function(eventlog, type, level, append, ...) {
+	UseMethod("number_of_repetitions")
+}
 
-	stop_eventlog(eventlog)
+#' @describeIn number_of_repetitions ""
+#' @export
+
+number_of_repetitions.eventlog <- function(eventlog,
+								  type = c("repeat","redo"),
+								  level = c("log","case","activity","resource","resource-activity"),
+								  append = F,
+								  ...){
+
 	mapping <- mapping(eventlog)
 	type <- match.arg(type)
-	level_of_analysis <- match.arg(level_of_analysis)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
 
 	if(type == "repeat") {
-		FUN <- switch(level_of_analysis,
-			   log = repeat_repetitions_log,
-			   case = repeat_repetitions_case,
-			   activity = repeat_repetitions_activity,
-			   resource = repeat_repetitions_resource,
-			   "resource-activity" = repeat_repetitions_resource_activity
+		FUN <- switch(level,
+					  log = repeat_repetitions_log,
+					  case = repeat_repetitions_case,
+					  activity = repeat_repetitions_activity,
+					  resource = repeat_repetitions_resource,
+					  "resource-activity" = repeat_repetitions_resource_activity
 		)
 	}
 	else if (type == "redo") {
-		FUN <- switch(level_of_analysis,
-			   log = redo_repetitions_log,
-			   case = redo_repetitions_case,
-			   activity = redo_repetitions_activity,
-			   resource = redo_repetitions_resource,
-			   "resource-activity" = redo_repetitions_resource_activity
+		FUN <- switch(level,
+					  log = redo_repetitions_log,
+					  case = redo_repetitions_case,
+					  activity = redo_repetitions_activity,
+					  resource = redo_repetitions_resource,
+					  "resource-activity" = redo_repetitions_resource_activity
+		)
+	}
+
+	output <- FUN(eventlog = eventlog)
+
+
+	output <- return_metric(eventlog, output, level, append, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
+	attr(output, "type") <- type
+
+	return(output)
+
+}
+
+
+#' @describeIn number_of_repetitions ""
+#' @export
+
+number_of_repetitions.grouped_eventlog <- function(eventlog,
+												   type = c("repeat","redo"),
+												   level = c("log","case","activity","resource","resource-activity"),
+												   append = F,
+												   ...){
+
+	mapping <- mapping(eventlog)
+	type <- match.arg(type)
+	level <- match.arg(level)
+	level <- deprecated_level(level, ...)
+
+	if(type == "repeat") {
+		FUN <- switch(level,
+					  log = repeat_repetitions_log,
+					  case = repeat_repetitions_case,
+					  activity = repeat_repetitions_activity,
+					  resource = repeat_repetitions_resource,
+					  "resource-activity" = repeat_repetitions_resource_activity
+		)
+	}
+	else if (type == "redo") {
+		FUN <- switch(level,
+					  log = redo_repetitions_log,
+					  case = redo_repetitions_case,
+					  activity = redo_repetitions_activity,
+					  resource = redo_repetitions_resource,
+					  "resource-activity" = redo_repetitions_resource_activity
 		)
 
 	}
 
-	if("grouped_eventlog" %in% class(eventlog)) {
-		if(level_of_analysis != "log") {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) %>%
-				unnest -> output
-		}
-		else {
-			eventlog %>%
-				nest %>%
-				mutate(data = map(data, re_map, mapping)) %>%
-				mutate(data = map(data, FUN)) -> temp
-
-			 temp %>%
-			 	mutate(raw = map(data, attr, "raw")) %>%
-			 	select(-data) %>%
-			 	unnest() -> raw
-
-			temp %>%
-				mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-				unnest() -> output
-
-			attr(output, "raw") <- raw
-		}
-
-		attr(output, "groups") <- groups(eventlog)
+	if(level != "log") {
+		grouped_metric(eventlog, FUN) -> output
 	}
-	else{
-		output <- FUN(eventlog = eventlog)
+	else {
+		grouped_metric_raw_log(eventlog, FUN) -> output
 	}
 
-	class(output) <- c("number_of_repetitions", class(output))
-	attr(output, "level") <- level_of_analysis
-	attr(output, "mapping") <- mapping(eventlog)
+
+
+	output <- return_metric(eventlog, output, level, append, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
 	return(output)

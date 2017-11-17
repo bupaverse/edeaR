@@ -2,10 +2,17 @@
 % Please edit documentation in R/filter_activity.R
 \name{filter_activity}
 \alias{filter_activity}
+\alias{filter_activity.eventlog}
+\alias{filter_activity.grouped_eventlog}
 \alias{ifilter_activity}
 \title{Filter: Activity}
 \usage{
-filter_activity(eventlog, activities = NULL, reverse = F)
+filter_activity(eventlog, activities, reverse)
+
+\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE)
+
+\method{filter_activity}{grouped_eventlog}(eventlog, activities,
+  reverse = FALSE)
 
 ifilter_activity(eventlog)
 }
@@ -20,3 +27,10 @@ ifilter_activity(eventlog)
 \description{
 Filters the log based on activities
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filter eventlog for activity labels
+
+\item \code{grouped_eventlog}: Filter grouped eventlog for activity labels
+}}
+
