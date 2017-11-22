@@ -55,6 +55,7 @@ activity_presence.grouped_eventlog <- function(eventlog, append = F) {
 }
 
 activity_presence_FUN <- function(eventlog) {
+	absolute <- NULL
 	eventlog %>%
 		group_by(!!as.symbol(activity_id(eventlog))) %>%
 		summarize(absolute = n_distinct(!!as.symbol(case_id(eventlog)))) %>%
