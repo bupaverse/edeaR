@@ -10,7 +10,7 @@ License: MIT + file LICENSE
 Depends:
     R(>= 3.0.0)
 Imports:
-    bupaR,dplyr,XML, xml2,data.table, ggplot2, ggthemes, glue, tibble, shiny, miniUI, tidyr, shinyTime, lubridate, purrr
+    bupaR,dplyr,data.table, ggplot2, ggthemes, glue, tibble, shiny, miniUI, tidyr, shinyTime, lubridate, purrr, stringr
 LazyData: true
 RoxygenNote: 6.0.1
 URL: https://www.bupar.net
