@@ -64,6 +64,7 @@ filter_activity_interval <- function(eventlog, lower, upper, reverse) {
 filter_activity_percentage <- function(eventlog, percentage, reverse) {
 	absolute_frequency <- NULL
 	relative_frequency <- NULL
+	r <- NULL
 
 	act_freq <- activities(eventlog) %>%
 		arrange(-absolute_frequency) %>%
