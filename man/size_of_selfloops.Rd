@@ -29,7 +29,7 @@ size_of_selfloops(eventlog, type, level, append, ...)
 \item{...}{Deprecated arguments}
 }
 \description{
-Provides summary statistics on the sizes of selfloops at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
+Provides summary statistics on the sizes of selfloops at the level of activity types, cases, resources, resource-activity combinations or log. A selfloop of size x refers to the occurrence of x consecutive events
 of that activity type.
 }
 \section{Methods (by class)}{
