@@ -9,9 +9,10 @@
 \usage{
 filter_case(eventlog, cases, reverse)
 
-\method{filter_case}{eventlog}(eventlog, cases = NULL, reverse = F)
+\method{filter_case}{eventlog}(eventlog, cases = NULL, reverse = FALSE)
 
-\method{filter_case}{grouped_eventlog}(eventlog, cases = NULL, reverse = F)
+\method{filter_case}{grouped_eventlog}(eventlog, cases = NULL,
+  reverse = FALSE)
 
 ifilter_case(eventlog)
 }

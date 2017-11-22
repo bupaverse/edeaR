@@ -20,22 +20,18 @@ filter_case <- function(eventlog, cases, reverse) {
 #' @export
 filter_case.eventlog <- function(eventlog,
 							cases = NULL,
-							reverse = F){
+							reverse = FALSE){
 
-	if(reverse == F)
-		output <- filter(eventlog, (!!as.symbol(case_id(eventlog))) %in% cases)
-
+	if(!reverse)
+		filter(eventlog, (!!as.symbol(case_id(eventlog))) %in% cases)
 	else
-		output <- filter(eventlog, !((!!as.symbol(case_id(eventlog))) %in% cases))
-
-	output <- re_map(output, mapping(eventlog))
-	return(output)
+		filter(eventlog, !((!!as.symbol(case_id(eventlog))) %in% cases))
 }
 
 #' @describeIn filter_case Stratified filter for grouped eventlogs
 #' @export
 
-filter_case.grouped_eventlog <- function(eventlog, cases = NULL, reverse = F) {
+filter_case.grouped_eventlog <- function(eventlog, cases = NULL, reverse = FALSE) {
 	grouped_filter(eventlog, filter_case, cases, reverse)
 }
 
