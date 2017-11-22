@@ -49,33 +49,29 @@ filter_activity_frequency.eventlog <- function(eventlog,
 }
 
 filter_activity_interval <- function(eventlog, lower, upper, reverse) {
+	absolute_frequency <- NULL
 	lower <- ifelse(is.na(lower), -Inf, lower)
 	upper <- ifelse(is.na(upper), Inf, upper)
 
-	act_freq <- activities(eventlog)
+	activities(eventlog) %>%
+		filter(between(absolute_frequency, lower, upper)) %>%
+		pull(1) -> event_selection
 
-	if(reverse == FALSE) {
-		event_selection <- act_freq %>% filter(between(absolute_frequency, lower, upper)) %>% pull(1)
-	} else {
-		event_selection <- act_freq %>% filter(!between(absolute_frequency, lower, upper)) %>% pull(1)
-	}
-	filter_attributes(eventlog, (!!as.symbol(activity_id(eventlog))) %in% event_selection)
+	filter_activity(eventlog, event_selection, reverse)
 }
 
 
 filter_activity_percentage <- function(eventlog, percentage, reverse) {
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+
 	act_freq <- activities(eventlog) %>%
 		arrange(-absolute_frequency) %>%
-		mutate(r = cumsum(relative_frequency))
+		mutate(r = cumsum(relative_frequency)) %>%
+		filter(dplyr::lag(r, default = 0) < percentage) %>%
+		dplyr::pull(1) -> event_selection
 
-	if(reverse == FALSE)
-		event_selection <- act_freq %>% filter(dplyr::lag(r, default = 0) < percentage)
-	else
-		event_selection <- act_freq %>% filter(dplyr::lag(r, default = 0) >= percentage)
-
-	event_selection %>% dplyr::pull(1) -> event_selection
-
-	filter_attributes(eventlog, (!!as.symbol(activity_id(eventlog))) %in% event_selection)
+	filter_activity(eventlog, event_selection, reverse)
 
 }
 
@@ -104,7 +100,7 @@ ifilter_activity_frequency <- function(eventlog) {
 					uiOutput("filter_ui")
 
 			)
-			)
+		)
 	)
 
 	server <- function(input, output, session){
@@ -124,12 +120,12 @@ ifilter_activity_frequency <- function(eventlog) {
 
 			if(input$filter_type == "int")
 				filtered_log <- filter_activity_frequency(eventlog,
-													   interval =  input$interval_slider,
-													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+														  interval =  input$interval_slider,
+														  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 			else if(input$filter_type == "percentile") {
 				filtered_log <- filter_activity_frequency(eventlog,
-													   percentage = input$percentile_slider/100,
-													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+														  percentage = input$percentile_slider/100,
+														  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 			}
 
 			stopApp(filtered_log)
