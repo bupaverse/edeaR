@@ -21,9 +21,6 @@ filter_activity_presence <- function(eventlog, activities, method) {
 filter_activity_presence.eventlog <- function(eventlog,
 											  activities = NULL,
 											  method = c("all", "one_of", "none")){
-	stop_eventlog(eventlog)
-
-
 	method <- match.arg(method)
 
 	eventlog %>%
@@ -37,15 +34,11 @@ filter_activity_presence.eventlog <- function(eventlog,
 		filter(n == length(activities)) -> selection_all
 
 	if(method == "all")
-		output <- filter_case(eventlog, selection_all %>% pull(1))
-
+		filter_case(eventlog, selection_all %>% pull(1))
 	else if(method == "one_of")
-		output <- filter_case(eventlog, selection %>% pull(1))
+		filter_case(eventlog, selection %>% pull(1))
 	else if (method == "none")
-		output <- filter_case(eventlog, selection %>% pull(1) , reverse = T)
-
-
-	return(output)
+		filter_case(eventlog, selection %>% pull(1) , reverse = TRUE)
 }
 
 #' @describeIn filter_activity_presence Filter grouped event log on presence of activities.
@@ -70,7 +63,7 @@ ifilter_activity_presence <- function(eventlog) {
 							selectizeInput("selected_activities",
 										   label = "Select activities:",
 										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
-										   	unique, selected = NA,  multiple = T), " ",
+										   	unique, selected = NA,  multiple = TRUE), " ",
 							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none"), selected = "all")
 					),
 					"If \"all\", each of the activities should be present.
