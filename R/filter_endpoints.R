@@ -63,7 +63,7 @@ filter_endpoints.grouped_eventlog <- function(eventlog,
 											  percentage = NULL,
 											  reverse = FALSE,
 											  ...) {
-	grouped_filter(eventlog, filter_endpoints, start_activities, end_activity, percentage, reverse, ...)
+	grouped_filter(eventlog, filter_endpoints, start_activities, end_activities, percentage, reverse, ...)
 }
 
 

@@ -4,11 +4,14 @@
 filter_endpoints_percentile <- function(eventlog,
 										percentage,
 										reverse) {
+	first_activity <- NULL
+	last_activity <- NULL
+	rel_freq <- NULL
+	cum_freq <- NULL
+
 
 	c_sum <- eventlog %>%
-		cases
-
-	c_sum %>%
+		cases %>%
 		count(first_activity, last_activity) %>%
 		mutate(rel_freq = n/sum(n)) %>%
 		mutate(cum_freq = lag(cumsum(rel_freq), default = 0)) %>%

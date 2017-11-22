@@ -1,18 +1,21 @@
 
 
 filter_endpoints_sets <- function(eventlog,
-							 start_activities = NULL,
-							 end_activities = NULL,
+							 start_activities,
+							 end_activities,
 							 reverse) {
+
+	first_activity <- NULL
+	last_activity <- NULL
 
 	if(is.null(start_activities))
 		start_activities <- eventlog %>% activities %>% pull(1)
 	if(is.null(end_activities))
 		end_activities <- eventlog %>% activities %>% pull(1)
 
-	c_sum <- cases(eventlog = eventlog)
 
-	case_selection <-  c_sum %>%
+	case_selection <-  eventlog %>%
+		cases %>%
 		filter(first_activity %in% start_activities, last_activity %in% end_activities) %>%
 		pull(1)
 
