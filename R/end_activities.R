@@ -36,8 +36,6 @@ end_activities.eventlog <- function(eventlog,
 				  resource = end_activities_resource,
 				  "resource-activity" = end_activities_resource_activity)
 
-	mapping <- mapping(eventlog)
-
 	output <- FUN(eventlog = eventlog)
 
 	return_metric(eventlog, output, level, append, "end_activities", n_result_col = ifelse(level == "case",1,3))
@@ -61,8 +59,6 @@ end_activities.grouped_eventlog <- function(eventlog,
 				  activity = end_activities_activity,
 				  resource = end_activities_resource,
 				  "resource-activity" = end_activities_resource_activity)
-
-	mapping <- mapping(eventlog)
 
 	output <- grouped_metric(eventlog, FUN)
 

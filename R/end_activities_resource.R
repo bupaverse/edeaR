@@ -1,11 +1,11 @@
 
 end_activities_resource <- function(eventlog) {
-
-
+	absolute <- NULL
+	relative <- NULL
 	eventlog %>%
 		group_by(!!as.symbol(case_id(eventlog))) %>%
-		mutate(rank = row_number(desc(!!as.symbol((timestamp(eventlog)))))) %>%
-		filter(rank == 1) %>%
+		summarize(!!as.symbol(activity_id(eventlog)) := last(!!as.symbol(activity_id(eventlog))),
+				  !!as.symbol(resource_id(eventlog)) := last(!!as.symbol(resource_id(eventlog)))) %>%
 		group_by(!!as.symbol(resource_id(eventlog))) %>%
 		summarize(absolute = n()) %>%
 		arrange(desc(absolute)) %>%
