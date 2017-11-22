@@ -37,7 +37,6 @@ activity_presence <- function(eventlog, append) {
 activity_presence.eventlog <- function(eventlog, append = F) {
 
 	FUN <- activity_presence_FUN
-	mapping <- mapping(eventlog)
 	output <- FUN(eventlog = eventlog)
 
 
@@ -50,8 +49,6 @@ activity_presence.eventlog <- function(eventlog, append = F) {
 activity_presence.grouped_eventlog <- function(eventlog, append = F) {
 
 	FUN <- activity_presence_FUN
-
-	mapping <- mapping(eventlog)
 	output <- grouped_metric(eventlog, FUN)
 
 	return_metric(eventlog, output, "activity", append, "activity_presence")
@@ -62,8 +59,7 @@ activity_presence_FUN <- function(eventlog) {
 		group_by(!!as.symbol(activity_id(eventlog))) %>%
 		summarize(absolute = n_distinct(!!as.symbol(case_id(eventlog)))) %>%
 		mutate(relative = absolute/n_cases(eventlog)) %>%
-		arrange(-absolute) -> output
-	return(output)
+		arrange(-absolute)
 }
 
 
