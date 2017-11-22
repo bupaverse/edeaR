@@ -27,7 +27,6 @@ activity_frequency.eventlog <- function(eventlog,
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
-
 	FUN <- switch(level,
 				  log = activity_frequency_log,
 				  case = activity_frequency_case,
@@ -58,9 +57,6 @@ activity_frequency.grouped_eventlog <- function(eventlog,
 				  case = activity_frequency_case,
 				  trace = activity_frequency_trace,
 				  activity = activity_frequency_activity)
-
-	mapping <- mapping(eventlog)
-
 
 	if(level != "log") {
 		grouped_metric(eventlog, FUN) -> output
