@@ -10,6 +10,5 @@ filter_throughput_time_percentile <- function(eventlog,
 		slice(1:ceiling(n()*percentage)) %>%
 		pull(1)
 
-
 	filter_case(eventlog, case_selection, reverse)
 }
