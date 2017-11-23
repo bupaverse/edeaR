@@ -21,7 +21,6 @@ filter_time_period <- function(eventlog, interval, filter_method, reverse, ...) 
 #' @describeIn filter_time_period Filter event log
 #' @export
 
-
 filter_time_period.eventlog <- function(eventlog,
 							   interval = NULL,
 							   filter_method = c("contained","intersecting","start","complete","trim"),
@@ -51,29 +50,29 @@ filter_time_period.eventlog <- function(eventlog,
 		end_point <- interval[2]
 	}
 
+	start_timestamp <- NULL
+	complete_timestamp <- NULL
+
 	cases <- cases(eventlog = eventlog)
 
 	if(filter_method == "trim") {
 		aid_selection <- eventlog %>%
-			group_by(!!as.symbol(activity_instance_id(eventlog))) %>%
-			summarize(start = min(!!as.symbol(timestamp(eventlog))), complete = max(!!as.symbol(timestamp(eventlog)))) %>%
-			filter(start >= start_point & complete <= end_point) %>%
+			group_by_activity_instance() %>%
+			summarize(start_timestamp = min(!!timestamp_(eventlog)), complete_timestamp = max(!!timestamp_(eventlog))) %>%
+			filter(start_timestamp >= start_point & complete_timestamp <= end_point) %>%
 			pull(1)
 
-
 		if(reverse == FALSE)
-			filter(eventlog, (!!as.symbol(activity_instance_id(eventlog))) %in% aid_selection)
+			filter(eventlog, (!!activity_instance_id_(eventlog)) %in% aid_selection)
 		else
-			filter(eventlog, !((!!as.symbol(activity_instance_id(eventlog))) %in% aid_selection))
+			filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% aid_selection))
 	} else {
 		if(filter_method == "contained") {
-
 			cases %>%
 				filter(start_timestamp >= start_point, complete_timestamp <= end_point) %>%
 				pull(1) -> case_selection
 		}
 		else if(filter_method == "intersecting") {
-
 			cases %>%
 				filter((start_timestamp >= start_point & start_timestamp <= end_point) |
 					   	(complete_timestamp >= start_point & complete_timestamp <= end_point) |
@@ -84,7 +83,6 @@ filter_time_period.eventlog <- function(eventlog,
 			cases %>%
 				filter(start_timestamp >=  start_point & start_timestamp <= end_point) %>%
 				pull(1) -> case_selection
-
 		}
 		else if(filter_method == "complete") {
 			cases %>%
@@ -97,7 +95,6 @@ filter_time_period.eventlog <- function(eventlog,
 
 #' @describeIn filter_time_period Filter grouped event log
 #' @export
-
 
 
 filter_time_period.grouped_eventlog <- function(eventlog,
@@ -116,11 +113,11 @@ ifilter_time_period <- function(eventlog) {
 		miniContentPanel(
 			fillRow(flex = c(3,3,3),
 					fillCol(
-						dateInput("start_date", "Start Date", value = as.Date(min(eventlog %>% pull(!!timestamp(eventlog))))),
+						dateInput("start_date", "Start Date", value = as.Date(min(eventlog %>% pull(timestamp(eventlog))))),
 						timeInput("start_time", "Start Time")
 					),
 					fillCol(
-						dateInput("end_date", "End Date", value = as.Date(max(eventlog %>% pull(!!timestamp(eventlog))))),
+						dateInput("end_date", "End Date", value = as.Date(max(eventlog %>% pull(timestamp(eventlog))))),
 						timeInput("end_time", "End Time")
 					)
 			),
@@ -148,6 +145,5 @@ ifilter_time_period <- function(eventlog) {
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Time Period", height = 600))
-
 }
 
