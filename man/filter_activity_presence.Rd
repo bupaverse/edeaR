@@ -7,13 +7,13 @@
 \alias{ifilter_activity_presence}
 \title{Filter: Activity Presence}
 \usage{
-filter_activity_presence(eventlog, activities, method)
+filter_activity_presence(eventlog, activities, method, reverse)
 
 \method{filter_activity_presence}{eventlog}(eventlog, activities = NULL,
-  method = c("all", "one_of", "none"))
+  method = c("all", "one_of", "none"), reverse = FALSE)
 
 \method{filter_activity_presence}{grouped_eventlog}(eventlog,
-  activities = NULL, method = c("all", "one_of", "none"))
+  activities = NULL, method = c("all", "one_of", "none"), reverse = FALSE)
 
 ifilter_activity_presence(eventlog)
 }
