@@ -20,7 +20,8 @@ filter_activity_presence <- function(eventlog, activities, method) {
 
 filter_activity_presence.eventlog <- function(eventlog,
 											  activities = NULL,
-											  method = c("all", "one_of", "none")){
+											  method = c("all", "one_of", "none"),
+											  reverse = FALSE){
 	method <- match.arg(method)
 
 	eventlog %>%
@@ -30,15 +31,12 @@ filter_activity_presence.eventlog <- function(eventlog,
 		group_by(!!as.symbol(case_id(eventlog))) %>%
 		summarize(n = n()) -> selection
 
-	selection %>%
-		filter(n == length(activities)) -> selection_all
-
-	if(method == "all")
-		filter_case(eventlog, selection_all %>% pull(1))
+		if(method == "all")
+		filter_case(eventlog, selection %>% filter(n == length(activities)) %>% pull(1), reverse)
 	else if(method == "one_of")
-		filter_case(eventlog, selection %>% pull(1))
+		filter_case(eventlog, selection %>% pull(1), reverse)
 	else if (method == "none")
-		filter_case(eventlog, selection %>% pull(1) , reverse = TRUE)
+		filter_case(eventlog, selection %>% pull(1), reverse = !reverse)
 }
 
 #' @describeIn filter_activity_presence Filter grouped event log on presence of activities.
