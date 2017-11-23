@@ -56,29 +56,28 @@ filter_resource_interval <- function(eventlog, lower, upper, reverse) {
 	lower <- ifelse(is.na(lower), -Inf, lower)
 	upper <- ifelse(is.na(upper), Inf, upper)
 
-	res_freq <- resources(eventlog)
+	absolute_frequency <- NULL
 
-	if(reverse == FALSE) {
-		event_selection <- res_freq %>% filter(between(absolute_frequency, lower, upper)) %>% pull(1)
-	} else {
-		event_selection <- res_freq %>% filter(!between(absolute_frequency, lower, upper)) %>% pull(1)
-	}
-	filter_attributes(eventlog, (!!as.symbol(resource_id(eventlog))) %in% event_selection)
+	event_selection <- eventlog %>%
+		resources %>%
+		filter(between(absolute_frequency, lower, upper)) %>%
+		pull(1)
+
+	filter_resource(eventlog, event_selection, reverse)
 }
 
 filter_resource_percentage <- function(eventlog, percentage, reverse) {
-	res_freq <- resources(eventlog) %>%
+	r <- NULL
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+
+	resources(eventlog) %>%
 		arrange(-absolute_frequency) %>%
-		mutate(r = cumsum(relative_frequency))
+		mutate(r = cumsum(relative_frequency)) %>%
+		filter(dplyr::lag(r, default = 0) < percentage) %>%
+		pull() -> event_selection
 
-	if(reverse == F)
-		event_selection <- res_freq %>% filter(dplyr::lag(r, default = 0) < percentage)
-	else
-		event_selection <- res_freq %>% filter(dplyr::lag(r, default = 0) >= percentage)
-
-	event_selection %>% dplyr::pull(1) -> event_selection
-
-	filter_attributes(eventlog, (!!as.symbol(resource_id(eventlog))) %in% event_selection)
+	filter_resource(eventlog, event_selection, reverse)
 }
 
 #' @describeIn filter_resource_frequency Filter grouped event logs
