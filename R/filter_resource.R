@@ -24,11 +24,9 @@ filter_resource.eventlog <- function(eventlog,
 							reverse = FALSE){
 
 	if(reverse == F)
-		output <- filter(eventlog, (!!as.symbol(resource_id(eventlog))) %in% resources)
+		filter(eventlog, (!!as.symbol(resource_id(eventlog))) %in% resources)
 	else
-		output <- filter(eventlog, !((!!as.symbol(resource_id(eventlog))) %in% resources))
-
-	return(output)
+		filter(eventlog, !((!!as.symbol(resource_id(eventlog))) %in% resources))
 }
 
 #' @describeIn filter_resource Filter grouped event log
