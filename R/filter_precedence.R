@@ -30,12 +30,14 @@ filter_precedence <- function(eventlog,
 #' @describeIn filter_precedence Filter event log
 #' @export
 
-filter_precedence.export <- function(eventlog,
-							  antecedents,
-							  consequents,
-							  precedence_type = c("directly_follows", "eventually_follows"),
-							  filter_method = c("each","one_of"),
-							  reverse = FALSE) {
+filter_precedence.eventlog <- function(eventlog,
+									   antecedents,
+									   consequents,
+									   precedence_type = c("directly_follows", "eventually_follows"),
+									   filter_method = c("all","one_of", "none"),
+									   reverse = FALSE) {
+
+	conditions_valid <- NULL
 
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
@@ -48,14 +50,17 @@ filter_precedence.export <- function(eventlog,
 	number_of_conditions <- length(sequences)
 
 	patterns <- data.frame(pattern = sequences)
-	tr <- traces(eventlog)
 
 	dummies <- generate_pattern_dummies(patterns, eventlog, interleavings_allowed = interleavings_allowed)
+
 	dummies$conditions_valid <- rowSums(select(dummies, starts_with("X")))
+
 	if(filter_method == "one_of")
 		case_selection <- filter(dummies, conditions_valid > 0) %>% pull(!!as.symbol(case_id(eventlog)))
-	else
+	else if(filter_method == "all")
 		case_selection <- filter(dummies, conditions_valid == number_of_conditions) %>% pull(!!as.symbol(case_id(eventlog)))
+	else if(filter_method == "none")
+		case_selection <- filter(dummies, conditions_valid == 0) %>% pull(!!as.symbol(case_id(eventlog)))
 
 	filter_case(eventlog, case_selection, reverse)
 
@@ -65,12 +70,12 @@ filter_precedence.export <- function(eventlog,
 #' @export
 
 filter_precedence.grouped_eventlog <- function(eventlog,
-									 antecedents,
-									 consequents,
-									 precedence_type = c("directly_follows", "eventually_follows"),
-									 filter_method = c("each","one_of"),
-									 reverse = FALSE) {
-	grouped_filter(eventlog, filter_precedence, antecedents, consequents, precendence_type, filter_method, reverse)
+											   antecedents,
+											   consequents,
+											   precedence_type = c("directly_follows", "eventually_follows"),
+											   filter_method = c("all","one_of", "none"),
+											   reverse = FALSE) {
+	grouped_filter(eventlog, filter_precedence, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 
 
@@ -79,42 +84,42 @@ filter_precedence.grouped_eventlog <- function(eventlog,
 #'
 ifilter_precedence <- function(eventlog) {
 
-ui <- miniPage(
-	gadgetTitleBar("Filter on precedences"),
-	miniContentPanel(
-		fillCol(flex = c(5,3,2),
-			fillRow(flex = c(10,1,10),
-				selectizeInput("ante", label = "Select antecedents:",
-							   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
-							   	unique, selected = NA,  multiple = T), " ",
-				selectizeInput("conse", label = "Select consequents:",
-							   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
-							   	unique, selected = NA,  multiple = T)),
-				fillRow(
-				radioButtons("type", "Precedence filter: ", choices = c("Directly follows" = "directly_follows", "Eventually follows"="eventually_follows"), selected = "directly_follows"),
-				radioButtons("method", "Reverse filter: ", choices = c("Each" = "each", "One of" = "one_of"), selected = "each"),
-				radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
-				"When directly_follows, the consequent activity should happen immediately after the antecedent activities. When eventually_follows, other events are allowed to happen in between. When each, only cases where all the relations are valid are preserved. When one_of, all the cases where at least one of the conditions hold are preserved."
+	ui <- miniPage(
+		gadgetTitleBar("Filter on precedences"),
+		miniContentPanel(
+			fillCol(flex = c(5,3,2),
+					fillRow(flex = c(10,1,10),
+							selectizeInput("ante", label = "Select antecedents:",
+										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   	unique, selected = NA,  multiple = TRUE), " ",
+							selectizeInput("conse", label = "Select consequents:",
+										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   	unique, selected = NA,  multiple = TRUE)),
+					fillRow(
+						radioButtons("type", "Precedence filter: ", choices = c("Directly follows" = "directly_follows", "Eventually follows"="eventually_follows"), selected = "directly_follows"),
+						radioButtons("method", "Reverse filter: ", choices = c("All" = "all", "One of" = "one_of", "None" = "none"), selected = "all"),
+						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
+					"When directly_follows, the consequent activity should happen immediately after the antecedent activities. When eventually_follows, other events are allowed to happen in between. When each, only cases where all the relations are valid are preserved. When one_of, all the cases where at least one of the conditions hold are preserved."
 			)
 
+		)
 	)
-)
 
-server <- function(input, output, session){
-	observeEvent(input$done, {
+	server <- function(input, output, session){
+		observeEvent(input$done, {
 
-		filtered_log <- filter_precedence(eventlog,
-										  antecedents = input$ante,
-										  consequents = input$conse,
-										  precedence_type = input$type,
-										  filter_method = input$method,
-										  reverse = ifelse(input$reverse == "Yes", T, F))
+			filtered_log <- filter_precedence(eventlog,
+											  antecedents = input$ante,
+											  consequents = input$conse,
+											  precedence_type = input$type,
+											  filter_method = input$method,
+											  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
 
 
-		stopApp(filtered_log)
-	})
-}
-runGadget(ui, server, viewer = dialogViewer("Filter on precedences", height = 400))
+			stopApp(filtered_log)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter on precedences", height = 400))
 
 }
 
