@@ -21,13 +21,12 @@ idle_time <- function(eventlog, level, append, units, ...) {
 
 idle_time.eventlog <- function(eventlog,
 							   level = c("log","case","trace","resource"),
-							   append = F,
+							   append = FALSE,
 							   units = c("hours","days", "weeks","mins"),
 							   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
-	mapping <- mapping(eventlog)
 	FUN <- switch(level,
 				  log = idle_time_log,
 				  case = idle_time_case,
@@ -43,14 +42,13 @@ idle_time.eventlog <- function(eventlog,
 
 idle_time.grouped_eventlog <- function(eventlog,
 									   level = c("log","case","trace","resource"),
-									   append = F,
+									   append = FALSE,
 									   units = c("hours","days", "weeks","mins"),
 									   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
 
-	mapping <- mapping(eventlog)
 	FUN <- switch(level,
 				  log = idle_time_log,
 				  case = idle_time_case,
