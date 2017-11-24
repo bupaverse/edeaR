@@ -25,8 +25,6 @@ resource_frequency.eventlog <- function(eventlog,
 							   level = c("log","case","activity","resource","resource-activity"),
 							   append = F,
 							   ...) {
-
-	mapping <- mapping(eventlog)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
@@ -38,7 +36,6 @@ resource_frequency.eventlog <- function(eventlog,
 				  "resource-activity" = resource_frequency_resource_activity)
 
 	output <- FUN(eventlog = eventlog)
-
 
 	return_metric(eventlog, output, level, append, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))
@@ -53,7 +50,6 @@ resource_frequency.grouped_eventlog <- function(eventlog,
 							   append = F,
 							   ...) {
 
-	mapping <- mapping(eventlog)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
@@ -64,16 +60,12 @@ resource_frequency.grouped_eventlog <- function(eventlog,
 				  resource = resource_frequency_resource,
 				  "resource-activity" = resource_frequency_resource_activity)
 
-
-
 		if(!(level %in% c("log"))) {
 			grouped_metric(eventlog, FUN) -> output
 		}
 		else {
 			grouped_metric_raw_log(eventlog, FUN)  -> output
 		}
-
-
 
 	return_metric(eventlog, output, level, append, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))

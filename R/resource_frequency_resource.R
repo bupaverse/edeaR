@@ -1,14 +1,13 @@
 
 resource_frequency_resource <- function(eventlog) {
-	resource_classifier <- resource_id(eventlog)
-	activity_instance_classifier <- activity_instance_id(eventlog)
+	absolute <- NULL
+	relative <- NULL
 
 	eventlog %>%
-		group_by_(resource_classifier, activity_instance_classifier) %>%
+		group_by(!!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
 		summarize() %>%
 		summarize(absolute = n()) %>%
 		mutate(relative = absolute/sum(absolute)) %>%
-		arrange(-absolute)-> r
+		arrange(-absolute)
 
-	return(r)
 }

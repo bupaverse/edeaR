@@ -1,6 +1,5 @@
 
 resource_involvement_resource <- function(eventlog) {
-	stop_eventlog(eventlog)
 
 	event_classifier <- activity_id(eventlog)
 	case_classifier <- case_id(eventlog)

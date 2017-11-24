@@ -1,17 +1,18 @@
 
 resource_frequency_log <- function(eventlog) {
 
-	resource_classifier <- resource_id(eventlog)
-	activity_instance_classifier <- activity_instance_id(eventlog)
+	freq <- NULL
 
 	eventlog %>%
-		group_by_(resource_classifier, activity_instance_classifier) %>%
+		group_by(!!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
 		summarize() %>%
-		summarize(freq = n()) -> r
+		summarize(freq = n()) -> raw
 
-	s <- summary_statistics(r$freq)
+	output <- raw %>%
+		pull(freq) %>%
+		summary_statistics()
 
-	attr(s, "raw") <- r
+	attr(output, "raw") <- raw
 
-	return(s)
+	return(output)
 }
