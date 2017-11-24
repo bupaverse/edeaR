@@ -174,3 +174,15 @@ summary_statistics <- function(vector) {
 	return(s)
 }
 
+grouped_summary_statistics <- function(data.frame, values, na.rm = T) {
+	values <- sym(values)
+	data.frame %>%
+		summarize(min = min(!!values,na.rm = na.rm),
+				  q1 = quantile(!!values, 0.25, na.rm = na.rm),
+				  mean = mean(!!values, na.rm = na.rm),
+				  median = median(!!values, na.rm = na.rm),
+				  q3 = quantile(!!values, 0.75, na.rm = na.rm),
+				  max = max(!!values, na.rm = na.rm),
+				  st_dev = sd(!!values, na.rm = na.rm))
+}
+
