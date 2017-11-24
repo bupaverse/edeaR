@@ -90,11 +90,11 @@ ifilter_trace_length <- function(eventlog) {
 		output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Process time interval",
-							min = min(eventlog %>% group_by(!!as.symbol(case_id(eventlog))) %>%
-									  	summarize(n = n_distinct(!!as.symbol(activity_instance_id(eventlog)))) %>%
+							min = min(eventlog %>% group_by_case %>%
+									  	summarize(n = n_distinct(!!activity_instance_id_(eventlog))) %>%
 									  	pull(n)),
-							max = max(eventlog %>% group_by(!!as.symbol(case_id(eventlog))) %>%
-									  	summarize(n = n_distinct(!!as.symbol(activity_instance_id(eventlog)))) %>%
+							max = max(eventlog %>% group_by_case %>%
+									  	summarize(n = n_distinct(!!activity_instance_id_(eventlog))) %>%
 									  	pull(n)),
 							value = c(-Inf,Inf), step = 1)
 

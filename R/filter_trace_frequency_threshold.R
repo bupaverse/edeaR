@@ -11,6 +11,7 @@ filter_trace_frequency_threshold <- function(eventlog,
 	if(is.na(upper_threshold))
 		upper_threshold <- Inf
 
+	absolute_trace_coverage <- NULL
 
 	eventlog %>%
 		trace_coverage("case") %>%
