@@ -25,10 +25,8 @@ number_of_repetitions <- function(eventlog, type, level, append, ...) {
 number_of_repetitions.eventlog <- function(eventlog,
 								  type = c("repeat","redo"),
 								  level = c("log","case","activity","resource","resource-activity"),
-								  append = F,
+								  append = FALSE,
 								  ...){
-
-	mapping <- mapping(eventlog)
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -54,7 +52,6 @@ number_of_repetitions.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-
 	output <- return_metric(eventlog, output, level, append, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
@@ -72,7 +69,6 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 												   append = F,
 												   ...){
 
-	mapping <- mapping(eventlog)
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)

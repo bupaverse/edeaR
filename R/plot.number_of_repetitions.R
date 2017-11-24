@@ -6,6 +6,8 @@ plot_number_of_repetitions <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 	type <- attr(x,"type")
+	absolute <- NULL
+
 
 
 	if(level == "log") {
