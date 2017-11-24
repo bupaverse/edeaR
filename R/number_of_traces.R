@@ -19,14 +19,8 @@ number_of_traces <- function(eventlog) {
 
 
 number_of_traces.eventlog <- function(eventlog) {
-	stop_eventlog(eventlog)
 	FUN <- number_of_traces_FUN
-	mapping <- mapping(eventlog)
-
-
 	output <- FUN(eventlog = eventlog)
-
-
 	class(output) <- c("number_of_traces", class(output))
 	attr(output, "mapping") <- mapping(eventlog)
 	return(output)
@@ -36,9 +30,7 @@ number_of_traces.eventlog <- function(eventlog) {
 #' @export
 
 number_of_traces.grouped_eventlog <- function(eventlog) {
-	stop_eventlog(eventlog)
 	FUN <- number_of_traces_FUN
-	mapping <- mapping(eventlog)
 
 	grouped_metric(eventlog, FUN) -> output
 
@@ -50,8 +42,6 @@ number_of_traces.grouped_eventlog <- function(eventlog) {
 
 
 number_of_traces_FUN <- function(eventlog) {
-
-	stop_eventlog(eventlog)
 
 	tr <- traces(eventlog)
 
