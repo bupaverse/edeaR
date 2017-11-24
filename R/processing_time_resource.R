@@ -1,46 +1,24 @@
 
 processing_time_resource <- function(eventlog,
-									 units = "days") {
-	stop_eventlog(eventlog)
+									 units) {
 
-	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-	case_classifier <- case_id(eventlog)
-	event_classifier <- activity_id(eventlog)
-	resource_classifier <- resource_id(eventlog)
-	activity_instance_classifier <- activity_instance_id(eventlog)
+	expand.grid(case_labels(eventlog),
+				resource_labels(eventlog)) %>%
+		setNames(c(case_id(eventlog), resource_id(eventlog))) -> case_resource_list
 
+	eventlog %>%
+		processing_time_activity_instance(units = units) %>%
+		group_by(!!resource_id_(eventlog), !!case_id_(eventlog)) %>%
+		summarize(processing_time = sum(processing_time)) %>%
+		merge(case_resource_list, all.y = TRUE)%>%
+		mutate(processing_time = ifelse(is.na(processing_time),0,processing_time)) -> raw
 
-	res <- eventlog %>% count_(resource_classifier) %>% select_(resource_classifier)
-	cas <- eventlog %>% count_(case_classifier) %>% select_(case_classifier)
+	raw %>%
+		group_by(!!resource_id_(eventlog)) %>%
+		grouped_summary_statistics("processing_time") -> output
 
-	res_cas_pair_list <- merge(res,cas)
+	attr(output, "raw") <- raw
 
+	return(output)
 
-	r <- eventlog %>%
-		group_by_(resource_classifier, case_classifier, activity_instance_classifier) %>%
-		summarize(s = min(timestamp_classifier), e = max(timestamp_classifier)) %>%
-		mutate(dur = as.double(e - s, units = units)) %>%
-		summarize(dur = sum(dur)) %>%
-		merge(res_cas_pair_list, all.y = T) %>%
-		mutate(dur = ifelse(is.na(dur),0,dur)) %>%
-		rename(processing_time = dur)
-
-	raw <- r
-
-	r %>%
-		group_by_(resource_classifier) %>%
-		summarize(min = min(processing_time),
-				  q1 = quantile(processing_time, 0.25),
-				  median = median(processing_time),
-				  mean = mean(processing_time),
-				  q3 = quantile(processing_time, probs = c(0.75)),
-				  max = max(processing_time),
-				  st_dev = sd(processing_time),
-				  iqr = quantile(processing_time, probs = c(0.75)) - quantile(processing_time,probs = c(0.25)),
-				  tot = sum(processing_time)) -> r
-
-
-	attr(r, "raw") <- raw
-
-	return(r)
 }

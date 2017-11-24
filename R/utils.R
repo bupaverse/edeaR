@@ -14,6 +14,8 @@ timestamp_ <- function(eventlog) sym(timestamp(eventlog))
 lifecycle_id_ <- function(eventlog) sym(lifecycle_id(eventlog))
 
 
+
+
 deprecated_level <- function(level,...) {
 	l <- list(...)
 	if(length(l) > 0 && any(stringr::str_detect("level_of_analysis",names(l)))) {
@@ -174,7 +176,7 @@ summary_statistics <- function(vector) {
 	return(s)
 }
 
-grouped_summary_statistics <- function(data.frame, values, na.rm = T) {
+grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 	values <- sym(values)
 	data.frame %>%
 		summarize(min = min(!!values,na.rm = na.rm),
@@ -183,6 +185,9 @@ grouped_summary_statistics <- function(data.frame, values, na.rm = T) {
 				  median = median(!!values, na.rm = na.rm),
 				  q3 = quantile(!!values, 0.75, na.rm = na.rm),
 				  max = max(!!values, na.rm = na.rm),
-				  st_dev = sd(!!values, na.rm = na.rm))
+				  st_dev = sd(!!values, na.rm = na.rm),
+				  iqr = IQR(!!values, na.rm = na.rm),
+				  total = sum(!!values, na.rm = na.rm),
+				  ...)
 }
 

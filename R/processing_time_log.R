@@ -1,13 +1,14 @@
 
 
 processing_time_log <- function(eventlog,
-								units = "days") {
-	stop_eventlog(eventlog)
+								units) {
 
-	r <- processing_time_case(eventlog, units = units)
+	raw <- processing_time_case(eventlog, units = units)
 
-	s <- summary_statistics(r$processing_time)
+	raw %>%
+		pull(processing_time) %>%
+		summary_statistics -> output
 
-	attr(s, "raw") <- r
-	return(s)
+	attr(output, "raw") <- raw
+	output
 }

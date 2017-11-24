@@ -27,7 +27,6 @@ processing_time.eventlog <- function(eventlog,
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = processing_time_log,
@@ -56,7 +55,6 @@ processing_time.grouped_eventlog <- function(eventlog,
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = processing_time_log,
