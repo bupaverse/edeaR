@@ -4,6 +4,7 @@ plot_start_activities <- function(x, ...) {
 
 	mapping <- attr(x, "mapping")
 	level <- attr(x, "level")
+	absolute <- NULL
 
 
 	if(level == "log") {

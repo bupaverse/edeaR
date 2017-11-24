@@ -24,6 +24,7 @@
 #' @importFrom stats na.omit
 #' @importFrom stats quantile
 #' @importFrom stats sd
+#' @importFrom stats as.formula
 #' @importFrom utils head
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar

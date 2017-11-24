@@ -4,7 +4,7 @@
 #' @param x Data to plot
 #' @param ... Additional variables
 #' @return A ggplot object, which can be customized further, if deemed necessary.
-#' @rdname plot
+#' @name plot
 #' @method plot activity_frequency
 #' @export
 

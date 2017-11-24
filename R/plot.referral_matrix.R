@@ -3,7 +3,9 @@
 plot_referral_matrix <- function(x, ...) {
 
 	data <- x
-
+	first_resource <- NULL
+	last_resource <- NULL
+	absolute <- NULL
 	mapping <- attr(data, "mapping")
 	type <- attr(data, "type")
 

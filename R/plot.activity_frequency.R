@@ -4,6 +4,8 @@ plot_activity_frequency <- function(x, ...) {
 	mapping <- attr(x, "mapping")
 	level <- attr(x, "level")
 
+	absolute <- NULL
+
 
 	if(level == "log") {
 		attr(x, "raw") %>%

@@ -1,6 +1,7 @@
 plot_activity_presence <- function(x, ...) {
 
 	mapping <- attr(x, "mapping")
+	relative <- NULL
 
 	x %>%
 		ggplot(aes_string(glue::glue("reorder({mapping$activity_id}, relative)"), "relative")) +

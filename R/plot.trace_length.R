@@ -5,6 +5,9 @@ plot_trace_length <- function(x, ...) {
 	mapping <- attr(x, "mapping")
 	level <- attr(x, "level")
 
+	absolute <- NULL
+
+
 	if(level == "log") {
 		attr(x, "raw") %>%
 			ggplot(aes("", trace_length)) +

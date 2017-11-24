@@ -6,6 +6,8 @@ plot_resource_involvement <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 
+	absolute <- NULL
+	relative <- NULL
 
 if(level == "case") {
 		x %>%

@@ -6,6 +6,10 @@ plot_trace_coverage <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 
+	relative <- NULL
+	cum_sum <- NULL
+
+
 	if(level == "log") {
 		stop("Plot only available at trace level")
 	}

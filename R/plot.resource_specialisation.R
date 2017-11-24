@@ -6,6 +6,9 @@ plot_resource_specialisation <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 
+	absolute <- NULL
+	freq <- NULL
+
 	if(level == "log") {
 		attr(x, "raw") %>%
 			ggplot(aes("", freq)) +

@@ -5,7 +5,9 @@ plot_resource_frequency <- function(x, ...) {
 	mapping <- attr(x, "mapping")
 	level <- attr(x, "level")
 	units <- attr(x, "units")
-
+	freq <- NULL
+	nr_of_resources <- NULL
+	absolute <- NULL
 
 	if(level == "log") {
 		attr(x, "raw") %>%
