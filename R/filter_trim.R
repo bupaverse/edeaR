@@ -26,55 +26,40 @@ filter_trim.eventlog <- function(eventlog,
 						end_activities = NULL,
 						reverse = FALSE) {
 
-	stop_eventlog(eventlog)
-
 	if(is.null(start_activities) & is.null(end_activities))
 		stop("At least on start or end activity should be provided")
 
-	acts <- activities(eventlog) %>% select(1) %>% t %>% as.vector
+	acts <- activities(eventlog) %>% pull(1)
+
+	min_timestamp <- NULL
+	start_r <- NULL
+	end_r <- NULL
+	min_rank <- NULL
+	max_rank <- NULL
+	r <- NULL
+
 	if(is.null(start_activities))
 		start_activities <- acts
 	if(is.null(end_activities))
 		end_activities <- acts
 
-
-
-	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
-	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
-	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "activity_instance_classifier"
-
-
-	ranked_eventlog <- group_by(eventlog, case_classifier, activity_instance_classifier, event_classifier) %>%
-		summarize(min_timestamp = min(timestamp_classifier)) %>%
-		group_by(case_classifier) %>%
-		mutate(r = dense_rank(min_timestamp))
-	min_ranks <- ranked_eventlog %>% filter(event_classifier %in% start_activities) %>% summarize(min_rank = min(r))
-	max_ranks <- ranked_eventlog %>% filter(event_classifier %in% end_activities) %>% summarize(max_rank = max(r))
-	ranked_eventlog <- merge(merge(ranked_eventlog, min_ranks), max_ranks)
-	ranked_eventlog$included <- ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank
-
+	eventlog %>%
+		group_by(!!case_id_(eventlog), !!activity_instance_id_(eventlog), !!activity_id_(eventlog)) %>%
+		summarize(min_timestamp = min(!!timestamp_(eventlog))) %>%
+		group_by(!!case_id_(eventlog)) %>%
+		mutate(r = dense_rank(min_timestamp)) %>%
+		mutate(start_r = ifelse((!!activity_id_(eventlog)) %in% start_activities, r, NA),
+			   end_r = ifelse((!!activity_id_(eventlog)) %in% end_activities, r, NA)) %>%
+		mutate(min_rank = min(c(Inf,start_r), na.rm = T)) %>%
+		mutate(max_rank = max(c(-Inf,end_r), na.rm = T)) %>%
+		filter( r >= min_rank, r <= max_rank) %>%
+		pull(!!activity_instance_id_(eventlog)) -> aid_selection
 
 	if(reverse == F)
-		ranked_eventlog <- ranked_eventlog[ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank,]
+		filter(eventlog, (!!activity_instance_id_(eventlog)) %in% aid_selection)
 	else
-		ranked_eventlog <- ranked_eventlog[!(ranked_eventlog$r >= ranked_eventlog$min_rank & ranked_eventlog$r <= ranked_eventlog$max_rank),]
-	ranked_eventlog <- select(ranked_eventlog, -r, -min_rank, -max_rank)
+		filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% aid_selection))
 
-
-
-	f_eventlog <- eventlog[eventlog$activity_instance_classifier %in% ranked_eventlog$activity_instance_classifier,]
-
-	colnames(f_eventlog)[colnames(f_eventlog) == "case_classifier"] <- case_id(eventlog)
-	colnames(f_eventlog)[colnames(f_eventlog) == "event_classifier"] <- activity_id(eventlog)
-	colnames(f_eventlog)[colnames(f_eventlog) == "timestamp_classifier"] <- timestamp(eventlog)
-	colnames(f_eventlog)[colnames(f_eventlog) == "activity_instance_classifier"] <- activity_instance_id(eventlog)
-
-
-	output <- re_map(f_eventlog, mapping(eventlog))
-
-
-	return(output)
 }
 #' @describeIn filter_trim Filter grouped event log
 #' @export
@@ -98,10 +83,10 @@ ifilter_trim <- function(eventlog) {
 			fillCol(flex = c(5,3,2),
 					fillRow(flex = c(10,1,10),
 							selectizeInput("start", label = "Select start activities:",
-										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   choices = eventlog %>% pull(!!activity_id_(eventlog)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T), " ",
 							selectizeInput("end", label = "Select end activities:",
-										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   choices = eventlog %>% pull(!!activity_id_(eventlog)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T)),
 					fillRow(
 						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
