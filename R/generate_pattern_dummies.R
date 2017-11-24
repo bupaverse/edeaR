@@ -5,9 +5,10 @@
 generate_pattern_dummies <- function(patterns,
 									 eventlog,
 									 interleavings_allowed = TRUE) {
-	stop_eventlog(eventlog)
 
-	cases <- cases_light(eventlog)
+	trace_id <- NULL
+
+	cases <- case_list(eventlog)
 	colnames(cases)[colnames(cases)==case_id(eventlog)] <- "case_classifier"
 	variants <- traces(eventlog)
 	variants <- arrange(variants, trace_id)
