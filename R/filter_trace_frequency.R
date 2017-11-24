@@ -93,8 +93,8 @@ ifilter_trace_frequency <- function(eventlog) {
 	)
 
 	server <- function(input, output, session){
-
-		output$filter_ui <- renderUI({
+		absolute_frequency <- NULL
+			output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Trace frequency interval",
 							min = 1, max = max(eventlog %>% trace_list() %>% pull(absolute_frequency)), value = c(1,10), step = 1)

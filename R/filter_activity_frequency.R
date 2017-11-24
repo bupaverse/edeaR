@@ -107,6 +107,7 @@ ifilter_activity_frequency <- function(eventlog) {
 	server <- function(input, output, session){
 
 		output$filter_ui <- renderUI({
+			absolute_frequency <- NULL
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Process time interval",
 							min = 0, max = max(eventlog %>% activities() %>% pull(absolute_frequency)), value = c(0,1))
