@@ -24,12 +24,9 @@ number_of_selfloops.eventlog <- function(eventlog,
 								append = F,
 								...) {
 
-	stop_eventlog(eventlog)
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,
@@ -70,13 +67,10 @@ number_of_selfloops.grouped_eventlog <- function(eventlog,
 								append = F,
 								...) {
 
-	stop_eventlog(eventlog)
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
-
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,

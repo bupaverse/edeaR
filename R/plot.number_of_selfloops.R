@@ -6,6 +6,7 @@ plot_number_of_selfloops <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 	type <- attr(x,"type")
+	absolute <- NULL
 
 
 	if(level == "log") {
