@@ -1,6 +1,3 @@
-
-
-
 filter_trace_frequency_threshold <- function(eventlog,
 											  lower_threshold,
 											  upper_threshold,

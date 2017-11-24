@@ -97,7 +97,7 @@ ifilter_trace_frequency <- function(eventlog) {
 		output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Trace frequency interval",
-							min = 1, max = max(eventlog %>% traces_light() %>% pull(absolute_frequency)), value = c(1,10), step = 1)
+							min = 1, max = max(eventlog %>% trace_list() %>% pull(absolute_frequency)), value = c(1,10), step = 1)
 
 			}
 			else if(input$filter_type == "percentile") {
