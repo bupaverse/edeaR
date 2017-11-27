@@ -20,7 +20,6 @@ resource_involvement <- function(eventlog, level, append, ...) {
 
 resource_involvement.eventlog <- function(eventlog, level = c("case","resource","resource-activity"), append = F, ...) {
 
-	mapping <- mapping(eventlog)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
@@ -39,7 +38,6 @@ resource_involvement.eventlog <- function(eventlog, level = c("case","resource",
 
 resource_involvement.grouped_eventlog <- function(eventlog, level = c("case","resource","resource-activity"), append = F, ...) {
 
-	mapping <- mapping(eventlog)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
