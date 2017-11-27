@@ -22,7 +22,6 @@ trace_length.eventlog <- function(eventlog,
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = trace_length_log,
@@ -46,7 +45,6 @@ trace_length.grouped_eventlog <- function(eventlog,
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = trace_length_log,

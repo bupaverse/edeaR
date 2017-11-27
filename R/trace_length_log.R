@@ -3,12 +3,13 @@
 
 trace_length_log <- function(eventlog) {
 
-	stop_eventlog(eventlog)
+	trace_length_case(eventlog) -> raw
 
-	csum <- trace_length_case(eventlog)
+	raw %>%
+		pull(trace_length) %>%
+		summary_statistics -> output
 
-	s <- summary_statistics(csum$trace_length)
-	attr(s, "raw") <- csum
-	return(s)
+	attr(output, "raw") <- raw
+	return(output)
 
 }
