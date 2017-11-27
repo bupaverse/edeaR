@@ -21,10 +21,10 @@ throughput_time <- function(eventlog, level, append, units, ...) {
 
 
 throughput_time.eventlog <- function(eventlog,
-							level = c("log","trace","case"),
-							append = F,
-							units = c("days", "hours","mins","weeks"),
-							...){
+									 level = c("log","trace","case"),
+									 append = FALSE,
+									 units = c("days", "hours","mins","weeks"),
+									 ...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -36,7 +36,6 @@ throughput_time.eventlog <- function(eventlog,
 				  case = throughput_time_case,
 				  trace = throughput_time_trace)
 
-	mapping <- mapping(eventlog)
 
 	output <- FUN(eventlog = eventlog, units = units)
 
@@ -51,10 +50,10 @@ throughput_time.eventlog <- function(eventlog,
 #' @export
 
 throughput_time.grouped_eventlog <- function(eventlog,
-							level = c("log","trace","case"),
-							append = F,
-							units = c("days", "hours","mins","weeks"),
-							...){
+											 level = c("log","trace","case"),
+											 append = FALSE,
+											 units = c("days", "hours","mins","weeks"),
+											 ...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -65,14 +64,13 @@ throughput_time.grouped_eventlog <- function(eventlog,
 				  case = throughput_time_case,
 				  trace = throughput_time_trace)
 
-	mapping <- mapping(eventlog)
 
-		if(level != "log") {
+	if(level != "log") {
 		grouped_metric(eventlog, FUN, units) -> output
-		}
-		else {
-			grouped_metric_raw_log(eventlog, FUN, units) -> output
-		}
+	}
+	else {
+		grouped_metric_raw_log(eventlog, FUN, units) -> output
+	}
 
 	output <- return_metric(eventlog, output, level, append, "throughput_time", 1)
 	attr(output, "units") <- units

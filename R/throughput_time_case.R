@@ -1,8 +1,8 @@
 
 
 throughput_time_case <- function(eventlog, units) {
-	stop_eventlog(eventlog)
 
+	timestamp_classifier <- NULL
 	case_classifier <- case_id(eventlog)
 	colnames(eventlog)[colnames(eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
 	colnames(eventlog)[colnames(eventlog) == case_id(eventlog)] <- "case_classifier"
@@ -16,9 +16,8 @@ throughput_time_case <- function(eventlog, units) {
 	colnames(e)[colnames(e) == "case_classifier"] <- case_id(eventlog)
 
 	e %>% as.data.frame() %>%
-		mutate(throughput_time = as.numeric(throughput_time, units = units)) -> e
+		mutate(throughput_time = as.numeric(throughput_time, units = units))
 
-	return(e)
 
 
 }

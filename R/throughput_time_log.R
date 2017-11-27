@@ -3,13 +3,17 @@
 
 throughput_time_log <- function(eventlog,
 								 units) {
-	stop_eventlog(eventlog)
 
-	r <- throughput_time_case(eventlog, units = units)
+	throughput_time_case(eventlog, units = units) -> raw
 
-	s <- summary_statistics(r$throughput_time %>% as.double(units = units))
 
-	attr(s, "raw") <- r
+	raw %>%
+		pull(throughput_time) %>%
+		as.double(units = units) %>%
+		summary_statistics() -> output
 
-	return(s)
+
+	attr(output, "raw") <- raw
+
+	return(output)
 }
