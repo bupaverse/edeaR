@@ -8,7 +8,7 @@
 #'
 #'@export start_activities
 
-start_activities <- function(eventlog, level, append = F, ...) {
+start_activities <- function(eventlog, level, append, ...) {
 	UseMethod("start_activities")
 }
 
@@ -17,11 +17,11 @@ start_activities <- function(eventlog, level, append = F, ...) {
 
 start_activities.eventlog <- function(eventlog,
 							 level = c("log","case","activity","resource","resource-activity"),
-							 append = F,
+							 append = FALSE,
 							 ...) {
 
 	level <- match.arg(level)
-	mapping <- mapping(eventlog)
+	level <- deprecated_level(level, ...)
 
 	FUN <- switch(level,
 				  log = start_activities_log,
@@ -41,11 +41,11 @@ start_activities.eventlog <- function(eventlog,
 
 start_activities.grouped_eventlog <- function(eventlog,
 							 level = c("log","case","activity","resource","resource-activity"),
-							 append = F,
+							 append = FALSE,
 							 ...) {
 
 	level <- match.arg(level)
-	mapping <- mapping(eventlog)
+	level <- deprecated_level(level, ...)
 
 	FUN <- switch(level,
 				  log = start_activities_log,

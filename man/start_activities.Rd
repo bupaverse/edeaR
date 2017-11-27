@@ -6,13 +6,13 @@
 \alias{start_activities.grouped_eventlog}
 \title{Metric: Start activities}
 \usage{
-start_activities(eventlog, level, append = F, ...)
+start_activities(eventlog, level, append, ...)
 
 \method{start_activities}{eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = F, ...)
+  "activity", "resource", "resource-activity"), append = FALSE, ...)
 
 \method{start_activities}{grouped_eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = F, ...)
+  "activity", "resource", "resource-activity"), append = FALSE, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class

@@ -1,12 +1,10 @@
 
 
 start_activities_log <- function(eventlog) {
-
-	r <- start_activities_activity(eventlog)
-	r<- data.frame(c(nrow(r),nrow(r)/n_activities(eventlog)))
-	r <- as.data.frame(t(r))
-	colnames(r) <- c("absolute","relative")
-	row.names(r) <- NULL
-	r <- tbl_df(r)
-	return(r)
+	absolute <- NULL
+	relative <- NULL
+	eventlog %>%
+		start_activities_activity %>%
+		summarize(absolute = n(),
+				  relative = n()/n_activities(eventlog))
 }

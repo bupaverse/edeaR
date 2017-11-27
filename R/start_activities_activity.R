@@ -1,10 +1,14 @@
 
 start_activities_activity <- function(eventlog) {
 
+	first_event <- NULL
+	absolute <- NULL
+	relative <- NULL
+
 	eventlog %>%
-		group_by(!!as.symbol(case_id(eventlog))) %>%
-		arrange(!!as.symbol(timestamp(eventlog))) %>%
-		summarize(first_event = first(!!as.symbol(activity_id(eventlog)))) %>%
+		group_by_case %>%
+		arrange(!!timestamp_(eventlog)) %>%
+		summarize(first_event = first(!!activity_id_(eventlog))) %>%
 		group_by(first_event) %>%
 		summarize(absolute = n()) %>%
 		ungroup() %>%
