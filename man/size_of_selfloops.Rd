@@ -10,11 +10,11 @@ size_of_selfloops(eventlog, type, level, append, ...)
 
 \method{size_of_selfloops}{eventlog}(eventlog, type = c("repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = F, ...)
+  append = FALSE, ...)
 
 \method{size_of_selfloops}{grouped_eventlog}(eventlog, type = c("repeat",
   "redo"), level = c("log", "case", "activity", "resource",
-  "resource-acitivty"), append = F, ...)
+  "resource-acitivty"), append = FALSE, ...)
 }
 \arguments{
 \item{eventlog}{The event log to be used. An object of class
