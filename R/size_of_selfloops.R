@@ -17,13 +17,12 @@ size_of_selfloops <- function(eventlog, type, level, append, ...) {
 size_of_selfloops.eventlog <- function(eventlog,
 							  type = c("repeat","redo"),
 							  level = c("log","case","activity","resource","resource-activity"),
-							  append = F,
+							  append = FALSE,
 							  ...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,
@@ -58,13 +57,12 @@ size_of_selfloops.eventlog <- function(eventlog,
 size_of_selfloops.grouped_eventlog <- function(eventlog,
 							  type = c("repeat","redo"),
 							  level = c("log","case","activity","resource","resource-acitivty"),
-							  append = F,
+							  append = FALSE,
 							  ...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,
@@ -86,15 +84,12 @@ size_of_selfloops.grouped_eventlog <- function(eventlog,
 
 	}
 
-
 		if(level != "log") {
 			grouped_metric(eventlog, FUN) -> output
 		}
 		else {
 			grouped_metric_raw_log(eventlog, FUN) -> output
 		}
-
-
 
 
 	output <- return_metric(eventlog, output, level, append, "size_of_selfloops", 8)

@@ -17,13 +17,12 @@ size_of_repetitions <- function(eventlog, type, level, append, ...) {
 size_of_repetitions.eventlog <- function(eventlog,
 								type = c("repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
-								append = F,
+								append = FALSE,
 								...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,
@@ -59,13 +58,12 @@ size_of_repetitions.eventlog <- function(eventlog,
 size_of_repetitions.grouped_eventlog <- function(eventlog,
 												 type = c("repeat","redo"),
 												 level = c("log","case","activity","resource","resource-activity"),
-												 append = F,
+												 append = FALSE,
 												 ...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	if(type == "repeat") {
 		FUN <- switch(level,
