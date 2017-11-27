@@ -30,7 +30,6 @@ resource_specialisation.eventlog <- function(eventlog, level = c("log","case","a
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
@@ -51,7 +50,6 @@ resource_specialisation.grouped_eventlog <- function(eventlog, level = c("log","
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-	mapping <- mapping(eventlog)
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,

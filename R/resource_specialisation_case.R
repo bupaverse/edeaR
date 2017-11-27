@@ -1,26 +1,14 @@
 resource_specialisation_case <- function(eventlog) {
 
-
-	resource_classifier <- resource_id(eventlog)
-	event_classifier <- activity_id(eventlog)
-	case_classifier <- case_id(eventlog)
-
-	colnames(eventlog)[colnames(eventlog) == activity_id(eventlog)] <- "event_classifier"
+	freq <- NULL
+	nr_of_activity_types <- NULL
 
 	eventlog %>%
-		group_by_(case_classifier, resource_classifier, "event_classifier") %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog), !!case_id_(eventlog)) %>%
 		summarize() %>%
-		group_by_(case_classifier) %>%
-		mutate(nr_of_activity_types = n_distinct(event_classifier)) %>%
-		group_by_(case_classifier, "nr_of_activity_types", resource_classifier) %>%
+		group_by(!!case_id_(eventlog)) %>%
+		mutate(nr_of_activity_types = n_distinct(!!activity_id_(eventlog))) %>%
+		group_by(!!case_id_(eventlog), nr_of_activity_types, !!resource_id_(eventlog)) %>%
 		summarize(freq = n()) %>%
-		summarize( min = min(freq),
-				  q1 = quantile(freq, 0.25),
-				  median = median(freq),
-				  mean = mean(freq),
-				  q3 = quantile(freq, 0.75),
-				  max = max(freq),
-				  st_dev = sd(freq)) %>%
-		mutate(iqr = q3 - q1) %>%
-		return()
+		grouped_summary_statistics("freq")
 }

@@ -1,13 +1,12 @@
 resource_specialisation_activity <- function(eventlog) {
 
-	event_classifier <- activity_id(eventlog)
-	resource_classifier <- resource_id(eventlog)
+	absolute <- NULL
+	relative <- NULL
 
 	eventlog %>%
-		group_by_(event_classifier, resource_classifier) %>%
+		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog)) %>%
 		summarize() %>%
 		summarize(absolute = n()) %>%
 		mutate(relative = absolute/n_resources(eventlog)) %>%
-		arrange(absolute) %>%
-		return()
+		arrange(absolute)
 }
