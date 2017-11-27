@@ -33,8 +33,6 @@ trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), a
 	if(exists("threshold")) {
 		warning("The threshold parameter is no longer supported")
 	}
-	mapping <- mapping(eventlog)
-
 
 	FUN <- switch(level,
 				  log = trace_coverage_log,
@@ -42,7 +40,6 @@ trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), a
 				  trace = trace_coverage_trace)
 
 		output <- FUN(eventlog = eventlog)
-
 
 	return_metric(eventlog, output, level, append, "trace_coverage", 2)
 
@@ -59,15 +56,13 @@ trace_coverage.grouped_eventlog <- function(eventlog, level = c("log","trace","c
 	if(exists("threshold")) {
 		warning("The threshold parameter is no longer supported")
 	}
-	mapping <- mapping(eventlog)
-
 
 	FUN <- switch(level,
 				  log = trace_coverage_log,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-		output <- grouped_metric(eventlog, FUN)
+	output <- grouped_metric(eventlog, FUN)
 
 
 	return_metric(eventlog, output, level, append, "trace_coverage", 2)
