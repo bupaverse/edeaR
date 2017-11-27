@@ -17,6 +17,9 @@ redo_selfloops_referral_matrix <- function(eventlog) {
 #' @export
 
 redo_selfloops_referral_matrix.eventlog <- function(eventlog) {
+	first_resource <- NULL
+	last_resource <- NULL
+
 	eventlog %>%
 		redo_selfloops() %>%
 		group_by(first_resource, last_resource) %>%

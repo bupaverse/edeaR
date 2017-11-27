@@ -1,5 +1,15 @@
 rework_base <- function(eventlog) {
 
+	event_classifier <- NULL
+	case_classifier <- NULL
+	timestamp_classifier <- NULL
+	aid <- NULL
+	resource_classifier <- NULL
+	.SD <- NULL
+	next_activity <- NULL
+	same_activity <- NULL
+	activity_group <- NULL
+
 	eventlog %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
@@ -28,10 +38,16 @@ rework_base <- function(eventlog) {
 #selfloops
 repeat_selfloops <- function(eventlog) {
 
-	eventlog %>%
-		rework_base -> r
+	.N <- NULL
+	case_classifier <- NULL
+	resource_classifier <- NULL
+	event_classifier <- NULL
+	activity_group <- NULL
+	nr_of_resources <- NULL
+	t_length <- NULL
 
-	r %>%
+	eventlog %>%
+		rework_base  %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
 				"resource_classifier" = resource_id(eventlog)) %>%
@@ -52,6 +68,16 @@ repeat_selfloops <- function(eventlog) {
 	return(r)
 }
 redo_selfloops <- function(eventlog) {
+
+	.N <- NULL
+	case_classifier <- NULL
+	event_classifier <- NULL
+	resource_classifier <- NULL
+	first_resource <- NULL
+	last_resource <- NULL
+	activity_group <- NULL
+	nr_of_resources <- NULL
+	t_length <- NULL
 
 	eventlog %>%
 		rework_base -> r
@@ -81,56 +107,43 @@ redo_selfloops <- function(eventlog) {
 
 repeat_selfloops_case <- function(eventlog) {
 
-	eventlog %>%
-		repeat_selfloops -> r
-
+	absolute <- NULL
 	cases <- eventlog[,case_id(eventlog)] %>% unique
 
-	r %>%
-		group_by_(case_id(eventlog), "trace_length") %>%
+	eventlog %>%
+		repeat_selfloops %>%
+		group_by(!!case_id_(eventlog), trace_length) %>%
 		summarize(absolute = n()) %>%
 		merge(cases, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute)) %>%
 		mutate(relative = absolute/trace_length) %>%
-		select(-trace_length) -> r
+		select(-trace_length)
 
-
-	return(r)
 }
+
 repeat_selfloops_size_case <- function(eventlog) {
 	eventlog %>%
 		repeat_selfloops  %>%
-		group_by_(case_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) -> r
-	return(r)
+		group_by(!!case_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!case_id_(eventlog), number_of_selfloops, everything())
+
 }
+
 redo_selfloops_case <- function(eventlog) {
 
-	eventlog %>%
-		redo_selfloops -> r
+	absolute <- NULL
+	relative <- NULL
 
 	cases <- eventlog[,case_id(eventlog)] %>% unique
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-
-	r %>%
-		group_by(case_classifier) %>%
+	eventlog %>%
+		redo_selfloops %>%
+		group_by(!!case_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  trace_length = first(trace_length)) %>%
 		mutate(relative = absolute/trace_length) %>%
-		select(-trace_length) -> r
-
-	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
-
-	r %>% merge(cases, all.y = T) %>%
+		select(-trace_length) %>% merge(cases, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
 			   relative = ifelse(is.na(relative), 0, relative)) -> r
 
@@ -139,230 +152,198 @@ redo_selfloops_case <- function(eventlog) {
 redo_selfloops_size_case <- function(eventlog) {
 	eventlog %>%
 		redo_selfloops  %>%
-		group_by_(case_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) -> r
-	return(r)
+		group_by(!!case_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!case_id_(eventlog), number_of_selfloops, everything())
 }
 
 repeat_selfloops_log <- function(eventlog) {
+	absolute <- NULL
 	eventlog %>%
-		repeat_selfloops_case -> r
+		repeat_selfloops_case -> raw
 
-	output <- summary_statistics(r$absolute)
+	raw %>%
+		pull(absolute) %>%
+		summary_statistics -> output
 
-	attr(output, "raw") <- r
+	attr(output, "raw") <- raw
 	return(output)
 }
 repeat_selfloops_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
-		repeat_selfloops -> r
+		repeat_selfloops -> raw
 
-
-	output <- summary_statistics(r$length)
-	attr(output, "raw") <- r
+	raw %>%
+		pull(length) %>%
+		summary_statistics -> output
+	attr(output, "raw") <- raw
 	return(output)
 
 }
 redo_selfloops_log <- function(eventlog) {
+	absolute <- NULL
 	eventlog %>%
-		redo_selfloops_case -> r
+		redo_selfloops_case -> raw
+	raw %>%
+		pull(absolute) %>%
+		summary_statistics -> output
 
-	output <- summary_statistics(r$absolute)
-	attr(output, "raw") <- r
+	attr(output, "raw") <- raw
 	return(output)
 }
 redo_selfloops_size_log <- function(eventlog, raw = F) {
 	eventlog %>%
-		redo_selfloops -> r
+		redo_selfloops -> raw
 
-	output <- summary_statistics(r$length)
-	attr(output, "raw") <- r
+	raw %>%
+		pull(length) %>%
+		summary_statistics -> output
+	attr(output, "raw") <- raw
 	return(output)
 
 }
 
 repeat_selfloops_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
+	absolute <- NULL
+	relative <- NULL
 
 	activities <- eventlog[,activity_id(eventlog)] %>% unique
 
-	r %>%
-		group_by(event_classifier) %>%
+	eventlog %>%
+		repeat_selfloops() %>%
+		group_by(!!activity_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		mutate(relative = absolute/activity_frequency) %>%
-		select(-activity_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	r %>% merge(activities, all.y = T) %>%
+		select(-activity_frequency) %>%
+		merge(activities, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
-
-	return(r)
+			   relative = ifelse(is.na(relative), 0, relative))
 }
 repeat_selfloops_size_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
+
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	activities <- eventlog %>% activities
 
-	r %>%
-		group_by_(activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+	eventlog %>%
+		repeat_selfloops() %>%
+		group_by(!!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!activity_id_(eventlog), number_of_selfloops, everything()) %>%
 		merge(activities, . ) %>%
 		rename(relative_activity_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
+		select(-absolute_frequency)
+
 }
 redo_selfloops_activity <- function(eventlog) {
-	eventlog %>%
-		redo_selfloops() -> r
-
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
 
 	activities <- eventlog[,activity_id(eventlog)] %>% unique
 
-	r %>%
-		group_by(event_classifier) %>%
+	absolute <- NULL
+	relative <- NULL
+
+	eventlog %>%
+		redo_selfloops() %>%
+		group_by(!!activity_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		mutate(relative = absolute/activity_frequency) %>%
-		select(-activity_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	r %>% merge(activities, all.y = T) %>%
+		select(-activity_frequency) %>%
+		merge(activities, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
-
-	return(r)
+			   relative = ifelse(is.na(relative), 0, relative))
 }
 redo_selfloops_size_activity <- function(eventlog) {
-	eventlog %>%
-		redo_selfloops() -> r
+
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
 
 	activities <- eventlog %>% activities
 
-	r %>%
-		group_by_(activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+	eventlog %>%
+		redo_selfloops() %>%
+		group_by(!!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!activity_id_(eventlog), number_of_selfloops, everything()) %>%
 		merge(activities, . ) %>%
 		rename(relative_activity_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
+		select(-absolute_frequency)
 }
 
 repeat_selfloops_resource <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
-
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
+	absolute <- NULL
+	resource <- NULL
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	resources <- resources(eventlog)
 
-	r %>%
-		group_by(resource_classifier) %>%
-		summarize(absolute = n()) -> r
-
-	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
-
-	r %>% merge(resources, all.y = T) %>%
+	eventlog %>%
+		repeat_selfloops() %>%
+		group_by(!!resource_id_(eventlog)) %>%
+		summarize(absolute = n()) %>%
+		merge(resources, all.y = TRUE) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
 			   relative = absolute/absolute_frequency) %>%
-		select(-absolute_frequency, -relative_frequency) -> r
-
-	return(r)
+		select(-absolute_frequency, -relative_frequency)
 
 }
 repeat_selfloops_size_resource <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+
 
 	resources <- eventlog %>% resources
 
-	r %>%
-		group_by_(resource_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
-		merge(resources, . ) %>%
-		rename(relative_resource_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
-}
-redo_selfloops_resource <- function(eventlog) {
 	eventlog %>%
-		redo_selfloops() -> r
+		repeat_selfloops() %>%
+		group_by(!!resource_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!resource_id_(eventlog), number_of_selfloops, everything()) %>%
+		merge(resources, . ) %>%
+		rename(relative_activity_frequency = relative_frequency) %>%
+		select(-absolute_frequency)
 
+}
+
+redo_selfloops_resource <- function(eventlog) {
+
+	first_resource <- NULL
+	absolute <- NULL
+	relative <- NULL
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	resources <- resources(eventlog)
 
-	r %>%
+	eventlog %>%
+		redo_selfloops() %>%
 		group_by(first_resource) %>%
-		summarize(absolute = n()) -> r
-
-
-	r %>% merge(resources, all.y = T, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
+		summarize(absolute = n())  %>%
+		merge(resources, all.y = T, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
 			   relative = absolute/absolute_frequency) %>%
-		select(-absolute_frequency, -relative_frequency) -> r
-
-	return(r)
+		select(-absolute_frequency, -relative_frequency)
 
 }
 redo_selfloops_size_resource <- function(eventlog) {
-	eventlog %>%
-		redo_selfloops() -> r
+
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+	first_resource <- NULL
 
 	resources <- eventlog %>% resources
 
-	r %>%
+	eventlog %>%
+		redo_selfloops() %>%
 		group_by(first_resource) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(first_resource, number_of_selfloops, everything()) %>%
 		merge(resources, . , by.x = resource_id(eventlog), by.y = "first_resource") %>%
-		rename(relative_resource_frequency = relative_frequency) %>%
+		rename(relative_activity_frequency = relative_frequency) %>%
 		select(-absolute_frequency) -> r
 
 	colnames(r)[colnames(r) == resource_id(eventlog)] <- "first_resource"
@@ -370,106 +351,85 @@ redo_selfloops_size_resource <- function(eventlog) {
 }
 
 repeat_selfloops_resource_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
+
+	absolute <- NULL
+	relative <- NULL
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	resources <- resources(eventlog)
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
-
-	r %>%
-		group_by(event_classifier, resource_classifier) %>%
+	eventlog %>%
+		repeat_selfloops() %>%
+		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
-		merge(resources, by.x = "resource_classifier", by.y = resource_id(eventlog)) %>%
+		merge(resources) %>%
 		mutate(relative_activity = absolute/activity_frequency,
 			   relative_resource = absolute/absolute_frequency) %>%
-		select(-activity_frequency, -absolute_frequency, -relative_frequency) -> r
+		select(-activity_frequency, -absolute_frequency, -relative_frequency)
 
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
-
-	return(r)
 }
 repeat_selfloops_size_resource_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_selfloops() -> r
 
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "aid"
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	resources_activities <- eventlog %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(!!activity_instance_id_(eventlog))) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
 
-	r %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
-		merge(resources_activities, . ) -> r
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "first_resource"
+	eventlog %>%
+		repeat_selfloops() %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog))  %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!activity_id_(eventlog), !!resource_id_(eventlog), number_of_selfloops, everything()) %>%
+		merge(resources_activities, . )
 
-	return(r)
 }
 redo_selfloops_resource_activity <- function(eventlog) {
-	eventlog %>%
-		redo_selfloops() -> r
+
+	absolute <- NULL
+	first_resource <- NULL
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
 
 	resources <- resources(eventlog)
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-
-	r %>%
-		group_by(event_classifier, first_resource) %>%
+	eventlog %>%
+		redo_selfloops()  %>%
+		group_by(!!activity_id_(eventlog), first_resource) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		merge(resources, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
 		mutate(relative_activity = absolute/activity_frequency,
 			   relative_resource = absolute/absolute_frequency) %>%
-		select(-activity_frequency, -absolute_frequency, -relative_frequency) -> r
+		select(-activity_frequency, -absolute_frequency, -relative_frequency)
 
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	return(r)
 }
 redo_selfloops_size_resource_activity <- function(eventlog) {
 
-	eventlog %>%
-		redo_selfloops() -> r
-
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "aid"
-
+	first_resource <- NULL
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
 
 	resources_activities <- eventlog %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(!!activity_instance_id_(eventlog))) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
 
-	r %>%
-		group_by_("first_resource", activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
-		merge(resources_activities, . , by.x = c(resource_id(eventlog), activity_id(eventlog)), by.y = c("first_resource", activity_id(eventlog)) ) -> r
-	return(r)
+
+	eventlog %>%
+		redo_selfloops() %>%
+		group_by(first_resource, !!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(first_resource, !!activity_id_(eventlog), number_of_selfloops, everything()) %>%
+		merge(resources_activities, . , by.x = c(resource_id(eventlog), activity_id(eventlog)), by.y = c("first_resource", activity_id(eventlog)))
 
 }
 
@@ -477,11 +437,18 @@ redo_selfloops_size_resource_activity <- function(eventlog) {
 #repetitions
 repeat_repetitions <- function(eventlog) {
 
+	.N <- NULL
+	case_classifier <- NULL
+	event_classifier <- NULL
+	resource_classifier <- NULL
+	first_resource <- NULL
+	last_resource <- NULL
+	activity_group <- NULL
+	nr_of_resources <- NULL
+	t_length <- NULL
+
 	eventlog %>%
-		rework_base -> r
-
-
-	r %>%
+		rework_base %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
 				"resource_classifier" = resource_id(eventlog)) %>%
@@ -502,11 +469,18 @@ repeat_repetitions <- function(eventlog) {
 	return(r)
 }
 redo_repetitions <- function(eventlog) {
+	.N <- NULL
+	case_classifier <- NULL
+	event_classifier <- NULL
+	resource_classifier <- NULL
+	first_resource <- NULL
+	last_resource <- NULL
+	activity_group <- NULL
+	nr_of_resources <- NULL
+	t_length <- NULL
 
 	eventlog %>%
-		rework_base -> r
-
-	r %>%
+		rework_base %>%
 		rename_("case_classifier" = case_id(eventlog),
 				"event_classifier" = activity_id(eventlog),
 				"resource_classifier" = resource_id(eventlog)) %>%
@@ -531,291 +505,256 @@ redo_repetitions <- function(eventlog) {
 
 repeat_repetitions_case <- function(eventlog) {
 
-	eventlog %>%
-		repeat_repetitions() -> r
+	absolute <- NULL
+	relative <- NULL
 
 	cases <- eventlog[,case_id(eventlog)] %>% unique
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
 
-	r %>%
-		group_by(case_classifier) %>%
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!case_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  trace_length = first(trace_length)) %>%
 		mutate(relative = absolute/trace_length) %>%
-		select(-trace_length) -> r
-
-	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
-
-	r %>% merge(cases, all.y = T) %>%
+		select(-trace_length)  %>% merge(cases, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
-
-	return(r)
+			   relative = ifelse(is.na(relative), 0, relative))
 }
 repeat_repetitions_size_case <- function(eventlog) {
 	eventlog %>%
 		repeat_repetitions()  %>%
 		group_by_(case_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) -> r
-	return(r)
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!case_id_(eventlog), number_of_selfloops, everything())
+
 }
 redo_repetitions_case <- function(eventlog) {
 
-	eventlog %>%
-		redo_repetitions -> r
+	absolute <- NULL
+	relative <- NULL
 
 	cases <- eventlog[,case_id(eventlog)] %>% unique
 
-	colnames(r)[colnames(r) == case_id(eventlog)] <- "case_classifier"
-
-	r %>%
-		group_by(case_classifier) %>%
+	eventlog %>%
+		redo_repetitions %>%
+		group_by(!!case_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  trace_length = first(trace_length)) %>%
 		mutate(relative = absolute/trace_length) %>%
-		select(-trace_length) -> r
-
-	colnames(r)[colnames(r) == "case_classifier"] <- case_id(eventlog)
-
-	r %>% merge(cases, all.y = T) %>%
+		select(-trace_length) %>%
+		merge(cases, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
+			   relative = ifelse(is.na(relative), 0, relative))
 
-	return(r)
 }
 redo_repetitions_size_case <- function(eventlog) {
 	eventlog %>%
 		redo_repetitions()  %>%
-		group_by_(case_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) -> r
-	return(r)
+		group_by(!!case_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!case_id_(eventlog), number_of_selfloops, everything())
 }
 
 repeat_repetitions_log <- function(eventlog) {
+	absolute <- NULL
 	eventlog %>%
-		repeat_repetitions_case -> r
+		repeat_repetitions_case -> raw
 
-	summary_statistics(r$absolute) -> output
+	raw %>%
+		pull(absolute) %>%
+		summary_statistics -> output
 
-	attr(output, "raw") <- r
+
+	attr(output, "raw") <- raw
 	return(output)
 }
 repeat_repetitions_size_log <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions -> r
 
-	summary_statistics(r$length) -> output
-	attr(output, "raw") <- r
+	eventlog %>%
+		repeat_repetitions -> raw
+
+	raw %>%
+		pull(length) %>%
+		summary_statistics -> output
+
+	attr(output, "raw") <- raw
+
 	return(output)
 
 }
 redo_repetitions_log <- function(eventlog) {
+	absolute <- NULL
 	eventlog %>%
-		redo_repetitions_case -> r
+		redo_repetitions_case -> raw
 
-	summary_statistics(r$absolute) -> output
-	attr(output, "raw") <- r
+	raw %>%
+		pull(absolute) %>%
+		summary_statistics -> output
+
+
+	attr(output, "raw") <- raw
 	return(output)
 }
 redo_repetitions_size_log <- function(eventlog) {
 	eventlog %>%
-		redo_repetitions -> r
+		redo_repetitions -> raw
 
-	summary_statistics(r$length) -> output
-	attr(output, "raw") <- r
+	raw %>%
+		pull(length) %>%
+		summary_statistics -> output
+
+
+	attr(output, "raw") <- raw
+
 	return(output)
 
 }
 
 repeat_repetitions_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
-
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
+	absolute <- NULL
+	relative <- NULL
+	absolute_frequency <- NULL
 
 	activities <- eventlog[,activity_id(eventlog)] %>% unique
 
-	r %>%
-		group_by(event_classifier) %>%
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!activity_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		mutate(relative = absolute/activity_frequency) %>%
-		select(-activity_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	r %>% merge(activities, all.y = T) %>%
+		select(-activity_frequency) %>%
+		merge(activities, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
-
-	return(r)
+			   relative = ifelse(is.na(relative), 0, relative))
 }
 repeat_repetitions_size_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
+
+	absolute <- NULL
+	relative <- NULL
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
 
 	activities <- eventlog %>% activities
 
-	r %>%
-		group_by_(activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!activity_id_(eventlog), number_of_selfloops, everything()) %>%
 		merge(activities, . ) %>%
 		rename(relative_activity_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
+		select(-absolute_frequency)
 }
 redo_repetitions_activity <- function(eventlog) {
-	eventlog %>%
-		redo_repetitions() -> r
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
+	absolute <- NULL
+	relative <- NULL
+	absolute_frequency <- NULL
 
 	activities <- eventlog[,activity_id(eventlog)] %>% unique
 
-	r %>%
-		group_by(event_classifier) %>%
+	eventlog %>%
+		redo_repetitions() %>%
+		group_by(!!activity_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		mutate(relative = absolute/activity_frequency) %>%
-		select(-activity_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	r %>% merge(activities, all.y = T) %>%
+		select(-activity_frequency) %>%
+		merge(activities, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
-			   relative = ifelse(is.na(relative), 0, relative)) -> r
-
-	return(r)
+			   relative = ifelse(is.na(relative), 0, relative))
 }
 redo_repetitions_size_activity <- function(eventlog) {
-	eventlog %>%
-		redo_repetitions() -> r
+
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
 
 	activities <- eventlog %>% activities
 
-	r %>%
-		group_by_(activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+	eventlog %>%
+		redo_repetitions %>%
+		group_by(!!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!activity_id_(eventlog), number_of_selfloops, everything()) %>%
 		merge(activities, . ) %>%
 		rename(relative_activity_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
+		select(-absolute_frequency)
 }
 
 repeat_repetitions_resource <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
 
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+	absolute <- NULL
+	relative <- NULL
 
 	resources <- resources(eventlog)
 
-	r %>%
-		group_by(resource_classifier) %>%
-		summarize(absolute = n()) -> r
-
-	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
-
-	r %>% merge(resources, all.y = T) %>%
+	eventlog %>%
+		repeat_repetitions()  %>%
+		group_by(!!resource_id_(eventlog)) %>%
+		summarize(absolute = n())  %>%
+		merge(resources, all.y = T) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
 			   relative = absolute/absolute_frequency) %>%
-		select(-absolute_frequency, -relative_frequency) -> r
-
-	return(r)
+		select(-absolute_frequency, -relative_frequency)
 
 }
 repeat_repetitions_size_resource <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
+
+	absolute <- NULL
+	relative <- NULL
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
 
 	resources <- eventlog %>% resources
 
-	r %>%
-		group_by_(resource_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!resource_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!resource_id_(eventlog), number_of_selfloops, everything()) %>%
 		merge(resources, . ) %>%
 		rename(relative_resource_frequency = relative_frequency) %>%
-		select(-absolute_frequency) -> r
-	return(r)
+		select(-absolute_frequency)
+
 }
 redo_repetitions_resource <- function(eventlog) {
-	eventlog %>%
-		redo_repetitions() -> r
 
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+	absolute <- NULL
+	relative <- NULL
+	first_resource <- NULL
 
 	resources <- resources(eventlog)
 
-	r %>%
+	eventlog %>%
+		redo_repetitions() %>%
 		group_by(first_resource) %>%
-		summarize(absolute = n()) -> r
-
-
-	r %>% merge(resources, all.y = T, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
+		summarize(absolute = n())  %>%
+		merge(resources, all.y = T, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
 		mutate(absolute = ifelse(is.na(absolute), 0, absolute),
 			   relative = absolute/absolute_frequency) %>%
-		select(-absolute_frequency, -relative_frequency) -> r
-
-	return(r)
+		select(-absolute_frequency, -relative_frequency)
 
 }
 redo_repetitions_size_resource <- function(eventlog) {
-	eventlog %>%
-		redo_repetitions() -> r
 
 	resources <- eventlog %>% resources
 
-	r %>%
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
+	first_resource <- NULL
+
+
+	eventlog %>%
+		redo_repetitions() %>%
 		group_by(first_resource) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(first_resource, number_of_selfloops, everything()) %>%
 		merge(resources, . , by.x = resource_id(eventlog), by.y = "first_resource") %>%
 		rename(relative_resource_frequency = relative_frequency) %>%
 		select(-absolute_frequency) -> r
@@ -825,106 +764,82 @@ redo_repetitions_size_resource <- function(eventlog) {
 }
 
 repeat_repetitions_resource_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
+
+	absolute_frequency <- NULL
+	absolute <- NULL
+	relative_frequency <- NULL
 
 	resources <- resources(eventlog)
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "resource_classifier"
-
-	r %>%
-		group_by(event_classifier, resource_classifier) %>%
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog)) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
-		merge(resources, by.x = "resource_classifier", by.y = resource_id(eventlog)) %>%
+		merge(resources) %>%
 		mutate(relative_activity = absolute/activity_frequency,
 			   relative_resource = absolute/absolute_frequency) %>%
-		select(-activity_frequency, -absolute_frequency, -relative_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-	colnames(r)[colnames(r) == "resource_classifier"] <- resource_id(eventlog)
-
-	return(r)
+		select(-activity_frequency, -absolute_frequency, -relative_frequency)
 }
-repeat_repetitions_size_resource_activity <- function(eventlog) {
-	eventlog %>%
-		repeat_repetitions() -> r
 
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "aid"
+repeat_repetitions_size_resource_activity <- function(eventlog) {
+	first_resource <- NULL
+	absolute_frequency <- NULL
 
 	resources_activities <- eventlog %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(!!activity_instance_id(eventlog))) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
 
-	r %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
-		merge(resources_activities, . ) -> r
-	colnames(r)[colnames(r) == resource_id(eventlog)] <- "first_resource"
-
-	return(r)
+	eventlog %>%
+		repeat_repetitions() %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(!!resource_id_(eventlog), !!activity_id_(eventlog), number_of_selfloops, everything()) %>%
+		merge(resources_activities, . )
 }
 redo_repetitions_resource_activity <- function(eventlog) {
-	eventlog %>%
-		redo_repetitions() -> r
+
+	absolute <- NULL
+	relative_frequency <- NULL
+	absolute_frequency <- NULL
+	first_resource <- NULL
+
 
 	resources <- resources(eventlog)
 
-	colnames(r)[colnames(r) == activity_id(eventlog)] <- "event_classifier"
-
-	r %>%
-		group_by(event_classifier, first_resource) %>%
+	eventlog %>%
+		redo_repetitions() %>%
+		group_by(!!activity_id_(eventlog), first_resource) %>%
 		summarize(absolute = n(),
 				  activity_frequency = first(activity_frequency)) %>%
 		merge(resources, by.x = "first_resource", by.y = resource_id(eventlog)) %>%
 		mutate(relative_activity = absolute/activity_frequency,
 			   relative_resource = absolute/absolute_frequency) %>%
-		select(-activity_frequency, -absolute_frequency, -relative_frequency) -> r
-
-	colnames(r)[colnames(r) == "event_classifier"] <- activity_id(eventlog)
-
-	return(r)
+		select(-activity_frequency, -absolute_frequency, -relative_frequency)
 }
 redo_repetitions_size_resource_activity <- function(eventlog) {
 
-	eventlog %>%
-		redo_repetitions() -> r
-
-	colnames(eventlog)[colnames(eventlog) == activity_instance_id(eventlog)] <- "aid"
+	absolute_frequency <- NULL
+	relative_frequency <- NULL
+	first_resource <- NULL
 
 
 	resources_activities <- eventlog %>%
-		group_by_(resource_id(eventlog), activity_id(eventlog)) %>%
-		summarize(absolute_frequency = dplyr::n_distinct(aid)) %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
+		summarize(absolute_frequency = dplyr::n_distinct(!!activity_instance_id_(eventlog))) %>%
 		ungroup() %>%
 		mutate(relative_frequency = absolute_frequency/sum(absolute_frequency)) %>%
 		select(-absolute_frequency)
 
-	r %>%
-		group_by_("first_resource", activity_id(eventlog)) %>%
-		summarize(number_of_selfloops = n(),
-				  min = min(length),
-				  q1 = quantile(length, 0.25),
-				  mean = mean(length),
-				  median = median(length),
-				  q3 = quantile(length, 0.75),
-				  max = max(length),
-				  st_dev = sd(length),
-				  iqr = q3 - q1) %>%
-		merge(resources_activities, . , by.x = c(resource_id(eventlog), activity_id(eventlog)), by.y = c("first_resource", activity_id(eventlog)) ) -> r
-	return(r)
+	eventlog %>%
+		redo_repetitions()  %>%
+		group_by(first_resource, !!activity_id_(eventlog)) %>%
+		grouped_summary_statistics("length", number_of_selfloops = n()) %>%
+		select(first_resource, !!activity_id_(eventlog), number_of_selfloops, everything()) %>%
+		merge(resources_activities, . , by.x = c(resource_id(eventlog), activity_id(eventlog)), by.y = c("first_resource", activity_id(eventlog)) )
 
 }
 
