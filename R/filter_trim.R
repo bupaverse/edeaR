@@ -1,16 +1,18 @@
-#' @title Filter: Trim cases
+#' Filter: Trim cases
 #'
-#' @description Trim all cases from the first event of a set of start activities to the last event of a set of end activities.
-#' Traces that don't have at least one event of both sets are discarded.
+#' Trim cases from the first event of a set of start activities to the last event of a set of end activities.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' One can trim cases by removing one or more activity instances
+#' at the start and/or end of a case. Trimming is performed until all cases have a start and/or
+#' end point belonging to a set of allowed activity labels. This filter requires a set of allowed
+#' start activities and/or a set of allowed end activities. If one of them is not provided it will
+#' not trim the cases at this edge.The selection can be reversed, which means that
+#' only the trimmed events at the start and end of cases are retained. As such, this argument
+#' allows to cut intermediate parts out of traces.
 #'
-#' @param start_activities Start activities used for trimming. If not provided, the start of the cases is not trimmed.
 #'
-#' @param end_activities End activities used for trimming. If not provided, the end of the cases or not trimmed.
-#'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
+#' @inherit filter_activity params references seealso return
+#' @inherit filter_endpoints params
 #'
 #' @export filter_trim
 

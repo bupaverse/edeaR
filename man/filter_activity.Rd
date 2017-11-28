@@ -7,25 +7,35 @@
 \alias{ifilter_activity}
 \title{Filter: Activity}
 \usage{
-filter_activity(eventlog, activities, reverse)
+filter_activity(eventlog, activities, reverse, ...)
 
-\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE)
+\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE, ...)
 
 \method{filter_activity}{grouped_eventlog}(eventlog, activities,
-  reverse = FALSE)
+  reverse = FALSE, ...)
 
 ifilter_activity(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{activities}{A vector of activities to withhold}
+\item{activities}{Character vector containing one or more activity identifiers.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Filters the log based on activities
+}
+\details{
+The method filter_activity can be used to filter on activity identifiers. It has an activities argument,
+to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -34,3 +44,6 @@ Filters the log based on activities
 \item \code{grouped_eventlog}: Filter grouped eventlog for activity labels
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

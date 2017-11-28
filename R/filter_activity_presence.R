@@ -1,11 +1,23 @@
-#' @title Filter: Activity Presence
+#' Filter: Activity Presence
 #'
-#' @description Filters cases based on the presence (or absence) of activities
+#' Filters cases based on the presence (or absence) of activities
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' This functions allows to filter cases that contain certain activities.
+#' It requires as input a vector containing one or more activity labels and it has a method
+#' argument. The latter can have the values all, none or one_of.
+#' \itemize{
+#' \item When set to `all`, it means
+#' that all the specified activity labels must be present for a case to be selected
+#' \item `none` means
+#' that they are not allowed to be present.
+#' \item `one_of` means that at least one of them must be
+#' present.
+#' }
 #'
-#' @param activities A vector of activities to withhold.
+#' When only one activity label is supplied, note that methods all and one_of will be identical.
+#'
+#'
+#' @inherit filter_activity params references seealso return
 #'
 #' @param method Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.
 #'

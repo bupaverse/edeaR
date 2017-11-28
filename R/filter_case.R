@@ -1,14 +1,13 @@
-#' @title Filter: Case
+#' title Filter: Case
 #'
-#' @description Filters the log based on case identifier
+#' Filters the log based on case identifier
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' The method filter_activity can be used to filter on case identifiers. It has an cases argument,
+#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 #'
-#' @param cases A vector of cases to withhold
+#' @param cases A vector of cases identifiers
 #'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
+#' @inherit filter_activity params references seealso return
 #' @export filter_case
 
 filter_case <- function(eventlog, cases, reverse) {

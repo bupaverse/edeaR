@@ -1,17 +1,24 @@
-#' @title Filter: Activity
+#' Filter: Activity
 #'
-#' @description Filters the log based on activities
+#' Filters the log based on activities
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' The method filter_activity can be used to filter on activity identifiers. It has an activities argument,
+#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 #'
-#' @param activities A vector of activities to withhold
+#' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
 #'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
+#' @param activities Character vector containing one or more activity identifiers.
+#' @param reverse Logical, indicating whether the selection should be reversed.
+#' @param ... Deprecated arguments.
 #'
-#' @export filter_activity
+#' @seealso \code{vignette("filters", "edeaR")}
 #'
-filter_activity <- function(eventlog, activities, reverse) {
+#' @return When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+#' in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+#' the original event log.
+#'
+#'
+filter_activity <- function(eventlog, activities, reverse, ...) {
 	UseMethod("filter_activity")
 }
 
@@ -20,7 +27,8 @@ filter_activity <- function(eventlog, activities, reverse) {
 
 filter_activity.eventlog <- function(eventlog,
 									 activities,
-									 reverse = FALSE){
+									 reverse = FALSE,
+									 ...){
 	if(reverse == FALSE)
 		filter(eventlog, (!!as.symbol(activity_id(eventlog))) %in% activities)
 	else
@@ -32,7 +40,8 @@ filter_activity.eventlog <- function(eventlog,
 
 filter_activity.grouped_eventlog <- function(eventlog,
 											 activities,
-											 reverse = FALSE){
+											 reverse = FALSE,
+											 ...){
 
 	grouped_filter(eventlog, filter_activity, activities, reverse)
 }

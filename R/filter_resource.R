@@ -1,13 +1,13 @@
-#' @title Filter: Resource
+#' Filter: Resource
 #'
-#' @description Filters the log based on resources
+#' Filters the log based on resource identifiers
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' #' The method filter_resource can be used to filter on resource identifiers. It has a resources argument,
+#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 #'
-#' @param resources A vector of resources to withhold
+#' @param resources A vector of resources identifiers
 #'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
+#' @inherit filter_activity params references seealso return
 #'
 #' @export filter_resource
 #'

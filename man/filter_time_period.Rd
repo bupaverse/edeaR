@@ -20,24 +20,34 @@ filter_time_period(eventlog, interval, filter_method, reverse, ...)
 ifilter_time_period(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{filter_method}{Can be \code{contained, start, complete, intersecting} or \code{trim}.
-\code{contained} keeps all the events related to cases contained in the time period.
-\code{start} keeps all the events related to cases started in the time period.
-\code{complete} keeps all the events related to cases complete in the time period.
-\code{intersecting} keeps all the events related to cases in which at least one event started and/or ended in the time period.
-\code{trim} keeps all the events which started and ended in the time frame.}
+\item{interval}{A time interval. A vector of length 2 of type Date or POSIXct. Half-open intervals can be created with NA.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{filter_method}{Can be \code{contained, start, complete, intersecting} or \code{trim}.}
 
-\item{start_point}{Start timestamp of the time period. This should be a date object.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
 
-\item{end_point}{End timestamp of the time period. This should be a data object.}
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Function to filter eventlog using a time period.
+}
+\details{
+Event data can be filtered by supplying a time window to the method filter_time_period. There are 5 different filter methods.
+
+\itemize{
+\item \code{contained} keeps all the events related to cases contained in the time period.
+\item \code{start} keeps all the events related to cases started in the time period.
+\item \code{complete} keeps all the events related to cases complete in the time period.
+\item \code{intersecting} keeps all the events related to cases in which at least one event started and/or ended in the time period.
+\item \code{trim} keeps all the events which started and ended in the time frame.
+}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -46,3 +56,6 @@ Function to filter eventlog using a time period.
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

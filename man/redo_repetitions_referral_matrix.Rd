@@ -3,14 +3,14 @@
 \name{redo_repetitions_referral_matrix}
 \alias{redo_repetitions_referral_matrix}
 \alias{redo_repetitions_referral_matrix.eventlog}
-\title{Referral matric repetitons}
+\title{Referral matrix repetitons}
 \usage{
 redo_repetitions_referral_matrix(eventlog)
 
 \method{redo_repetitions_referral_matrix}{eventlog}(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 }
 \description{
@@ -21,3 +21,9 @@ Provides a list of initatiors and completers of  redo repetitons
 \item \code{eventlog}: Compute matrix for eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+\code{\link{number_of_repetitions}}
+}

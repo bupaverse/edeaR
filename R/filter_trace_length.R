@@ -1,22 +1,18 @@
-#' @title Filter: Trace length percentile
+#'  Filter: Trace length percentile
 #'
-#' @description Filters cases on length, using a percentile threshold.
+#' Filters cases on length, using a percentile threshold.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+
+#' This filter can be used by using an interval or by using a percentage.
+#' The percentage will always start with the shortest cases first and stop
+#' including cases when the specified percentile is reached. On the other hand, an absolute
+#' interval can be defined instead to filter cases which have a length in this interval.
 #'
-#' @param lower_threshold The lower trace length threshold.
-#' When \code{reverse} is FALSE, all traces with a lower frequency are discarded.
+#
+#' @param interval An trace length interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.
+#' @param percentage A percentage p to be used for relative filtering.
 #'
-#' @param upper_threshold The upper trace length threshold.
-#' When \code{reverse} is FALSE, all traces with a lo frequency are discarded.
-#'
-#' @param percentile_cut_off Alternatively to providing thresholds, a percentile cut off can be provided.
-#' A percentile cut off value of 0.9 will return the 90\% shortest cases.
-#' When \code{reverse} is set to TRUE, it will return the 10\% longest cases.
-#'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
+#' @inherit filter_activity params references seealso return
 #'
 #' @export filter_trace_length
 #'

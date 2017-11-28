@@ -3,14 +3,14 @@
 \name{redo_selfloops_referral_matrix}
 \alias{redo_selfloops_referral_matrix}
 \alias{redo_selfloops_referral_matrix.eventlog}
-\title{Referral matric selfloops}
+\title{Referral matrix selfloops}
 \usage{
 redo_selfloops_referral_matrix(eventlog)
 
 \method{redo_selfloops_referral_matrix}{eventlog}(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 }
 \description{
@@ -21,3 +21,9 @@ Provides a list of initatiors and completers of  redo selfloops
 \item \code{eventlog}: Compute matrix for eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+\code{\link{number_of_selfloops}}
+}

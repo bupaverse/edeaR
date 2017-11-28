@@ -20,25 +20,32 @@ filter_processing_time(eventlog, interval, percentage, reverse, units, ...)
 ifilter_processing_time(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{interval}{An duration interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.}
 
-\item{units}{The time unit used for filtering.}
+\item{percentage}{A percentage p to be used for relative filtering.}
 
-\item{lower_threshold}{The lower duration threshold, specified in number of days.
-When \code{reverse} is FALSE, all cases with a lower duration are discarded.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
 
-\item{upper_threshold}{The upper duration threshold, specified in number of days.
-When \code{reverse} is FALSE, all cases with a higher duration are discarded.}
+\item{units}{The time unit used for defining filter intervals.}
 
-\item{percentile_cut_off}{Alternatively to providing thresholds, a percentile cut off can be provided.
-A percentile cut off value of 0.9 will return the 90\% shortest cases.
-When \code{reverse} is set to TRUE, it will return the 10\% longest cases.}
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Filters cases based on their processing time.
+}
+\details{
+This filter can be used by using an interval or by using a percentage.
+The percentage will always start with the shortest cases first and stop
+including cases when the specified percentile is reached. On the other hand, an absolute
+interval can be defined instead to filter cases which have a processing time in this interval. The time units
+in which this interval is defined can be submitted with the units argument.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -47,3 +54,6 @@ Filters cases based on their processing time.
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

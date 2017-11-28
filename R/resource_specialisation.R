@@ -1,13 +1,37 @@
-#' @title Metric: Resource Specialisation
+#' Metric: Resource Specialisation
 #'
-#' @description Analyses whether resources specialise in specific activities
+#' Analyses whether resources specialise in specific activities
 #'
+#' This can give a
+#' company an overview of which resources are performing certain activities more
+#' than others, and which resources are responsible for containing all knowledge
+#' or capabilities on one topic.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' \itemize{
 #'
-#' @param level At which level the analysis of  coverage should be performed: log, case, resource.
-#' @inheritParams resource_involvement
+#' \item On the level of the complete event log,
+#' this metric provides summary statistics on the number of distinct activities executed per
+#' resource.
+#'
+#' \item On the level of the cases, this metric provides
+#' the number of distinct activities that are executed within each case together
+#' with the summary statistics of the distinct activities executed per resource
+#' in each case.
+#'
+#' \item On the level of the distinct activities,
+#' this metric provides an overview of the absolute and relative number of different
+#' resources executing this activity within the complete event log. This will give a
+#' company insights in which activities resources are specialised in.
+#'
+#' \item Finally, the resource specialisation can
+#' also be calculated on the resource level, showing the absolute and relative number
+#' of distinct activities that each resource executes.
+#' }
+#'
+#' @param level Level of granularity for the analysis: log,  case, or resource.
+#' For more information, see \code{vignette("metrics", "edeaR")}#'
+#'
+#' @inherit activity_frequency params references seealso return
 #'
 #' @export resource_specialisation
 

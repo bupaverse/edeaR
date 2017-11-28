@@ -5,7 +5,7 @@
 \alias{filter_endpoints.eventlog}
 \alias{filter_endpoints.grouped_eventlog}
 \alias{ifilter_endpoints}
-\title{Filter: Filter based on percentile of start and end activities}
+\title{Filter: Start and end activities}
 \usage{
 filter_endpoints(eventlog, start_activities, end_activities, percentage,
   reverse, ...)
@@ -19,21 +19,31 @@ filter_endpoints(eventlog, start_activities, end_activities, percentage,
 ifilter_endpoints(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{start_activities}{Start activities used for filtering.}
+\item{start_activities}{A vector of activity identifiers, or NULL}
 
-\item{end_activities}{End activities used for filtering.}
+\item{end_activities}{A vector of activity identifiers, or NULL}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{percentage}{A percentage p to be used as percentile cut off. When this is used, the most common endpoint-pairs will be selected until at least
+the p\% of the cases are selected.}
 
-\item{percentile_cut_off}{Alternatively to using (sets of) start or end activities, a percentile cut off can be provided.
-A percentile cut off value of 0.9 will return the cases starting and ending with the  90\% most common start and end activities.
-When \code{reverse} is set to TRUE, it will return the 10\% cases with the least common start and end activivities.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Filters the log based on a provided set of start and end activities
+}
+\details{
+The filter_endpoints method filters cases based on the first and last activity label. It can be used in two ways: by specifying vectors with allowed start
+activities and/or allowed end activities, or by specifying a percentile. In the latter case, the percentile value will be used as a cut off.
+For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90% of the cases, and filter the event log accordingly.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -42,3 +52,6 @@ Filters the log based on a provided set of start and end activities
 \item \code{grouped_eventlog}: Filter grouped event log stratified
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

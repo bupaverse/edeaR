@@ -1,13 +1,15 @@
-#' @title Referral matric repetitons
+
+#' @title Referral matrix repetitons
 #'
 #' @description Provides a list of initatiors and completers of  redo repetitons
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
 #'
 #'
 #'
-#' @export redo_repetitions_referral_matrix
+#' @inherit activity_frequency params references seealso return
+#' @seealso \code{\link{number_of_repetitions}}
+#'
+#' @export
 #'
 redo_repetitions_referral_matrix <- function(eventlog) {
 	UseMethod("redo_repetitions_referral_matrix")

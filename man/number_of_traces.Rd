@@ -13,12 +13,15 @@ number_of_traces(eventlog)
 \method{number_of_traces}{grouped_eventlog}(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 }
 \description{
-Computes how many traces there are. The result is returned as absolute number as well as a relative number.
-The relative number refers to the number of traces per 100 cases.
+Computes how many traces there are.
+}
+\details{
+This metric provides two values, the absolute and relative number of traces that
+occur in the event log. The relative number shows expected number of traces needed to cover 100 cases.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -27,3 +30,6 @@ The relative number refers to the number of traces per 100 cases.
 \item \code{grouped_eventlog}: Number of traces in each group of eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

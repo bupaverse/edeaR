@@ -1,23 +1,19 @@
-#' @title Filter: Trace frequency percentile
+#' Filter: Trace frequency
 #'
-#' @description Filters the log based the frequency of traces, using an upper and lower threshold or a percentile cut off.
+#' Filters the log based the frequency of traces, using an interval or a percentile cut off.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' This filter can be used to filter cases based on the frequency of the corresponding trace.
+#' A trace is a sequence of activity labels, and will be discussed in
+#' more detail in Section 6. There are again two ways to select cases based on trace frequency,
+#' by interval or by percentile cut off. The percentile cut off will start with the most frequent
+#' traces.
 #'
-#' @param lower_threshold The lower frequency threshold.
-#' When \code{reverse} is FALSE, all traces with a lower frequency are discarded.
+#' @param percentage When given a percentage p, the filter will select the most common traces, until at least p\% of the cases is covered.
 #'
-#' @param upper_threshold The upper frequency threshold.
-#' When \code{reverse} is FALSE, all traces with a higher frequency are discarded.
-#'
-#' @param percentile_cut_off Alternatively to providing thresholds, a percentile cut off can be provided.
-#' A percentile cut off value of 0.9 will return the most common traces, accounting for 90\% of the cases.
-#' When \code{reverse} is set to TRUE, it will return the least common traces, acoounting for 10\% of the cases.
-#'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
+#' @param interval WHen given an interval, the filter will select cases of which the trace has a frequency inside the interval.
 #'
 #'
+#' @inherit filter_activity params references seealso return
 #' @export filter_trace_frequency
 
 

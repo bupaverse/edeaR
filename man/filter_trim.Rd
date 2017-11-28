@@ -18,18 +18,30 @@ filter_trim(eventlog, start_activities, end_activities, reverse)
 ifilter_trim(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{start_activities}{Start activities used for trimming. If not provided, the start of the cases is not trimmed.}
+\item{start_activities}{A vector of activity identifiers, or NULL}
 
-\item{end_activities}{End activities used for trimming. If not provided, the end of the cases or not trimmed.}
+\item{end_activities}{A vector of activity identifiers, or NULL}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Trim all cases from the first event of a set of start activities to the last event of a set of end activities.
-Traces that don't have at least one event of both sets are discarded.
+Trim cases from the first event of a set of start activities to the last event of a set of end activities.
+}
+\details{
+One can trim cases by removing one or more activity instances
+at the start and/or end of a case. Trimming is performed until all cases have a start and/or
+end point belonging to a set of allowed activity labels. This filter requires a set of allowed
+start activities and/or a set of allowed end activities. If one of them is not provided it will
+not trim the cases at this edge.The selection can be reversed, which means that
+only the trimmed events at the start and end of cases are retained. As such, this argument
+allows to cut intermediate parts out of traces.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -38,3 +50,6 @@ Traces that don't have at least one event of both sets are discarded.
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

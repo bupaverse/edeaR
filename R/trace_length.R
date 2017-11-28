@@ -1,9 +1,26 @@
-#' @title Metric: Trace length
+#' Metric: Trace length
 #'
-#' @description Computes the length of each trace, in terms of the number of events, at the level of the eventlog or the level of a trace.
-#' The relative numbers at trace level measure trace length compared to the average trace length of the top 80% cases, approximately.
 #'
-#' @inheritParams activity_frequency
+#' Analysis of trace lengths
+#'
+#' This metric provides an overview of the number of activities that occur in each trace.
+#'  In this metric, instances of an activity, as
+#'  opposed to the actual activities, are calculated.
+#'
+#'  \itemize{
+#'
+#'  \item On the level of the log, the number of actual
+#'  transactions in a trace are calculated and aggregated on the log level.
+#'
+#'  \item On the level of the cases, this metric calculates the number of activity instances in each case.
+#'
+#'  \item This metric shows the number of activity instances
+#'  executed in each trace.
+#'  #'
+#'  }
+#'
+#' @inherit throughput_time params
+#' @inherit activity_frequency params references seealso return
 
 #' @export trace_length
 

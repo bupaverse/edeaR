@@ -1,13 +1,14 @@
-#' @title Referral matric selfloops
+#' @title Referral matrix selfloops
 #'
 #' @description Provides a list of initatiors and completers of  redo selfloops
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+
+#' @inherit activity_frequency params references seealso return
+
+#' @seealso \code{\link{number_of_selfloops}}
+
 #'
-#'
-#'
-#' @export redo_selfloops_referral_matrix
+#' @export
 #'
 redo_selfloops_referral_matrix <- function(eventlog) {
 	UseMethod("redo_selfloops_referral_matrix")

@@ -1,14 +1,37 @@
-#' @title Metric: Processing time
+#'  Metric: Processing time
 #'
-#' @description Provides summary statistics about the processing time of events on the level of activities, traces, cases or log.
+#'  Provides summary statistics about the processing time of the process.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#'  In contrast to the throughput time of the cases in an event log, the metrics concerning
+#'  the active time or the actual processing time provide summary statistics on the
+#'  processing time of events on the level of the complete event log, the specific cases,
+#'   traces, the activities, and the resource-activity combinations.
 #'
-#' @param units The time unit in which the throughput times should be reported.
-#' @param append Logical indicating whether the result should be appended to the original data.
-#' @param level At which level the analysis of processing times should be performed: log, trace, case, resource or activity.
-#' @param ... Deprecated arguments
+#'   \itemize{
+#'   \item On log level, this metric calculates the summary statistics of the actual processing time per case,
+#'   summarised over the complete event log.
+#'   \item On case level, a list of cases with their processing time are provided.
+#'   \item On trace level, the summary statistics of processing time
+#'   can be calculated for each possible sequence of activities that
+#'   appears in the event log.
+#'   \item Duration can also be calculated on the level
+#'   of each activity. For each activity, an overview of the average processing time
+#'   -or the service time- of this activity can be of interest.
+#'   \item We can also look at the processing time per case
+#'   on the level of each separate resource. This way, a company gets an overview of
+#'   the amount of time each resource spends on a case and which resources spend
+#'   more time on cases than others.
+#'   \item On the resource-activity level, finally,
+#'   we can have a look at the efficiency of resources by looking at the combination
+#'   of each resource with each activity.
+#'   }
+#'
+#' @param level Level of granularity for the analysis: log,  case, trace, activity, resource or resource-activity.
+#' For more information, see \code{vignette("metrics", "edeaR")}
+#'
+#' @inherit activity_frequency params references seealso return
+#' @inherit idle_time params
+#'
 #' @export processing_time
 
 processing_time <- function(eventlog, level, append, units, ...) {

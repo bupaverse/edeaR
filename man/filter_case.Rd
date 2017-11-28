@@ -5,7 +5,7 @@
 \alias{filter_case.eventlog}
 \alias{filter_case.grouped_eventlog}
 \alias{ifilter_case}
-\title{Filter: Case}
+\title{title Filter: Case}
 \usage{
 filter_case(eventlog, cases, reverse)
 
@@ -17,15 +17,23 @@ filter_case(eventlog, cases, reverse)
 ifilter_case(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{cases}{A vector of cases to withhold}
+\item{cases}{A vector of cases identifiers}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Filters the log based on case identifier
+}
+\details{
+The method filter_activity can be used to filter on case identifiers. It has an cases argument,
+to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -34,3 +42,6 @@ Filters the log based on case identifier
 \item \code{grouped_eventlog}: Stratified filter for grouped eventlogs
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

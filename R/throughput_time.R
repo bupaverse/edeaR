@@ -1,10 +1,30 @@
-#' @title Metric: Throughput time of cases
+#' Metric: Throughput time of cases
 #'
-#' @description  Provides summary statistics concerning the throughput times of cases.
-#' The throughput time of cases is defined as the time between the start of the first event and the completion of the last event.
-#' Can be performed at the level of the log as well as the level of traces and cases.
 #'
-#' @inheritParams idle_time
+#' Provides summary statistics concerning the throughput times of cases.
+#'
+#'
+#'
+#' \itemize{
+#'
+#' \item The throughput time of a case is the total duration
+#' of the case, or the difference between the timestamp of the end event and the
+#' timestamp of the start event of the case. Possible idle time is also included
+#' in this calculation.
+#' \item On log level, the summary statistics of these throughput to describe the throughput time of cases in an
+#' aggregated fashion.
+#' \item Instead of looking at all cases in the log, it
+#' can be interesting to analyse the different process variants or traces in the log
+#' }
+#'
+#'
+#'
+#' @param level Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+#' For more information, see \code{vignette("metrics", "edeaR")}
+#'
+#'
+#' @inherit activity_frequency params references seealso return
+#' @inherit idle_time params
 #'
 #'
 #'

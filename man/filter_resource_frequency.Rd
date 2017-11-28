@@ -5,7 +5,7 @@
 \alias{filter_resource_frequency.eventlog}
 \alias{filter_resource_frequency.grouped_eventlog}
 \alias{ifilter_resource_frequency}
-\title{Filter: Resource frequency}
+\title{{Filter: Activity frequency}}
 \usage{
 filter_resource_frequency(eventlog, interval, percentage, reverse, ...)
 
@@ -18,21 +18,44 @@ filter_resource_frequency(eventlog, interval, percentage, reverse, ...)
 ifilter_resource_frequency(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{interval}{An resource frequency interval (numeric vector of length 2). Half open interval can be created using NA.}
 
-\item{percentile_cut_off}{The target coverage of events
-A percentile of 0.9 will return the most common resource types of the eventlog, which account for 90\% of the events.}
+\item{percentage}{The target coverage of activity instances. A percentile of 0.9 will return the most common resource types of the eventlog,
+which account for at least 90\% of the activity instances.}
+
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Filters the log based on its most frequent resources, until a specific percentile cut off.
+{Filters the log based on frequency of activities}
+
+
+Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+
+\itemize{
+
+\item percentage: When filtering using a percentage p\%, the filter will return p% of the activity instances, starting from the resource labels with the highest
+frequency. The filter will retain additional resource labels as long as the number of activity instances does not exceed the percentage threshold.
+
+\item interval: When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval. The interval is specified using
+a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select resource labels which occur 10 times or more.
+}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event logs
+\item \code{eventlog}: Filter event log
 
 \item \code{grouped_eventlog}: Filter grouped event logs
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

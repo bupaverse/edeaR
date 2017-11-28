@@ -1,14 +1,30 @@
-#' @title Metric: Idle Time
+#'  Metric: Idle Time
 #'
-#' @description Calculates the amount of time that no activity occurs for a case or for a resource. At log level it gives summary statistics of all cases in the log. At trace level it provides summary statistics of all cases related to this case.
-#''
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#'  Calculates the amount of time that no activity occurs.
 #'
-#' @param level At which level the analysis of activity type frequency should be performed: log, trace, case, resource.
-#' @param append Logical indicating whether to append results to original event log.
+#' \itemize{
+#'
+#' \item  On the level of the complete event log, the
+#'   idle time metric provides an overview of summary statistics of the idle
+#'   time per case, aggregated over the complete event log.
+
+#'\item  The metric applied on the level of the specific
+#'  cases in the event log provides an overview of the total idle time per case
+#'
+#' \item On the level of the different traces that occur in the event log,
+#'  the idle time metric provides an overview of the summary statistics
+#'  of the idle time for each trace in the event log.
+#'
+#' \item The metric can also be of interest on the level of the resources,
+#'  to get an insight in the amount of time each resource \"wastes\" during the process.
+#' }
+#'
+#' @param level Level of granularity for the analysis: log,  case, trace, or resource.
+#' For more information, see \code{vignette("metrics", "edeaR")}
+#'
 #' @param units Time units to be used
-#' @param ...
+#'
+#' @inherit activity_frequency params references seealso return
 #'
 #' @export idle_time
 #'
@@ -22,7 +38,7 @@ idle_time <- function(eventlog, level, append, units, ...) {
 idle_time.eventlog <- function(eventlog,
 							   level = c("log","case","trace","resource"),
 							   append = FALSE,
-							   units = c("hours","days", "weeks","mins"),
+							   units = c("hours","days", "weeks","mins", "sec"),
 							   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)

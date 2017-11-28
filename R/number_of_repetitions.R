@@ -1,16 +1,55 @@
 
-#' @title Metric:  Number of repetitions
+#' Metric:  Number of repetitions
 #'
-#' @description  Provides summuary statistics on the number of repetitions, at the level of activity types, traces, cases and the eventlog.
+#' Provides information statistics on the number of repetitions
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
 #'
-#' @param type The type of repetitions, either repeat or redo
+#' A repetition is an execution
+#' of an activity within a case while that activity has already been executed before, but
+#' one or more other activities are executed in between.Similar to the self-loop metric, a distinction
+#' should be made between repeat and redo repetitions.
+#' Repeat repetitions are activity executions of the same activity type that are executed
+#' not immediately following each other, but by the same resource. Redo repetitions
+#' are activity executions of the same activity type that are executed not immediately
+#' following each other and by a different resource than the first activity occurrence of
+#' this activity type.
 #'
-#' @param level At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.
-#' @param append Logical indicating whether result should be appended to original data
-#' @param ... Deprecated arguments
+#'
+#' \itemize{
+#'
+#' \item The number of repetitions can be calculated on the level of the complete event log. This metric shows the
+#' summary statistics of the number of repetitions within a case, which can provide
+#' insights in the amount of waste in an event log. Each combination of two or more
+#' occurrences of the same activity, executed not immediately following each other,
+#' by the same resource is counted as one repeat repetition of this activity.
+#'
+#' \item On case level, this metric provides the absolute and relative number of repetitions in each case.
+#'
+#' \item On the level of specific activities, this metric shows which activities occur the most in a repetition.
+#' The absolute and relative number of both repeat and redo repetitions is
+#' provided by this metric, giving an overview per activity.
+#'
+#' \item When looking at the different resources executing activities in the event log, it can be interesting to have an overview
+#' of which resources need more than one time to execute an activity in a case or
+#' which resources need to have an activity redone later on in the case by another
+#' resource. This metric provides the absolute and relative number of times each
+#' resource appears in a repetition.
+#'
+#' \item Finally, the same metric can be
+#' looked at on the level of specific resource-activity combinations, providing the
+#'  company with specific information about which activities and which resources
+#'  are involved in the repetitions. For this metric the absolute and relative number
+#'   of repeat and redo repetitions is provided. Again two difierent relative numbers
+#'   are provided, one relative to the total number of executions of the activity in the
+#'   complete event log, and one relative to the total number of executions performed
+#'   by the resource throughout the complete event log.
+#' }
+#'
+#' @param type The type of repetitions, either repeat or redo.
+#'
+#'
+#' @inherit end_activities params
+#' @inherit activity_frequency params references seealso return
 #'
 #' @export number_of_repetitions
 
@@ -19,7 +58,7 @@ number_of_repetitions <- function(eventlog, type, level, append, ...) {
 	UseMethod("number_of_repetitions")
 }
 
-#' @describeIn number_of_repetitions ""
+#' @describeIn number_of_repetitions Apply metric on event log
 #' @export
 
 number_of_repetitions.eventlog <- function(eventlog,
@@ -60,7 +99,7 @@ number_of_repetitions.eventlog <- function(eventlog,
 }
 
 
-#' @describeIn number_of_repetitions ""
+#' @describeIn number_of_repetitions Apply metric on grouped eventlog
 #' @export
 
 number_of_repetitions.grouped_eventlog <- function(eventlog,

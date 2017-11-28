@@ -15,18 +15,35 @@ trace_length(eventlog, level, append, ...)
   "case"), append = F, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-Computes the length of each trace, in terms of the number of events, at the level of the eventlog or the level of a trace.
-The relative numbers at trace level measure trace length compared to the average trace length of the top 80% cases, approximately.
+Analysis of trace lengths
+}
+\details{
+This metric provides an overview of the number of activities that occur in each trace.
+ In this metric, instances of an activity, as
+ opposed to the actual activities, are calculated.
+
+\itemize{
+
+\item On the level of the log, the number of actual
+ transactions in a trace are calculated and aggregated on the log level.
+
+\item On the level of the cases, this metric calculates the number of activity instances in each case.
+
+\item This metric shows the number of activity instances
+ executed in each trace.
+ #'
+ }
 }
 \section{Methods (by class)}{
 \itemize{
@@ -35,3 +52,6 @@ The relative numbers at trace level measure trace length compared to the average
 \item \code{grouped_eventlog}: Trace length for grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

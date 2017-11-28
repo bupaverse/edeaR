@@ -18,15 +18,36 @@ filter_activity_presence(eventlog, activities, method, reverse)
 ifilter_activity_presence(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{activities}{A vector of activities to withhold.}
+\item{activities}{Character vector containing one or more activity identifiers.}
 
 \item{method}{Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.}
+
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
 Filters cases based on the presence (or absence) of activities
+}
+\details{
+This functions allows to filter cases that contain certain activities.
+It requires as input a vector containing one or more activity labels and it has a method
+argument. The latter can have the values all, none or one_of.
+\itemize{
+\item When set to `all`, it means
+that all the specified activity labels must be present for a case to be selected
+\item `none` means
+that they are not allowed to be present.
+\item `one_of` means that at least one of them must be
+present.
+}
+
+When only one activity label is supplied, note that methods all and one_of will be identical.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -35,3 +56,6 @@ Filters cases based on the presence (or absence) of activities
 \item \code{grouped_eventlog}: Filter grouped event log on presence of activities.
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

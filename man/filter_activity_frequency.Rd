@@ -18,16 +18,36 @@ filter_activity_frequency(eventlog, interval, percentage, reverse, ...)
 ifilter_activity_frequency(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{interval}{An activity frequency interval (numeric vector of length 2). Half open interval can be created using NA.}
 
-\item{percentile_cut_off}{The target coverage of events
-A percentile of 0.9 will return the most common activity types of the eventlog, which account for at least 90\% of the events.}
+\item{percentage}{The target coverage of activity instances. A percentile of 0.9 will return the most common activity types of the eventlog,
+which account for at least 90\% of the activity instances.}
+
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Filters the log based on its most frequent activities, until a specific percentile cut off.
+Filters the log based on frequency of activities.
+}
+\details{
+Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+
+\itemize{
+
+\item percentage: When filtering using a percentage p\%, the filter will return p% of the activity instances, starting from the activity labels with the highest
+frequency. The filter will retain additional activity labels as long as the number of activity instances does not exceed the percentage threshold.
+
+\item interval: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval. The interval is specified using
+a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select activity labels which occur 10 times or more.
+}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -36,3 +56,6 @@ Filters the log based on its most frequent activities, until a specific percenti
 \item \code{grouped_eventlog}: Stratified filter for grouped eventlog
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

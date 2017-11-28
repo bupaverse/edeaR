@@ -21,10 +21,10 @@ filter_precedence(eventlog, antecedents, consequents, precedence_type,
 ifilter_precedence(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{antecedents, consequents}{The set of antecendent and consequent activities. All pairs of antecedents and consequents are checked for.}
+\item{antecedents, consequents}{The set of antecendent and consequent activities. Both are character vectors containing at leaste one activity identifier.
+All pairs of antecedents and consequents are turned into seperate precedence rules.}
 
 \item{precedence_type}{When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
 When \code{eventually_follows}, other events are allowed to happen in between.}
@@ -32,11 +32,23 @@ When \code{eventually_follows}, other events are allowed to happen in between.}
 \item{filter_method}{When \code{each}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
 at least one of the conditions hold are preserved.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Filters cases based on the precedence relations between two sets of activities: antecedents and consequent.
-The filter can detect directly following activities as well as eventually following activites.
+Filters cases based on the precedence relations between two sets of activities.
+}
+\details{
+In order to extract a subset of an event log which conforms with a set of precedence rules, one can use the filter_precedence method. There are two types of
+precendence relations which can be tested: activities that should directly follow each other,
+or activities that should eventually follow each other. The type can be set with the precedence type argument.
+Further, the filter requires a vector of one or more antecedents (containing activity labels), and one or more consequents. Finally, also a filter method argument
+can be set. This argument is relevant when there is more than one antecedent or consequent.
+In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
 }
 \section{Methods (by class)}{
 \itemize{
@@ -45,3 +57,6 @@ The filter can detect directly following activities as well as eventually follow
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

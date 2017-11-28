@@ -1,13 +1,26 @@
-#' @title Metric: Activity Frequency
+#' Metric: Activity Frequency
 #'
-#' @description Provides summary statistics about the frequency of activity types at the level of traces, cases, resources or activity types.
-#''
-#' @param eventlog The event log to be used. An object of class
+#'
+#' Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
+#'
+#'
+#' \itemize{ \item At log level, This metric shows the summary statistics of the frequency of activities throughout the complete event log.
+#' \item  On the level of the cases, this metric showsthe absolute and relative number of times the different activity types occur in
+#' each case. The absolute number shows the number of distinct activity types
+#' that occur in each of the cases. The relative number is calculated based on the total activity executions in the case. \item On trace level, this metric
+#' presents the absolute and relative number of times a specific activity type occurs in each trace. \item On the level of the activities, this metric
+#' provides the absolute and relative frequency of a specific activity in the complete event log.
+#' }
+#'
+#'
+#' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
 #' \code{eventlog}.
 #'
-#' @param level At which level the analysis of activity type frequency should be performed: log, trace, case, activity.
+#' @param level Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}
 #' @param append Logical, indicating whether to append results to original event log. Ignored when level is log or trace.
 #' @param ... Deprecated arguments
+#'
+#' @references Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 #'
 #' @export activity_frequency
 

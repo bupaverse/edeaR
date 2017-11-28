@@ -15,18 +15,26 @@ activity_frequency(eventlog, level, append, ...)
   "trace", "activity", "case"), append = F, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+\item{level}{Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-Provides summary statistics about the frequency of activity types at the level of traces, cases, resources or activity types.
-'
+Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
+}
+\details{
+\itemize{ \item At log level, This metric shows the summary statistics of the frequency of activities throughout the complete event log.
+\item  On the level of the cases, this metric showsthe absolute and relative number of times the different activity types occur in
+each case. The absolute number shows the number of distinct activity types
+that occur in each of the cases. The relative number is calculated based on the total activity executions in the case. \item On trace level, this metric
+presents the absolute and relative number of times a specific activity type occurs in each trace. \item On the level of the activities, this metric
+provides the absolute and relative frequency of a specific activity in the complete event log.
+}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -35,3 +43,6 @@ Provides summary statistics about the frequency of activity types at the level o
 \item \code{grouped_eventlog}: Compute activity frequency for grouped event log
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

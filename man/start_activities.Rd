@@ -15,19 +15,32 @@ start_activities(eventlog, level, append, ...)
   "activity", "resource", "resource-activity"), append = FALSE, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{level}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical indicating whether the results should be appended to the original event log.}
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-At log level, computes how many activity types occur as the first event in a case, both absolute and relative.
-At activity level, shows the activities which occur as first, and how often.
-The first event in a case is the one which started the first.
+Analyse the start activities in the process
+}
+\details{
+\itemize{
+\item On log levels, this metric shows the absolute and relative number of activities that are the first activity in one or more of the cases.
+\item On the level of the specific cases, this metric provides an overview of the start activity of each case.
+\item  On the activity level This metric calculates for each activity the absolute and relative number of cases that start with this activity type.
+The relative number is calculated as a portion of the
+number of cases, being the number of "opportunities" that an activity could be the start activity.
+The cumulative sum is added to have an insight in the number of activities that is required to cover a certain part of the total.
+\item On the level of the distinct resources, an overview of which resources execute the first activity per case can be of interest for a
+company. Probably this person is responsible for the correct communication to the customer.
+\item  Finally, on the resource-activity level,
+this metric shows for each occurring resource-activity combination the absolute and relative number of times this resource executes this
+activity as an start activity in a case.}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -36,3 +49,6 @@ The first event in a case is the one which started the first.
 \item \code{grouped_eventlog}: Start activities for grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

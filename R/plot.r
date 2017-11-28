@@ -1,4 +1,4 @@
-#' @title Plot
+#' @title Plot Methods
 #'
 #' @description  Visualize metric
 #' @param x Data to plot

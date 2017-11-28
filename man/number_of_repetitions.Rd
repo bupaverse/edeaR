@@ -17,24 +17,69 @@ number_of_repetitions(eventlog, type, level, append, ...)
   "resource-activity"), append = F, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{type}{The type of repetitions, either repeat or redo}
+\item{type}{The type of repetitions, either repeat or redo.}
 
-\item{level}{At which level the analysis of repetitions should be performed: log, case, activity, resource, resource-activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical indicating whether result should be appended to original data}
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-Provides summuary statistics on the number of repetitions, at the level of activity types, traces, cases and the eventlog.
+Provides information statistics on the number of repetitions
+}
+\details{
+A repetition is an execution
+of an activity within a case while that activity has already been executed before, but
+one or more other activities are executed in between.Similar to the self-loop metric, a distinction
+should be made between repeat and redo repetitions.
+Repeat repetitions are activity executions of the same activity type that are executed
+not immediately following each other, but by the same resource. Redo repetitions
+are activity executions of the same activity type that are executed not immediately
+following each other and by a different resource than the first activity occurrence of
+this activity type.
+
+\itemize{
+
+\item The number of repetitions can be calculated on the level of the complete event log. This metric shows the
+summary statistics of the number of repetitions within a case, which can provide
+insights in the amount of waste in an event log. Each combination of two or more
+occurrences of the same activity, executed not immediately following each other,
+by the same resource is counted as one repeat repetition of this activity.
+
+\item On case level, this metric provides the absolute and relative number of repetitions in each case.
+
+\item On the level of specific activities, this metric shows which activities occur the most in a repetition.
+The absolute and relative number of both repeat and redo repetitions is
+provided by this metric, giving an overview per activity.
+
+\item When looking at the different resources executing activities in the event log, it can be interesting to have an overview
+of which resources need more than one time to execute an activity in a case or
+which resources need to have an activity redone later on in the case by another
+resource. This metric provides the absolute and relative number of times each
+resource appears in a repetition.
+
+\item Finally, the same metric can be
+looked at on the level of specific resource-activity combinations, providing the
+ company with specific information about which activities and which resources
+ are involved in the repetitions. For this metric the absolute and relative number
+  of repeat and redo repetitions is provided. Again two difierent relative numbers
+  are provided, one relative to the total number of executions of the activity in the
+  complete event log, and one relative to the total number of executions performed
+  by the resource throughout the complete event log.
+}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: ""
+\item \code{eventlog}: Apply metric on event log
 
-\item \code{grouped_eventlog}: ""
+\item \code{grouped_eventlog}: Apply metric on grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

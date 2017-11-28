@@ -1,10 +1,25 @@
-#'@title Metric: Start activities
 #'
-#'@description At log level, computes how many activity types occur as the first event in a case, both absolute and relative.
-#'At activity level, shows the activities which occur as first, and how often.
-#'The first event in a case is the one which started the first.
+#'  Metric: Start activities
 #'
-#' @inheritParams end_activities
+#'
+#' Analyse the start activities in the process
+#'
+#' \itemize{
+#' \item On log levels, this metric shows the absolute and relative number of activities that are the first activity in one or more of the cases.
+#' \item On the level of the specific cases, this metric provides an overview of the start activity of each case.
+#' \item  On the activity level This metric calculates for each activity the absolute and relative number of cases that start with this activity type.
+#'The relative number is calculated as a portion of the
+#'number of cases, being the number of "opportunities" that an activity could be the start activity.
+#'The cumulative sum is added to have an insight in the number of activities that is required to cover a certain part of the total.
+#' \item On the level of the distinct resources, an overview of which resources execute the first activity per case can be of interest for a
+#'company. Probably this person is responsible for the correct communication to the customer.
+#'\item  Finally, on the resource-activity level,
+#'this metric shows for each occurring resource-activity combination the absolute and relative number of times this resource executes this
+#'activity as an start activity in a case.}
+
+#'
+#' @inherit end_activities params
+#' @inherit activity_frequency params references seealso return
 #'
 #'@export start_activities
 

@@ -1,23 +1,19 @@
-#' @title Filter: Processing Time
+#' Filter: Processing Time
 #'
-#' @description Filters cases based on their processing time.
+#' Filters cases based on their processing time.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
 #'
-#' @param lower_threshold The lower duration threshold, specified in number of days.
-#' When \code{reverse} is FALSE, all cases with a lower duration are discarded.
+#' This filter can be used by using an interval or by using a percentage.
+#' The percentage will always start with the shortest cases first and stop
+#' including cases when the specified percentile is reached. On the other hand, an absolute
+#' interval can be defined instead to filter cases which have a processing time in this interval. The time units
+#' in which this interval is defined can be submitted with the units argument.
 #'
-#' @param upper_threshold The upper duration threshold, specified in number of days.
-#' When \code{reverse} is FALSE, all cases with a higher duration are discarded.
+#' @param interval An duration interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.
+#' @param percentage A percentage p to be used for relative filtering.
+#' @param units The time unit used for defining filter intervals.
 #'
-#' @param percentile_cut_off Alternatively to providing thresholds, a percentile cut off can be provided.
-#' A percentile cut off value of 0.9 will return the 90\% shortest cases.
-#' When \code{reverse} is set to TRUE, it will return the 10\% longest cases.
-#'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
-#' @param units The time unit used for filtering.
+#' @inherit filter_activity params references seealso return
 #'
 #' @export filter_processing_time
 

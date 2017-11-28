@@ -1,16 +1,25 @@
-#'@title Metric: End activities
+#' Metric: End activities
 #'
-#'@description At log level, computes how many activity types occur as the last event in a case, both absolute and relative.
-#'At activity level, shows the activities which occur as last, and how often.
-#'The last event in a case is the one which completed the last.
+#' Analyse the end activities in the process.
 #'
-#' @param level At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.
-#' @param append Logical indicating whether the results should be appended to the original event log.
-#' @param ... Deprecated arguments
+#' \itemize{
+#' \item On log levels, this metric shows the absolute and relative number of activities that are the last activity in one or more of the cases.
+#' \item On the level of the specific cases, this metric provides an overview of the end activity of each case.
+#' \item  On the activity level This metric calculates for each activity the absolute and relative number of cases that end with this activity type.
+#'Similar to the start activities metric, the relative number is calculated as a portion of the
+#'number of cases, being the number of \"opportunities\" that an activity could be the end activity.
+#'The cumulative sum is added to have an insight in the number of activities that is required to cover a certain part of the total.
+#' \item On the level of the distinct resources, an overview of which resources execute the last activity per case can be of interest for a
+#'company. Probably this person is responsible for the correct communication to the customer.
+#'\item  Finally, on the resource-activity level,
+#'this metric shows for each occurring resource-activity combination the absolute and relative number of times this resource executes this
+#'activity as an end activity in a case.}
+
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' @param level Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+#' For more information, see \code{vignette("metrics", "edeaR")}
 #'
+#' @inherit activity_frequency params references return seealso
 
 #' @export end_activities
 
@@ -23,7 +32,7 @@ end_activities <- function(eventlog, level, append,  ...) {
 
 end_activities.eventlog <- function(eventlog,
 									level = c("log","case","activity","resource","resource-activity"),
-									append = F,
+									append = FALSE,
 									...) {
 
 	level <- match.arg(level)
@@ -47,7 +56,7 @@ end_activities.eventlog <- function(eventlog,
 
 end_activities.grouped_eventlog <- function(eventlog,
 											level = c("log","case","activity","resource","resource-activity"),
-											append = F,
+											append = FALSE,
 											...) {
 
 	level <- match.arg(level)

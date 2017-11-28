@@ -1,10 +1,13 @@
 #' @title Metric: Size of repetitions
 #'
-#' @description Provides summary statistics on the sizes of repetitions at the level of activity types, cases, traces or log. A selfloop of size x refers to the occurrence of x consecutive events
-#' of that activity type.
+#' @description Provides summary statistics on the sizes of repetitions.
 #'
 #'
-#' @inheritParams number_of_selfloops
+#' @inherit end_activities params
+#' @inherit number_of_selfloops params
+#' @inherit activity_frequency params references seealso return
+#'
+#' @seealso \code{\link{number_of_repetitions}}
 #'
 #' @export size_of_repetitions
 #'

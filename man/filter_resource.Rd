@@ -17,15 +17,23 @@ filter_resource(eventlog, resources, reverse)
 ifilter_resource(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{resources}{A vector of resources to withhold}
+\item{resources}{A vector of resources identifiers}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Filters the log based on resources
+Filters the log based on resource identifiers
+}
+\details{
+#' The method filter_resource can be used to filter on resource identifiers. It has a resources argument,
+to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -34,3 +42,6 @@ Filters the log based on resources
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

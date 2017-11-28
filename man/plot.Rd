@@ -17,7 +17,7 @@
 \alias{plot.trace_length}
 \alias{plot.number_of_selfloops}
 \alias{plot.number_of_repetitions}
-\title{Plot}
+\title{Plot Methods}
 \usage{
 \method{plot}{activity_frequency}(x, ...)
 

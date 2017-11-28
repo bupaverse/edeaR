@@ -5,7 +5,7 @@
 \alias{filter_trace_frequency.eventlog}
 \alias{filter_trace_frequency.grouped_eventlog}
 \alias{ifilter_trace_frequency}
-\title{Filter: Trace frequency percentile}
+\title{Filter: Trace frequency}
 \usage{
 filter_trace_frequency(eventlog, interval, percentage, reverse, ...)
 
@@ -18,23 +18,30 @@ filter_trace_frequency(eventlog, interval, percentage, reverse, ...)
 ifilter_trace_frequency(eventlog)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
-\code{eventlog}.}
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
-\item{reverse}{A logical parameter depicting whether the selection should be reversed.}
+\item{interval}{WHen given an interval, the filter will select cases of which the trace has a frequency inside the interval.}
 
-\item{lower_threshold}{The lower frequency threshold.
-When \code{reverse} is FALSE, all traces with a lower frequency are discarded.}
+\item{percentage}{When given a percentage p, the filter will select the most common traces, until at least p\% of the cases is covered.}
 
-\item{upper_threshold}{The upper frequency threshold.
-When \code{reverse} is FALSE, all traces with a higher frequency are discarded.}
+\item{reverse}{Logical, indicating whether the selection should be reversed.}
 
-\item{percentile_cut_off}{Alternatively to providing thresholds, a percentile cut off can be provided.
-A percentile cut off value of 0.9 will return the most common traces, accounting for 90\% of the cases.
-When \code{reverse} is set to TRUE, it will return the least common traces, acoounting for 10\% of the cases.}
+\item{...}{Deprecated arguments.}
+}
+\value{
+When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
+in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
+the original event log.
 }
 \description{
-Filters the log based the frequency of traces, using an upper and lower threshold or a percentile cut off.
+Filters the log based the frequency of traces, using an interval or a percentile cut off.
+}
+\details{
+This filter can be used to filter cases based on the frequency of the corresponding trace.
+A trace is a sequence of activity labels, and will be discussed in
+more detail in Section 6. There are again two ways to select cases based on trace frequency,
+by interval or by percentile cut off. The percentile cut off will start with the most frequent
+traces.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -43,3 +50,6 @@ Filters the log based the frequency of traces, using an upper and lower threshol
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\seealso{
+\code{vignette("filters", "edeaR")}
+}

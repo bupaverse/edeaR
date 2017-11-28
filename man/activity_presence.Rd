@@ -13,13 +13,17 @@ activity_presence(eventlog, append)
 \method{activity_presence}{grouped_eventlog}(eventlog, append = F)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class}
-
-\item{append}{Logical indicating whether to append the result to the original event log
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
+
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 }
 \description{
 Calculates for each activity type in what percentage of cases it is present.
+}
+\details{
+An indication of variance can be the presence of the activities in the different cases. This metric shows for each activity the absolute
+number of cases in which each activity occurs together with its relative presence.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -46,4 +50,8 @@ resource_id = "resource")
 
 activity_presence(log)
 }
+
+}
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

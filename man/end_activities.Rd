@@ -9,25 +9,38 @@
 end_activities(eventlog, level, append, ...)
 
 \method{end_activities}{eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = F, ...)
+  "activity", "resource", "resource-activity"), append = FALSE, ...)
 
 \method{end_activities}{grouped_eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = F, ...)
+  "activity", "resource", "resource-activity"), append = FALSE, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{level}{At which level the analysis of end activities should be performed: log, case, activity, resource or resource-activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical indicating whether the results should be appended to the original event log.}
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-At log level, computes how many activity types occur as the last event in a case, both absolute and relative.
-At activity level, shows the activities which occur as last, and how often.
-The last event in a case is the one which completed the last.
+Analyse the end activities in the process.
+}
+\details{
+\itemize{
+\item On log levels, this metric shows the absolute and relative number of activities that are the last activity in one or more of the cases.
+\item On the level of the specific cases, this metric provides an overview of the end activity of each case.
+\item  On the activity level This metric calculates for each activity the absolute and relative number of cases that end with this activity type.
+Similar to the start activities metric, the relative number is calculated as a portion of the
+number of cases, being the number of \"opportunities\" that an activity could be the end activity.
+The cumulative sum is added to have an insight in the number of activities that is required to cover a certain part of the total.
+\item On the level of the distinct resources, an overview of which resources execute the last activity per case can be of interest for a
+company. Probably this person is responsible for the correct communication to the customer.
+\item  Finally, on the resource-activity level,
+this metric shows for each occurring resource-activity combination the absolute and relative number of times this resource executes this
+activity as an end activity in a case.}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -36,3 +49,6 @@ The last event in a case is the one which completed the last.
 \item \code{grouped_eventlog}: Compute end activities for grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

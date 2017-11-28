@@ -1,15 +1,39 @@
-#' @title Metric: Resource frequency
+#' Metric: Resource frequency
 #'
-#' @description Analyses the frequency of resources at different levels of analysis
+#' Analyses the frequency of resources at different levels of analysis
 #'
+#' Comparable to the concept of the activity frequency the frequency of resources in a business process can
+#' also be very insightful for companies, e.g., during company restructuring.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' \itemize{
+#' \item On the level of the complete event log, summary statistics show the number of times
+#' a resource executes an activity in the complete event log.
 #'
-#' @param level At which level the analysis of  coverage should be performed: log, case, activity, resource, resource-activity.
-#' @param append Logical indicated whether to append result to orignal data.frame
-#' @param ... Deprecated arguments
+#' \item To get a better view on the variance between the different cases,
+#' the summary statistics of the frequency of resources can be
+#' calculated on the level of the cases. This way, a company gets an insight in the
+#' number of different resources working on each case together with the number
+#' of activities a resource executes per case.
 #'
+#' \item At the level of the different activities, the
+#' resource frequency states how many different resources are executing a specific
+#' activity in the complete event log.
+#'
+#' \item At the level of the distinct resources in
+#' the event log, this metric simply shows the absolute and relative frequency of
+#' occurrences of each resource in the complete event log.
+#'
+#' \item Finally, at the most specific level of analysis, the absolute and relative number of times each resource-activity
+#' level occurs in the complete event log can be calculated. Two different relative
+#' numbers are provided here, one from the resource perspective and one from
+#' the activity perspective. At the resource perspective, the denominator is the
+#' total number of executions by the resource under consideration. At the activity
+#' perspective, the denominator is the total number of occurrences of the activity
+#' under consideration.
+#' }
+#'
+#' @inherit end_activities params
+#' @inherit activity_frequency params references seealso return
 #' @export resource_frequency
 
 

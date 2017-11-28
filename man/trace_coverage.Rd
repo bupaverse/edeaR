@@ -15,25 +15,27 @@ trace_coverage(eventlog, level, append, ...)
   "case"), append = F, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{level}{At which level the analysis of activity type frequency should be performed: log, trace, case, activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
-
-\item{level_of_analysis}{At which level the analysis of  coverage should be performed: log, case or trace.}
 }
 \description{
 Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level
+}
+\details{
+\itemize{
+\item Trace: The absolute and relative frequency of each trace is returned
 
-Trace: The absolute and relative frequency of each trace is returned
+\item Case: for each case, the coverage of the corresponding trace is returned
 
-Case: for each case, the coverage of the corresponding trace is returned
-
-Log: The number of traces to cover a certain percentage (default is 80\%) of a log is computed. If a tie exists, the two nearest points are returned.
+\item Log: Summary statistics of the coverage of traces is returned.
+}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -42,3 +44,6 @@ Log: The number of traces to cover a certain percentage (default is 80\%) of a l
 \item \code{grouped_eventlog}: Trace coverage metric for grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}

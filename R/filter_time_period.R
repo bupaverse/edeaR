@@ -1,16 +1,24 @@
-#' @title Filter: Time Period
-#' @description Function to filter eventlog using a time period.
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
-#' @param start_point Start timestamp of the time period. This should be a date object.
-#' @param end_point End timestamp of the time period. This should be a data object.
+#' Filter: Time Period
+#'
+#'
+#' Function to filter eventlog using a time period.
+#'
+#'
+#' Event data can be filtered by supplying a time window to the method filter_time_period. There are 5 different filter methods.
+#'
+#' \itemize{
+#' \item \code{contained} keeps all the events related to cases contained in the time period.
+#' \item \code{start} keeps all the events related to cases started in the time period.
+#' \item \code{complete} keeps all the events related to cases complete in the time period.
+#' \item \code{intersecting} keeps all the events related to cases in which at least one event started and/or ended in the time period.
+#' \item \code{trim} keeps all the events which started and ended in the time frame.
+#' }
+#'
+#' @param interval A time interval. A vector of length 2 of type Date or POSIXct. Half-open intervals can be created with NA.
 #' @param filter_method Can be \code{contained, start, complete, intersecting} or \code{trim}.
-#' \code{contained} keeps all the events related to cases contained in the time period.
-#' \code{start} keeps all the events related to cases started in the time period.
-#' \code{complete} keeps all the events related to cases complete in the time period.
-#' \code{intersecting} keeps all the events related to cases in which at least one event started and/or ended in the time period.
-#' \code{trim} keeps all the events which started and ended in the time frame.
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
+#'
+#' @inherit filter_activity params references seealso return
+#'
 #' @export
 
 

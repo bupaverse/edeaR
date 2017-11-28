@@ -17,20 +17,20 @@ size_of_selfloops(eventlog, type, level, append, ...)
   "resource-acitivty"), append = FALSE, ...)
 }
 \arguments{
-\item{eventlog}{The event log to be used. An object of class
+\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{type}{The type of selfloops, either repeat or redo.}
+\item{type}{The type of repetitions, either repeat or redo.}
 
-\item{level}{At which level the analysis of selfloops should be performed: log, case, activity, resource or resource-activity.}
+\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
+For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical indicating whether the result should be appended to the orignal event log}
+\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
 }
 \description{
-Provides summary statistics on the sizes of selfloops at the level of activity types, cases, resources, resource-activity combinations or log. A selfloop of size x refers to the occurrence of x consecutive events
-of that activity type.
+Provides summary statistics on the sizes of selfloops
 }
 \section{Methods (by class)}{
 \itemize{
@@ -39,3 +39,9 @@ of that activity type.
 \item \code{grouped_eventlog}: Size of selfloops for grouped eventlog
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+\code{\link{number_of_selfloops}}
+}

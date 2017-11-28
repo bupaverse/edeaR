@@ -1,24 +1,15 @@
-#' @title Filter: Throughput Time
+#' Filter: Throughput Time
 #'
-#' @description Filters cases based on their throughput time.
+#' Filters cases based on their throughput time.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' \code{eventlog}.
+#' This filter can be used by using an interval or by using a percentage.
+#' The percentage will always start with the shortest cases first and stop
+#' including cases when the specified percentile is reached. On the other hand, an absolute
+#' interval can be defined instead to filter cases which have a throughput time in this interval. The time units
+#' in which this interval is defined can be submitted with the units argument.
 #'
-#' @param lower_threshold The lower duration threshold, specified in number of days.
-#' When \code{reverse} is FALSE, all cases with a lower duration are discarded.
-#'
-#' @param upper_threshold The upper duration threshold, specified in number of days.
-#' When \code{reverse} is FALSE, all cases with a higher duration are discarded.
-#'
-#' @param percentile_cut_off Alternatively to providing thresholds, a percentile cut off can be provided.
-#' A percentile cut off value of 0.9 will return the 90\% shortest cases.
-#' When \code{reverse} is set to TRUE, it will return the 10\% longest cases.
-#'
-#' @param reverse A logical parameter depicting whether the selection should be reversed.
-#'
-#' @param units The time unit used for filtering.
-
+#' @inherit filter_activity params references seealso return
+#' @inherit filter_processing_time params
 #'
 #' @export filter_throughput_time
 #'

@@ -1,10 +1,11 @@
-#' @title Metric: Activity Presence
+#' Metric: Activity Presence
 #'
-#' @description Calculates for each activity type in what percentage of cases it is present.
 #'
-#' @param eventlog The event log to be used. An object of class
-#' @param append Logical indicating whether to append the result to the original event log
-#' \code{eventlog}.
+#' Calculates for each activity type in what percentage of cases it is present.
+#'
+#' An indication of variance can be the presence of the activities in the different cases. This metric shows for each activity the absolute
+#' number of cases in which each activity occurs together with its relative presence.
+#'
 #'
 #'
 #' @examples
@@ -25,6 +26,9 @@
 #'
 #'activity_presence(log)
 #' }
+#'
+#' @inherit activity_frequency params references return seealso
+#'
 #' @export activity_presence
 
 activity_presence <- function(eventlog, append) {
