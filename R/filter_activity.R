@@ -17,7 +17,7 @@
 #' in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
 #' the original event log.
 #'
-#'
+#' @export
 filter_activity <- function(eventlog, activities, reverse, ...) {
 	UseMethod("filter_activity")
 }
