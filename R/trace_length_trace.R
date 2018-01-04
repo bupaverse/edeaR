@@ -10,8 +10,9 @@ trace_length_trace <- function(eventlog,
 
 
 	tra <- case_list(eventlog)
-
-	trace_length_case() %>%
+	
+	eventlog %>% 
+		trace_length_case() %>%
 		merge(tra) %>%
 		group_by(trace, trace_length) %>%
 		summarize(relative_trace_frequency = n()) %>%
