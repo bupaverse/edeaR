@@ -7,15 +7,15 @@
 \alias{ifilter_time_period}
 \title{Filter: Time Period}
 \usage{
-filter_time_period(eventlog, interval, filter_method, reverse, ...)
+filter_time_period(eventlog, interval, filter_method, force_trim, reverse, ...)
 
 \method{filter_time_period}{eventlog}(eventlog, interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
-  reverse = FALSE, ...)
+  force_trim = FALSE, reverse = FALSE, ...)
 
 \method{filter_time_period}{grouped_eventlog}(eventlog, interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
-  reverse = FALSE, ...)
+  force_trim = FALSE, reverse = FALSE, ...)
 
 ifilter_time_period(eventlog)
 }
@@ -25,6 +25,8 @@ ifilter_time_period(eventlog)
 \item{interval}{A time interval. A vector of length 2 of type Date or POSIXct. Half-open intervals can be created with NA.}
 
 \item{filter_method}{Can be \code{contained, start, complete, intersecting} or \code{trim}.}
+
+\item{force_trim}{Logical, if true in combination with filter method trim activity instances on the edges of the interval are cut at the exact edge of the interval.}
 
 \item{reverse}{Logical, indicating whether the selection should be reversed.}
 

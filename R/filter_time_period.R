@@ -16,13 +16,14 @@
 #'
 #' @param interval A time interval. A vector of length 2 of type Date or POSIXct. Half-open intervals can be created with NA.
 #' @param filter_method Can be \code{contained, start, complete, intersecting} or \code{trim}.
+#' @param force_trim Logical, if true in combination with filter method trim activity instances on the edges of the interval are cut at the exact edge of the interval.
 #'
 #' @inherit filter_activity params references seealso return
 #'
 #' @export
 
 
-filter_time_period <- function(eventlog, interval, filter_method, reverse, ...) {
+filter_time_period <- function(eventlog, interval, filter_method, force_trim, reverse, ...) {
 	UseMethod("filter_time_period")
 }
 
@@ -30,10 +31,11 @@ filter_time_period <- function(eventlog, interval, filter_method, reverse, ...) 
 #' @export
 
 filter_time_period.eventlog <- function(eventlog,
-							   interval = NULL,
-							   filter_method = c("contained","intersecting","start","complete","trim"),
-							   reverse = FALSE,
-							   ...) {
+										interval = NULL,
+										filter_method = c("contained","intersecting","start","complete","trim"),
+										force_trim = FALSE,
+										reverse = FALSE,
+										...) {
 
 	filter_method <- match.arg(filter_method)
 
@@ -67,13 +69,30 @@ filter_time_period.eventlog <- function(eventlog,
 		aid_selection <- eventlog %>%
 			group_by_activity_instance() %>%
 			summarize(start_timestamp = min(!!timestamp_(eventlog)), complete_timestamp = max(!!timestamp_(eventlog))) %>%
-			filter(start_timestamp >= start_point & complete_timestamp <= end_point) %>%
+			filter((start_timestamp >= start_point & start_timestamp <= end_point) |
+				   	(start_timestamp <= start_point & complete_timestamp >= end_point) |
+				   	(complete_timestamp >= start_point & complete_timestamp <= end_point)) %>%
 			pull(1)
 
 		if(reverse == FALSE)
-			filter(eventlog, (!!activity_instance_id_(eventlog)) %in% aid_selection)
+			output <- filter(eventlog, (!!activity_instance_id_(eventlog)) %in% aid_selection)
 		else
-			filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% aid_selection))
+			output <- filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% aid_selection))
+
+
+		if(force_trim) {
+			output %>%
+				pull(!!timestamp_(eventlog)) -> time_vector
+
+			time_vector[time_vector < start_point] <- start_point
+			time_vector[time_vector > end_point] <- end_point
+
+			output[, timestamp(eventlog)] <- time_vector
+			output
+		} else
+			output
+
+
 	} else {
 		if(filter_method == "contained") {
 			cases %>%
@@ -106,11 +125,14 @@ filter_time_period.eventlog <- function(eventlog,
 
 
 filter_time_period.grouped_eventlog <- function(eventlog,
-										interval = NULL,
-										filter_method = c("contained","intersecting","start","complete","trim"),
-										reverse = FALSE,
-										...) {
-	grouped_filter(eventlog, filter_time_period, interval, filter_method, reverse, ...)
+												interval = NULL,
+												filter_method = c("contained","intersecting","start","complete","trim"),
+												force_trim = FALSE,
+												reverse = FALSE,
+												...) {
+
+	grouped_filter(eventlog, filter_time_period, interval, filter_method, force_trim, reverse, ...)
+
 }
 #' @rdname filter_time_period
 #' @export ifilter_time_period
