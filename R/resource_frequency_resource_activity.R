@@ -5,7 +5,7 @@ resource_frequency_resource_activity <- function(eventlog) {
 	relative_activity <- NULL
 
 	eventlog %>%
-		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog), !!activity_instance_id(eventlog)) %>%
+		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
 		summarize() %>%
 		summarize(absolute = n()) %>%
 		group_by(!!resource_id_(eventlog)) %>%
