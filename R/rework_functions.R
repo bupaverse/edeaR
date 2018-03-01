@@ -17,8 +17,8 @@ rework_base <- function(eventlog) {
 				"aid" = activity_instance_id(eventlog),
 				"resource_classifier" = resource_id(eventlog)) %>%
 		as.data.table %>%
-		.[, .(timestamp = min(timestamp_classifier)), .(case_classifier, aid, event_classifier, resource_classifier)] %>%
-		.[order(timestamp), .SD , by =  .(case_classifier)] %>%
+		.[, .(timestamp = min(timestamp_classifier), min_order = min(.order)), .(case_classifier, aid, event_classifier, resource_classifier)] %>%
+		.[order(timestamp, min_order), .SD , by =  .(case_classifier)] %>%
 		.[,next_activity := lead(event_classifier), .(case_classifier)] %>%
 		.[, same_activity := lag(event_classifier == next_activity)] %>%
 		.[, same_activity := ifelse(is.na(same_activity), FALSE, same_activity)]  %>%
