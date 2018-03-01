@@ -5,7 +5,7 @@ end_activities_activity <- function(eventlog) {
 
 	eventlog %>%
 		group_by(!!as.symbol(case_id(eventlog))) %>%
-		arrange(!!as.symbol(timestamp(eventlog))) %>%
+		arrange(!!as.symbol(timestamp(eventlog)), .order) %>%
 		summarize(!!as.symbol(activity_id(eventlog)) := last(!!as.symbol(activity_id(eventlog)))) %>%
 		group_by(!!as.symbol(activity_id(eventlog))) %>%
 		summarize(absolute = n()) %>%
