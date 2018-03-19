@@ -84,7 +84,7 @@ filter_resource_percentage <- function(eventlog, percentage, reverse) {
 		arrange(-absolute_frequency) %>%
 		mutate(r = cumsum(relative_frequency)) %>%
 		filter(dplyr::lag(r, default = 0) < percentage) %>%
-		pull() -> event_selection
+		pull(1) -> event_selection
 
 	filter_resource(eventlog, event_selection, reverse)
 }

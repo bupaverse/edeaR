@@ -9,7 +9,7 @@ idle_time_resource <- function(eventlog, units) {
 	eventlog %>%
 		mutate(activate = ifelse((!!lifecycle_id_(eventlog)) == "start", 1, ifelse((!!lifecycle_id_(eventlog)) == "complete", -1, 0))) %>%
 		group_by_resource %>%
-		arrange(!!timestamp_(eventlog)) %>%
+		arrange(!!timestamp_(eventlog), .order) %>%
 		mutate(active = cumsum(activate),
 			   ts = !!timestamp_(eventlog),
 			   next_ts = lead(!!timestamp_(eventlog))) %>%
