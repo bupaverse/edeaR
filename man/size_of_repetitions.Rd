@@ -8,9 +8,9 @@
 \usage{
 size_of_repetitions(eventlog, type, level, append, ...)
 
-\method{size_of_repetitions}{eventlog}(eventlog, type = c("repeat", "redo"),
-  level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE, ...)
+\method{size_of_repetitions}{eventlog}(eventlog, type = c("all", "repeat",
+  "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = FALSE, ...)
 
 \method{size_of_repetitions}{grouped_eventlog}(eventlog, type = c("repeat",
   "redo"), level = c("log", "case", "activity", "resource",
@@ -20,7 +20,7 @@ size_of_repetitions(eventlog, type, level, append, ...)
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{type}{The type of repetitions, either repeat or redo.}
+\item{type}{The type of repetitions, either all, repeat or redo.}
 
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}

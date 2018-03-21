@@ -8,9 +8,9 @@
 \usage{
 number_of_repetitions(eventlog, type, level, append, ...)
 
-\method{number_of_repetitions}{eventlog}(eventlog, type = c("repeat", "redo"),
-  level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE, ...)
+\method{number_of_repetitions}{eventlog}(eventlog, type = c("all", "repeat",
+  "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = FALSE, ...)
 
 \method{number_of_repetitions}{grouped_eventlog}(eventlog, type = c("repeat",
   "redo"), level = c("log", "case", "activity", "resource",

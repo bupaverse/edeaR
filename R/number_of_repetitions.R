@@ -62,15 +62,30 @@ number_of_repetitions <- function(eventlog, type, level, append, ...) {
 #' @export
 
 number_of_repetitions.eventlog <- function(eventlog,
-								  type = c("repeat","redo"),
+								  type = c("all","repeat","redo"),
 								  level = c("log","case","activity","resource","resource-activity"),
 								  append = FALSE,
 								  ...){
+	if(all((type) == c("all", "repeat","redo")))
+		message("Using default type: all")
+	if(all((level) == c("log","case","activity","resource","resource-activity")))
+		message("Using default level: log")
+
 	type <- match.arg(type)
 	level <- match.arg(level)
+
 	level <- deprecated_level(level, ...)
 
-	if(type == "repeat") {
+	if(type == "all") {
+		FUN <- switch(level,
+					  log = all_repetitions_log,
+					  case = all_repetitions_case,
+					  activity = all_repetitions_activity,
+					  resource = all_repetitions_resource,
+					  "resource-activity" = repeat_repetitions_resource_activity
+		)
+	}
+	else if(type == "repeat") {
 		FUN <- switch(level,
 					  log = repeat_repetitions_log,
 					  case = repeat_repetitions_case,

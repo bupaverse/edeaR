@@ -8,19 +8,19 @@
 \usage{
 number_of_selfloops(eventlog, type, level, append, ...)
 
-\method{number_of_selfloops}{eventlog}(eventlog, type = c("repeat", "redo"),
-  level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE, ...)
-
-\method{number_of_selfloops}{grouped_eventlog}(eventlog, type = c("repeat",
+\method{number_of_selfloops}{eventlog}(eventlog, type = c("all", "repeat",
   "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = FALSE, ...)
+
+\method{number_of_selfloops}{grouped_eventlog}(eventlog, type = c("all",
+  "repeat", "redo"), level = c("log", "case", "activity", "resource",
   "resource-activity"), append = FALSE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
 
-\item{type}{The type of repetitions, either repeat or redo.}
+\item{type}{The type of repetitions, either all, repeat or redo.}
 
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}

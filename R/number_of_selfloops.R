@@ -58,7 +58,7 @@
 #' }
 #'
 #'
-#' @param type The type of repetitions, either repeat or redo.
+#' @param type The type of repetitions, either all, repeat or redo.
 #'
 #'
 #'
@@ -74,16 +74,29 @@ number_of_selfloops <- function(eventlog, type, level, append, ...) {
 #' @export
 
 number_of_selfloops.eventlog <- function(eventlog,
-								type = c("repeat","redo"),
+								type = c("all", "repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
 								append = FALSE,
 								...) {
-
+	if(all((type) == c("all", "repeat","redo")))
+		message("Using default type: all")
+	if(all((level) == c("log","case","activity","resource","resource-activity")))
+		message("Using default level: log")
 	type <- match.arg(type)
 	level <- match.arg(level)
+
 	level <- deprecated_level(level, ...)
 
-	if(type == "repeat") {
+	if(type == "all") {
+		FUN <- switch(level,
+					  log = all_selfloops_log,
+					  case = all_selfloops_case,
+					  activity = all_selfloops_activity,
+					  resource = all_selfloops_resource,
+					  "resource-activity" = all_selfloops_resource_activity
+		)
+	}
+	else if(type == "repeat") {
 		FUN <- switch(level,
 					  log = repeat_selfloops_log,
 					  case = repeat_selfloops_case,
@@ -117,7 +130,7 @@ number_of_selfloops.eventlog <- function(eventlog,
 #' @export
 
 number_of_selfloops.grouped_eventlog <- function(eventlog,
-								type = c("repeat","redo"),
+								type = c("all", "repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
 								append = FALSE,
 								...) {
@@ -127,7 +140,16 @@ number_of_selfloops.grouped_eventlog <- function(eventlog,
 	level <- deprecated_level(level, ...)
 
 
-	if(type == "repeat") {
+	if(type == "all") {
+		FUN <- switch(level,
+					  log = all_selfloops_log,
+					  case = all_selfloops_case,
+					  activity = all_selfloops_activity,
+					  resource = all_selfloops_resource,
+					  "resource-activity" = all_selfloops_resource_activity
+		)
+	}
+	else if(type == "repeat") {
 		FUN <- switch(level,
 					  log = repeat_selfloops_log,
 					  case = repeat_selfloops_case,
