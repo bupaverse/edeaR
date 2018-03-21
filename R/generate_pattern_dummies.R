@@ -10,8 +10,8 @@ generate_pattern_dummies <- function(patterns,
 
 	cases <- case_list(eventlog)
 	colnames(cases)[colnames(cases)==case_id(eventlog)] <- "case_classifier"
-	variants <- traces(eventlog)
-	variants <- arrange(variants, trace_id)
+	variants <- traces(eventlog) %>%
+		mutate(trace_id = 1:n())
 
 	dummies <- list()
 	empty_vector <- c(seq(from = 0, to = 0, length.out = nrow(patterns)))
