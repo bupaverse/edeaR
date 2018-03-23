@@ -1,6 +1,9 @@
 activity_frequency_case <- function(eventlog) {
 	absolute <- NULL
 	relative <- NULL
+	n_labels <- NULL
+	n_instances <- NULL
+
 
 	eventlog %>%
 		group_by(!!case_id_(eventlog), !!activity_id_(eventlog), !!activity_instance_id_(eventlog)) %>%

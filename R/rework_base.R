@@ -1,5 +1,6 @@
 rework_base <- function(eventlog) {
 
+	min_order <- NULL
 	event_classifier <- NULL
 	case_classifier <- NULL
 	timestamp_classifier <- NULL

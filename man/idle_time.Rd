@@ -10,7 +10,7 @@ idle_time(eventlog, level, append, units, ...)
 
 \method{idle_time}{eventlog}(eventlog, level = c("log", "case", "trace",
   "resource"), append = FALSE, units = c("hours", "days", "weeks", "mins",
-  "sec"), ...)
+  "secs"), ...)
 
 \method{idle_time}{grouped_eventlog}(eventlog, level = c("log", "case",
   "trace", "resource"), append = FALSE, units = c("hours", "days", "weeks",

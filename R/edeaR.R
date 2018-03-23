@@ -32,5 +32,5 @@
 #' @importFrom utils txtProgressBar
 #' @importFrom utils data
 
-globalVariables(c("."))
+globalVariables(c(".", ".order","min_order"))
 NULL

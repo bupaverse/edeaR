@@ -38,7 +38,7 @@ idle_time <- function(eventlog, level, append, units, ...) {
 idle_time.eventlog <- function(eventlog,
 							   level = c("log","case","trace","resource"),
 							   append = FALSE,
-							   units = c("hours","days", "weeks","mins", "sec"),
+							   units = c("hours","days","weeks","mins", "secs"),
 							   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)

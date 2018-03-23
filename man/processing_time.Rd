@@ -10,7 +10,7 @@ processing_time(eventlog, level, append, units, ...)
 
 \method{processing_time}{eventlog}(eventlog, level = c("log", "trace", "case",
   "activity", "resource", "resource-activity"), append = F,
-  units = c("hours", "days", "weeks", "mins"), ...)
+  units = c("hours", "days", "weeks", "mins", "secs"), ...)
 
 \method{processing_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
   "case", "activity", "resource", "resource-activity"), append = F,

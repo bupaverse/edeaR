@@ -44,7 +44,7 @@ processing_time <- function(eventlog, level, append, units, ...) {
 processing_time.eventlog <- function(eventlog,
 							level = c("log","trace","case","activity","resource","resource-activity"),
 							append = F,
-							units = c("hours","days","weeks","mins"),
+							units = c("hours","days","weeks","mins", "secs"),
 							...){
 
 	level <- match.arg(level)

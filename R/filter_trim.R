@@ -33,6 +33,7 @@ filter_trim.eventlog <- function(eventlog,
 
 	acts <- activities(eventlog) %>% pull(1)
 
+	min_order <- NULL
 	min_timestamp <- NULL
 	start_r <- NULL
 	end_r <- NULL
