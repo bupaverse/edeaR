@@ -47,6 +47,8 @@ filter_trim.eventlog <- function(eventlog,
 		end_activities <- acts
 
 	eventlog %>%
+		filter_activity_presence(start_activities, method = "one_of") %>%
+		filter_activity_presence(end_activities, method = "one_of") %>%
 		group_by(!!case_id_(eventlog), !!activity_instance_id_(eventlog), !!activity_id_(eventlog)) %>%
 		summarize(min_timestamp = min(!!timestamp_(eventlog)), "min_order" = min(.order)) %>%
 		group_by(!!case_id_(eventlog)) %>%

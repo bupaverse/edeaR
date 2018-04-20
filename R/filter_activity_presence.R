@@ -49,6 +49,28 @@ filter_activity_presence.eventlog <- function(eventlog,
 		filter_case(eventlog, selection %>% pull(1), reverse)
 	else if (method == "none")
 		filter_case(eventlog, selection %>% pull(1), reverse = !reverse)
+
+
+
+
+	# if(method == "all") {
+	# 	eventlog %>%
+	# 		group_by_case %>%
+	# 		filter(all(activities %in% !!activity_id_(eventlog))) %>%
+	# 		ungroup_eventlog
+	#
+	# } else if (method == "one_of") {
+	# 	eventlog %>%
+	# 		group_by_case %>%
+	# 		filter(any(activities %in% !!activity_id_(eventlog))) %>%
+	# 		ungroup_eventlog()
+	# } else if (method  == "none") {
+	# 	eventlog %>%
+	# 		group_by_case %>%
+	# 		filter(!any(activities %in% !!activity_id_(eventlog))) %>%
+	# 		ungroup_eventlog
+	# 	}
+
 }
 
 #' @describeIn filter_activity_presence Filter grouped event log on presence of activities.

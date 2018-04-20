@@ -41,30 +41,48 @@ filter_precedence.eventlog <- function(eventlog,
 									   filter_method = c("all","one_of", "none"),
 									   reverse = FALSE) {
 
-	conditions_valid <- NULL
-
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
 
-	interleavings_allowed <- ifelse(precedence_type == "directly_follows", FALSE, TRUE)
+	conditions_valid <- NULL
 
-	sequences <- paste(rep(antecedents, each = length(consequents)),
-					   rep(consequents, times = length(antecedents)), sep = ",")
+	sequence_pairs <- data_frame(pair = paste(rep(antecedents, each = length(consequents)),
+						   			rep(consequents, times = length(antecedents)), sep = ","))
 
-	number_of_conditions <- length(sequences)
+	number_of_conditions <- nrow(sequence_pairs)
 
-	patterns <- data.frame(pattern = sequences)
 
-	dummies <- generate_pattern_dummies(patterns, eventlog, interleavings_allowed = interleavings_allowed)
+	if(precedence_type == "directly_follows") {
+		sequence_pairs %>%
+			rowwise %>%
+			mutate(pattern = str_flatten(c(",", pair,","))) -> sequence_pairs
+	} else if(precedence_type == "eventually_follows") {
+		sequence_pairs %>%
+			rowwise() %>%
+			mutate(pattern = str_flatten(c(",",map_chr(str_split(pair, ","), str_flatten, collapse = "(,.*)*,"),",")))  -> sequence_pairs
+	}
 
-	dummies$conditions_valid <- rowSums(select(dummies, starts_with("X")))
+	eventlog %>%
+		case_list() -> cases
+
+	cases %>%
+		distinct(trace) %>%
+		mutate(.trace = glue(",{trace},")) %>%
+		crossing(sequence_pairs) %>%
+		mutate(fits = str_detect(.trace, pattern)) %>%
+		group_by(trace) %>%
+		summarize(n_fitting = sum(fits)) -> check_results
+
+	cases %>%
+		left_join(check_results, by = "trace") ->
+		cases_results
 
 	if(filter_method == "one_of")
-		case_selection <- filter(dummies, conditions_valid > 0) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting > 0) %>% pull(!!as.symbol(case_id(eventlog)))
 	else if(filter_method == "all")
-		case_selection <- filter(dummies, conditions_valid == number_of_conditions) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting == number_of_conditions) %>% pull(!!as.symbol(case_id(eventlog)))
 	else if(filter_method == "none")
-		case_selection <- filter(dummies, conditions_valid == 0) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting == 0) %>% pull(!!as.symbol(case_id(eventlog)))
 
 	filter_case(eventlog, case_selection, reverse)
 
