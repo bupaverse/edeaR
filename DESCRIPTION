@@ -1,7 +1,7 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.8.0
+Version: 0.8.0.9000
 Date: 2018-03-22
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
 	person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"))

@@ -19,7 +19,6 @@
 #' at least one of the conditions hold are preserved.
 #'
 #' @inherit filter_activity params references seealso return
-#'
 #' @export filter_precedence
 
 filter_precedence <- function(eventlog,

@@ -31,6 +31,8 @@
 #' @importFrom utils setTxtProgressBar
 #' @importFrom utils txtProgressBar
 #' @importFrom utils data
+#' @import stringr
+
 
 globalVariables(c(".", ".order","min_order"))
 NULL
