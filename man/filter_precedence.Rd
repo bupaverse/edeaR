@@ -29,8 +29,8 @@ All pairs of antecedents and consequents are turned into seperate precedence rul
 \item{precedence_type}{When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
 When \code{eventually_follows}, other events are allowed to happen in between.}
 
-\item{filter_method}{When \code{each}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
-at least one of the conditions hold are preserved.}
+\item{filter_method}{When \code{all}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
+at least one of the conditions hold are preserved. When \code{none}, none of the relations are allowed.}
 
 \item{reverse}{Logical, indicating whether the selection should be reversed.}
 }

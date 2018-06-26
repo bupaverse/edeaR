@@ -15,8 +15,8 @@
 #' @param precedence_type When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
 #' When \code{eventually_follows}, other events are allowed to happen in between.
 #'
-#' @param filter_method When \code{each}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
-#' at least one of the conditions hold are preserved.
+#' @param filter_method When \code{all}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
+#' at least one of the conditions hold are preserved. When \code{none}, none of the relations are allowed.
 #'
 #' @inherit filter_activity params references seealso return
 #' @export filter_precedence
