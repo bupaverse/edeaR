@@ -14,6 +14,7 @@ Imports:
 LazyData: true
 RoxygenNote: 6.0.1
 URL: https://www.bupar.net
-Suggests: knitr, eventdataR
+Suggests: knitr, eventdataR,
+    rmarkdown
 VignetteBuilder: knitr
 BugReports: https://github.com/gertjanssenswillen/edeaR/issues
