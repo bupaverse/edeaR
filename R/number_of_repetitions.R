@@ -65,6 +65,7 @@ number_of_repetitions.eventlog <- function(eventlog,
 								  type = c("all","repeat","redo"),
 								  level = c("log","case","activity","resource","resource-activity"),
 								  append = FALSE,
+								  append_column = NULL,
 								  ...){
 	if(all((type) == c("all", "repeat","redo")))
 		message("Using default type: all")
@@ -75,6 +76,14 @@ number_of_repetitions.eventlog <- function(eventlog,
 	level <- match.arg(level)
 
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	if(type == "all") {
 		FUN <- switch(level,
@@ -106,7 +115,7 @@ number_of_repetitions.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	output <- return_metric(eventlog, output, level, append, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
 	return(output)
@@ -121,13 +130,31 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 												   type = c("repeat","redo"),
 												   level = c("log","case","activity","resource","resource-activity"),
 												   append = F,
+												   append_column = NULL,
 												   ...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
-	if(type == "repeat") {
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
+
+	if(type == "all") {
+		FUN <- switch(level,
+					  log = all_repetitions_log,
+					  case = all_repetitions_case,
+					  activity = all_repetitions_activity,
+					  resource = all_repetitions_resource,
+					  "resource-activity" = repeat_repetitions_resource_activity
+		)
+	}
+	else if(type == "repeat") {
 		FUN <- switch(level,
 					  log = repeat_repetitions_log,
 					  case = repeat_repetitions_case,
@@ -156,7 +183,7 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 
 
 
-	output <- return_metric(eventlog, output, level, append, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
 	return(output)

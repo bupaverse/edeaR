@@ -77,6 +77,7 @@ number_of_selfloops.eventlog <- function(eventlog,
 								type = c("all", "repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
 								append = FALSE,
+								append_column = NULL,
 								...) {
 	if(all((type) == c("all", "repeat","redo")))
 		message("Using default type: all")
@@ -86,6 +87,14 @@ number_of_selfloops.eventlog <- function(eventlog,
 	level <- match.arg(level)
 
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	if(type == "all") {
 		FUN <- switch(level,
@@ -118,7 +127,7 @@ number_of_selfloops.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	output <- return_metric(eventlog, output, level, append, "number_of_selfloops")
+	output <- return_metric(eventlog, output, level, append, append_column, "number_of_selfloops")
 
 	attr(output, "type") <- type
 
@@ -133,7 +142,16 @@ number_of_selfloops.grouped_eventlog <- function(eventlog,
 								type = c("all", "repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
 								append = FALSE,
+								append_column = NULL,
 								...) {
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	type <- match.arg(type)
 	level <- match.arg(level)
@@ -176,7 +194,7 @@ number_of_selfloops.grouped_eventlog <- function(eventlog,
 			output <- grouped_metric_raw_log(eventlog, FUN)
 		}
 
-	output <- return_metric(eventlog, output, level, append, "number_of_selfloops", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric(eventlog, output, level, append, append_column, "number_of_selfloops", ifelse(level == "resource-activity", 3,2))
 
 	attr(output, "type") <- type
 

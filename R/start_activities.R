@@ -33,10 +33,19 @@ start_activities <- function(eventlog, level, append, ...) {
 start_activities.eventlog <- function(eventlog,
 							 level = c("log","case","activity","resource","resource-activity"),
 							 append = FALSE,
+							 append_column = NULL,
 							 ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity" ~ "absolute",
+								   level == "case" ~ activity_id(eventlog),
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = start_activities_log,
@@ -47,7 +56,7 @@ start_activities.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "start_activities", ifelse(level == "case",1,3))
+	return_metric(eventlog, output, level, append, append_column, "start_activities", ifelse(level == "case",1,3))
 
 }
 
@@ -57,6 +66,7 @@ start_activities.eventlog <- function(eventlog,
 start_activities.grouped_eventlog <- function(eventlog,
 							 level = c("log","case","activity","resource","resource-activity"),
 							 append = FALSE,
+							 append_column = NULL,
 							 ...) {
 
 	level <- match.arg(level)
@@ -71,6 +81,6 @@ start_activities.grouped_eventlog <- function(eventlog,
 
 	grouped_metric(eventlog, FUN) -> output
 
-	return_metric(eventlog, output, level, append, "start_activities", ifelse(level == "case",1,3))
+	return_metric(eventlog, output, level, append,append_column, "start_activities", ifelse(level == "case",1,3))
 
 }

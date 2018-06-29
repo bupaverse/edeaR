@@ -38,7 +38,7 @@ filter_activity_presence.eventlog <- function(eventlog,
 
 	eventlog %>%
 		filter_activity(activities) %>%
-		select(!!as.symbol(activity_id(eventlog)), !!as.symbol(case_id(eventlog))) %>%
+		select(!!as.symbol(activity_id(eventlog)), !!as.symbol(case_id(eventlog)), force_df = T) %>%
 		unique() %>%
 		group_by(!!as.symbol(case_id(eventlog))) %>%
 		summarize(n = n()) -> selection

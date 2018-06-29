@@ -10,11 +10,11 @@ size_of_repetitions(eventlog, type, level, append, ...)
 
 \method{size_of_repetitions}{eventlog}(eventlog, type = c("all", "repeat",
   "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, ...)
+  "resource-activity"), append = FALSE, append_column = NULL, ...)
 
 \method{size_of_repetitions}{grouped_eventlog}(eventlog, type = c("repeat",
   "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, ...)
+  "resource-activity"), append = FALSE, append_column = NULL, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -28,6 +28,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 }
 \description{
 Provides summary statistics on the sizes of repetitions.

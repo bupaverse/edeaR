@@ -9,10 +9,10 @@
 resource_involvement(eventlog, level, append, ...)
 
 \method{resource_involvement}{eventlog}(eventlog, level = c("case",
-  "resource", "resource-activity"), append = F, ...)
+  "resource", "resource-activity"), append = F, append_column = NULL, ...)
 
 \method{resource_involvement}{grouped_eventlog}(eventlog, level = c("case",
-  "resource", "resource-activity"), append = F, ...)
+  "resource", "resource-activity"), append = F, append_column = NULL, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -24,6 +24,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{...}{Deprecated arguments}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 }
 \description{
 Calculates for each resource/resource-activity in what percentage of cases it is present.

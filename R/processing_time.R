@@ -34,7 +34,7 @@
 #'
 #' @export processing_time
 
-processing_time <- function(eventlog, level, append, units, ...) {
+processing_time <- function(eventlog, level, append,append_column, units, ...) {
 	UseMethod("processing_time")
 }
 
@@ -44,12 +44,21 @@ processing_time <- function(eventlog, level, append, units, ...) {
 processing_time.eventlog <- function(eventlog,
 							level = c("log","trace","case","activity","resource","resource-activity"),
 							append = F,
-							units = c("hours","days","weeks","mins", "secs"),
+							append_column = NULL,
+							units = c("days","hours","mins","secs","week"),
 							...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "processing_time",
+								   level == "resource" ~ "median",
+								   level == "resource-activity"~"median",
+								   level == "activity"~"median",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = processing_time_log,
@@ -61,7 +70,9 @@ processing_time.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog, units = units)
 
-	return_metric(eventlog, output, level, append, "processing_time", ifelse(level == "case", 1, 9))
+	return_metric(eventlog, output, level, append, append_column,  "processing_time",
+				  ifelse(level == "case", 1, 9),
+				  empty_label = ifelse(level == "case",T, F))
 
 }
 
@@ -72,6 +83,7 @@ processing_time.eventlog <- function(eventlog,
 processing_time.grouped_eventlog <- function(eventlog,
 							level = c("log","trace","case","activity","resource","resource-activity"),
 							append = F,
+							append_column = NULL,
 							units = c("hours","days","weeks","mins"),
 							...){
 
@@ -87,12 +99,22 @@ processing_time.grouped_eventlog <- function(eventlog,
 				  resource = processing_time_resource,
 				  "resource-activity" = processing_time_resource_activity)
 
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "processing_time",
+								   level == "resource" ~ "median",
+								   level == "resource-activity"~"median",
+								   level == "activity"~"median",
+								   T ~ "NA")
+	}
+
 	if(!(level %in% c("log","activity","resource-activity","resource"))) {
 		output <- grouped_metric(eventlog, FUN, units)
 	}
 	else {
 		output <- grouped_metric_raw_log(eventlog, FUN, units)
 	}
-	return_metric(eventlog, output, level, append, "processing_time", ifelse(level == "case", 1, 9))
+	return_metric(eventlog, output, level, append, append_column,  "processing_time",
+				  ifelse(level == "case", 1, 9),
+				  empty_label = ifelse(level == "case",T, F))
 
 }

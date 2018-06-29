@@ -6,14 +6,15 @@
 \alias{throughput_time.grouped_eventlog}
 \title{Metric: Throughput time of cases}
 \usage{
-throughput_time(eventlog, level, append, units, ...)
+throughput_time(eventlog, level, append, append_column, units, ...)
 
 \method{throughput_time}{eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = FALSE, units = c("hours", "days", "weeks", "mins",
-  "secs"), ...)
+  "case"), append = FALSE, append_column = NULL, units = c("days",
+  "hours", "mins", "secs", "week"), ...)
 
 \method{throughput_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = FALSE, units = c("days", "hours", "mins", "weeks"), ...)
+  "case"), append = FALSE, append_column = NULL, units = c("days",
+  "hours", "mins", "weeks"), ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -23,6 +24,8 @@ throughput_time(eventlog, level, append, units, ...)
 For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 

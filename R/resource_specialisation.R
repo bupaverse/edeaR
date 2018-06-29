@@ -50,10 +50,21 @@ resource_specialization <- function(eventlog, level, append, ...) {
 #' @describeIn resource_specialisation Resource specialization for  eventlog
 #' @export
 
-resource_specialisation.eventlog <- function(eventlog, level = c("log","case","activity","resource"), append = F, ...) {
+resource_specialisation.eventlog <- function(eventlog,
+											 level = c("log","case","activity","resource"),
+											 append = F,
+											 append_column = NULL,
+											 ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
@@ -64,16 +75,27 @@ resource_specialisation.eventlog <- function(eventlog, level = c("log","case","a
 	output <- FUN(eventlog = eventlog)
 
 
-	return_metric(eventlog, output, level, append, "resource_specialisation", ifelse(level == "case",8,2))
+	return_metric(eventlog, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",10,2))
 }
 
 #' @describeIn resource_specialisation Resource specialization for grouped eventlog
 #' @export
 
-resource_specialisation.grouped_eventlog <- function(eventlog, level = c("log","case","activity","resource"), append = F, ...) {
+resource_specialisation.grouped_eventlog <- function(eventlog,
+													 level = c("log","case","activity","resource"),
+													 append = F,
+													 append_column = NULL,
+													 ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "absolute",
+								   level == "activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
@@ -90,7 +112,7 @@ resource_specialisation.grouped_eventlog <- function(eventlog, level = c("log","
 	}
 
 
-	return_metric(eventlog, output, level, append, "resource_specialisation", ifelse(level == "case",8,2))
+	return_metric(eventlog, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",8,2))
 }
 
 

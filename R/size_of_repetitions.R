@@ -21,6 +21,7 @@ size_of_repetitions.eventlog <- function(eventlog,
 								type = c("all","repeat","redo"),
 								level = c("log","case","activity","resource","resource-activity"),
 								append = FALSE,
+								append_column = NULL,
 								...){
 
 	if(all((type) == c("all", "repeat","redo")))
@@ -31,6 +32,14 @@ size_of_repetitions.eventlog <- function(eventlog,
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "median",
+								   level == "activity"~"median",
+								   level == "resource-activity"~"median",
+								   T ~ "NA")
+	}
 
 	if(type == "all") {
 		FUN <- switch(level,
@@ -64,7 +73,7 @@ size_of_repetitions.eventlog <- function(eventlog,
 	output <- FUN(eventlog = eventlog)
 
 
-	output <- return_metric(eventlog, output, level, append, "size_of_repetitions", 8)
+	output <- return_metric(eventlog, output, level, append, append_column, "size_of_repetitions", 10)
 	attr(output, "type") <- type
 	return(output)
 }
@@ -76,11 +85,20 @@ size_of_repetitions.grouped_eventlog <- function(eventlog,
 												 type = c("repeat","redo"),
 												 level = c("log","case","activity","resource","resource-activity"),
 												 append = FALSE,
+												 append_column = NULL,
 												 ...){
 
 	type <- match.arg(type)
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "median",
+								   level == "activity"~"median",
+								   level == "resource-activity"~"median",
+								   T ~ "NA")
+	}
 
 	if(type == "repeat") {
 		FUN <- switch(level,
@@ -110,7 +128,7 @@ size_of_repetitions.grouped_eventlog <- function(eventlog,
 	}
 
 
-	output <- return_metric(eventlog, output, level, append, "size_of_repetitions", 8)
+	output <- return_metric(eventlog, output, level, append, append_column, "size_of_repetitions", 10)
 	attr(output, "type") <- type
 	return(output)
 }

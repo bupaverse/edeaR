@@ -32,7 +32,7 @@
 #'
 
 
-throughput_time <- function(eventlog, level, append, units, ...) {
+throughput_time <- function(eventlog, level, append, append_column, units, ...) {
 	UseMethod("throughput_time")
 }
 
@@ -43,13 +43,18 @@ throughput_time <- function(eventlog, level, append, units, ...) {
 throughput_time.eventlog <- function(eventlog,
 									 level = c("log","trace","case"),
 									 append = FALSE,
-									 units = c("hours","days","weeks","mins", "secs"),
+									 append_column = NULL,
+									 units = c("days","hours","mins","secs","week"),
 									 ...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
 
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "throughput_time",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = throughput_time_log,
@@ -59,7 +64,7 @@ throughput_time.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog, units = units)
 
-	output <- return_metric(eventlog, output, level, append, "throughput_time", 1)
+	output <- return_metric(eventlog, output, level, append, append_column,  "throughput_time", 1, empty_label = T)
 	attr(output, "units") <- units
 
 	return(output)
@@ -72,12 +77,19 @@ throughput_time.eventlog <- function(eventlog,
 throughput_time.grouped_eventlog <- function(eventlog,
 											 level = c("log","trace","case"),
 											 append = FALSE,
+											 append_column = NULL,
 											 units = c("days", "hours","mins","weeks"),
 											 ...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "throughput_time",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = throughput_time_log,
@@ -92,7 +104,7 @@ throughput_time.grouped_eventlog <- function(eventlog,
 		grouped_metric_raw_log(eventlog, FUN, units) -> output
 	}
 
-	output <- return_metric(eventlog, output, level, append, "throughput_time", 1)
+	output <- return_metric(eventlog, output, level, append, append_column, "throughput_time", 1, empty_label = T)
 	attr(output, "units") <- units
 
 	return(output)

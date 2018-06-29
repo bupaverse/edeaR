@@ -27,13 +27,23 @@ trace_coverage <- function(eventlog, level, append,  ...) {
 #' @describeIn trace_coverage Trace coverage metric for eventlog
 #' @export
 
-trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), append = F, ...) {
+trace_coverage.eventlog <- function(eventlog,
+									level = c("log","trace","case"),
+									append = F,
+									append_column = NULL,
+									...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	if(exists("threshold")) {
 		warning("The threshold parameter is no longer supported")
 	}
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   T ~ "NA")
+	}
+
 
 	FUN <- switch(level,
 				  log = trace_coverage_log,
@@ -42,7 +52,7 @@ trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), a
 
 		output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "trace_coverage", 2)
+	return_metric(eventlog, output, level, append, append_column,  "trace_coverage", 2)
 
 }
 
@@ -50,12 +60,21 @@ trace_coverage.eventlog <- function(eventlog, level = c("log","trace","case"), a
 #' @describeIn trace_coverage Trace coverage metric for grouped eventlog
 #' @export
 
-trace_coverage.grouped_eventlog <- function(eventlog, level = c("log","trace","case"), append = F, ...) {
+trace_coverage.grouped_eventlog <- function(eventlog,
+											level = c("log","trace","case"),
+											append = F,
+											append_column = NULL,
+											...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	if(exists("threshold")) {
 		warning("The threshold parameter is no longer supported")
+	}
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   T ~ "NA")
 	}
 
 	FUN <- switch(level,
@@ -66,7 +85,7 @@ trace_coverage.grouped_eventlog <- function(eventlog, level = c("log","trace","c
 	output <- grouped_metric(eventlog, FUN)
 
 
-	return_metric(eventlog, output, level, append, "trace_coverage", 2)
+	return_metric(eventlog, output, level, append,append_column,  "trace_coverage", 2)
 
 }
 

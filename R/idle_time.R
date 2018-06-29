@@ -28,7 +28,7 @@
 #'
 #' @export idle_time
 #'
-idle_time <- function(eventlog, level, append, units, ...) {
+idle_time <- function(eventlog, level, append, append_column, units, ...) {
 	UseMethod("idle_time")
 }
 
@@ -38,11 +38,20 @@ idle_time <- function(eventlog, level, append, units, ...) {
 idle_time.eventlog <- function(eventlog,
 							   level = c("log","case","trace","resource"),
 							   append = FALSE,
-							   units = c("hours","days","weeks","mins", "secs"),
+							   append_column = NULL,
+							   units = c("days","hours","mins","secs","week"),
 							   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "idle_time",
+								   level == "resource" ~ "idle_time",
+								   T ~ "NA")
+	}
+
+
 	FUN <- switch(level,
 				  log = idle_time_log,
 				  case = idle_time_case,
@@ -50,7 +59,7 @@ idle_time.eventlog <- function(eventlog,
 				  resource = idle_time_resource)
 
 	output <- FUN(eventlog = eventlog, units = units)
-	return_metric(eventlog, output, level, append, "idle_time", 1)
+	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
 }
 
 #' @describeIn idle_time Compute idle time for grouped eventlog
@@ -59,11 +68,17 @@ idle_time.eventlog <- function(eventlog,
 idle_time.grouped_eventlog <- function(eventlog,
 									   level = c("log","case","trace","resource"),
 									   append = FALSE,
+									   append_column = NULL,
 									   units = c("hours","days", "weeks","mins"),
 									   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "idle_time",
+								   level == "resource" ~ "idle_time",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = idle_time_log,
@@ -76,5 +91,5 @@ idle_time.grouped_eventlog <- function(eventlog,
 	else {
 		grouped_metric_raw_log(eventlog, FUN, units) -> output
 	}
-	return_metric(eventlog, output, level, append, "idle_time", 1)
+	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
 }

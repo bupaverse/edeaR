@@ -18,13 +18,14 @@
 #'
 #' @param level Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}
 #' @param append Logical, indicating whether to append results to original event log. Ignored when level is log or trace.
+#' @param append_column Which of the output columns to append to log, if append = T. Default column depends on chosen level.
 #' @param ... Deprecated arguments
 #'
 #' @references Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 #'
 #' @export activity_frequency
 
-activity_frequency <- function(eventlog, level,  append, ...) {
+activity_frequency <- function(eventlog, level,  append, append_column, ...) {
 	UseMethod("activity_frequency")
 }
 
@@ -35,10 +36,17 @@ activity_frequency <- function(eventlog, level,  append, ...) {
 activity_frequency.eventlog <- function(eventlog,
 										level = c("log","trace","activity","case"),
 										append = F,
+										append_column = NULL,
 										...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+									level == "case" ~ "absolute",
+									T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = activity_frequency_log,
@@ -49,7 +57,7 @@ activity_frequency.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "activity_frequency")
+	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
 
 }
 
@@ -60,10 +68,16 @@ activity_frequency.eventlog <- function(eventlog,
 activity_frequency.grouped_eventlog <- function(eventlog,
 												level = c("log","trace","activity","case"),
 												append = F,
+												append_column = NULL,
 												...) {
 	level <- match.arg(level)
-
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "case" ~ "absolute",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = activity_frequency_log,
@@ -78,7 +92,7 @@ activity_frequency.grouped_eventlog <- function(eventlog,
 		grouped_metric_raw_log(eventlog, FUN) -> output
 	}
 
-	return_metric(eventlog, output, level, append, "activity_frequency")
+	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
 
 
 }

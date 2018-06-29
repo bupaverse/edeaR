@@ -6,15 +6,16 @@
 \alias{processing_time.grouped_eventlog}
 \title{Metric: Processing time}
 \usage{
-processing_time(eventlog, level, append, units, ...)
+processing_time(eventlog, level, append, append_column, units, ...)
 
 \method{processing_time}{eventlog}(eventlog, level = c("log", "trace", "case",
   "activity", "resource", "resource-activity"), append = F,
-  units = c("hours", "days", "weeks", "mins", "secs"), ...)
+  append_column = NULL, units = c("days", "hours", "mins", "secs", "week"),
+  ...)
 
 \method{processing_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
   "case", "activity", "resource", "resource-activity"), append = F,
-  units = c("hours", "days", "weeks", "mins"), ...)
+  append_column = NULL, units = c("hours", "days", "weeks", "mins"), ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -24,6 +25,8 @@ processing_time(eventlog, level, append, units, ...)
 For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 

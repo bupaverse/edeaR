@@ -46,11 +46,20 @@ resource_frequency <- function(eventlog, level, append, ...) {
 
 
 resource_frequency.eventlog <- function(eventlog,
-							   level = c("log","case","activity","resource","resource-activity"),
-							   append = F,
-							   ...) {
+										level = c("log","case","activity","resource","resource-activity"),
+										append = F,
+										append_column = NULL,
+										...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"median",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = resource_frequency_log,
@@ -61,7 +70,7 @@ resource_frequency.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "resource_frequency", ifelse(level == "resource", 2,
+	return_metric(eventlog, output, level, append,append_column, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))
 }
 
@@ -70,12 +79,21 @@ resource_frequency.eventlog <- function(eventlog,
 #' @export
 
 resource_frequency.grouped_eventlog <- function(eventlog,
-							   level = c("log","case","activity","resource","resource-activity"),
-							   append = F,
-							   ...) {
+												level = c("log","case","activity","resource","resource-activity"),
+												append = F,
+												append_column = NULL,
+												...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "median",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   level == "activity"~"median",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = resource_frequency_log,
@@ -84,13 +102,13 @@ resource_frequency.grouped_eventlog <- function(eventlog,
 				  resource = resource_frequency_resource,
 				  "resource-activity" = resource_frequency_resource_activity)
 
-		if(!(level %in% c("log"))) {
-			grouped_metric(eventlog, FUN) -> output
-		}
-		else {
-			grouped_metric_raw_log(eventlog, FUN)  -> output
-		}
+	if(!(level %in% c("log"))) {
+		grouped_metric(eventlog, FUN) -> output
+	}
+	else {
+		grouped_metric_raw_log(eventlog, FUN)  -> output
+	}
 
-	return_metric(eventlog, output, level, append, "resource_frequency", ifelse(level == "resource", 2,
+	return_metric(eventlog, output, level, append,append_column, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))
 }

@@ -6,5 +6,5 @@ idle_time_trace <- function(eventlog, units) {
 		idle_time_case(units = units) %>%
 		merge(cases) %>%
 		group_by(trace) %>%
-		grouped_summary_statistics(idle_time)
+		grouped_summary_statistics("idle_time")
 }

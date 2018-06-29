@@ -41,10 +41,22 @@ resource_involvement <- function(eventlog, level, append, ...) {
 #' @describeIn resource_involvement Resource involvement for eventlog
 #' @export
 
-resource_involvement.eventlog <- function(eventlog, level = c("case","resource","resource-activity"), append = F, ...) {
+resource_involvement.eventlog <- function(eventlog,
+										  level = c("case","resource","resource-activity"),
+										  append = F,
+										  append_column = NULL,
+										  ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   T ~ "NA")
+	}
+
 
 	FUN <- switch(level,
 				  case = resource_involvement_case,
@@ -53,16 +65,27 @@ resource_involvement.eventlog <- function(eventlog, level = c("case","resource",
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "resource_involvement",2)
+	return_metric(eventlog, output, level, append, append_column, "resource_involvement",2)
 }
 
 #' @describeIn resource_involvement Resource involvement for grouped eventlog
 #' @export
 
-resource_involvement.grouped_eventlog <- function(eventlog, level = c("case","resource","resource-activity"), append = F, ...) {
+resource_involvement.grouped_eventlog <- function(eventlog,
+												  level = c("case","resource","resource-activity"),
+												  append = F,
+												  append_column = NULL,
+												  ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity"~"absolute",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  case = resource_involvement_case,
@@ -71,5 +94,5 @@ resource_involvement.grouped_eventlog <- function(eventlog, level = c("case","re
 
 	output <- grouped_metric(eventlog, FUN)
 
-	return_metric(eventlog, output, level, append, "resource_involvement",2)
+	return_metric(eventlog, output, level, append, append_column, "resource_involvement",2)
 }

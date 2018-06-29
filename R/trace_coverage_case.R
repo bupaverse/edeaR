@@ -4,11 +4,13 @@ trace_coverage_case <- function(eventlog) {
 	trace_id <- NULL
 	absolute_trace_coverage <- NULL
 
+	absolute <- NULL
+
 	case_list(eventlog) %>%
 		group_by(trace) %>%
-		mutate(absolute_trace_coverage = n(),
-			   relative_trace_coverage = absolute_trace_coverage/n_cases(eventlog)) %>%
+		mutate(absolute = n(),
+			   relative = absolute/n_cases(eventlog)) %>%
 		ungroup() %>%
-		arrange(desc(absolute_trace_coverage)) %>%
+		arrange(desc(absolute)) %>%
 		select(-trace_id)
 }

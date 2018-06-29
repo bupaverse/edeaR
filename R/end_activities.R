@@ -33,10 +33,19 @@ end_activities <- function(eventlog, level, append,  ...) {
 end_activities.eventlog <- function(eventlog,
 									level = c("log","case","activity","resource","resource-activity"),
 									append = FALSE,
+									append_column = NULL,
 									...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity" ~ "absolute",
+								   level == "case" ~ activity_id(eventlog),
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = end_activities_log,
@@ -47,7 +56,7 @@ end_activities.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "end_activities", n_result_col = ifelse(level == "case",1,3))
+	return_metric(eventlog, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
 
 }
 
@@ -57,10 +66,19 @@ end_activities.eventlog <- function(eventlog,
 end_activities.grouped_eventlog <- function(eventlog,
 											level = c("log","case","activity","resource","resource-activity"),
 											append = FALSE,
+											append_column = NULL,
 											...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "resource" ~ "absolute",
+								   level == "resource-activity" ~ "absolute",
+								   level == "case" ~ activity_id(eventlog),
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = end_activities_log,
@@ -71,6 +89,6 @@ end_activities.grouped_eventlog <- function(eventlog,
 
 	output <- grouped_metric(eventlog, FUN)
 
-	return_metric(eventlog, output, level, append, "end_activities", n_result_col = ifelse(level == "case",1,3))
+	return_metric(eventlog, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
 
 }

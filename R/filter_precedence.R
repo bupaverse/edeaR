@@ -40,6 +40,13 @@ filter_precedence.eventlog <- function(eventlog,
 									   filter_method = c("all","one_of", "none"),
 									   reverse = FALSE) {
 
+	pair <- NULL
+	.trace <- NULL
+	pattern <- NULL
+	fits <- NULL
+	n_fitting <- NULL
+
+
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
 

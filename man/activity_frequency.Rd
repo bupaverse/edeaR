@@ -6,13 +6,13 @@
 \alias{activity_frequency.grouped_eventlog}
 \title{Metric: Activity Frequency}
 \usage{
-activity_frequency(eventlog, level, append, ...)
+activity_frequency(eventlog, level, append, append_column, ...)
 
 \method{activity_frequency}{eventlog}(eventlog, level = c("log", "trace",
-  "activity", "case"), append = F, ...)
+  "activity", "case"), append = F, append_column = NULL, ...)
 
 \method{activity_frequency}{grouped_eventlog}(eventlog, level = c("log",
-  "trace", "activity", "case"), append = F, ...)
+  "trace", "activity", "case"), append = F, append_column = NULL, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -21,6 +21,8 @@ activity_frequency(eventlog, level, append, ...)
 \item{level}{Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{...}{Deprecated arguments}
 }

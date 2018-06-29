@@ -6,15 +6,15 @@
 \alias{idle_time.grouped_eventlog}
 \title{Metric: Idle Time}
 \usage{
-idle_time(eventlog, level, append, units, ...)
+idle_time(eventlog, level, append, append_column, units, ...)
 
 \method{idle_time}{eventlog}(eventlog, level = c("log", "case", "trace",
-  "resource"), append = FALSE, units = c("hours", "days", "weeks", "mins",
-  "secs"), ...)
+  "resource"), append = FALSE, append_column = NULL, units = c("days",
+  "hours", "mins", "secs", "week"), ...)
 
 \method{idle_time}{grouped_eventlog}(eventlog, level = c("log", "case",
-  "trace", "resource"), append = FALSE, units = c("hours", "days", "weeks",
-  "mins"), ...)
+  "trace", "resource"), append = FALSE, append_column = NULL,
+  units = c("hours", "days", "weeks", "mins"), ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -24,6 +24,8 @@ idle_time(eventlog, level, append, units, ...)
 For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+
+\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 

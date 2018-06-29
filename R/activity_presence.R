@@ -31,31 +31,40 @@
 #'
 #' @export activity_presence
 
-activity_presence <- function(eventlog, append) {
+activity_presence <- function(eventlog, append, append_column) {
 	UseMethod("activity_presence")
 }
 
 #' @describeIn activity_presence Compute activity presence for event log
 #' @export
 
-activity_presence.eventlog <- function(eventlog, append = F) {
+activity_presence.eventlog <- function(eventlog, append = F, append_column = "absolute") {
+
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "case" ~ "absolute",
+								   T ~ "NA")
+	}
 
 	FUN <- activity_presence_FUN
 	output <- FUN(eventlog = eventlog)
 
 
-	return_metric(eventlog, output, "activity", append, "activity_presence")
+	return_metric(eventlog, output, "activity", append, append_column, "activity_presence")
 }
 
 #' @describeIn activity_presence Compute activity presence for grouped eventlog
 #' @export
 
-activity_presence.grouped_eventlog <- function(eventlog, append = F) {
+activity_presence.grouped_eventlog <- function(eventlog, append = F, append_column = "absolute") {
 
 	FUN <- activity_presence_FUN
 	output <- grouped_metric(eventlog, FUN)
 
-	return_metric(eventlog, output, "activity", append, "activity_presence")
+
+
+	return_metric(eventlog, output, "activity", append, append_column, "activity_presence")
 }
 
 activity_presence_FUN <- function(eventlog) {

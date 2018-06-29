@@ -35,10 +35,16 @@ trace_length <- function(eventlog, level, append, ...) {
 trace_length.eventlog <- function(eventlog,
 								  level = c("log","trace","case"),
 								  append = F,
+								  append_column = NULL,
 								  ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "trace_length",
+								   T ~ "NA")
+	}
 
 	FUN <- switch(level,
 				  log = trace_length_log,
@@ -47,7 +53,7 @@ trace_length.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
-	return_metric(eventlog, output, level, append, "trace_length", 1)
+	return_metric(eventlog, output, level, append, append_column,  "trace_length", 1,  empty_label = T)
 
 }
 
@@ -58,6 +64,7 @@ trace_length.eventlog <- function(eventlog,
 trace_length.grouped_eventlog <- function(eventlog,
 										  level = c("log","trace","case"),
 										  append = F,
+										  append_column = NULL,
 										  ...) {
 
 	level <- match.arg(level)
@@ -68,6 +75,11 @@ trace_length.grouped_eventlog <- function(eventlog,
 				  case = trace_length_case,
 				  trace = trace_length_trace)
 
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "case" ~ "trace_length",
+								   T ~ "NA")
+	}
+
 	if(!(level %in% c("log"))) {
 		output <- grouped_metric(eventlog, FUN)
 	}
@@ -75,5 +87,5 @@ trace_length.grouped_eventlog <- function(eventlog,
 		output <- grouped_metric_raw_log(eventlog, FUN)
 	}
 
-	return_metric(eventlog, output, level, append, "trace_length", 1)
+	return_metric(eventlog, output, level, append, append_column, "trace_length", 1, empty_label = T)
 }

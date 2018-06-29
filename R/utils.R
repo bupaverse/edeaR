@@ -139,7 +139,7 @@ grouped_filter <- function(eventlog, FILTER, ...) {
 	output
 }
 
-return_metric <- function(eventlog, output, level, append, metric, n_result_col = 2) {
+return_metric <- function(eventlog, output, level, append, append_column, metric , n_result_col = 2, empty_label = F) {
 
 	if(append && level != "log" && level != "trace") {
 		ncol <- ncol(output)
@@ -147,7 +147,22 @@ return_metric <- function(eventlog, output, level, append, metric, n_result_col 
 		res <- (ncol+1-n_result_col):ncol
 
 		output %>%
-			set_names(c(names(.)[ids], paste0(metric, "_",level,"_",names(.)[res]))) -> output
+			select(ids, !!sym(append_column)) -> output
+
+
+		if(empty_label) {
+		output %>%
+			set_names(c(names(.)[ids], paste0(append_column, "_", level))) -> output
+		}
+		else {
+			output %>%
+				set_names(c(names(.)[ids], paste0(append_column, "_", level, "_", metric))) -> output
+		}
+		#	rename_( paste0(metric, "_", level, "_", append_column) == append_column) -> output
+
+		# output %>%
+		# 	set_names(c(names(.)[ids], paste0(metric, "_",level,"_",names(.)[res]))) -> output
+
 		suppressMessages(left_join(eventlog, output)) %>%
 			re_map(mapping(eventlog)) -> output
 
