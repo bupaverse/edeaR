@@ -12,5 +12,6 @@ end_activities_resource_activity <- function(eventlog) {
 		ungroup() %>%
 		arrange(desc(absolute)) %>%
 		mutate(relative = absolute/n_cases(eventlog),
-			   cum_sum = cumsum(relative))
+			   cum_sum = cumsum(relative)) %>%
+		arrange(!!resource_id_(eventlog), !!activity_id_(eventlog))
 }

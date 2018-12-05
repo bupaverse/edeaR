@@ -34,6 +34,7 @@ end_activities.eventlog <- function(eventlog,
 									level = c("log","case","activity","resource","resource-activity"),
 									append = FALSE,
 									append_column = NULL,
+									sort = TRUE,
 									...) {
 
 	level <- match.arg(level)
@@ -55,7 +56,10 @@ end_activities.eventlog <- function(eventlog,
 				  "resource-activity" = end_activities_resource_activity)
 
 	output <- FUN(eventlog = eventlog)
-
+	if(sort && level %in% c("activity", "resource","resource-activity")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
 
 }
@@ -67,6 +71,7 @@ end_activities.grouped_eventlog <- function(eventlog,
 											level = c("log","case","activity","resource","resource-activity"),
 											append = FALSE,
 											append_column = NULL,
+											sort = TRUE,
 											...) {
 
 	level <- match.arg(level)
@@ -88,7 +93,10 @@ end_activities.grouped_eventlog <- function(eventlog,
 				  "resource-activity" = end_activities_resource_activity)
 
 	output <- grouped_metric(eventlog, FUN)
-
+	if(sort && level %in% c("activity", "resource","resource-activity")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
 
 }

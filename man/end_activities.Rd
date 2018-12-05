@@ -10,11 +10,11 @@ end_activities(eventlog, level, append, ...)
 
 \method{end_activities}{eventlog}(eventlog, level = c("log", "case",
   "activity", "resource", "resource-activity"), append = FALSE,
-  append_column = NULL, ...)
+  append_column = NULL, sort = TRUE, ...)
 
 \method{end_activities}{grouped_eventlog}(eventlog, level = c("log", "case",
   "activity", "resource", "resource-activity"), append = FALSE,
-  append_column = NULL, ...)
+  append_column = NULL, sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -28,6 +28,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{...}{Deprecated arguments}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+
+\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
 }
 \description{
 Analyse the end activities in the process.
