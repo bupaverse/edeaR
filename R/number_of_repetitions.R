@@ -66,7 +66,9 @@ number_of_repetitions.eventlog <- function(eventlog,
 								  level = c("log","case","activity","resource","resource-activity"),
 								  append = FALSE,
 								  append_column = NULL,
+								  sort = TRUE,
 								  ...){
+
 	if(all((type) == c("all", "repeat","redo")))
 		message("Using default type: all")
 	if(all((level) == c("log","case","activity","resource","resource-activity")))
@@ -115,6 +117,12 @@ number_of_repetitions.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
+
+	if(sort && level %in% c("case","resource", "activity","resource-activity")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
+
 	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
@@ -131,6 +139,7 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 												   level = c("log","case","activity","resource","resource-activity"),
 												   append = F,
 												   append_column = NULL,
+												   sort = TRUE,
 												   ...){
 
 	type <- match.arg(type)
@@ -182,6 +191,10 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 	}
 
 
+	if(sort && level %in% c("case","resource", "activity","resource-activity")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
