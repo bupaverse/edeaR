@@ -29,6 +29,8 @@
 #' @param level Level of granularity for the analysis: log,  case, trace, activity, resource or resource-activity.
 #' For more information, see \code{vignette("metrics", "edeaR")}
 #'
+#' @param sort Sort on decreasing processing time. For case level only.
+#'
 #' @inherit activity_frequency params references seealso return
 #' @inherit idle_time params
 #'
@@ -46,6 +48,7 @@ processing_time.eventlog <- function(eventlog,
 							append = F,
 							append_column = NULL,
 							units = c("days","hours","mins","secs","week"),
+							sort = TRUE,
 							...){
 
 	level <- match.arg(level)
@@ -70,6 +73,11 @@ processing_time.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog, units = units)
 
+	if(sort && level %in% c("case")) {
+		output %>%
+			arrange(-processing_time) -> output
+	}
+
 	return_metric(eventlog, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
 				  empty_label = ifelse(level == "case",T, F))
@@ -85,6 +93,7 @@ processing_time.grouped_eventlog <- function(eventlog,
 							append = F,
 							append_column = NULL,
 							units = c("hours","days","weeks","mins"),
+							sort = TRUE,
 							...){
 
 	level <- match.arg(level)
@@ -113,6 +122,13 @@ processing_time.grouped_eventlog <- function(eventlog,
 	else {
 		output <- grouped_metric_raw_log(eventlog, FUN, units)
 	}
+
+	if(sort && level %in% c("case")) {
+		output %>%
+			arrange(-processing_time) -> output
+	}
+
+
 	return_metric(eventlog, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
 				  empty_label = ifelse(level == "case",T, F))
