@@ -173,6 +173,7 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 	} else {
+
 		class(output) <- c(paste0(level, "_metric"),metric, class(output))
 		attr(output, "level") <- level
 		attr(output, "mapping") <- mapping(eventlog)

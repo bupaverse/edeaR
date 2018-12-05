@@ -34,6 +34,9 @@
 #'
 #' @inherit end_activities params
 #' @inherit activity_frequency params references seealso return
+#'
+#' @param sort Sort output on count. Defaults to TRUE
+#'
 #' @export resource_frequency
 
 
@@ -47,8 +50,9 @@ resource_frequency <- function(eventlog, level, append, ...) {
 
 resource_frequency.eventlog <- function(eventlog,
 										level = c("log","case","activity","resource","resource-activity"),
-										append = F,
+										append = FALSE,
 										append_column = NULL,
+										sort = TRUE,
 										...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -70,8 +74,15 @@ resource_frequency.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
+	if(level %in% c("resource","resource-activity") && sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
+
 	return_metric(eventlog, output, level, append,append_column, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))
+
+
 }
 
 
@@ -80,8 +91,9 @@ resource_frequency.eventlog <- function(eventlog,
 
 resource_frequency.grouped_eventlog <- function(eventlog,
 												level = c("log","case","activity","resource","resource-activity"),
-												append = F,
+												append = FALSE,
 												append_column = NULL,
+												sort = TRUE,
 												...) {
 
 	level <- match.arg(level)
@@ -108,7 +120,10 @@ resource_frequency.grouped_eventlog <- function(eventlog,
 	else {
 		grouped_metric_raw_log(eventlog, FUN)  -> output
 	}
-
+	if(level %in% c("resource","resource-activity") && sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append,append_column, "resource_frequency", ifelse(level == "resource", 2,
 																				ifelse(level == "resource-activity", 3,9)))
 }

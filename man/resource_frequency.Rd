@@ -9,12 +9,12 @@
 resource_frequency(eventlog, level, append, ...)
 
 \method{resource_frequency}{eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = F,
-  append_column = NULL, ...)
+  "activity", "resource", "resource-activity"), append = FALSE,
+  append_column = NULL, sort = TRUE, ...)
 
 \method{resource_frequency}{grouped_eventlog}(eventlog, level = c("log",
-  "case", "activity", "resource", "resource-activity"), append = F,
-  append_column = NULL, ...)
+  "case", "activity", "resource", "resource-activity"), append = FALSE,
+  append_column = NULL, sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -28,6 +28,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{...}{Deprecated arguments}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+
+\item{sort}{Sort output on count. Defaults to TRUE}
 }
 \description{
 Analyses the frequency of resources at different levels of analysis
