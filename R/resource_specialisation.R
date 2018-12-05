@@ -54,6 +54,7 @@ resource_specialisation.eventlog <- function(eventlog,
 											 level = c("log","case","activity","resource"),
 											 append = F,
 											 append_column = NULL,
+											 sort = TRUE,
 											 ...) {
 
 	level <- match.arg(level)
@@ -73,7 +74,10 @@ resource_specialisation.eventlog <- function(eventlog,
 				  resource = resource_specialisation_resource)
 
 	output <- FUN(eventlog = eventlog)
-
+	if(sort && level %in% c("activity","resource")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	return_metric(eventlog, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",10,2))
 }
@@ -85,6 +89,7 @@ resource_specialisation.grouped_eventlog <- function(eventlog,
 													 level = c("log","case","activity","resource"),
 													 append = F,
 													 append_column = NULL,
+													 sort = TRUE,
 													 ...) {
 
 	level <- match.arg(level)
@@ -111,6 +116,10 @@ resource_specialisation.grouped_eventlog <- function(eventlog,
 		grouped_metric_raw_log(eventlog, FUN) -> output
 	}
 
+	if(sort && level %in% c("activity","resource")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	return_metric(eventlog, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",8,2))
 }

@@ -12,10 +12,12 @@ resource_specialisation(eventlog, level, append, ...)
 resource_specialization(eventlog, level, append, ...)
 
 \method{resource_specialisation}{eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource"), append = F, append_column = NULL, ...)
+  "activity", "resource"), append = F, append_column = NULL, sort = TRUE,
+  ...)
 
 \method{resource_specialisation}{grouped_eventlog}(eventlog, level = c("log",
-  "case", "activity", "resource"), append = F, append_column = NULL, ...)
+  "case", "activity", "resource"), append = F, append_column = NULL,
+  sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -29,6 +31,8 @@ For more information, see \code{vignette("metrics", "edeaR")}#'}
 \item{...}{Deprecated arguments}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+
+\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
 }
 \description{
 Analyses whether resources specialise in specific activities
