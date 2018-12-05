@@ -41,7 +41,7 @@ plot_number_of_repetitions <- function(x, ...) {
 			labs(x = "Activity", y = glue("Number of {type} repetitions")) -> p
 	}
 	else if(level == "resource") {
-		if(type == "redo") {
+		if(type %in% c("redo", "all")) {
 			x %>%
 				ggplot(aes_string(glue("reorder(first_resource, absolute)"), "absolute")) +
 				geom_col(aes(fill = absolute)) +
@@ -61,7 +61,7 @@ plot_number_of_repetitions <- function(x, ...) {
 		}
 	}
 	else if(level == "resource-activity") {
-		if(type == "redo") {
+		if(type %in% c("redo", "all")) {
 			x %>%
 				ggplot(aes_string(mapping$activity_id, "first_resource")) +
 				geom_tile(aes(fill = absolute)) +
