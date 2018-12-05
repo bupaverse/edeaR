@@ -9,10 +9,11 @@
 activity_frequency(eventlog, level, append, append_column, ...)
 
 \method{activity_frequency}{eventlog}(eventlog, level = c("log", "trace",
-  "activity", "case"), append = F, append_column = NULL, ...)
+  "activity", "case"), append = F, append_column = NULL, sort = TRUE, ...)
 
 \method{activity_frequency}{grouped_eventlog}(eventlog, level = c("log",
-  "trace", "activity", "case"), append = F, append_column = NULL, ...)
+  "trace", "activity", "case"), append = F, append_column = NULL,
+  sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

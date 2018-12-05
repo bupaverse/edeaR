@@ -38,6 +38,7 @@ activity_frequency.eventlog <- function(eventlog,
 										level = c("log","trace","activity","case"),
 										append = F,
 										append_column = NULL,
+										sort = TRUE,
 										...) {
 
 	level <- match.arg(level)
@@ -57,7 +58,10 @@ activity_frequency.eventlog <- function(eventlog,
 
 
 	output <- FUN(eventlog = eventlog)
-
+	if(sort && level %in% c("case", "trace","activity")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
 
 }
@@ -70,6 +74,7 @@ activity_frequency.grouped_eventlog <- function(eventlog,
 												level = c("log","trace","activity","case"),
 												append = F,
 												append_column = NULL,
+												sort = TRUE,
 												...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -91,6 +96,10 @@ activity_frequency.grouped_eventlog <- function(eventlog,
 	}
 	else {
 		grouped_metric_raw_log(eventlog, FUN) -> output
+	}
+	if(sort && level %in% c("case", "trace","activity")) {
+		output %>%
+			arrange(-absolute) -> output
 	}
 
 	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
