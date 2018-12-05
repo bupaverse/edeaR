@@ -29,7 +29,7 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
-\item{sort}{Sort output on count. Defaults to TRUE}
+\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
 }
 \description{
 Analyses the frequency of resources at different levels of analysis

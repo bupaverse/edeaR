@@ -35,7 +35,7 @@
 #' @inherit end_activities params
 #' @inherit activity_frequency params references seealso return
 #'
-#' @param sort Sort output on count. Defaults to TRUE
+#' @param sort Sort output on count. Defaults to TRUE. Only for levels with frequency count output.
 #'
 #' @export resource_frequency
 

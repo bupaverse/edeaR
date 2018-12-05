@@ -25,6 +25,8 @@ activity_frequency(eventlog, level, append, append_column, ...)
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{...}{Deprecated arguments}
+
+\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.

@@ -29,7 +29,6 @@
 #'
 #' @param level Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 #' For more information, see \code{vignette("metrics", "edeaR")}
-#'
 #' @inherit activity_frequency params references seealso return
 #'
 #' @export resource_involvement
@@ -45,6 +44,7 @@ resource_involvement.eventlog <- function(eventlog,
 										  level = c("case","resource","resource-activity"),
 										  append = F,
 										  append_column = NULL,
+										  sort = TRUE,
 										  ...) {
 
 	level <- match.arg(level)
@@ -64,7 +64,10 @@ resource_involvement.eventlog <- function(eventlog,
 				  "resource-activity" = resource_involvement_resource_activity)
 
 	output <- FUN(eventlog = eventlog)
-
+	if(sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "resource_involvement",2)
 }
 
@@ -75,7 +78,8 @@ resource_involvement.grouped_eventlog <- function(eventlog,
 												  level = c("case","resource","resource-activity"),
 												  append = F,
 												  append_column = NULL,
-												  ...) {
+												  sort = TRUE,
+												   ...) {
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -93,6 +97,9 @@ resource_involvement.grouped_eventlog <- function(eventlog,
 				  "resource-activity" = resource_involvement_resource_activity)
 
 	output <- grouped_metric(eventlog, FUN)
-
+	if(sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "resource_involvement",2)
 }
