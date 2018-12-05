@@ -31,6 +31,7 @@ trace_coverage.eventlog <- function(eventlog,
 									level = c("log","trace","case"),
 									append = F,
 									append_column = NULL,
+									sort = TRUE,
 									...) {
 
 	level <- match.arg(level)
@@ -50,7 +51,12 @@ trace_coverage.eventlog <- function(eventlog,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-		output <- FUN(eventlog = eventlog)
+	output <- FUN(eventlog = eventlog)
+
+	if(sort && level %in% c("trace","case")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	return_metric(eventlog, output, level, append, append_column,  "trace_coverage", 2)
 
@@ -64,6 +70,7 @@ trace_coverage.grouped_eventlog <- function(eventlog,
 											level = c("log","trace","case"),
 											append = F,
 											append_column = NULL,
+											sort = TRUE,
 											...) {
 
 	level <- match.arg(level)
@@ -84,6 +91,10 @@ trace_coverage.grouped_eventlog <- function(eventlog,
 
 	output <- grouped_metric(eventlog, FUN)
 
+	if(sort && level %in% c("trace","case")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	return_metric(eventlog, output, level, append,append_column,  "trace_coverage", 2)
 

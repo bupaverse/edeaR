@@ -10,6 +10,7 @@ trace_coverage_trace <- function(eventlog) {
 		traces %>%
 		select(trace, absolute = absolute_frequency, relative = relative_frequency) %>%
 		arrange(desc(absolute)) %>%
-		mutate(cum_sum = cumsum(relative))
+		mutate(cum_sum = cumsum(relative)) %>%
+		arrange(trace)
 
 }

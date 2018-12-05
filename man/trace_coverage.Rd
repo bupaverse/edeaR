@@ -9,10 +9,10 @@
 trace_coverage(eventlog, level, append, ...)
 
 \method{trace_coverage}{eventlog}(eventlog, level = c("log", "trace", "case"),
-  append = F, append_column = NULL, ...)
+  append = F, append_column = NULL, sort = TRUE, ...)
 
 \method{trace_coverage}{grouped_eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = F, append_column = NULL, ...)
+  "case"), append = F, append_column = NULL, sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -26,6 +26,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{...}{Deprecated arguments}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+
+\item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
 }
 \description{
 Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level

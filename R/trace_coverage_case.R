@@ -11,6 +11,5 @@ trace_coverage_case <- function(eventlog) {
 		mutate(absolute = n(),
 			   relative = absolute/n_cases(eventlog)) %>%
 		ungroup() %>%
-		arrange(desc(absolute)) %>%
 		select(-trace_id)
 }
