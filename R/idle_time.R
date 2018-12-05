@@ -23,6 +23,7 @@
 #' For more information, see \code{vignette("metrics", "edeaR")}
 #'
 #' @param units Time units to be used
+#' @param sort Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.
 #'
 #' @inherit activity_frequency params references seealso return
 #'
@@ -40,6 +41,7 @@ idle_time.eventlog <- function(eventlog,
 							   append = FALSE,
 							   append_column = NULL,
 							   units = c("days","hours","mins","secs","week"),
+							   sort = TRUE,
 							   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -59,6 +61,10 @@ idle_time.eventlog <- function(eventlog,
 				  resource = idle_time_resource)
 
 	output <- FUN(eventlog = eventlog, units = units)
+	if(sort && level %in% c("case","resource")) {
+		output %>%
+			arrange(-idle_time) -> output
+	}
 	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
 }
 
@@ -70,6 +76,7 @@ idle_time.grouped_eventlog <- function(eventlog,
 									   append = FALSE,
 									   append_column = NULL,
 									   units = c("hours","days", "weeks","mins"),
+									   sort = TRUE,
 									   ...) {
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -90,6 +97,10 @@ idle_time.grouped_eventlog <- function(eventlog,
 	}
 	else {
 		grouped_metric_raw_log(eventlog, FUN, units) -> output
+	}
+	if(sort && level %in% c("case","resource")) {
+		output %>%
+			arrange(-idle_time) -> output
 	}
 	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
 }

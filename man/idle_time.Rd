@@ -10,11 +10,11 @@ idle_time(eventlog, level, append, append_column, units, ...)
 
 \method{idle_time}{eventlog}(eventlog, level = c("log", "case", "trace",
   "resource"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "secs", "week"), ...)
+  "hours", "mins", "secs", "week"), sort = TRUE, ...)
 
 \method{idle_time}{grouped_eventlog}(eventlog, level = c("log", "case",
   "trace", "resource"), append = FALSE, append_column = NULL,
-  units = c("hours", "days", "weeks", "mins"), ...)
+  units = c("hours", "days", "weeks", "mins"), sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -30,6 +30,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{units}{Time units to be used}
 
 \item{...}{Deprecated arguments}
+
+\item{sort}{Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.}
 }
 \description{
 Calculates the amount of time that no activity occurs.
