@@ -12,6 +12,8 @@
 #' that they are not allowed to be present.
 #' \item `one_of` means that at least one of them must be
 #' present.
+#' \item `only` means that only (a set of) these activities are allowed to be present
+#' \item `exact` means that only exactly these activities can be present (although multiple times and in random orderings)
 #' }
 #'
 #' When only one activity label is supplied, note that methods all and one_of will be identical.
@@ -32,23 +34,29 @@ filter_activity_presence <- function(eventlog, activities, method, reverse) {
 
 filter_activity_presence.eventlog <- function(eventlog,
 											  activities = NULL,
-											  method = c("all", "one_of", "none"),
+											  method = c("all", "one_of", "none", "exact","only"),
 											  reverse = FALSE){
 	method <- match.arg(method)
 
 	eventlog %>%
-		filter_activity(activities) %>%
 		select(!!as.symbol(activity_id(eventlog)), !!as.symbol(case_id(eventlog)), force_df = T) %>%
 		unique() %>%
-		group_by(!!as.symbol(case_id(eventlog))) %>%
-		summarize(n = n()) -> selection
+		mutate(in_selection = !!activity_id_(eventlog) %in% activities) %>%
+		group_by(!!as.symbol(case_id(eventlog)), in_selection) %>%
+		summarize(n = n_distinct(!!activity_id_(eventlog))) %>%
+		mutate(in_selection = ifelse(in_selection, "in_", "out_")) %>%
+		spread(in_selection, n, fill = 0) -> selection
 
-		if(method == "all")
-		filter_case(eventlog, selection %>% filter(n == length(activities)) %>% pull(1), reverse)
+	if(method == "all")
+		filter_case(eventlog, selection %>% filter(in_ == length(activities)) %>% pull(1), reverse)
 	else if(method == "one_of")
-		filter_case(eventlog, selection %>% pull(1), reverse)
+		filter_case(eventlog, selection %>% filter(in_ >= 1) %>% pull(1), reverse)
 	else if (method == "none")
-		filter_case(eventlog, selection %>% pull(1), reverse = !reverse)
+		filter_case(eventlog, selection %>% filter(in_ == 0) %>% pull(1), reverse)
+	else if (method == "exact")
+		filter_case(eventlog, selection %>% filter(in_ == length(activities), out_ == 0) %>% pull(1), reverse)
+	else if (method == "only")
+		filter_case(eventlog, selection %>% filter(out_ == 0) %>% pull(1), reverse)
 
 
 
@@ -77,7 +85,7 @@ filter_activity_presence.eventlog <- function(eventlog,
 #' @export
 filter_activity_presence.grouped_eventlog <- function(eventlog,
 											  activities = NULL,
-											  method = c("all", "one_of", "none"),
+											  method = c("all", "one_of", "none", "exact","only"),
 											  reverse = FALSE) {
 	grouped_filter(eventlog, filter_activity_presence, activities, method)
 }
@@ -96,7 +104,7 @@ ifilter_activity_presence <- function(eventlog) {
 										   label = "Select activities:",
 										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
 										   	unique, selected = NA,  multiple = TRUE), " ",
-							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none"), selected = "all")
+							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all")
 					),
 					"If \"all\", each of the activities should be present.
 					If \"one_of\", at least one of them should be present. If \"none\", none of the activities are allowed to occur in the filtered traces."

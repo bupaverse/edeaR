@@ -10,10 +10,11 @@
 filter_activity_presence(eventlog, activities, method, reverse)
 
 \method{filter_activity_presence}{eventlog}(eventlog, activities = NULL,
-  method = c("all", "one_of", "none"), reverse = FALSE)
+  method = c("all", "one_of", "none", "exact", "only"), reverse = FALSE)
 
 \method{filter_activity_presence}{grouped_eventlog}(eventlog,
-  activities = NULL, method = c("all", "one_of", "none"), reverse = FALSE)
+  activities = NULL, method = c("all", "one_of", "none", "exact", "only"),
+  reverse = FALSE)
 
 ifilter_activity_presence(eventlog)
 }
@@ -45,6 +46,8 @@ that all the specified activity labels must be present for a case to be selected
 that they are not allowed to be present.
 \item `one_of` means that at least one of them must be
 present.
+\item `only` means that only (a set of) these activities are allowed to be present
+\item `exact` means that only exactly these activities can be present (although multiple times and in random orderings)
 }
 
 When only one activity label is supplied, note that methods all and one_of will be identical.
