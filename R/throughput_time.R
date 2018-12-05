@@ -21,7 +21,8 @@
 #'
 #' @param level Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 #' For more information, see \code{vignette("metrics", "edeaR")}
-#'
+#' @param sort Sort by decreasing throughput time. Defaults to true. Only relevant for case level.
+
 #'
 #' @inherit activity_frequency params references seealso return
 #' @inherit idle_time params
@@ -45,6 +46,7 @@ throughput_time.eventlog <- function(eventlog,
 									 append = FALSE,
 									 append_column = NULL,
 									 units = c("days","hours","mins","secs","week"),
+									 sort = TRUE,
 									 ...){
 
 	level <- match.arg(level)
@@ -63,7 +65,10 @@ throughput_time.eventlog <- function(eventlog,
 
 
 	output <- FUN(eventlog = eventlog, units = units)
-
+	if(sort && level %in% c("case")) {
+		output %>%
+			arrange(-throughput_time) -> output
+	}
 	output <- return_metric(eventlog, output, level, append, append_column,  "throughput_time", 1, empty_label = T)
 	attr(output, "units") <- units
 
@@ -79,6 +84,7 @@ throughput_time.grouped_eventlog <- function(eventlog,
 											 append = FALSE,
 											 append_column = NULL,
 											 units = c("days", "hours","mins","weeks"),
+											 sort = TRUE,
 											 ...){
 
 	level <- match.arg(level)
@@ -104,7 +110,14 @@ throughput_time.grouped_eventlog <- function(eventlog,
 		grouped_metric_raw_log(eventlog, FUN, units) -> output
 	}
 
+	if(sort && level %in% c("case")) {
+		output %>%
+			arrange(-throughput_time) -> output
+	}
+
 	output <- return_metric(eventlog, output, level, append, append_column, "throughput_time", 1, empty_label = T)
+
+
 	attr(output, "units") <- units
 
 	return(output)

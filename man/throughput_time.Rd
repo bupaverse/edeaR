@@ -10,11 +10,11 @@ throughput_time(eventlog, level, append, append_column, units, ...)
 
 \method{throughput_time}{eventlog}(eventlog, level = c("log", "trace",
   "case"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "secs", "week"), ...)
+  "hours", "mins", "secs", "week"), sort = TRUE, ...)
 
 \method{throughput_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
   "case"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "weeks"), ...)
+  "hours", "mins", "weeks"), sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -30,6 +30,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{units}{Time units to be used}
 
 \item{...}{Deprecated arguments}
+
+\item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.
