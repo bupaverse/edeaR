@@ -10,17 +10,15 @@ trace_length_trace <- function(eventlog,
 
 
 	tra <- case_list(eventlog)
-	
-	eventlog %>% 
+
+	eventlog %>%
 		trace_length_case() %>%
 		merge(tra) %>%
-		group_by(trace, trace_length) %>%
+		group_by(trace, absolute) %>%
 		summarize(relative_trace_frequency = n()) %>%
 		ungroup() %>%
 		mutate(relative_trace_frequency = relative_trace_frequency/sum(relative_trace_frequency)) %>%
-		rename(absolute = trace_length) %>%
-		mutate(relative_to_median = absolute/median(absolute)) %>%
-		arrange(desc(relative_trace_frequency))
+		mutate(relative_to_median = absolute/median(absolute))
 
 
 

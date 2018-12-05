@@ -36,6 +36,7 @@ trace_length.eventlog <- function(eventlog,
 								  level = c("log","trace","case"),
 								  append = F,
 								  append_column = NULL,
+								  sort = TRUE,
 								  ...) {
 
 	level <- match.arg(level)
@@ -53,6 +54,11 @@ trace_length.eventlog <- function(eventlog,
 
 	output <- FUN(eventlog = eventlog)
 
+	if(sort && level %in% c("trace","case")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
+
 	return_metric(eventlog, output, level, append, append_column,  "trace_length", 1,  empty_label = T)
 
 }
@@ -65,6 +71,7 @@ trace_length.grouped_eventlog <- function(eventlog,
 										  level = c("log","trace","case"),
 										  append = F,
 										  append_column = NULL,
+										  sort = TRUE,
 										  ...) {
 
 	level <- match.arg(level)
@@ -86,6 +93,12 @@ trace_length.grouped_eventlog <- function(eventlog,
 	else {
 		output <- grouped_metric_raw_log(eventlog, FUN)
 	}
+
+	if(sort && level %in% c("trace","case")) {
+		output %>%
+			arrange(-absolute) -> output
+	}
+
 
 	return_metric(eventlog, output, level, append, append_column, "trace_length", 1, empty_label = T)
 }
