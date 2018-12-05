@@ -12,7 +12,7 @@ start_activities_resource <- function(eventlog) {
 		arrange(desc(absolute)) %>%
 		mutate(relative = absolute/n_cases(eventlog),
 			   cum_sum = cumsum(relative)) %>%
-		return()
+		arrange(!!activity_id_(eventlog))
 
 
 }
