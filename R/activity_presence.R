@@ -31,14 +31,18 @@
 #'
 #' @export activity_presence
 
-activity_presence <- function(eventlog, append, append_column) {
+activity_presence <- function(eventlog, ...) {
 	UseMethod("activity_presence")
 }
 
 #' @describeIn activity_presence Compute activity presence for event log
 #' @export
 
-activity_presence.eventlog <- function(eventlog, append = F, append_column = "absolute") {
+activity_presence.eventlog <- function(eventlog,
+									   append = F,
+									   append_column = "absolute",
+									   sort = TRUE)
+	{
 
 
 	if(is.null(append_column)) {
@@ -50,6 +54,11 @@ activity_presence.eventlog <- function(eventlog, append = F, append_column = "ab
 	FUN <- activity_presence_FUN
 	output <- FUN(eventlog = eventlog)
 
+	if(sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
+
 
 	return_metric(eventlog, output, "activity", append, append_column, "activity_presence")
 }
@@ -57,12 +66,18 @@ activity_presence.eventlog <- function(eventlog, append = F, append_column = "ab
 #' @describeIn activity_presence Compute activity presence for grouped eventlog
 #' @export
 
-activity_presence.grouped_eventlog <- function(eventlog, append = F, append_column = "absolute") {
+activity_presence.grouped_eventlog <- function(eventlog,
+											   append = F,
+											   append_column = "absolute",
+											   sort = TRUE) {
 
 	FUN <- activity_presence_FUN
 	output <- grouped_metric(eventlog, FUN)
 
-
+	if(sort) {
+		output %>%
+			arrange(-absolute) -> output
+	}
 
 	return_metric(eventlog, output, "activity", append, append_column, "activity_presence")
 }
@@ -72,8 +87,7 @@ activity_presence_FUN <- function(eventlog) {
 	eventlog %>%
 		group_by(!!as.symbol(activity_id(eventlog))) %>%
 		summarize(absolute = n_distinct(!!as.symbol(case_id(eventlog)))) %>%
-		mutate(relative = absolute/n_cases(eventlog)) %>%
-		arrange(-absolute)
+		mutate(relative = absolute/n_cases(eventlog))
 }
 
 
