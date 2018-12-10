@@ -32,7 +32,7 @@ the original event log.
 Filters the log based on case identifier
 }
 \details{
-The method filter_activity can be used to filter on case identifiers. It has an cases argument,
+The method filter_case can be used to filter on case identifiers. It has an cases argument,
 to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
 \section{Methods (by class)}{
