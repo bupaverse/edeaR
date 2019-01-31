@@ -19,7 +19,8 @@
 #' @inherit filter_activity params references seealso return
 #'
 #' @param method Filter method. If "all", each of the life cycle labels should be present. If "one_of", at least one of them should be present. If "none", none of the life cycle labels are allowed to occur in the filtered activity instances.
-#'
+#' @param lifecycle Character vector containing one or more life cycle identifiers.
+
 #' @export filter_lifecycle_presence
 filter_lifecycle_presence <- function(eventlog, lifecycle, method, reverse) {
 	UseMethod("filter_lifecycle_presence")
@@ -33,6 +34,11 @@ filter_lifecycle_presence.eventlog <- function(eventlog,
 											   lifecycle = NULL,
 											  method = c("all", "one_of", "none", "exact","only"),
 											  reverse = FALSE){
+
+	in_selection <- NULL
+	in_ <- NULL
+	out_ <- NULL
+
 	method <- match.arg(method)
 
 	eventlog %>%
@@ -112,7 +118,7 @@ ifilter_lifecycle_presence <- function(eventlog) {
 		observeEvent(input$done, {
 
 			filtered_log <- filter_lifecycle_presence(eventlog,
-													 lifecyle = input$selected_activities,
+													 lifecycle = input$selected_activities,
 													 method = input$method)
 
 

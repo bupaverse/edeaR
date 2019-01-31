@@ -2,7 +2,7 @@
 
 
 trace_length_log <- function(eventlog) {
-
+	absolute <- NULL
 	trace_length_case(eventlog) -> raw
 
 	raw %>%

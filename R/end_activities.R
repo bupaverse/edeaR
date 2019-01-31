@@ -36,6 +36,7 @@ end_activities.eventlog <- function(eventlog,
 									append_column = NULL,
 									sort = TRUE,
 									...) {
+	absolute <- NULL
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
@@ -76,7 +77,7 @@ end_activities.grouped_eventlog <- function(eventlog,
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-
+	absolute <- NULL
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "activity" ~ "absolute",
 								   level == "resource" ~ "absolute",

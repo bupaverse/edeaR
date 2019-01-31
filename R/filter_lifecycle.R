@@ -7,7 +7,7 @@
 #'
 #' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
 #'
-#' @param activities Character vector containing one or more life cycle identifiers.
+#' @param lifecycle Character vector containing one or more life cycle identifiers.
 #' @param reverse Logical, indicating whether the selection should be reversed.
 #' @param ... Deprecated arguments.
 #'

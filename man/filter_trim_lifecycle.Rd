@@ -3,6 +3,7 @@
 \name{filter_trim_lifecycle}
 \alias{filter_trim_lifecycle}
 \alias{filter_trim_lifecycle.eventlog}
+\alias{filter_trim_lifecycle.grouped_eventlog}
 \alias{ifilter_trim_lifecycle}
 \title{Filter: Trim activity instances based on life cycle labels}
 \usage{
@@ -10,6 +11,9 @@ filter_trim_lifecycle(eventlog, start_lifecycle, end_lifecycle, reverse)
 
 \method{filter_trim_lifecycle}{eventlog}(eventlog, start_lifecycle = NULL,
   end_lifecycle = NULL, reverse = FALSE)
+
+\method{filter_trim_lifecycle}{grouped_eventlog}(eventlog,
+  start_lifecycle = NULL, end_lifecycle = NULL, reverse = FALSE)
 
 ifilter_trim_lifecycle(eventlog)
 }
@@ -42,6 +46,8 @@ allows to cut intermediate parts out of activity instances.
 \section{Methods (by class)}{
 \itemize{
 \item \code{eventlog}: Filter event log
+
+\item \code{grouped_eventlog}: Filter grouped event log
 }}
 
 \seealso{

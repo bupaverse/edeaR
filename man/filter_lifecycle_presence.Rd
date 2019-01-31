@@ -21,6 +21,8 @@ ifilter_lifecycle_presence(eventlog)
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
+\item{lifecycle}{Character vector containing one or more life cycle identifiers.}
+
 \item{method}{Filter method. If "all", each of the life cycle labels should be present. If "one_of", at least one of them should be present. If "none", none of the life cycle labels are allowed to occur in the filtered activity instances.}
 
 \item{reverse}{Logical, indicating whether the selection should be reversed.}

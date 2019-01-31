@@ -36,7 +36,13 @@ filter_activity_presence.eventlog <- function(eventlog,
 											  activities = NULL,
 											  method = c("all", "one_of", "none", "exact","only"),
 											  reverse = FALSE){
+
+	in_selection <- NULL
+	in_ <- NULL
+	out_ <- NULL
+
 	method <- match.arg(method)
+
 
 	eventlog %>%
 		select(!!as.symbol(activity_id(eventlog)), !!as.symbol(case_id(eventlog)), force_df = T) %>%

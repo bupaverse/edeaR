@@ -80,6 +80,7 @@ number_of_selfloops.eventlog <- function(eventlog,
 								append_column = NULL,
 								sort = TRUE,
 								...) {
+	absolute <- NULL
 	if(all((type) == c("all", "repeat","redo")))
 		message("Using default type: all")
 	if(all((level) == c("log","case","activity","resource","resource-activity")))
@@ -150,7 +151,7 @@ number_of_selfloops.grouped_eventlog <- function(eventlog,
 								append_column = NULL,
 								sort = TRUE,
 								...) {
-
+	absolute <- NULL
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "absolute",
 								   level == "resource" ~ "absolute",

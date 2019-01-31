@@ -33,6 +33,7 @@ filter_trim_lifecycle.eventlog <- function(eventlog,
 								 start_lifecycle = NULL,
 								 end_lifecycle = NULL,
 								 reverse = FALSE) {
+	UNIQUE_EVENT_ID <- NULL
 
 	if(is.null(start_activities) & is.null(end_activities))
 		stop("At least on start or end activity should be provided")
@@ -46,7 +47,6 @@ filter_trim_lifecycle.eventlog <- function(eventlog,
 	min_rank <- NULL
 	max_rank <- NULL
 	r <- NULL
-
 	if(is.null(start_lifecycle))
 		start_lifecycle <- acts
 	if(is.null(end_lifecycle))
@@ -74,7 +74,7 @@ filter_trim_lifecycle.eventlog <- function(eventlog,
 		filter(eventlog, UNIQUE_EVENT_ID %in% selection) %>% select(-UNIQUE_EVENT_ID)
 
 }
-#' @describeIn filter_trim Filter grouped event log
+#' @describeIn filter_trim_lifecycle Filter grouped event log
 #' @export
 
 filter_trim_lifecycle.grouped_eventlog <- function(eventlog,

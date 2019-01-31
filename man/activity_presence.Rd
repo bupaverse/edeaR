@@ -6,25 +6,25 @@
 \alias{activity_presence.grouped_eventlog}
 \title{Metric: Activity Presence}
 \usage{
-activity_presence(eventlog, ...)
+activity_presence(eventlog, append, append_column, sort, ...)
 
 \method{activity_presence}{eventlog}(eventlog, append = F,
-  append_column = "absolute", sort = TRUE)
+  append_column = "absolute", sort = TRUE, ...)
 
 \method{activity_presence}{grouped_eventlog}(eventlog, append = F,
-  append_column = "absolute", sort = TRUE)
+  append_column = "absolute", sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
 \code{eventlog}.}
-
-\item{...}{Deprecated arguments}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Calculates for each activity type in what percentage of cases it is present.

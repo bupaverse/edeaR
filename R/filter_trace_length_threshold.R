@@ -4,6 +4,7 @@ filter_trace_length_threshold <- function(eventlog,
 									  upper_threshold,
 									  reverse)
 {
+	absolute <- NULL
 
 	if(is.na(lower_threshold))
 		lower_threshold <- -Inf

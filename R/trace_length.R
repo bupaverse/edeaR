@@ -38,7 +38,7 @@ trace_length.eventlog <- function(eventlog,
 								  append_column = NULL,
 								  sort = TRUE,
 								  ...) {
-
+	absolute <- NULL
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
@@ -73,7 +73,7 @@ trace_length.grouped_eventlog <- function(eventlog,
 										  append_column = NULL,
 										  sort = TRUE,
 										  ...) {
-
+	absolute <- NULL
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 

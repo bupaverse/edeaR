@@ -19,11 +19,11 @@ ifilter_lifecycle(eventlog)
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
 
+\item{lifecycle}{Character vector containing one or more life cycle identifiers.}
+
 \item{reverse}{Logical, indicating whether the selection should be reversed.}
 
 \item{...}{Deprecated arguments.}
-
-\item{activities}{Character vector containing one or more life cycle identifiers.}
 }
 \value{
 When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied

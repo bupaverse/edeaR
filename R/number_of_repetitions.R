@@ -68,7 +68,7 @@ number_of_repetitions.eventlog <- function(eventlog,
 								  append_column = NULL,
 								  sort = TRUE,
 								  ...){
-
+	absolute <- NULL
 	if(all((type) == c("all", "repeat","redo")))
 		message("Using default type: all")
 	if(all((level) == c("log","case","activity","resource","resource-activity")))
@@ -141,6 +141,8 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 												   append_column = NULL,
 												   sort = TRUE,
 												   ...){
+
+	absolute <- NULL
 
 	type <- match.arg(type)
 	level <- match.arg(level)

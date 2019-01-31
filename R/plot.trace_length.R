@@ -10,7 +10,7 @@ plot_trace_length <- function(x, ...) {
 
 	if(level == "log") {
 		attr(x, "raw") %>%
-			ggplot(aes("", trace_length)) +
+			ggplot(aes("", absolute)) +
 			geom_boxplot()+
 			labs(x = "", y = "Trace length") +
 			theme_light() +
@@ -18,8 +18,8 @@ plot_trace_length <- function(x, ...) {
 	}
 	else if(level == "case") {
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, trace_length)"), "trace_length")) +
-			geom_col(aes(fill = trace_length)) +
+			ggplot(aes_string(glue("reorder({mapping$case_id}, absolute)"), "absolute")) +
+			geom_col(aes(fill = absolute)) +
 			scale_fill_continuous_tableau(palette = "Blue", name = "Trace length per case") +
 			theme_light() +
 			coord_flip() +

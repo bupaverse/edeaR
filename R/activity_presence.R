@@ -31,7 +31,7 @@
 #'
 #' @export activity_presence
 
-activity_presence <- function(eventlog, ...) {
+activity_presence <- function(eventlog, append, append_column, sort, ...) {
 	UseMethod("activity_presence")
 }
 
@@ -41,9 +41,10 @@ activity_presence <- function(eventlog, ...) {
 activity_presence.eventlog <- function(eventlog,
 									   append = F,
 									   append_column = "absolute",
-									   sort = TRUE)
+									   sort = TRUE,
+									   ...)
 	{
-
+	absolute <- NULL
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "activity" ~ "absolute",
@@ -69,8 +70,9 @@ activity_presence.eventlog <- function(eventlog,
 activity_presence.grouped_eventlog <- function(eventlog,
 											   append = F,
 											   append_column = "absolute",
-											   sort = TRUE) {
-
+											   sort = TRUE,
+											   ...) {
+	absolute <- NULL
 	FUN <- activity_presence_FUN
 	output <- grouped_metric(eventlog, FUN)
 

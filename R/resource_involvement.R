@@ -46,7 +46,7 @@ resource_involvement.eventlog <- function(eventlog,
 										  append_column = NULL,
 										  sort = TRUE,
 										  ...) {
-
+	absolute <- NULL
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
@@ -80,7 +80,7 @@ resource_involvement.grouped_eventlog <- function(eventlog,
 												  append_column = NULL,
 												  sort = TRUE,
 												   ...) {
-
+	absolute <- NULL
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 

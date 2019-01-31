@@ -59,7 +59,7 @@ resource_specialisation.eventlog <- function(eventlog,
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
-
+	absolute <- NULL
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "median",
 								   level == "resource" ~ "absolute",
@@ -91,7 +91,7 @@ resource_specialisation.grouped_eventlog <- function(eventlog,
 													 append_column = NULL,
 													 sort = TRUE,
 													 ...) {
-
+	absolute <- NULL
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 
