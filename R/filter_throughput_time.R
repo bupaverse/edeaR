@@ -25,7 +25,7 @@ filter_throughput_time.eventlog <- function(eventlog,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("days","hours","mins","secs","week"),
+								   units = c("days","hours","mins","secs","weeks"),
 								   ...) {
 
 	units <- match.arg(units)
