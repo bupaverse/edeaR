@@ -45,7 +45,7 @@ throughput_time.eventlog <- function(eventlog,
 									 level = c("log","trace","case"),
 									 append = FALSE,
 									 append_column = NULL,
-									 units = c("days","hours","mins","secs","week"),
+									 units = c("days","hours","mins","secs","weeks"),
 									 sort = TRUE,
 									 ...){
 
