@@ -47,7 +47,7 @@ processing_time.eventlog <- function(eventlog,
 							level = c("log","trace","case","activity","resource","resource-activity"),
 							append = F,
 							append_column = NULL,
-							units = c("days","hours","mins","secs","week"),
+							units = c("days","hours","mins","secs","weeks"),
 							sort = TRUE,
 							...){
 

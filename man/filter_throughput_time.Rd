@@ -11,7 +11,7 @@ filter_throughput_time(eventlog, interval, percentage, reverse, units, ...)
 
 \method{filter_throughput_time}{eventlog}(eventlog, interval = NULL,
   percentage = NULL, reverse = FALSE, units = c("days", "hours", "mins",
-  "secs", "week"), ...)
+  "secs", "weeks"), ...)
 
 \method{filter_throughput_time}{grouped_eventlog}(eventlog, interval = NULL,
   percentage = NULL, reverse = FALSE, units = c("days", "hours", "mins",

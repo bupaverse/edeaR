@@ -10,7 +10,7 @@ throughput_time(eventlog, level, append, append_column, units, ...)
 
 \method{throughput_time}{eventlog}(eventlog, level = c("log", "trace",
   "case"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "secs", "week"), sort = TRUE, ...)
+  "hours", "mins", "secs", "weeks"), sort = TRUE, ...)
 
 \method{throughput_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
   "case"), append = FALSE, append_column = NULL, units = c("days",
