@@ -30,13 +30,14 @@
 #' For more information, see \code{vignette("metrics", "edeaR")}
 #'
 #' @param sort Sort on decreasing processing time. For case level only.
+#' @param work_schedule A schedule of working hours. If provided, only working hours are counted as processing time.
 #'
 #' @inherit activity_frequency params references seealso return
 #' @inherit idle_time params
 #'
 #' @export processing_time
 
-processing_time <- function(eventlog, level, append,append_column, units, ...) {
+processing_time <- function(eventlog, level, append,append_column, units, sort, work_schedule, ...) {
 	UseMethod("processing_time")
 }
 
@@ -44,16 +45,25 @@ processing_time <- function(eventlog, level, append,append_column, units, ...) {
 #' @export
 
 processing_time.eventlog <- function(eventlog,
-							level = c("log","trace","case","activity","resource","resource-activity"),
-							append = F,
-							append_column = NULL,
-							units = c("days","hours","mins","secs","weeks"),
-							sort = TRUE,
-							...){
+									 level = c("log","trace","case","activity","resource","resource-activity"),
+									 append = F,
+									 append_column = NULL,
+									 units = c("days","hours","mins","secs","weeks"),
+									 sort = TRUE,
+									 work_schedule = NULL,
+									 ...){
+
+
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+
+	if(!is.null(work_schedule)){
+		if(!("work_schedule" %in% class(work_schedule))) {
+			stop("Make sure the work_schedule is created with the create_work_schedule function.")
+		}
+	}
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "processing_time",
@@ -71,7 +81,7 @@ processing_time.eventlog <- function(eventlog,
 				  resource = processing_time_resource,
 				  "resource-activity" = processing_time_resource_activity)
 
-	output <- FUN(eventlog = eventlog, units = units)
+	output <- FUN(eventlog = eventlog, units = units, work_schedule = work_schedule)
 
 	if(sort && level %in% c("case")) {
 		output %>%
@@ -80,7 +90,10 @@ processing_time.eventlog <- function(eventlog,
 
 	return_metric(eventlog, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",T, F))
+				  empty_label = ifelse(level == "case",T, F)) -> t
+
+	attr(t, "units") <- units
+	t
 
 }
 
@@ -89,16 +102,23 @@ processing_time.eventlog <- function(eventlog,
 #' @export
 
 processing_time.grouped_eventlog <- function(eventlog,
-							level = c("log","trace","case","activity","resource","resource-activity"),
-							append = F,
-							append_column = NULL,
-							units = c("hours","days","weeks","mins"),
-							sort = TRUE,
-							...){
+											 level = c("log","trace","case","activity","resource","resource-activity"),
+											 append = F,
+											 append_column = NULL,
+											 units = c("days","hours","mins","secs","weeks"),
+											 sort = TRUE,
+											 work_schedule = NULL,
+											 ...){
 
 	level <- match.arg(level)
 	level <- deprecated_level(level, ...)
 	units <- match.arg(units)
+
+	if(!is.null(work_schedule)){
+		if(!("work_schedule" %in% class(work_schedule))) {
+			stop("Make sure the work_schedule is created with the create_work_schedule function.")
+		}
+	}
 
 	FUN <- switch(level,
 				  log = processing_time_log,
@@ -117,10 +137,10 @@ processing_time.grouped_eventlog <- function(eventlog,
 	}
 
 	if(!(level %in% c("log","activity","resource-activity","resource"))) {
-		output <- grouped_metric(eventlog, FUN, units)
+		output <- grouped_metric(eventlog, FUN, units, work_schedule)
 	}
 	else {
-		output <- grouped_metric_raw_log(eventlog, FUN, units)
+		output <- grouped_metric_raw_log(eventlog, FUN, units, work_schedule)
 	}
 
 	if(sort && level %in% c("case")) {
@@ -131,6 +151,9 @@ processing_time.grouped_eventlog <- function(eventlog,
 
 	return_metric(eventlog, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",T, F))
+				  empty_label = ifelse(level == "case",T, F)) -> t
+
+	attr(t, "units") <- units
+	t
 
 }

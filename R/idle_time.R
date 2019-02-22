@@ -40,7 +40,7 @@ idle_time.eventlog <- function(eventlog,
 							   level = c("log","case","trace","resource"),
 							   append = FALSE,
 							   append_column = NULL,
-							   units = c("days","hours","mins","secs","week"),
+							   units = c("days","hours","mins","secs","weeks"),
 							   sort = TRUE,
 							   ...) {
 	level <- match.arg(level)
@@ -65,7 +65,10 @@ idle_time.eventlog <- function(eventlog,
 		output %>%
 			arrange(-idle_time) -> output
 	}
-	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
+	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)	-> t
+
+	attr(t, "units") <- units
+	t
 }
 
 #' @describeIn idle_time Compute idle time for grouped eventlog
@@ -75,7 +78,7 @@ idle_time.grouped_eventlog <- function(eventlog,
 									   level = c("log","case","trace","resource"),
 									   append = FALSE,
 									   append_column = NULL,
-									   units = c("hours","days", "weeks","mins"),
+									   units = c("days","hours","mins","secs","weeks"),
 									   sort = TRUE,
 									   ...) {
 	level <- match.arg(level)
@@ -102,5 +105,8 @@ idle_time.grouped_eventlog <- function(eventlog,
 		output %>%
 			arrange(-idle_time) -> output
 	}
-	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T)
+	return_metric(eventlog, output, level, append, append_column, "idle_time", 1, empty_label = T) -> t
+
+	attr(t, "units") <- units
+	t
 }

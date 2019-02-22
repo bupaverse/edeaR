@@ -10,11 +10,11 @@ idle_time(eventlog, level, append, append_column, units, ...)
 
 \method{idle_time}{eventlog}(eventlog, level = c("log", "case", "trace",
   "resource"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "secs", "week"), sort = TRUE, ...)
+  "hours", "mins", "secs", "weeks"), sort = TRUE, ...)
 
 \method{idle_time}{grouped_eventlog}(eventlog, level = c("log", "case",
   "trace", "resource"), append = FALSE, append_column = NULL,
-  units = c("hours", "days", "weeks", "mins"), sort = TRUE, ...)
+  units = c("days", "hours", "mins", "secs", "weeks"), sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

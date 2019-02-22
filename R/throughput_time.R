@@ -83,7 +83,7 @@ throughput_time.grouped_eventlog <- function(eventlog,
 											 level = c("log","trace","case"),
 											 append = FALSE,
 											 append_column = NULL,
-											 units = c("days", "hours","mins","weeks"),
+											 units = c("days","hours","mins","secs","weeks"),
 											 sort = TRUE,
 											 ...){
 

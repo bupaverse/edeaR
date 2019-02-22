@@ -14,7 +14,7 @@ plot_idle_time <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "", y = "Idle time per case") -> p
+			labs(x = "", y = "Idle time per case (in {units})") -> p
 	}
 	else if(level == "case") {
 		x %>%
@@ -24,7 +24,7 @@ plot_idle_time <- function(x, ...) {
 			theme_light() +
 			scale_y_continuous() +
 			theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
-			labs(x = "Cases", y = "Idle time") -> p
+			labs(x = "Cases", y = "Idle time (in {units})") -> p
 	}
 	else if(level == "trace") {
 		stop("No plot availabe at this level")
@@ -37,7 +37,7 @@ plot_idle_time <- function(x, ...) {
 			scale_y_continuous() +
 			coord_flip() +
 			theme_light() +
-			labs(x = "Resources",y = "Idle time") -> p
+			labs(x = "Resources",y = "Idle time (in {units})") -> p
 	}
 
 

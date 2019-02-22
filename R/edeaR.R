@@ -18,7 +18,11 @@
 #' @import tidyr
 #' @import shinyTime
 #' @import purrr
+#' @import zoo
+#' @importFrom hms parse_hms
 #' @importFrom lubridate ymd_hms
+#' @importFrom lubridate wday
+#' @importFrom lubridate interval
 #' @importFrom glue glue
 #' @importFrom stats median
 #' @importFrom stats na.omit
