@@ -9,7 +9,8 @@
 activity_frequency(eventlog, level, append, append_column, ...)
 
 \method{activity_frequency}{eventlog}(eventlog, level = c("log", "trace",
-  "activity", "case"), append = F, append_column = NULL, sort = TRUE, ...)
+  "activity", "case"), append = F, append_column = NULL, sort = TRUE,
+  ...)
 
 \method{activity_frequency}{grouped_eventlog}(eventlog, level = c("log",
   "trace", "activity", "case"), append = F, append_column = NULL,

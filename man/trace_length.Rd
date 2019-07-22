@@ -8,11 +8,12 @@
 \usage{
 trace_length(eventlog, level, append, ...)
 
-\method{trace_length}{eventlog}(eventlog, level = c("log", "trace", "case"),
-  append = F, append_column = NULL, sort = TRUE, ...)
-
-\method{trace_length}{grouped_eventlog}(eventlog, level = c("log", "trace",
+\method{trace_length}{eventlog}(eventlog, level = c("log", "trace",
   "case"), append = F, append_column = NULL, sort = TRUE, ...)
+
+\method{trace_length}{grouped_eventlog}(eventlog, level = c("log",
+  "trace", "case"), append = F, append_column = NULL, sort = TRUE,
+  ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

@@ -13,8 +13,9 @@ filter_endpoints(eventlog, start_activities, end_activities, percentage,
 \method{filter_endpoints}{eventlog}(eventlog, start_activities = NULL,
   end_activities = NULL, percentage = NULL, reverse = FALSE, ...)
 
-\method{filter_endpoints}{grouped_eventlog}(eventlog, start_activities = NULL,
-  end_activities = NULL, percentage = NULL, reverse = FALSE, ...)
+\method{filter_endpoints}{grouped_eventlog}(eventlog,
+  start_activities = NULL, end_activities = NULL, percentage = NULL,
+  reverse = FALSE, ...)
 
 ifilter_endpoints(eventlog)
 }

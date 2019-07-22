@@ -9,7 +9,8 @@
 \usage{
 filter_lifecycle(eventlog, lifecycle, reverse, ...)
 
-\method{filter_lifecycle}{eventlog}(eventlog, lifecycle, reverse = FALSE, ...)
+\method{filter_lifecycle}{eventlog}(eventlog, lifecycle, reverse = FALSE,
+  ...)
 
 \method{filter_lifecycle}{grouped_eventlog}(eventlog, lifecycle,
   reverse = FALSE, ...)

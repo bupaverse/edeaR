@@ -12,9 +12,10 @@ throughput_time(eventlog, level, append, append_column, units, ...)
   "case"), append = FALSE, append_column = NULL, units = c("days",
   "hours", "mins", "secs", "weeks"), sort = TRUE, ...)
 
-\method{throughput_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = FALSE, append_column = NULL, units = c("days",
-  "hours", "mins", "secs", "weeks"), sort = TRUE, ...)
+\method{throughput_time}{grouped_eventlog}(eventlog, level = c("log",
+  "trace", "case"), append = FALSE, append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"), sort = TRUE,
+  ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

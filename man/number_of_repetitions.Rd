@@ -8,15 +8,15 @@
 \usage{
 number_of_repetitions(eventlog, type, level, append, ...)
 
-\method{number_of_repetitions}{eventlog}(eventlog, type = c("all", "repeat",
-  "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, append_column = NULL, sort = TRUE,
-  ...)
+\method{number_of_repetitions}{eventlog}(eventlog, type = c("all",
+  "repeat", "redo"), level = c("log", "case", "activity", "resource",
+  "resource-activity"), append = FALSE, append_column = NULL,
+  sort = TRUE, ...)
 
-\method{number_of_repetitions}{grouped_eventlog}(eventlog, type = c("repeat",
-  "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = F, append_column = NULL, sort = TRUE,
-  ...)
+\method{number_of_repetitions}{grouped_eventlog}(eventlog,
+  type = c("repeat", "redo"), level = c("log", "case", "activity",
+  "resource", "resource-activity"), append = F, append_column = NULL,
+  sort = TRUE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

@@ -12,7 +12,7 @@ Depends:
 Imports:
     bupaR (>= 0.4.1),dplyr,data.table, ggplot2, ggthemes, glue, tibble, shiny, miniUI, tidyr, shinyTime, lubridate, purrr, stringr,rlang, zoo, hms
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 URL: https://www.bupar.net
 Suggests: knitr, eventdataR,
     rmarkdown

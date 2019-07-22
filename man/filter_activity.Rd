@@ -9,7 +9,8 @@
 \usage{
 filter_activity(eventlog, activities, reverse, ...)
 
-\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE, ...)
+\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE,
+  ...)
 
 \method{filter_activity}{grouped_eventlog}(eventlog, activities,
   reverse = FALSE, ...)

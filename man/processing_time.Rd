@@ -9,15 +9,15 @@
 processing_time(eventlog, level, append, append_column, units, sort,
   work_schedule, ...)
 
-\method{processing_time}{eventlog}(eventlog, level = c("log", "trace", "case",
-  "activity", "resource", "resource-activity"), append = F,
-  append_column = NULL, units = c("days", "hours", "mins", "secs", "weeks"),
-  sort = TRUE, work_schedule = NULL, ...)
-
-\method{processing_time}{grouped_eventlog}(eventlog, level = c("log", "trace",
+\method{processing_time}{eventlog}(eventlog, level = c("log", "trace",
   "case", "activity", "resource", "resource-activity"), append = F,
-  append_column = NULL, units = c("days", "hours", "mins", "secs", "weeks"),
-  sort = TRUE, work_schedule = NULL, ...)
+  append_column = NULL, units = c("days", "hours", "mins", "secs",
+  "weeks"), sort = TRUE, work_schedule = NULL, ...)
+
+\method{processing_time}{grouped_eventlog}(eventlog, level = c("log",
+  "trace", "case", "activity", "resource", "resource-activity"),
+  append = F, append_column = NULL, units = c("days", "hours",
+  "mins", "secs", "weeks"), sort = TRUE, work_schedule = NULL, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

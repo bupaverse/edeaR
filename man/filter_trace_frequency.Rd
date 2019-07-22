@@ -12,8 +12,8 @@ filter_trace_frequency(eventlog, interval, percentage, reverse, ...)
 \method{filter_trace_frequency}{eventlog}(eventlog, interval = NULL,
   percentage = NULL, reverse = FALSE, ...)
 
-\method{filter_trace_frequency}{grouped_eventlog}(eventlog, interval = NULL,
-  percentage = NULL, reverse = FALSE, ...)
+\method{filter_trace_frequency}{grouped_eventlog}(eventlog,
+  interval = NULL, percentage = NULL, reverse = FALSE, ...)
 
 ifilter_trace_frequency(eventlog)
 }
