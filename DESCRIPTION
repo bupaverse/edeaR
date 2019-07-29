@@ -1,7 +1,7 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.8.2
+Version: 0.8.2.9000
 Date: 2019-02-22
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
 	person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"))
@@ -10,11 +10,27 @@ License: MIT + file LICENSE
 Depends:
     R(>= 3.0.0)
 Imports:
-    bupaR (>= 0.4.1),dplyr,data.table, ggplot2, ggthemes, glue, tibble, shiny, miniUI, tidyr, shinyTime, lubridate, purrr, stringr,rlang, zoo, hms
+    bupaR (>= 0.4.1),
+    dplyr, 
+    data.table, 
+    ggplot2, 
+    ggthemes, 
+    glue, 
+    tibble, 
+    shiny, 
+    miniUI, 
+    tidyr, 
+    shinyTime, 
+    lubridate, 
+    purrr, 
+    stringr,
+    rlang, 
+    zoo, 
+    hms
 LazyData: true
 RoxygenNote: 6.1.1
-URL: https://www.bupar.net
+URL: https://www.bupar.net, https://github.com/bupaverse/edeaR
 Suggests: knitr, eventdataR,
     rmarkdown
 VignetteBuilder: knitr
-BugReports: https://github.com/gertjanssenswillen/edeaR/issues
+BugReports: https://github.com/bupaverse/edeaR/issues
