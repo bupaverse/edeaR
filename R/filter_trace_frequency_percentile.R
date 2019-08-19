@@ -5,6 +5,8 @@ filter_trace_frequency_percentile <- function(eventlog,
 	cum_sum <- NULL
 	lag_cum_sum <- NULL
 	.N <- NULL
+	absolute <- NULL
+	relative <- NULL
 	absolute_frequency <- NULL
 	relative_frequency <- NULL
 
