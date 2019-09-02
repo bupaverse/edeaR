@@ -25,8 +25,14 @@ filter_trace_frequency_percentile <- function(eventlog,
 		select(trace, absolute = absolute_frequency, relative = relative_frequency) %>%
 		arrange(desc(absolute)) %>%
 		mutate(cum_sum = cumsum(relative)) %>%
-		mutate(lag_cum_sum = lag(cum_sum, default = 0)) %>%
-		filter(lag_cum_sum <= percentage) %>%
+		group_by(absolute) %>%
+		mutate(cum_sum = max(cum_sum)) %>%
+		ungroup() %>%
+		mutate(cum_freq_lag = lag(cum_sum, default = 0))  %>%
+		group_by(absolute) %>%
+		mutate(cum_freq_lag = min(cum_freq_lag)) %>%
+		ungroup() %>%
+		filter(cum_freq_lag < percentage) %>%
 		merge(cases, by = "trace") %>%
 		pull(!!case_id_(eventlog)) -> case_selection
 
