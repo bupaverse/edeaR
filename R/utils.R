@@ -89,7 +89,9 @@ grouped_metric <- function(grouped_eventlog, FUN, ...) {
 		mutate(data = map(data, re_map, mapping)) %>%
 		mutate(data = map(data, FUN, ...)) %>%
 		unnest -> output
+	output <- ungroup(output)
 	attr(output, "groups") <- groups(grouped_eventlog)
+
 	return(output)
 }
 
@@ -111,14 +113,15 @@ grouped_metric_raw_log <- function(grouped_eventlog, FUN, ...) {
 	temp %>%
 		mutate(raw = map(data, attr, "raw")) %>%
 		select(-data) %>%
-		unnest() -> raw
+		unnest(cols = c(raw)) -> raw
 
 	#unnest result
 	temp %>%
 		mutate(data = map(data, ~as.data.frame(as.list(.x)))) %>%
-		unnest() -> output
+		unnest(cols = c(data)) -> output
 
 	# attach raw data
+	output <- ungroup(output)
 	attr(output, "raw") <- raw
 	attr(output, "groups") <- groups(grouped_eventlog)
 

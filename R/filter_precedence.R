@@ -52,7 +52,7 @@ filter_precedence.eventlog <- function(eventlog,
 
 	conditions_valid <- NULL
 
-	sequence_pairs <- data_frame(pair = paste(rep(antecedents, each = length(consequents)),
+	sequence_pairs <- tibble(pair = paste(rep(antecedents, each = length(consequents)),
 						   			rep(consequents, times = length(antecedents)), sep = ","))
 
 	number_of_conditions <- nrow(sequence_pairs)
@@ -75,7 +75,7 @@ filter_precedence.eventlog <- function(eventlog,
 		distinct(trace) %>%
 		mutate(.trace = glue(",{trace},")) %>%
 		crossing(sequence_pairs) %>%
-		mutate(fits = str_detect(.trace, pattern)) %>%
+		mutate(fits = str_detect(.trace, fixed(pattern))) %>%
 		group_by(trace) %>%
 		summarize(n_fitting = sum(fits)) -> check_results
 

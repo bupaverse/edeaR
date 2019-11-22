@@ -46,7 +46,7 @@ throughput_time.eventlog <- function(eventlog,
 									 append = FALSE,
 									 append_column = NULL,
 									 units = c("days","hours","mins","secs","weeks"),
-									 sort = TRUE,
+ 	 									 sort = TRUE,
 									 ...){
 
 	level <- match.arg(level)
