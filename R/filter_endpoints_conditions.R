@@ -49,7 +49,7 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		error_cond <- FALSE
 
 		tryCatch({
-			eventlog <- eventlog %>% mutate(END_CONDITION = !!(start_condition))
+			eventlog <- eventlog %>% mutate(START_CONDITION = !!(start_condition))
 		}, error = function(e) {
 			error_cond <<- TRUE
 		})
@@ -57,13 +57,6 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		if(error_cond) {
 			stop("The start condition (", expr_text(start_condition), ") is not valid. Check the syntax and column names.")
 		}
-
-
-
-
-
-		eventlog <- eventlog %>%
-			mutate(START_CONDITION = !!start_condition)
 	}
 	end_condition_specified <- FALSE
 	tryCatch({
@@ -101,7 +94,9 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		pull(!!case_id_(eventlog)) %>%
 		unique() -> case_selection
 
-	filter_case(eventlog, cases = case_selection, reverse = reverse)
+	eventlog %>%
+		select(-START_CONDITION, -END_CONDITION) %>%
+		filter_case(cases = case_selection, reverse = reverse)
 
 }
 #' @export
