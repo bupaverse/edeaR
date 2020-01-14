@@ -36,6 +36,7 @@
 #' @importFrom utils txtProgressBar
 #' @importFrom utils data
 #' @import stringr
+#' @importFrom rlang expr_text
 
 
 globalVariables(c(".", ".order","min_order"))

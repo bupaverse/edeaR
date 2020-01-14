@@ -75,3 +75,16 @@ ifilter_activity <- function(eventlog) {
 	runGadget(ui, server, viewer = dialogViewer("Filter Activities", height = 400))
 
 }
+
+#' @describeIn filter_activity Filter activity_log for activity labels
+#' @export
+
+filter_activity.activitylog <- function(eventlog,
+									 activities,
+									 reverse = FALSE,
+									 ...){
+	if(reverse == FALSE)
+		filter(eventlog, (!!activity_id_(eventlog)) %in% activities)
+	else
+		filter(eventlog, !((!!activity_id_(eventlog)) %in% activities))
+}

@@ -34,6 +34,15 @@ filter_case.grouped_eventlog <- function(eventlog, cases = NULL, reverse = FALSE
 	grouped_filter(eventlog, filter_case, cases, reverse)
 }
 
+#' @export
+
+filter_case.activitylog <- function(eventlog, cases = NULL, reverse = FALSE) {
+	if(!reverse)
+		filter(eventlog, (!!case_id_(eventlog)) %in% cases)
+	else
+		filter(eventlog, !((!!case_id_(eventlog)) %in% cases))
+}
+
 #' @rdname filter_case
 #' @export ifilter_case
 

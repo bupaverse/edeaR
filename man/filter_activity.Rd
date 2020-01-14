@@ -5,6 +5,7 @@
 \alias{filter_activity.eventlog}
 \alias{filter_activity.grouped_eventlog}
 \alias{ifilter_activity}
+\alias{filter_activity.activitylog}
 \title{Filter: Activity}
 \usage{
 filter_activity(eventlog, activities, reverse, ...)
@@ -16,6 +17,9 @@ filter_activity(eventlog, activities, reverse, ...)
   reverse = FALSE, ...)
 
 ifilter_activity(eventlog)
+
+\method{filter_activity}{activitylog}(eventlog, activities,
+  reverse = FALSE, ...)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
@@ -43,6 +47,8 @@ to which a vector of identifiers can be given. The selection can be negated with
 \item \code{eventlog}: Filter eventlog for activity labels
 
 \item \code{grouped_eventlog}: Filter grouped eventlog for activity labels
+
+\item \code{activitylog}: Filter activity_log for activity labels
 }}
 
 \seealso{
