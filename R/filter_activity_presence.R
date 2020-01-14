@@ -131,3 +131,39 @@ ifilter_activity_presence <- function(eventlog) {
 	runGadget(ui, server, viewer = dialogViewer("Filter activities based on presence", height = 400))
 
 }
+
+#' @export
+
+filter_activity_presence.activitylog <- function(eventlog,
+											  activities = NULL,
+											  method = c("all", "one_of", "none", "exact","only"),
+											  reverse = FALSE){
+
+	in_selection <- NULL
+	in_ <- NULL
+	out_ <- NULL
+
+	method <- match.arg(method)
+
+
+	eventlog %>%
+		select(!!as.symbol(activity_id(eventlog)), !!as.symbol(case_id(eventlog))) %>%
+		unique() %>%
+		mutate(in_selection = !!activity_id_(eventlog) %in% activities) %>%
+		group_by(!!as.symbol(case_id(eventlog)), in_selection) %>%
+		summarize(n = n_distinct(!!activity_id_(eventlog))) %>%
+		mutate(in_selection = ifelse(in_selection, "in_", "out_")) %>%
+		spread(in_selection, n, fill = 0) -> selection
+
+	if(method == "all")
+		filter_case(eventlog, selection %>% filter(in_ == length(activities)) %>% pull(1), reverse)
+	else if(method == "one_of")
+		filter_case(eventlog, selection %>% filter(in_ >= 1) %>% pull(1), reverse)
+	else if (method == "none")
+		filter_case(eventlog, selection %>% filter(in_ == 0) %>% pull(1), reverse)
+	else if (method == "exact")
+		filter_case(eventlog, selection %>% filter(in_ == length(activities), out_ == 0) %>% pull(1), reverse)
+	else if (method == "only")
+		filter_case(eventlog, selection %>% filter(out_ == 0) %>% pull(1), reverse)
+
+}
