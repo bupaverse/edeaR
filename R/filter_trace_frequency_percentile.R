@@ -3,6 +3,7 @@ filter_trace_frequency_percentile <- function(eventlog,
 								  percentage,
 								  reverse){
 	cum_sum <- NULL
+	cum_freq_lag <- NULL
 	lag_cum_sum <- NULL
 	.N <- NULL
 	absolute <- NULL

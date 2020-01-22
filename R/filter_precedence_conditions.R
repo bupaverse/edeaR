@@ -34,6 +34,9 @@ filter_precedence_condition.eventlog <- function(eventlog,
 									   precedence_type = c("directly_follows", "eventually_follows"),
 									   reverse = FALSE) {
 
+	ANTECEDENT_CONDITION <- NULL
+	CONSEQUENT_CONDITION <- NULL
+
 	pair <- NULL
 	.trace <- NULL
 	pattern <- NULL
@@ -131,7 +134,6 @@ filter_precedence_condition.eventlog <- function(eventlog,
 
 }
 
-#' @describeIn filter_precedence Filter grouped event log
 #' @export
 
 filter_precedence_condition.grouped_eventlog <- function(eventlog,
