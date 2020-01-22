@@ -31,6 +31,8 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 									  end_condition = NULL,
 									  reverse = FALSE,
 									  ...) {
+	START_CONDITION <- NULL
+	END_CONDITION <- NULL
 
 	start_condition_specified <- FALSE
 	tryCatch({
