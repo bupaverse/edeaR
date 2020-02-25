@@ -25,7 +25,7 @@ plot_throughput_time <- function(x, ...) {
 			labs(x = "Cases", y = glue("Throughput time (in {units})")) +
 			theme_light() +
 			coord_flip() +
-			theme(axis.text.x = element_blank()) +
+			theme(axis.text.y = element_blank()) +
 			scale_x_discrete(breaks = NULL) -> p
 	}
 	else if(level == "trace") {
