@@ -9,11 +9,19 @@
 \usage{
 filter_trim_lifecycle(eventlog, start_lifecycle, end_lifecycle, reverse)
 
-\method{filter_trim_lifecycle}{eventlog}(eventlog,
-  start_lifecycle = NULL, end_lifecycle = NULL, reverse = FALSE)
+\method{filter_trim_lifecycle}{eventlog}(
+  eventlog,
+  start_lifecycle = NULL,
+  end_lifecycle = NULL,
+  reverse = FALSE
+)
 
-\method{filter_trim_lifecycle}{grouped_eventlog}(eventlog,
-  start_lifecycle = NULL, end_lifecycle = NULL, reverse = FALSE)
+\method{filter_trim_lifecycle}{grouped_eventlog}(
+  eventlog,
+  start_lifecycle = NULL,
+  end_lifecycle = NULL,
+  reverse = FALSE
+)
 
 ifilter_trim_lifecycle(eventlog)
 }

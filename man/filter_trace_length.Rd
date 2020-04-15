@@ -9,11 +9,21 @@
 \usage{
 filter_trace_length(eventlog, interval, percentage, reverse, ...)
 
-\method{filter_trace_length}{eventlog}(eventlog, interval = NULL,
-  percentage = NULL, reverse = FALSE, ...)
+\method{filter_trace_length}{eventlog}(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
-\method{filter_trace_length}{grouped_eventlog}(eventlog, interval = NULL,
-  percentage = NULL, reverse = FALSE, ...)
+\method{filter_trace_length}{grouped_eventlog}(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
 ifilter_trace_length(eventlog)
 }

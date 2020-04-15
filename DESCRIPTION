@@ -28,7 +28,7 @@ Imports:
     zoo, 
     hms
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 URL: https://www.bupar.net, https://github.com/bupaverse/edeaR
 Suggests: knitr, eventdataR,
     rmarkdown

@@ -7,15 +7,32 @@
 \alias{ifilter_endpoints}
 \title{Filter: Start and end activities}
 \usage{
-filter_endpoints(eventlog, start_activities, end_activities, percentage,
-  reverse, ...)
+filter_endpoints(
+  eventlog,
+  start_activities,
+  end_activities,
+  percentage,
+  reverse,
+  ...
+)
 
-\method{filter_endpoints}{eventlog}(eventlog, start_activities = NULL,
-  end_activities = NULL, percentage = NULL, reverse = FALSE, ...)
+\method{filter_endpoints}{eventlog}(
+  eventlog,
+  start_activities = NULL,
+  end_activities = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
-\method{filter_endpoints}{grouped_eventlog}(eventlog,
-  start_activities = NULL, end_activities = NULL, percentage = NULL,
-  reverse = FALSE, ...)
+\method{filter_endpoints}{grouped_eventlog}(
+  eventlog,
+  start_activities = NULL,
+  end_activities = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
 ifilter_endpoints(eventlog)
 }

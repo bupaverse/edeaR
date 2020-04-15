@@ -8,12 +8,23 @@
 \usage{
 trace_length(eventlog, level, append, ...)
 
-\method{trace_length}{eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = F, append_column = NULL, sort = TRUE, ...)
+\method{trace_length}{eventlog}(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{trace_length}{grouped_eventlog}(eventlog, level = c("log",
-  "trace", "case"), append = F, append_column = NULL, sort = TRUE,
-  ...)
+\method{trace_length}{grouped_eventlog}(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -38,14 +49,14 @@ This metric provides an overview of the number of activities that occur in each 
  In this metric, instances of an activity, as
  opposed to the actual activities, are calculated.
 
-\itemize{
+ \itemize{
 
-\item On the level of the log, the number of actual
+ \item On the level of the log, the number of actual
  transactions in a trace are calculated and aggregated on the log level.
 
-\item On the level of the cases, this metric calculates the number of activity instances in each case.
+ \item On the level of the cases, this metric calculates the number of activity instances in each case.
 
-\item This metric shows the number of activity instances
+ \item This metric shows the number of activity instances
  executed in each trace.
  #'
  }

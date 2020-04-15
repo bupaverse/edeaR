@@ -4,8 +4,13 @@
 \alias{filter_precedence_condition}
 \title{Filter: precedence relations}
 \usage{
-filter_precedence_condition(eventlog, antecedent_condition,
-  consequent_condition, precedence_type, reverse)
+filter_precedence_condition(
+  eventlog,
+  antecedent_condition,
+  consequent_condition,
+  precedence_type,
+  reverse
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}

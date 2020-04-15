@@ -8,15 +8,25 @@
 \usage{
 number_of_selfloops(eventlog, type, level, append, ...)
 
-\method{number_of_selfloops}{eventlog}(eventlog, type = c("all",
-  "repeat", "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, append_column = NULL,
-  sort = TRUE, ...)
+\method{number_of_selfloops}{eventlog}(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{number_of_selfloops}{grouped_eventlog}(eventlog, type = c("all",
-  "repeat", "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, append_column = NULL,
-  sort = TRUE, ...)
+\method{number_of_selfloops}{grouped_eventlog}(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -61,17 +71,17 @@ waste in an event log. As stated earlier, each combination of two occurrences of
 the same activity executed by the same resource will be counted as one repeat
 	self-loop of this activity.
 
-\item This metric on the level of cases provides
+	\item This metric on the level of cases provides
 	an overview of the absolute and relative number of repeat and redo self-loops
 	in each case.  To calculate the relative number, each (repeat or
 	 redo) self-loop is counted as 1 occurrence, and the other
 	 activity instances are also counted as 1.
 
-\item On the level of the distinct activities in the event log, the absolute and relative number of self-loops per
+	 \item On the level of the distinct activities in the event log, the absolute and relative number of self-loops per
 	 activity can be an indication for the company which activities are causing the
 	 most waste in the process.
 
-\item Similar to the metric on the level of the
+	 \item Similar to the metric on the level of the
 	 activities, the number of self-loops on the level of the resources executing the
 	 activities can give a company insights in which employee needs to repeat his or
 	 her work most often within a case, or for which employee the work he or she
@@ -79,7 +89,7 @@ the same activity executed by the same resource will be counted as one repeat
 	 shows the absolute and relative number of both repeat and redo self-loops for
 	 each resource in the event log.
 
-\item Finally, the metric can be applied
+ \item Finally, the metric can be applied
  to the level of the specifc resource-activity combinations, in order to get an
  insight in which activities are the most crucial for which resources. This metric
  shows the absolute and relative number of both repeat and redo self-loops for

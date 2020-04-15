@@ -4,8 +4,13 @@
 \alias{filter_endpoints_conditions}
 \title{Filter: Start and end conditions}
 \usage{
-filter_endpoints_conditions(eventlog, start_condition, end_condition,
-  reverse, ...)
+filter_endpoints_conditions(
+  eventlog,
+  start_condition,
+  end_condition,
+  reverse,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
