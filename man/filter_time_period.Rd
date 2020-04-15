@@ -7,16 +7,25 @@
 \alias{ifilter_time_period}
 \title{Filter: Time Period}
 \usage{
-filter_time_period(eventlog, interval, filter_method, force_trim, reverse,
-  ...)
+filter_time_period(eventlog, interval, filter_method, force_trim, reverse, ...)
 
-\method{filter_time_period}{eventlog}(eventlog, interval = NULL,
-  filter_method = c("contained", "intersecting", "start", "complete",
-  "trim"), force_trim = FALSE, reverse = FALSE, ...)
+\method{filter_time_period}{eventlog}(
+  eventlog,
+  interval = NULL,
+  filter_method = c("contained", "intersecting", "start", "complete", "trim"),
+  force_trim = FALSE,
+  reverse = FALSE,
+  ...
+)
 
-\method{filter_time_period}{grouped_eventlog}(eventlog, interval = NULL,
-  filter_method = c("contained", "intersecting", "start", "complete",
-  "trim"), force_trim = FALSE, reverse = FALSE, ...)
+\method{filter_time_period}{grouped_eventlog}(
+  eventlog,
+  interval = NULL,
+  filter_method = c("contained", "intersecting", "start", "complete", "trim"),
+  force_trim = FALSE,
+  reverse = FALSE,
+  ...
+)
 
 ifilter_time_period(eventlog)
 }

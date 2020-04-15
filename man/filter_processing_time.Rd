@@ -9,13 +9,23 @@
 \usage{
 filter_processing_time(eventlog, interval, percentage, reverse, units, ...)
 
-\method{filter_processing_time}{eventlog}(eventlog, interval = NULL,
-  percentage = NULL, reverse = FALSE, units = c("days", "hours",
-  "mins", "secs", "weeks"), ...)
+\method{filter_processing_time}{eventlog}(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  ...
+)
 
-\method{filter_processing_time}{grouped_eventlog}(eventlog,
-  interval = NULL, percentage = NULL, reverse = FALSE,
-  units = c("days", "hours", "mins", "secs", "weeks"), ...)
+\method{filter_processing_time}{grouped_eventlog}(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  ...
+)
 
 ifilter_processing_time(eventlog)
 }

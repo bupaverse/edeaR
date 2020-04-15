@@ -9,13 +9,19 @@
 \usage{
 filter_activity_presence(eventlog, activities, method, reverse)
 
-\method{filter_activity_presence}{eventlog}(eventlog, activities = NULL,
+\method{filter_activity_presence}{eventlog}(
+  eventlog,
+  activities = NULL,
   method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE)
+  reverse = FALSE
+)
 
-\method{filter_activity_presence}{grouped_eventlog}(eventlog,
-  activities = NULL, method = c("all", "one_of", "none", "exact",
-  "only"), reverse = FALSE)
+\method{filter_activity_presence}{grouped_eventlog}(
+  eventlog,
+  activities = NULL,
+  method = c("all", "one_of", "none", "exact", "only"),
+  reverse = FALSE
+)
 
 ifilter_activity_presence(eventlog)
 }

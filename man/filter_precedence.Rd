@@ -7,17 +7,32 @@
 \alias{ifilter_precedence}
 \title{Filter: precedence relations}
 \usage{
-filter_precedence(eventlog, antecedents, consequents, precedence_type,
-  filter_method, reverse)
+filter_precedence(
+  eventlog,
+  antecedents,
+  consequents,
+  precedence_type,
+  filter_method,
+  reverse
+)
 
-\method{filter_precedence}{eventlog}(eventlog, antecedents, consequents,
+\method{filter_precedence}{eventlog}(
+  eventlog,
+  antecedents,
+  consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
-  filter_method = c("all", "one_of", "none"), reverse = FALSE)
+  filter_method = c("all", "one_of", "none"),
+  reverse = FALSE
+)
 
-\method{filter_precedence}{grouped_eventlog}(eventlog, antecedents,
-  consequents, precedence_type = c("directly_follows",
-  "eventually_follows"), filter_method = c("all", "one_of", "none"),
-  reverse = FALSE)
+\method{filter_precedence}{grouped_eventlog}(
+  eventlog,
+  antecedents,
+  consequents,
+  precedence_type = c("directly_follows", "eventually_follows"),
+  filter_method = c("all", "one_of", "none"),
+  reverse = FALSE
+)
 
 ifilter_precedence(eventlog)
 }

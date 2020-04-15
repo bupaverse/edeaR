@@ -8,13 +8,23 @@
 \usage{
 resource_involvement(eventlog, level, append, ...)
 
-\method{resource_involvement}{eventlog}(eventlog, level = c("case",
-  "resource", "resource-activity"), append = F, append_column = NULL,
-  sort = TRUE, ...)
+\method{resource_involvement}{eventlog}(
+  eventlog,
+  level = c("case", "resource", "resource-activity"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{resource_involvement}{grouped_eventlog}(eventlog,
-  level = c("case", "resource", "resource-activity"), append = F,
-  append_column = NULL, sort = TRUE, ...)
+\method{resource_involvement}{grouped_eventlog}(
+  eventlog,
+  level = c("case", "resource", "resource-activity"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -55,6 +65,7 @@ business process than the others.
 \item On the level of the specific
 resource-activity combinations, this metric provides a list of all resource-activity
 combinations with the absolute and relative number of cases in which each resource-activity combination is involved.
+
 
 }
 }

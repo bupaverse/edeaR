@@ -9,11 +9,19 @@
 \usage{
 filter_trim(eventlog, start_activities, end_activities, reverse)
 
-\method{filter_trim}{eventlog}(eventlog, start_activities = NULL,
-  end_activities = NULL, reverse = FALSE)
+\method{filter_trim}{eventlog}(
+  eventlog,
+  start_activities = NULL,
+  end_activities = NULL,
+  reverse = FALSE
+)
 
-\method{filter_trim}{grouped_eventlog}(eventlog, start_activities = NULL,
-  end_activities = NULL, reverse = FALSE)
+\method{filter_trim}{grouped_eventlog}(
+  eventlog,
+  start_activities = NULL,
+  end_activities = NULL,
+  reverse = FALSE
+)
 
 ifilter_trim(eventlog)
 }

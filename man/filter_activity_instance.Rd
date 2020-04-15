@@ -9,11 +9,9 @@
 \usage{
 filter_activity_instance(eventlog, activity_instances, reverse)
 
-\method{filter_activity_instance}{eventlog}(eventlog,
-  activity_instances = NULL, reverse = FALSE)
+\method{filter_activity_instance}{eventlog}(eventlog, activity_instances = NULL, reverse = FALSE)
 
-\method{filter_activity_instance}{grouped_eventlog}(eventlog,
-  activity_instances = NULL, reverse = FALSE)
+\method{filter_activity_instance}{grouped_eventlog}(eventlog, activity_instances = NULL, reverse = FALSE)
 
 ifilter_activity_instance(eventlog)
 }

@@ -8,12 +8,23 @@
 \usage{
 trace_coverage(eventlog, level, append, ...)
 
-\method{trace_coverage}{eventlog}(eventlog, level = c("log", "trace",
-  "case"), append = F, append_column = NULL, sort = TRUE, ...)
+\method{trace_coverage}{eventlog}(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{trace_coverage}{grouped_eventlog}(eventlog, level = c("log",
-  "trace", "case"), append = F, append_column = NULL, sort = TRUE,
-  ...)
+\method{trace_coverage}{grouped_eventlog}(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

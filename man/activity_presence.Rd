@@ -8,11 +8,21 @@
 \usage{
 activity_presence(eventlog, append, append_column, sort, ...)
 
-\method{activity_presence}{eventlog}(eventlog, append = F,
-  append_column = "absolute", sort = TRUE, ...)
+\method{activity_presence}{eventlog}(
+  eventlog,
+  append = F,
+  append_column = "absolute",
+  sort = TRUE,
+  ...
+)
 
-\method{activity_presence}{grouped_eventlog}(eventlog, append = F,
-  append_column = "absolute", sort = TRUE, ...)
+\method{activity_presence}{grouped_eventlog}(
+  eventlog,
+  append = F,
+  append_column = "absolute",
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

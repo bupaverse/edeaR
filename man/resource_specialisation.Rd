@@ -11,13 +11,23 @@ resource_specialisation(eventlog, level, append, ...)
 
 resource_specialization(eventlog, level, append, ...)
 
-\method{resource_specialisation}{eventlog}(eventlog, level = c("log",
-  "case", "activity", "resource"), append = F, append_column = NULL,
-  sort = TRUE, ...)
+\method{resource_specialisation}{eventlog}(
+  eventlog,
+  level = c("log", "case", "activity", "resource"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{resource_specialisation}{grouped_eventlog}(eventlog,
-  level = c("log", "case", "activity", "resource"), append = F,
-  append_column = NULL, sort = TRUE, ...)
+\method{resource_specialisation}{grouped_eventlog}(
+  eventlog,
+  level = c("log", "case", "activity", "resource"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

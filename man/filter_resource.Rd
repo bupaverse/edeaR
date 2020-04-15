@@ -11,8 +11,7 @@ filter_resource(eventlog, resources, reverse)
 
 \method{filter_resource}{eventlog}(eventlog, resources, reverse = FALSE)
 
-\method{filter_resource}{grouped_eventlog}(eventlog, resources,
-  reverse = FALSE)
+\method{filter_resource}{grouped_eventlog}(eventlog, resources, reverse = FALSE)
 
 ifilter_resource(eventlog)
 }

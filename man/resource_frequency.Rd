@@ -8,13 +8,23 @@
 \usage{
 resource_frequency(eventlog, level, append, ...)
 
-\method{resource_frequency}{eventlog}(eventlog, level = c("log", "case",
-  "activity", "resource", "resource-activity"), append = FALSE,
-  append_column = NULL, sort = TRUE, ...)
+\method{resource_frequency}{eventlog}(
+  eventlog,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-\method{resource_frequency}{grouped_eventlog}(eventlog, level = c("log",
-  "case", "activity", "resource", "resource-activity"), append = FALSE,
-  append_column = NULL, sort = TRUE, ...)
+\method{resource_frequency}{grouped_eventlog}(
+  eventlog,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.

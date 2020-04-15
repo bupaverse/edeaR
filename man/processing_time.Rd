@@ -6,18 +6,38 @@
 \alias{processing_time.grouped_eventlog}
 \title{Metric: Processing time}
 \usage{
-processing_time(eventlog, level, append, append_column, units, sort,
-  work_schedule, ...)
+processing_time(
+  eventlog,
+  level,
+  append,
+  append_column,
+  units,
+  sort,
+  work_schedule,
+  ...
+)
 
-\method{processing_time}{eventlog}(eventlog, level = c("log", "trace",
-  "case", "activity", "resource", "resource-activity"), append = F,
-  append_column = NULL, units = c("days", "hours", "mins", "secs",
-  "weeks"), sort = TRUE, work_schedule = NULL, ...)
+\method{processing_time}{eventlog}(
+  eventlog,
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  append = F,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  ...
+)
 
-\method{processing_time}{grouped_eventlog}(eventlog, level = c("log",
-  "trace", "case", "activity", "resource", "resource-activity"),
-  append = F, append_column = NULL, units = c("days", "hours",
-  "mins", "secs", "weeks"), sort = TRUE, work_schedule = NULL, ...)
+\method{processing_time}{grouped_eventlog}(
+  eventlog,
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  append = F,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
@@ -47,7 +67,7 @@ In contrast to the throughput time of the cases in an event log, the metrics con
  processing time of events on the level of the complete event log, the specific cases,
   traces, the activities, and the resource-activity combinations.
 
-\itemize{
+  \itemize{
   \item On log level, this metric calculates the summary statistics of the actual processing time per case,
   summarised over the complete event log.
   \item On case level, a list of cases with their processing time are provided.

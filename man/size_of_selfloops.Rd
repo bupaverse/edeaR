@@ -8,13 +8,23 @@
 \usage{
 size_of_selfloops(eventlog, type, level, append, ...)
 
-\method{size_of_selfloops}{eventlog}(eventlog, type = c("all", "repeat",
-  "redo"), level = c("log", "case", "activity", "resource",
-  "resource-activity"), append = FALSE, append_column = NULL, ...)
+\method{size_of_selfloops}{eventlog}(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  ...
+)
 
-\method{size_of_selfloops}{grouped_eventlog}(eventlog, type = c("repeat",
-  "redo"), level = c("log", "case", "activity", "resource",
-  "resource-acitivty"), append = FALSE, append_column = NULL, ...)
+\method{size_of_selfloops}{grouped_eventlog}(
+  eventlog,
+  type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-acitivty"),
+  append = FALSE,
+  append_column = NULL,
+  ...
+)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
