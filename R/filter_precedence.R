@@ -86,26 +86,19 @@ filter_precedence.eventlog <- function(eventlog,
 		eventlog %>%
 			case_list() -> cases
 
-		cases %>%
-			distinct(trace) %>%
-			mutate(.trace = glue(",{trace},")) %>%
-			crossing(sequence_pairs) %>%
-			mutate(fits = str_detect(.trace, fixed(pattern))) %>%
-			group_by(trace) %>%
-			summarize(n_fitting = sum(fits)) -> check_results
 	} else if(precedence_type == "eventually_follows") {
 		eventlog %>%
 			filter_activity(activities = c(antecedents, consequents)) %>%
 			case_list() -> cases
-
-		cases %>%
-			distinct(trace) %>%
-			mutate(.trace = glue(",{trace},")) %>%
-			crossing(sequence_pairs) %>%
-			mutate(fits = str_detect(.trace, pattern)) %>%
-			group_by(trace) %>%
-			summarize(n_fitting = sum(fits)) -> check_results
 	}
+
+	cases %>%
+		distinct(trace) %>%
+		mutate(.trace = glue(",{trace},")) %>%
+		crossing(sequence_pairs) %>%
+		mutate(fits = str_detect(.trace, fixed(pattern))) %>%
+		group_by(trace) %>%
+		summarize(n_fitting = sum(fits)) -> check_results
 
 	cases %>%
 		left_join(check_results, by = "trace") ->
