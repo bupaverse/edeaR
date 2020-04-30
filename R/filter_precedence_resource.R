@@ -24,22 +24,22 @@
 #' @export filter_precedence_resource
 
 filter_precedence_resource <- function(eventlog,
-							  antecedents,
-							  consequents,
-							  precedence_type,
-							  filter_method,
-							  reverse) {
+										antecedents,
+										consequents,
+										precedence_type,
+										filter_method,
+										reverse) {
 	UseMethod("filter_precedence_resource")
 }
 
 #' @export
 
 filter_precedence_resource.eventlog <- function(eventlog,
-									   antecedents,
-									   consequents,
-									   precedence_type = c("directly_follows", "eventually_follows"),
-									   filter_method = c("all","one_of", "none"),
-									   reverse = FALSE) {
+												 antecedents,
+												 consequents,
+												 precedence_type = c("directly_follows", "eventually_follows"),
+												 filter_method = c("all","one_of", "none"),
+												 reverse = FALSE) {
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
 
@@ -68,23 +68,17 @@ filter_precedence_resource.eventlog <- function(eventlog,
 
 	## CHECK EACH FLOW
 	for(i in 1:number_of_conditions) {
-		output[[i]] <- filter_precedence_resource_single(eventlog, sequence_pairs$antecedent[i], sequence_pairs$consequent[i])
+		output[[i]] <- filter_precedence_resource_single(eventlog,
+														  sequence_pairs$antecedent[i],
+														  sequence_pairs$consequent[i],
+														  precedence_type = precedence_type)
 	}
 
 
 	# COMPUTE NUMBER OF FLOWS FOUND
-	if(precedence_type == "directly_follows") {
 		output %>%
 			bind_rows() %>%
-			filter(directly) %>%
-			count(case_id, name = "n_fitting") -> cases_results
-
-	} else if(precedence_type == "eventually_follows") {
-		output %>%
-			bind_rows() %>%
-			filter(eventually) %>%
-			count(case_id, name = "n_fitting") -> cases_results
-	}
+			count(!!case_id_(eventlog), name = "n_fitting") -> cases_results
 
 	# CREATE CASE SELECTION
 	if(filter_method == "one_of")
@@ -102,46 +96,57 @@ filter_precedence_resource.eventlog <- function(eventlog,
 #' @export
 
 filter_precedence_resource.grouped_eventlog <- function(eventlog,
-											   antecedents,
-											   consequents,
-											   precedence_type = c("directly_follows", "eventually_follows"),
-											   filter_method = c("all","one_of", "none"),
-											   reverse = FALSE) {
+														 antecedents,
+														 consequents,
+														 precedence_type = c("directly_follows", "eventually_follows"),
+														 filter_method = c("all","one_of", "none"),
+														 reverse = FALSE) {
 	grouped_filter(eventlog, filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 
 
-filter_precedence_resource_single <- function(eventlog, antecedent, consequent) {
+filter_precedence_resource_single <- function(eventlog, antecedent, consequent, precedence_type) {
 	eventlog %>%
 		create_minimal_activity_log() %>%
-		## ADD RANK TO EACH ACTIVITY
 		group_by(!!case_id_(eventlog)) %>%
-		arrange(time, min_order) %>%
+		arrange(!!timestamp_(eventlog), .order) %>%
 		mutate(rank = 1:n()) %>%
-		## RECODE FLOW ACTIVITIES
-		mutate(activity_instance_classifier = fct_recode(!!activity_id_(eventlog),
-														 antecedent = antecedent,
-														 consequent = consequent)) %>%
-		## FILTER FLOW ACTIVITIES
-		filter(activity_instance_classifier %in% c("antecedent","consequent")) %>%
-		select(resource_identifier,!!case_id_(eventlog), activity_instance_classifier, rank) %>%
-		# NEST RANKS OF ANTECENDENT ANF CONSEQUENT
-		group_by(resource_identifier,!!case_id_(eventlog), activity_instance_classifier) %>%
-		nest() %>%
 		ungroup() %>%
-		# RENAME NESTED RANK VARIABLE
-		mutate(data = map2(data, activity_instance_classifier, ~set_names(.x, .y))) %>%
-		# PUT RANKS NEXT O EACH OTHER
-		spread(activity_instance_classifier, data) %>%
-		# DELETE ROW WHERE ANTECEDENT OF CONSEQUENT IS NOT FOUND
-		filter(!map_lgl(antecedent, is.null), !map_lgl(consequent, is.null)) %>%
-		# COMPARE ALL POSSIBLE RANK COMBINATIONS
-		mutate(t = map2(antecedent, consequent, merge)) %>%
-		# ARE ANY DIRECTLY OR EVENTUALLY FOLLOWING?
-		mutate(directly = map_lgl(t, ~(nrow(filter(.x, antecedent + 1 == consequent)) > 0))) %>%
-		mutate(eventually = map_lgl(t, ~(nrow(filter(.x, antecedent < consequent)) > 0))) %>%
-		# DISTINCT TO COMBINE OBSERVATIONS FOR MORE THAN ONE RESOURCe
-		distinct(case_id, directly, eventually)
+		mutate(antecedent = (!!activity_id_(eventlog) == antecedent)*rank,
+			   consequent = (!!activity_id_(eventlog) == consequent)*rank) %>%
+		## FILTER FLOW ACTIVITIES
+		filter(antecedent > 0 | consequent > 0) %>%
+		mutate(antecedent = ifelse(antecedent == 0, NA, antecedent)) %>%
+		mutate(consequent = ifelse(consequent == 0, NA, consequent)) %>%
+		select(!!resource_id_(eventlog), !!case_id_(eventlog), antecedent, consequent) %>%
+		group_by(!!case_id_(eventlog), !!resource_id_(eventlog)) %>%
+		summarize(ante = list(antecedent[!is.na(antecedent)]), cons = list(consequent[!is.na(consequent)])) %>%
+		ungroup() %>%
+		filter(map_int(ante, length) > 0) %>%
+		filter(map_int(cons, length) > 0) -> t
+
+
+		if(precedence_type == "directly_follows") {
+			t %>%
+				mutate(t = map2(ante, cons, merge)) %>%
+				# ARE ANY DIRECTLY OR EVENTUALLY FOLLOWING?
+				unnest(t) %>%
+				filter(x + 1 == y) %>%
+				# DISTINCT TO COMBINE OBSERVATIONS FOR MORE THAN ONE RESOURCe
+				distinct(!!case_id_(eventlog))
+
+		} else if(precedence_type == "eventually_follows") {
+			t %>%
+				mutate(ante = map_int(ante, min)) %>%
+				mutate(cons = map_int(cons, max)) %>%
+				# ARE ANY DIRECTLY OR EVENTUALLY FOLLOWING?
+				filter( ante < cons) %>%
+				# DISTINCT TO COMBINE OBSERVATIONS FOR MORE THAN ONE RESOURCe
+				distinct(!!case_id_(eventlog))
+		}
+
+
+
 
 }
 

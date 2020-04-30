@@ -1,10 +1,7 @@
 
 create_minimal_activity_log <- function(eventlog) {
-	eventlog %>%
-		group_by(!!case_id_(eventlog),
-				 !!activity_id_(eventlog),
-				 !!activity_instance_id_(eventlog)) %>%
-		summarize(resource_identifier = first(!!resource_id_(eventlog)),
-				  time = min(!!timestamp_(eventlog)),
-				  min_order = min(.order))
+	eDT <- data.table::data.table(eventlog)
+
+	data.table::setorderv(eDT, cols = c(case_id(eventlog), timestamp(eventlog), ".order"))
+	dplyr::tbl_df(unique(eDT, by = c(case_id(eventlog), activity_instance_id(eventlog), activity_id(eventlog))))
 }
