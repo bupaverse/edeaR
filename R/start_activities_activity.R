@@ -6,7 +6,8 @@ start_activities_activity <- function(eventlog) {
 	relative <- NULL
 
 	eventlog %>%
-		group_by_case %>%
+		as.data.frame() %>%
+		group_by(!!case_id_(eventlog)) %>%
 		arrange(!!timestamp_(eventlog), .order) %>%
 		summarize(first_event = first(!!activity_id_(eventlog))) %>%
 		group_by(first_event) %>%
