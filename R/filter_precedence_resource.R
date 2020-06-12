@@ -43,6 +43,8 @@ filter_precedence_resource.eventlog <- function(eventlog,
 	precedence_type <- match.arg(precedence_type)
 	filter_method <- match.arg(filter_method)
 
+	n_fitting <- NULL
+
 	# TEST VALIDITY ACTIVITY LABELS
 	acts <- activity_labels(eventlog)
 	wrong <-  antecedents[!(antecedents %in% acts)]
@@ -106,6 +108,11 @@ filter_precedence_resource.grouped_eventlog <- function(eventlog,
 
 
 filter_precedence_resource_single <- function(eventlog, antecedent, consequent, precedence_type) {
+	x <- NULL
+	y <- NULL
+	cons <- NULL
+	ante <- NULL
+
 	eventlog %>%
 		create_minimal_activity_log() %>%
 		group_by(!!case_id_(eventlog)) %>%

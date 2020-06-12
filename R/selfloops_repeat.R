@@ -12,9 +12,9 @@ repeat_selfloops <- function(eventlog) {
 
 	eventlog %>%
 		rework_base  %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%
