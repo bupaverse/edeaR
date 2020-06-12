@@ -11,11 +11,11 @@ rework_base <- function(eventlog) {
 	activity_group <- NULL
 
 	eventlog %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"timestamp_classifier" = timestamp(eventlog),
-				"aid" = activity_instance_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "timestamp_classifier" = !!timestamp_(eventlog),
+			   "aid" = !!activity_instance_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, .(timestamp = min(timestamp_classifier), min_order = min(.order)), .(case_classifier, aid, event_classifier, resource_classifier)] %>%
 		.[order(timestamp, min_order), .SD , by =  .(case_classifier)] %>%
@@ -48,9 +48,9 @@ repeat_selfloops <- function(eventlog) {
 
 	eventlog %>%
 		rework_base  %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%
@@ -83,9 +83,9 @@ redo_selfloops <- function(eventlog) {
 		rework_base -> r
 
 	r %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%
@@ -449,9 +449,9 @@ repeat_repetitions <- function(eventlog) {
 
 	eventlog %>%
 		rework_base %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%
@@ -481,9 +481,9 @@ redo_repetitions <- function(eventlog) {
 
 	eventlog %>%
 		rework_base %>%
-		rename_("case_classifier" = case_id(eventlog),
-				"event_classifier" = activity_id(eventlog),
-				"resource_classifier" = resource_id(eventlog)) %>%
+		rename("case_classifier" = !!case_id_(eventlog),
+			   "event_classifier" = !!activity_id_(eventlog),
+			   "resource_classifier" = !!resource_id_(eventlog)) %>%
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%

@@ -21,6 +21,7 @@ filter_trace <- function(eventlog, trace_ids, reverse) {
 filter_trace.eventlog <- function(eventlog,
 								  trace_ids = NULL,
 								 reverse = FALSE){
+	trace_id <- NULL
 
 	eventlog %>%
 		case_list %>%

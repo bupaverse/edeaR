@@ -1,8 +1,8 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.8.4
-Date: 2020-02-25
+Version: 0.8.5
+Date: 2020-06-11
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
 	person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"))
 Description: Exploratory and descriptive analysis of event based data. Provides methods for describing and selecting process data, and for preparing event log data for process mining. Builds on the S3-class for event logs implemented in the package 'bupaR'.
@@ -26,7 +26,8 @@ Imports:
     stringr,
     rlang, 
     zoo, 
-    hms
+    hms,
+    forcats
 LazyData: true
 RoxygenNote: 7.1.0
 URL: https://www.bupar.net, https://github.com/bupaverse/edeaR

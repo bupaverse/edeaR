@@ -47,6 +47,7 @@ It is also possible to filter on activity frequency. This filter uses a percenti
 patients %>%
 	filter_activity_frequency(percentile_cut_off = 0.5, reverse = T) %>%
 	activity_frequency("activity")
+
 	
 ```
 
