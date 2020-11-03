@@ -14,6 +14,7 @@ filter_infrequent_flows <- function(eventlog, min_n) {
 #' @export
 
 filter_infrequent_flows.eventlog <- function(eventlog, min_n) {
+	next_act <- NULL
 
 	if(min_n <= 1) {
 		stop("min_n should be at least 2")

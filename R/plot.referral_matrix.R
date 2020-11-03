@@ -15,5 +15,5 @@ plot_referral_matrix <- function(x, ...) {
 		geom_tile(aes(fill = absolute)) +
 		geom_text(aes(label = absolute), fontface = "bold", color = "white") +
 		labs(x = glue("First resource of {type}"), y = glue("Last resource of {type})")) +
-		scale_fill_continuous_tableau(name = "Frequency", palette = "Blue") %>% return
+		scale_fill_continuous_tableau(name = "Frequency", palette = "Blue") %>% return()
 }
