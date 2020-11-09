@@ -20,7 +20,8 @@ processing_time_resource_activity <- function(eventlog,
 
 	raw %>%
 		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
-		grouped_summary_statistics("processing_time") -> output
+		grouped_summary_statistics("processing_time") %>%
+		ungroup() -> output
 
 	attr(output, "raw") <- raw
 
