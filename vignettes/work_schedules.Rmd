@@ -1,0 +1,132 @@
+---
+title: "Performance with work schedules"
+author: "Gert Janssenswillen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Performance with work schedules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+When computing the throughput or processsing time, you can take into account a predefined working schedule. In this way, you can controle for working hours and holidays. 
+
+## Creating a working schedule
+
+A default work schedule can be created using the function `create_working_schedule`
+
+```{r warning = F, message = F}
+library(edeaR)
+create_work_schedule()
+```
+
+It will generate a weekly working hours schedule, defaulting to 9 to 5 workdays. You can change the day schedule using the arguments `start_time` and/or `end_time`. The following code will generate a work schedule with workdays from 8.30am to 4pm. 
+
+```{r}
+create_work_schedule(start_time = "08:30:00", end_time = "16:00:00")
+```
+
+Once a work schedule is created, you can also change individal days. For example, suppose that on Friday the office closes as 1pm, this can be changed as follows. Note that the days are numbered starting on monday. 
+
+```{r}
+create_work_schedule(start_time = "08:30:00", end_time = "16:00:00") %>%
+	change_day(5, start_time = "08:30:00", end_time = "13:00:00")
+```
+Next to the working times, the work schedule also contains information on holidays. Three different types should be distinguished: 
+
+* **fixed holidays**: these are holidays that take place on the same date each year, such as Christmas, New Year's Day, etc. 
+* **floating holidays**: there are holidays that take place on a different date each year, such as Easter, or Thanksgiving. 
+* **holiday periods**: these are additional periods that you can define, for instance, if your organisation is closed during summer holidays. 
+
+All holidays are excluded in the calculation of throughput and processing time. By default, the `create_working_schedule` function creates two fixed holidays: Christmas and New Year's day. Let's further add some more holidays. 
+
+Another fixed holiday that we can typically add, are national holidays. In Belgium, this would be the 21st of July. 
+
+```{r}
+create_work_schedule(start_time = "08:30:00", end_time = "16:00:00") %>%
+	change_day(5, start_time = "08:30:00", end_time = "13:00:00") %>%
+	add_fixed_holiday("Belgian National Holiday", 07, 21)
+```
+
+A typical floating holiday is Easter. However, as Easter falls on a Sunday, it is already not taking into account. Nonetheless, let us add Easter Monday to the schedule. 
+
+For floating holidays, it is important to add all dates relevant for your data, that is, for all the years on which you have data. 
+
+Suppose we will be using the `patients` dataset. This stretched from 2017 to 2018, so we need to add Easter Monday of both years, which are 2017-04-17 and 2018-04-02. 
+
+```{r}
+library(lubridate)
+create_work_schedule(start_time = "08:30:00", end_time = "16:00:00") %>%
+	change_day(5, start_time = "08:30:00", end_time = "13:00:00") %>%
+	add_fixed_holiday("Belgian National Holiday", 07, 21) %>%
+	add_floating_holiday("Easter Monday", ymd(c(20170417, 20180402)))
+```
+
+Finally, let us assume that we don't work in the period between Christmas and New year in 2017. We can add a holiday period from December 26th till December 31st. 
+
+```{r}
+library(lubridate)
+create_work_schedule(start_time = "08:30:00", end_time = "16:00:00") %>%
+	change_day(5, start_time = "08:30:00", end_time = "13:00:00") %>%
+	add_fixed_holiday("Belgian National Holiday", month =  07, day = 21) %>%
+	add_floating_holiday("Easter Monday", dates = ymd(c(20170417, 20180402))) %>%
+	add_holiday_periods(from = ymd(20171226), to = ymd(20171231))
+```
+
+Note that it doesn't make much sense to use a working schedule for the patients data, as work in a healthcare environment doesn't obey working hours. But for the sake of illustration, and because the patients data includes start and complete events, let's continue. 
+
+Let's save our work schedule as `ws`.
+
+```{r}
+ws <- create_work_schedule(start_time = "08:30:00", end_time = "16:00:00") %>%
+	change_day(5, start_time = "08:30:00", end_time = "13:00:00") %>%
+	add_fixed_holiday("Belgian National Holiday", month =  07, day = 21) %>%
+	add_floating_holiday("Easter Monday", dates = ymd(c(20170417, 20180402))) %>%
+	add_holiday_periods(from = ymd(20171226), to = ymd(20171231))
+```
+
+## Calculating performance
+
+We can now plug the working schedule in any processing or throughput time calculation. 
+
+For example, throughput time would normally be computed as follows. 
+
+```{r}
+library(eventdataR)
+patients %>% throughput_time()
+```
+
+In order to take into account the working schedule
+
+```{r}
+patients %>% throughput_time(work_schedule = ws)
+```
+
+As another example, consider the processing time by activity. 
+
+Without taking into account the working hours: 
+
+```{r}
+patients %>%
+	processing_time(level = "activity")
+```
+
+With the working hours:
+
+```{r}
+patients %>%
+	processing_time(level = "activity", work_schedule = ws)
+```
+
+
+## Caution
+
+Some caution is required when using the work schedules in your calculations. If a case falls completely in a holiday period, or during a weekend, it will receive a throughput time of zero. The same goes for activities that take place outside of working hours, when computing processing time. 
+
+If an activity starts at 7am and is completed at 10am. but your working schedule has 9-to-5 workdays, the activity will have a processing time of only 1 hour. If it was completed anytime before 9am, it will be zero!
+
+As such, using a working schedule will overestimate your performance if a lot of activities doesn't adhere to the working schedule. At this moment, the performance functions will **not** notify you if this is the case. Make sure to only use a working schedule if the recorded events fall inside the working schedule most of the time. 
+
+
+
+

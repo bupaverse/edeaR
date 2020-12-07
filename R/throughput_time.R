@@ -21,6 +21,7 @@
 #'
 #' @param level Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 #' For more information, see \code{vignette("metrics", "edeaR")}
+#' @param work_schedule A schedule of working hours. If provided, only working hours are counted as processing time.
 #' @param sort Sort by decreasing throughput time. Defaults to true. Only relevant for case level.
 
 #'
@@ -33,7 +34,7 @@
 #'
 
 
-throughput_time <- function(eventlog, level, append, append_column, units, ...) {
+throughput_time <- function(eventlog, level, append, append_column, units, work_schedule, ...) {
 	UseMethod("throughput_time")
 }
 
@@ -46,6 +47,7 @@ throughput_time.eventlog <- function(eventlog,
 									 append = FALSE,
 									 append_column = NULL,
 									 units = c("days","hours","mins","secs","weeks"),
+									 work_schedule = NULL,
  	 									 sort = TRUE,
 									 ...){
 
@@ -64,7 +66,7 @@ throughput_time.eventlog <- function(eventlog,
 				  trace = throughput_time_trace)
 
 
-	output <- FUN(eventlog = eventlog, units = units)
+	output <- FUN(eventlog = eventlog, units = units, work_schedule = work_schedule)
 	if(sort && level %in% c("case")) {
 		output %>%
 			arrange(-throughput_time) -> output
@@ -84,6 +86,7 @@ throughput_time.grouped_eventlog <- function(eventlog,
 											 append = FALSE,
 											 append_column = NULL,
 											 units = c("days","hours","mins","secs","weeks"),
+											 work_schedule = NULL,
 											 sort = TRUE,
 											 ...){
 
@@ -104,10 +107,10 @@ throughput_time.grouped_eventlog <- function(eventlog,
 
 
 	if(level != "log") {
-		grouped_metric(eventlog, FUN, units) -> output
+		grouped_metric(eventlog, FUN, units, work_schedule) -> output
 	}
 	else {
-		grouped_metric_raw_log(eventlog, FUN, units) -> output
+		grouped_metric_raw_log(eventlog, FUN, units, work_schedule) -> output
 	}
 
 	if(sort && level %in% c("case")) {

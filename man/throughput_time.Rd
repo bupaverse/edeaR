@@ -6,7 +6,15 @@
 \alias{throughput_time.grouped_eventlog}
 \title{Metric: Throughput time of cases}
 \usage{
-throughput_time(eventlog, level, append, append_column, units, ...)
+throughput_time(
+  eventlog,
+  level,
+  append,
+  append_column,
+  units,
+  work_schedule,
+  ...
+)
 
 \method{throughput_time}{eventlog}(
   eventlog,
@@ -14,6 +22,7 @@ throughput_time(eventlog, level, append, append_column, units, ...)
   append = FALSE,
   append_column = NULL,
   units = c("days", "hours", "mins", "secs", "weeks"),
+  work_schedule = NULL,
   sort = TRUE,
   ...
 )
@@ -24,6 +33,7 @@ throughput_time(eventlog, level, append, append_column, units, ...)
   append = FALSE,
   append_column = NULL,
   units = c("days", "hours", "mins", "secs", "weeks"),
+  work_schedule = NULL,
   sort = TRUE,
   ...
 )
@@ -40,6 +50,8 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
+
+\item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
 \item{...}{Deprecated arguments}
 
