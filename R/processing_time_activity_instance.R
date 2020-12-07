@@ -7,59 +7,49 @@ processing_time_activity_instance <- function(eventlog,
 											  work_schedule) {
 	s <- NULL
 	e <- NULL
-
-	eventlog %>%
-		group_by(!!activity_instance_id_(eventlog),
-				 !!case_id_(eventlog),
-				 !!activity_id_(eventlog),
-				 !!resource_id_(eventlog)) %>%
-		summarize(s = min(!!timestamp_(eventlog)), e = max(!!timestamp_(eventlog))) %>%
-
-		mutate(processing_time = map2_dbl(s, e, compute_processing_time, work_schedule = work_schedule, units = units)) %>%
-		ungroup()
-
-}
+	timestamp_classifier <- NULL
+	activity_id_identifier <- NULL
+	elapsed <- NULL
 
 
+	renamed_eventlog <- eventlog
 
-compute_processing_time <- function(start_dttm, end_dttm, work_schedule, units)  {
+	colnames(renamed_eventlog)[colnames(renamed_eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
+	colnames(renamed_eventlog)[colnames(renamed_eventlog) == activity_instance_id(eventlog)] <- "activity_id_identifier"
 
-	start_time <- NULL
-	end_time <- NULL
-	start_interval <- NULL
-	end_interval <- NULL
-	proc_hours <- NULL
-	work_hours <- NULL
-	difference <- NULL
+	e <- renamed_eventlog %>%
+		as.data.table %>%
+		.[, .(s = min(timestamp_classifier),
+			  e = max(timestamp_classifier)), .(activity_id_identifier)]
 
-	if(is.null(work_schedule))
-		return(as.double(end_dttm - start_dttm, units = units))
-	else {
-		start_day <- lubridate::date(x = start_dttm)
-		end_day <- lubridate::date(x = end_dttm)
+	colnames(e)[colnames(e) == "activity_id_identifier"] <- activity_instance_id(eventlog)
 
-		work_schedule %>%
-			filter(!is.na(start_time)) -> work_schedule
-		tibble(start_dttm,
-			   end_dttm,
-			   proc_hours = interval(start_dttm, end_dttm),
-			   date = zoo::as.Date(start_day:end_day)) %>%
-			mutate(day = ifelse(wday(date) == 1, 7, wday(date)-1)) %>%
-			inner_join(work_schedule, by = "day") %>%
-			filter(!is.na(start_time)) -> temp
+	intervals <- as.data.frame(e)
 
-		if(nrow(temp) == 0) {
-			return(0)
-		}
-		 temp %>%
-			mutate(start_interval = ymd_hms(paste0(date, start_time))) %>%
-			mutate(end_interval = ymd_hms(paste0(date, end_time))) %>%
-			mutate(work_hours = interval(start_interval, end_interval)) %>%
-			mutate(difference = lubridate::intersect(proc_hours, work_hours)) %>%
-			filter(!is.na(difference)) %>%
-			summarize(processing_time = sum(as.double(difference, units = "hours"))) %>%
-			pull(processing_time)
+
+	if(is.null(work_schedule)) {
+		intervals %>%
+			mutate(processing_time = as.double(e - s, units = units)) %>%
+			select(-s, -e) -> output
+	} else {
+
+		calculate_work_schedule_times(intervals, work_schedule, units) %>%
+			select(-s, -e) %>%
+			rename(processing_time = elapsed) -> output
+
+
+
+
 	}
+	eventlog %>%
+		as.data.frame() %>%
+		select(case_id(eventlog), activity_id(eventlog), resource_id(eventlog), activity_instance_id(eventlog)) %>%
+		distinct() -> dictionary
+
+	dictionary %>%
+		left_join(output, by = activity_instance_id(eventlog))
+
 }
+
 
 

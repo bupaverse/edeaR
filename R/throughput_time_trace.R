@@ -1,9 +1,9 @@
 
 
-throughput_time_trace <- function(eventlog, units) {
+throughput_time_trace <- function(eventlog, units, work_schedule) {
 	relative_trace_frequency <- NULL
 
-	t <- throughput_time_case(eventlog, units = units)
+	t <- throughput_time_case(eventlog, units = units, work_schedule = work_schedule)
 	c <- case_list(eventlog)
 
 	merge(t, c, by = case_id(eventlog)) %>%
