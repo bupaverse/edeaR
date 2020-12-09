@@ -95,7 +95,7 @@ filter_precedence.eventlog <- function(eventlog,
 	cases %>%
 		distinct(trace) %>%
 		mutate(.trace = glue(",{trace},")) %>%
-		crossing(sequence_pairs) %>%
+		inner_join(sequence_pairs, by = character()) %>%
 		mutate(fits = str_detect(.trace, fixed(pattern))) %>%
 		group_by(trace) %>%
 		summarize(n_fitting = sum(fits)) -> check_results
