@@ -77,10 +77,7 @@ In contrast to the throughput time of the cases in an event log, the metrics con
   \item Duration can also be calculated on the level
   of each activity. For each activity, an overview of the average processing time
   -or the service time- of this activity can be of interest.
-  \item We can also look at the processing time per case
-  on the level of each separate resource. This way, a company gets an overview of
-  the amount of time each resource spends on a case and which resources spend
-  more time on cases than others.
+  \item We can also look at the processing time per resource.
   \item On the resource-activity level, finally,
   we can have a look at the efficiency of resources by looking at the combination
   of each resource with each activity.
