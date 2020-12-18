@@ -37,17 +37,8 @@ processing_time_activity_instance <- function(eventlog,
 			select(-s, -e) %>%
 			rename(processing_time = elapsed) -> output
 
-
-
-
 	}
-	eventlog %>%
-		as.data.frame() %>%
-		select(case_id(eventlog), activity_id(eventlog), resource_id(eventlog), activity_instance_id(eventlog)) %>%
-		distinct() -> dictionary
-
-	dictionary %>%
-		left_join(output, by = activity_instance_id(eventlog))
+	output
 
 }
 
