@@ -16,7 +16,7 @@ plot_number_of_selfloops <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "", y = glue("Number of {type} selfloops (per")) -> p
+			labs(x = "", y = glue("Number of {type} selfloops")) -> p
 	}
 	else if(level == "case") {
 		x %>%
