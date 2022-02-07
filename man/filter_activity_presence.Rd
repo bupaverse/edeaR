@@ -2,21 +2,10 @@
 % Please edit documentation in R/filter_activity_presence.R
 \name{filter_activity_presence}
 \alias{filter_activity_presence}
-\alias{filter_activity_presence.eventlog}
-\alias{filter_activity_presence.grouped_eventlog}
 \alias{ifilter_activity_presence}
 \title{Filter: Activity Presence}
 \usage{
-filter_activity_presence(eventlog, activities, method, reverse)
-
-\method{filter_activity_presence}{eventlog}(
-  eventlog,
-  activities = NULL,
-  method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE
-)
-
-\method{filter_activity_presence}{grouped_eventlog}(
+filter_activity_presence(
   eventlog,
   activities = NULL,
   method = c("all", "one_of", "none", "exact", "only"),
@@ -59,13 +48,6 @@ present.
 
 When only one activity label is supplied, note that methods all and one_of will be identical.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{eventlog}: Filter event log on presence of activities.
-
-\item \code{grouped_eventlog}: Filter grouped event log on presence of activities.
-}}
-
 \seealso{
 \code{vignette("filters", "edeaR")}
 }

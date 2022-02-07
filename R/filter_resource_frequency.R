@@ -22,7 +22,11 @@
 #'
 #' @export filter_resource_frequency
 
-filter_resource_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+filter_resource_frequency <- function(eventlog,
+									  interval = NULL,
+									  percentage = NULL,
+									  reverse = FALSE,
+									  ...) {
 	UseMethod("filter_resource_frequency")
 }
 

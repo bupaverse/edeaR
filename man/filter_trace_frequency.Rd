@@ -7,7 +7,13 @@
 \alias{ifilter_trace_frequency}
 \title{Filter: Trace frequency}
 \usage{
-filter_trace_frequency(eventlog, interval, percentage, reverse, ...)
+filter_trace_frequency(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
 \method{filter_trace_frequency}{eventlog}(
   eventlog,

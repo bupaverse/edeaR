@@ -22,7 +22,10 @@
 #' @param lifecycle Character vector containing one or more life cycle identifiers.
 
 #' @export filter_lifecycle_presence
-filter_lifecycle_presence <- function(eventlog, lifecycle, method, reverse) {
+filter_lifecycle_presence <- function(eventlog,
+									  lifecycle = NULL,
+									  method = c("all", "one_of", "none", "exact","only"),
+									  reverse = FALSE) {
 	UseMethod("filter_lifecycle_presence")
 }
 

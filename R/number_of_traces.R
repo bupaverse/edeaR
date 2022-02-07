@@ -49,6 +49,6 @@ number_of_traces_FUN <- function(eventlog) {
 	r<- data.frame( c(nrow(tr),sum(tr$absolute_frequency)/nrow(tr)))
 	r <- as.data.frame(t(r))
 	colnames(r) <- c("absolute","average_coverage")
-	r <- tbl_df(r)
+	r <- as_tibble(r)
 	return(r)
 }

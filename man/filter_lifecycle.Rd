@@ -7,7 +7,7 @@
 \alias{ifilter_lifecycle}
 \title{Filter: Life cycle}
 \usage{
-filter_lifecycle(eventlog, lifecycle, reverse, ...)
+filter_lifecycle(eventlog, lifecycle, reverse = FALSE, ...)
 
 \method{filter_lifecycle}{eventlog}(eventlog, lifecycle, reverse = FALSE, ...)
 

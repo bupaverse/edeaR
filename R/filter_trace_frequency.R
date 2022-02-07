@@ -17,7 +17,11 @@
 #' @export filter_trace_frequency
 
 
-filter_trace_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+filter_trace_frequency <- function(eventlog,
+								   interval = NULL,
+								   percentage = NULL,
+								   reverse = FALSE,
+								   ...) {
 	UseMethod("filter_trace_frequency")
 }
 

@@ -18,11 +18,13 @@
 #' the original event log.
 #'
 #' @export
-filter_activity <- function(eventlog, activities, reverse, ...) {
+filter_activity <- function(eventlog,
+							activities,
+							reverse = FALSE,
+							...) {
 	UseMethod("filter_activity")
 }
 
-#' @describeIn filter_activity Filter eventlog for activity labels
 #' @export
 
 filter_activity.eventlog <- function(eventlog,
@@ -35,7 +37,6 @@ filter_activity.eventlog <- function(eventlog,
 		filter(eventlog, !((!!as.symbol(activity_id(eventlog))) %in% activities))
 }
 
-#' @describeIn filter_activity Filter grouped eventlog for activity labels
 #' @export
 
 filter_activity.grouped_eventlog <- function(eventlog,

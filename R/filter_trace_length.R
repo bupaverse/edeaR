@@ -16,7 +16,11 @@
 #'
 #' @export filter_trace_length
 #'
-filter_trace_length <- function(eventlog, interval, percentage, reverse,...) {
+filter_trace_length <- function(eventlog,
+								interval = NULL,
+								percentage = NULL,
+								reverse = FALSE,
+								...) {
 	UseMethod("filter_trace_length")
 }
 

@@ -11,13 +11,12 @@
 #' @export filter_activity_instance
 
 filter_activity_instance <- function(eventlog,
-									 activity_instances,
-									 reverse) {
+									 activity_instances = NULL,
+									 reverse = FALSE) {
 	UseMethod("filter_activity_instance")
 }
 
 
-#' @describeIn filter_activity_instance Filter for eventlogs
 #' @export
 filter_activity_instance.eventlog <- function(eventlog,
 											  activity_instances = NULL,
@@ -29,7 +28,6 @@ filter_activity_instance.eventlog <- function(eventlog,
 		filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% activity_instances))
 }
 
-#' @describeIn filter_activity_instance Stratified filter for grouped eventlogs
 #' @export
 
 filter_activity_instance.grouped_eventlog <- function(eventlog,

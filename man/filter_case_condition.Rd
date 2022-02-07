@@ -4,7 +4,7 @@
 \alias{filter_case_condition}
 \title{title Filter: Case}
 \usage{
-filter_case_condition(eventlog, condition, reverse)
+filter_case_condition(eventlog, condition = NULL, reverse = FALSE)
 }
 \arguments{
 \item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}

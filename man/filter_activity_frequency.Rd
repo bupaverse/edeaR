@@ -2,22 +2,10 @@
 % Please edit documentation in R/filter_activity_frequency.R
 \name{filter_activity_frequency}
 \alias{filter_activity_frequency}
-\alias{filter_activity_frequency.eventlog}
-\alias{filter_activity_frequency.grouped_eventlog}
 \alias{ifilter_activity_frequency}
 \title{Filter: Activity frequency}
 \usage{
-filter_activity_frequency(eventlog, interval, percentage, reverse, ...)
-
-\method{filter_activity_frequency}{eventlog}(
-  eventlog,
-  interval = NULL,
-  percentage = NULL,
-  reverse = FALSE,
-  ...
-)
-
-\method{filter_activity_frequency}{grouped_eventlog}(
+filter_activity_frequency(
   eventlog,
   interval = NULL,
   percentage = NULL,
@@ -59,13 +47,6 @@ frequency. The filter will retain additional activity labels as long as the numb
 a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select activity labels which occur 10 times or more.
 }
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{eventlog}: Filter eventlog on activity frequency
-
-\item \code{grouped_eventlog}: Stratified filter for grouped eventlog
-}}
-
 \seealso{
 \code{vignette("filters", "edeaR")}
 }

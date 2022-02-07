@@ -7,7 +7,12 @@
 \alias{ifilter_trim_lifecycle}
 \title{Filter: Trim activity instances based on life cycle labels}
 \usage{
-filter_trim_lifecycle(eventlog, start_lifecycle, end_lifecycle, reverse)
+filter_trim_lifecycle(
+  eventlog,
+  start_lifecycle = NULL,
+  end_lifecycle = NULL,
+  reverse = FALSE
+)
 
 \method{filter_trim_lifecycle}{eventlog}(
   eventlog,

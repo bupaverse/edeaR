@@ -2,22 +2,9 @@
 % Please edit documentation in R/activity_frequency.R
 \name{activity_frequency}
 \alias{activity_frequency}
-\alias{activity_frequency.eventlog}
-\alias{activity_frequency.grouped_eventlog}
 \title{Metric: Activity Frequency}
 \usage{
-activity_frequency(eventlog, level, append, append_column, ...)
-
-\method{activity_frequency}{eventlog}(
-  eventlog,
-  level = c("log", "trace", "activity", "case"),
-  append = F,
-  append_column = NULL,
-  sort = TRUE,
-  ...
-)
-
-\method{activity_frequency}{grouped_eventlog}(
+activity_frequency(
   eventlog,
   level = c("log", "trace", "activity", "case"),
   append = F,
@@ -36,9 +23,9 @@ activity_frequency(eventlog, level, append, append_column, ...)
 
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
-\item{...}{Deprecated arguments}
-
 \item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
@@ -52,13 +39,6 @@ presents the absolute and relative number of times a specific activity type occu
 provides the absolute and relative frequency of a specific activity in the complete event log.
 }
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{eventlog}: Compute activity frequency for eventlog
-
-\item \code{grouped_eventlog}: Compute activity frequency for grouped event log
-}}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

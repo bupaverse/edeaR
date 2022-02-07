@@ -24,12 +24,14 @@
 #' @param method Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.
 #'
 #' @export filter_activity_presence
-filter_activity_presence <- function(eventlog, activities, method, reverse) {
+filter_activity_presence <- function(eventlog,
+									 activities = NULL,
+									 method = c("all", "one_of", "none", "exact","only"),
+									 reverse = FALSE){
 	UseMethod("filter_activity_presence")
 }
 
 
-#' @describeIn filter_activity_presence Filter event log on presence of activities.
 #' @export
 
 filter_activity_presence.eventlog <- function(eventlog,
@@ -87,7 +89,6 @@ filter_activity_presence.eventlog <- function(eventlog,
 
 }
 
-#' @describeIn filter_activity_presence Filter grouped event log on presence of activities.
 #' @export
 filter_activity_presence.grouped_eventlog <- function(eventlog,
 											  activities = NULL,

@@ -26,12 +26,16 @@
 #'
 #' @export activity_frequency
 
-activity_frequency <- function(eventlog, level,  append, append_column, ...) {
+activity_frequency <- function(eventlog,
+							   level = c("log","trace","activity","case"),
+							   append = F,
+							   append_column = NULL,
+							   sort = TRUE,
+							   ...) {
 	UseMethod("activity_frequency")
 }
 
 
-#' @describeIn activity_frequency Compute activity frequency for eventlog
 #' @export
 
 activity_frequency.eventlog <- function(eventlog,
@@ -67,7 +71,6 @@ activity_frequency.eventlog <- function(eventlog,
 }
 
 
-#' @describeIn activity_frequency Compute activity frequency for grouped event log
 #' @export
 
 activity_frequency.grouped_eventlog <- function(eventlog,

@@ -23,11 +23,14 @@
 #'
 #' @inherit filter_activity params references seealso return
 
-filter_activity_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+filter_activity_frequency <- function(eventlog,
+									  interval = NULL,
+									  percentage = NULL,
+									  reverse = FALSE,
+									  ...) {
 	UseMethod("filter_activity_frequency")
 }
 
-#' @describeIn filter_activity_frequency Filter eventlog on activity frequency
 #' @export
 
 filter_activity_frequency.eventlog <- function(eventlog,
@@ -89,7 +92,6 @@ filter_activity_percentage <- function(eventlog, percentage, reverse) {
 
 
 
-#' @describeIn filter_activity_frequency Stratified filter for grouped eventlog
 #' @export
 #'
 filter_activity_frequency.grouped_eventlog <- function(eventlog, interval = NULL, percentage = NULL, reverse = FALSE, ...) {

@@ -3,7 +3,7 @@ processing_time_resource <- function(eventlog,
 									 units,
 									 work_schedule) {
 
-
+	relative_frequency <- NULL
 	eventlog %>%
 		processing_time_activity_instance(units = units, work_schedule = work_schedule) -> raw
 

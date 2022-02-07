@@ -7,7 +7,12 @@
 \alias{ifilter_lifecycle_presence}
 \title{Filter: Life cycle Presence}
 \usage{
-filter_lifecycle_presence(eventlog, lifecycle, method, reverse)
+filter_lifecycle_presence(
+  eventlog,
+  lifecycle = NULL,
+  method = c("all", "one_of", "none", "exact", "only"),
+  reverse = FALSE
+)
 
 \method{filter_lifecycle_presence}{eventlog}(
   eventlog,

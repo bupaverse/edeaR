@@ -7,7 +7,14 @@
 \alias{ifilter_throughput_time}
 \title{Filter: Throughput Time}
 \usage{
-filter_throughput_time(eventlog, interval, percentage, reverse, units, ...)
+filter_throughput_time(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  ...
+)
 
 \method{filter_throughput_time}{eventlog}(
   eventlog,
