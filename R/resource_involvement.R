@@ -33,7 +33,12 @@
 #'
 #' @export resource_involvement
 
-resource_involvement <- function(eventlog, level, append, ...) {
+resource_involvement <- function(eventlog,
+								 level = c("case","resource","resource-activity"),
+								 append = F,
+								 append_column = NULL,
+								 sort = TRUE,
+								 ...) {
 	UseMethod("resource_involvement")
 }
 

@@ -11,7 +11,12 @@
 #'
 #' @export size_of_selfloops
 
-size_of_selfloops <- function(eventlog, type, level, append, ...) {
+size_of_selfloops <- function(eventlog,
+							  type = c("all", "repeat","redo"),
+							  level = c("log","case","activity","resource","resource-activity"),
+							  append = FALSE,
+							  append_column = NULL,
+							  ...) {
 	UseMethod("size_of_selfloops")
 }
 

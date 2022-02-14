@@ -6,7 +6,15 @@
 \alias{number_of_selfloops.grouped_eventlog}
 \title{Metric: Number of selfloops in trace}
 \usage{
-number_of_selfloops(eventlog, type, level, append, ...)
+number_of_selfloops(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{number_of_selfloops}{eventlog}(
   eventlog,
@@ -39,11 +47,11 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
-\item{...}{Deprecated arguments}
-
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides information statistics on the number of selfloops.

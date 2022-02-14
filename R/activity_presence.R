@@ -31,7 +31,11 @@
 #'
 #' @export activity_presence
 
-activity_presence <- function(eventlog, append, append_column, sort, ...) {
+activity_presence <- function(eventlog,
+							  append = F,
+							  append_column = "absolute",
+							  sort = TRUE,
+							  ...) {
 	UseMethod("activity_presence")
 }
 

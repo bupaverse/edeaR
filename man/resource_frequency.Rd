@@ -6,7 +6,14 @@
 \alias{resource_frequency.grouped_eventlog}
 \title{Metric: Resource frequency}
 \usage{
-resource_frequency(eventlog, level, append, ...)
+resource_frequency(
+  eventlog,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{resource_frequency}{eventlog}(
   eventlog,
@@ -35,11 +42,11 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
-\item{...}{Deprecated arguments}
-
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Analyses the frequency of resources at different levels of analysis

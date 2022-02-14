@@ -6,7 +6,15 @@
 \alias{idle_time.grouped_eventlog}
 \title{Metric: Idle Time}
 \usage{
-idle_time(eventlog, level, append, append_column, units, ...)
+idle_time(
+  eventlog,
+  level = c("log", "case", "trace", "resource"),
+  append = FALSE,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  sort = TRUE,
+  ...
+)
 
 \method{idle_time}{eventlog}(
   eventlog,
@@ -41,9 +49,9 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{units}{Time units to be used}
 
-\item{...}{Deprecated arguments}
-
 \item{sort}{Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Calculates the amount of time that no activity occurs.

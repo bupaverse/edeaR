@@ -11,7 +11,12 @@
 #'
 #' @export size_of_repetitions
 #'
-size_of_repetitions <- function(eventlog, type, level, append, ...) {
+size_of_repetitions <- function(eventlog,
+								type = c("all","repeat","redo"),
+								level = c("log","case","activity","resource","resource-activity"),
+								append = FALSE,
+								append_column = NULL,
+								...) {
 	UseMethod("size_of_repetitions")
 }
 #' @describeIn size_of_repetitions Size of repetitions for eventlog

@@ -34,7 +34,14 @@
 #'
 
 
-throughput_time <- function(eventlog, level, append, append_column, units, work_schedule, ...) {
+throughput_time <- function(eventlog,
+							level = c("log","trace","case"),
+							append = FALSE,
+							append_column = NULL,
+							units = c("days","hours","mins","secs","weeks"),
+							work_schedule = NULL,
+							sort = TRUE,
+							...) {
 	UseMethod("throughput_time")
 }
 

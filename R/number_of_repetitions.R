@@ -54,7 +54,13 @@
 #' @export number_of_repetitions
 
 
-number_of_repetitions <- function(eventlog, type, level, append, ...) {
+number_of_repetitions <- function(eventlog,
+								  type = c("all","repeat","redo"),
+								  level = c("log","case","activity","resource","resource-activity"),
+								  append = FALSE,
+								  append_column = NULL,
+								  sort = TRUE,
+								  ...) {
 	UseMethod("number_of_repetitions")
 }
 

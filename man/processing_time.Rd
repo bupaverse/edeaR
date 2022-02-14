@@ -8,12 +8,12 @@
 \usage{
 processing_time(
   eventlog,
-  level,
-  append,
-  append_column,
-  units,
-  sort,
-  work_schedule,
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  append = F,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
   ...
 )
 

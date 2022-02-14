@@ -6,7 +6,13 @@
 \alias{activity_presence.grouped_eventlog}
 \title{Metric: Activity Presence}
 \usage{
-activity_presence(eventlog, append, append_column, sort, ...)
+activity_presence(
+  eventlog,
+  append = F,
+  append_column = "absolute",
+  sort = TRUE,
+  ...
+)
 
 \method{activity_presence}{eventlog}(
   eventlog,

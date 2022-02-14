@@ -6,7 +6,14 @@
 \alias{size_of_selfloops.grouped_eventlog}
 \title{Metric: Size of selfloops}
 \usage{
-size_of_selfloops(eventlog, type, level, append, ...)
+size_of_selfloops(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  ...
+)
 
 \method{size_of_selfloops}{eventlog}(
   eventlog,
@@ -37,9 +44,9 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
-\item{...}{Deprecated arguments}
-
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics on the sizes of selfloops

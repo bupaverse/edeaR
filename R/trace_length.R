@@ -24,7 +24,12 @@
 
 #' @export trace_length
 
-trace_length <- function(eventlog, level, append, ...) {
+trace_length <- function(eventlog,
+						 level = c("log","trace","case"),
+						 append = F,
+						 append_column = NULL,
+						 sort = TRUE,
+						 ...) {
 	UseMethod("trace_length")
 }
 

@@ -6,7 +6,14 @@
 \alias{trace_length.grouped_eventlog}
 \title{Metric: Trace length}
 \usage{
-trace_length(eventlog, level, append, ...)
+trace_length(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{trace_length}{eventlog}(
   eventlog,
@@ -35,11 +42,11 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
 
-\item{...}{Deprecated arguments}
-
 \item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
 
 \item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Analysis of trace lengths

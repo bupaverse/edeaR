@@ -8,11 +8,12 @@
 \usage{
 throughput_time(
   eventlog,
-  level,
-  append,
-  append_column,
-  units,
-  work_schedule,
+  level = c("log", "trace", "case"),
+  append = FALSE,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  work_schedule = NULL,
+  sort = TRUE,
   ...
 )
 
@@ -53,9 +54,9 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
-\item{...}{Deprecated arguments}
-
 \item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
+
+\item{...}{Deprecated arguments}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.

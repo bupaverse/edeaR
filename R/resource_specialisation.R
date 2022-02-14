@@ -35,14 +35,24 @@
 #'
 #' @export resource_specialisation
 
-resource_specialisation <- function(eventlog, level, append, ...) {
+resource_specialisation <- function(eventlog,
+									level = c("log","case","activity","resource"),
+									append = F,
+									append_column = NULL,
+									sort = TRUE,
+									...) {
 	UseMethod("resource_specialisation")
 }
 
 #' @rdname resource_specialisation
 #' @export resource_specialization
 
-resource_specialization <- function(eventlog, level, append, ...) {
+resource_specialization <- function(eventlog,
+									level = c("log","case","activity","resource"),
+									append = F,
+									append_column = NULL,
+									sort = TRUE,
+									...) {
 	UseMethod("resource_specialisation")
 }
 
