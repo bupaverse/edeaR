@@ -29,9 +29,14 @@ Imports:
     hms,
     forcats
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 URL: https://www.bupar.net, https://github.com/bupaverse/edeaR
-Suggests: knitr, eventdataR,
-    rmarkdown
+Suggests: 
+    knitr,
+    eventdataR,
+    rmarkdown,
+    covr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 BugReports: https://github.com/bupaverse/edeaR/issues
+Config/testthat/edition: 3
