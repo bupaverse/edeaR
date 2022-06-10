@@ -18,7 +18,7 @@ trace_length(
 \method{trace_length}{eventlog}(
   eventlog,
   level = c("log", "trace", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
