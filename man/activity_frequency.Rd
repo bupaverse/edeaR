@@ -4,61 +4,100 @@
 \alias{activity_frequency}
 \alias{activity_frequency.eventlog}
 \alias{activity_frequency.grouped_eventlog}
+\alias{activity_frequency.activitylog}
+\alias{activity_frequency.grouped_activitylog}
 \title{Metric: Activity Frequency}
 \usage{
-activity_frequency(eventlog, level, append, append_column, ...)
+activity_frequency(
+  log,
+  eventlog = deprecated(),
+  level = c("log", "trace", "activity", "case"),
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{activity_frequency}{eventlog}(
-  eventlog,
+  log,
+  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = F,
+  append = TRUE,
   append_column = NULL,
   sort = TRUE,
   ...
 )
 
 \method{activity_frequency}{grouped_eventlog}(
-  eventlog,
+  log,
+  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = F,
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
+
+\method{activity_frequency}{activitylog}(
+  log,
+  eventlog = deprecated(),
+  level = c("log", "trace", "activity", "case"),
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
+
+\method{activity_frequency}{grouped_activitylog}(
+  log,
+  eventlog = deprecated(),
+  level = c("log", "trace", "activity", "case"),
+  append = TRUE,
   append_column = NULL,
   sort = TRUE,
   ...
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
 
-\item{level}{Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{level}{\code{\link{character}} (default "log"): Level of granularity for the analysis: "log", "trace", "case", "activity". For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
 }
 \details{
-\itemize{ \item At log level, This metric shows the summary statistics of the frequency of activities throughout the complete event log.
-\item  On the level of the cases, this metric showsthe absolute and relative number of times the different activity types occur in
-each case. The absolute number shows the number of distinct activity types
-that occur in each of the cases. The relative number is calculated based on the total activity executions in the case. \item On trace level, this metric
-presents the absolute and relative number of times a specific activity type occurs in each trace. \item On the level of the activities, this metric
-provides the absolute and relative frequency of a specific activity in the complete event log.
+\itemize{
+\item At \code{log} level, This metric shows the summary statistics of the frequency of activities throughout the complete log.
+\item On \code{case} level, this metric showsthe absolute and relative number of times the different activity types occur in each case.
+The absolute number shows the number of distinct activity types that occur in each of the cases.
+The relative number is calculated based on the total activity executions in the case.
+\item On \code{trace} level, this metric presents the absolute and relative number of times a specific activity type occurs in each trace.
+\item On \code{activity} level, this metric provides the absolute and relative frequency of a specific activity in the complete log.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute activity frequency for eventlog
+\item \code{eventlog}: Compute activity frequency for \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute activity frequency for grouped event log
+\item \code{grouped_eventlog}: Compute activity frequency for \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Compute activity frequency for \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Compute activity frequency for \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\concept{metrics}

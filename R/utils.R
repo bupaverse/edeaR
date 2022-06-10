@@ -76,6 +76,23 @@ deprecated_end_point <- function(e, ...) {
 	}
 }
 
+# Warning: The `eventlog` argument of `func()` is deprecated as of edeaR XXX.
+# Please use the `log` argument instead.
+# WARNING: Works only on exported functions!
+lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		cl <- sys.call(-1L)
+		func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
+		func_name <- match.call(definition = func, call = cl)[[1L]]
+
+		lifecycle::deprecate_warn("XXX", paste0(func_name, "(eventlog)"), paste0(func_name, "(log)"))
+		return(eventlog)
+	}
+
+	return(log)
+}
+
 
 is_attached <- function(x) {
 	paste0("package:", x) %in% search()

@@ -47,14 +47,14 @@ This functions allows to filter cases that contain certain activities.
 It requires as input a vector containing one or more activity labels and it has a method
 argument. The latter can have the values all, none or one_of.
 \itemize{
-\item When set to `all`, it means
+\item When set to \code{all}, it means
 that all the specified activity labels must be present for a case to be selected
-\item `none` means
+\item \code{none} means
 that they are not allowed to be present.
-\item `one_of` means that at least one of them must be
+\item \code{one_of} means that at least one of them must be
 present.
-\item `only` means that only (a set of) these activities are allowed to be present
-\item `exact` means that only exactly these activities can be present (although multiple times and in random orderings)
+\item \code{only} means that only (a set of) these activities are allowed to be present
+\item \code{exact} means that only exactly these activities can be present (although multiple times and in random orderings)
 }
 
 When only one activity label is supplied, note that methods all and one_of will be identical.

@@ -29,21 +29,20 @@ number_of_selfloops(eventlog, type, level, append, ...)
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{type}{The type of repetitions, either all, repeat or redo.}
 
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{...}{Deprecated arguments}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 }
 \description{
 Provides information statistics on the number of selfloops.
@@ -69,38 +68,37 @@ complete event log, cases, activities, resources and resource-activity combinati
 number of self-loops within a trace can give a first insight in the amount of
 waste in an event log. As stated earlier, each combination of two occurrences of
 the same activity executed by the same resource will be counted as one repeat
-	self-loop of this activity.
+self-loop of this activity.
 
-	\item This metric on the level of cases provides
-	an overview of the absolute and relative number of repeat and redo self-loops
-	in each case.  To calculate the relative number, each (repeat or
-	 redo) self-loop is counted as 1 occurrence, and the other
-	 activity instances are also counted as 1.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item This metric on the level of cases provides
+an overview of the absolute and relative number of repeat and redo self-loops
+in each case.  To calculate the relative number, each (repeat or
+ redo) self-loop is counted as 1 occurrence, and the other
+ activity instances are also counted as 1.
 
-	 \item On the level of the distinct activities in the event log, the absolute and relative number of self-loops per
-	 activity can be an indication for the company which activities are causing the
-	 most waste in the process.
+ \\item On the level of the distinct activities in the event log, the absolute and relative number of self-loops per
+ activity can be an indication for the company which activities are causing the
+ most waste in the process.
 
-	 \item Similar to the metric on the level of the
-	 activities, the number of self-loops on the level of the resources executing the
-	 activities can give a company insights in which employee needs to repeat his or
-	 her work most often within a case, or for which employee the work he or she
-	 did should be redone by another employee within the same case. This metric
-	 shows the absolute and relative number of both repeat and redo self-loops for
-	 each resource in the event log.
-
- \item Finally, the metric can be applied
- to the level of the specifc resource-activity combinations, in order to get an
- insight in which activities are the most crucial for which resources. This metric
+ \\item Similar to the metric on the level of the
+ activities, the number of self-loops on the level of the resources executing the
+ activities can give a company insights in which employee needs to repeat his or
+ her work most often within a case, or for which employee the work he or she
+ did should be redone by another employee within the same case. This metric
  shows the absolute and relative number of both repeat and redo self-loops for
- each of the resource-activity combinations that occur in the event log. Two
- different relative numbers are provided here, one from the resource perspective
- and one from the activity perspective. At the resource perspective, the denominator
- is the total number of executions by the resource under consideration.
- At the activity perspective, the denominator is the total number of occurrences
- of the activity under consideration.
+ each resource in the event log.
+}\if{html}{\out{</div>}}
 
-
+\item Finally, the metric can be applied
+to the level of the specifc resource-activity combinations, in order to get an
+insight in which activities are the most crucial for which resources. This metric
+shows the absolute and relative number of both repeat and redo self-loops for
+each of the resource-activity combinations that occur in the event log. Two
+different relative numbers are provided here, one from the resource perspective
+and one from the activity perspective. At the resource perspective, the denominator
+is the total number of executions by the resource under consideration.
+At the activity perspective, the denominator is the total number of occurrences
+of the activity under consideration.
 
 }
 }

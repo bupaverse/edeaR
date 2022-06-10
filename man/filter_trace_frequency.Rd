@@ -32,7 +32,7 @@ ifilter_trace_frequency(eventlog)
 
 \item{interval}{WHen given an interval, the filter will select cases of which the trace has a frequency inside the interval.}
 
-\item{percentage}{When given a percentage p, the filter will select the most common traces, until at least p\% of the cases is covered.}
+\item{percentage}{When given a percentage p, the filter will select the most common traces, until at least p\\% of the cases is covered.}
 
 \item{reverse}{Logical, indicating whether the selection should be reversed.}
 

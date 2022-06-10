@@ -29,19 +29,18 @@ idle_time(eventlog, level, append, append_column, units, ...)
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{level}{Level of granularity for the analysis: log,  case, trace, or resource.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 
-\item{...}{Deprecated arguments}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 
 \item{sort}{Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.}
 }
@@ -52,17 +51,17 @@ Calculates the amount of time that no activity occurs.
 \itemize{
 
 \item  On the level of the complete event log, the
-  idle time metric provides an overview of summary statistics of the idle
-  time per case, aggregated over the complete event log.
+idle time metric provides an overview of summary statistics of the idle
+time per case, aggregated over the complete event log.
 \item  The metric applied on the level of the specific
- cases in the event log provides an overview of the total idle time per case
+cases in the event log provides an overview of the total idle time per case
 
 \item On the level of the different traces that occur in the event log,
- the idle time metric provides an overview of the summary statistics
- of the idle time for each trace in the event log.
+the idle time metric provides an overview of the summary statistics
+of the idle time for each trace in the event log.
 
 \item The metric can also be of interest on the level of the resources,
- to get an insight in the amount of time each resource \"wastes\" during the process.
+to get an insight in the amount of time each resource \"wastes\" during the process.
 }
 }
 \section{Methods (by class)}{

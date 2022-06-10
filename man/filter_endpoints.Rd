@@ -44,7 +44,7 @@ ifilter_endpoints(eventlog)
 \item{end_activities}{A vector of activity identifiers, or NULL}
 
 \item{percentage}{A percentage p to be used as percentile cut off. When this is used, the most common endpoint-pairs will be selected until at least
-the p\% of the cases are selected.}
+the p\\% of the cases are selected.}
 
 \item{reverse}{Logical, indicating whether the selection should be reversed.}
 
@@ -61,7 +61,7 @@ Filters the log based on a provided set of start and end activities
 \details{
 The filter_endpoints method filters cases based on the first and last activity label. It can be used in two ways: by specifying vectors with allowed start
 activities and/or allowed end activities, or by specifying a percentile. In the latter case, the percentile value will be used as a cut off.
-For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90% of the cases, and filter the event log accordingly.
+For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90\% of the cases, and filter the event log accordingly.
 }
 \section{Methods (by class)}{
 \itemize{

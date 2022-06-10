@@ -47,12 +47,12 @@ This functions allows to filter activity instances that (do not) contain certain
 It requires as input a vector containing one or more life cycle labels and it has a method
 argument. The latter can have the values all, none or one_of.
 \itemize{
-\item When set to `all`, it means
+\item When set to \code{all}, it means
 that all the specified life cycle labels must be present for an activity instance to be selected
-\item `none` means that they are not allowed to be present.
-\item `one_of` means that at least one of them must be present.
-\item `only` means that only (a set of) these life cycle labels are allowed to be present
-\item `exact` means that only exactly these life cycle labels can be present (although multiple times and in random orderings)
+\item \code{none} means that they are not allowed to be present.
+\item \code{one_of} means that at least one of them must be present.
+\item \code{only} means that only (a set of) these life cycle labels are allowed to be present
+\item \code{exact} means that only exactly these life cycle labels can be present (although multiple times and in random orderings)
 }
 }
 \section{Methods (by class)}{

@@ -10,8 +10,7 @@ redo_repetitions_referral_matrix(eventlog)
 \method{redo_repetitions_referral_matrix}{eventlog}(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides a list of initatiors and completers of  redo repetitons
