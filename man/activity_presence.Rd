@@ -4,27 +4,58 @@
 \alias{activity_presence}
 \alias{activity_presence.eventlog}
 \alias{activity_presence.grouped_eventlog}
+\alias{activity_presence.activitylog}
+\alias{activity_presence.grouped_activitylog}
 \title{Metric: Activity Presence}
 \usage{
-activity_presence(eventlog, append, append_column, sort, ...)
+activity_presence(
+  log,
+  eventlog = deprecated(),
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{activity_presence}{eventlog}(
-  eventlog,
-  append = F,
-  append_column = "absolute",
+  log,
+  eventlog = deprecated(),
+  append = TRUE,
+  append_column = NULL,
   sort = TRUE,
   ...
 )
 
 \method{activity_presence}{grouped_eventlog}(
-  eventlog,
-  append = F,
-  append_column = "absolute",
+  log,
+  eventlog = deprecated(),
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
+
+\method{activity_presence}{activitylog}(
+  log,
+  eventlog = deprecated(),
+  append = TRUE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
+
+\method{activity_presence}{grouped_activitylog}(
+  log,
+  eventlog = deprecated(),
+  append = TRUE,
+  append_column = NULL,
   sort = TRUE,
   ...
 )
 }
 \arguments{
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
+
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
@@ -44,9 +75,13 @@ number of cases in which each activity occurs together with its relative presenc
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute activity presence for event log
+\item \code{eventlog}: Compute activity presence for \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute activity presence for grouped eventlog
+\item \code{grouped_eventlog}: Compute activity presence for \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Compute activity presence for \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Compute activity presence for \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \examples{
@@ -72,3 +107,8 @@ activity_presence(log)
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_frequency}()}
+}
+\concept{metrics}

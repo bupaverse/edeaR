@@ -36,7 +36,6 @@ activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c(
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	level <- rlang::arg_match(level)
-	level <- deprecated_level(level, ...)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "activity" ~ "absolute",
@@ -66,7 +65,6 @@ activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), le
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	level <- rlang::arg_match(level)
-	level <- deprecated_level(level, ...)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "activity" ~ "absolute",
@@ -80,11 +78,14 @@ activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), le
 				  trace = activity_frequency_trace,
 				  activity = activity_frequency_activity)
 
-	if(level != "log") {
-		grouped_metric(log, FUN) -> output
-	} else {
-		grouped_metric_raw_log(log, FUN) -> output
-	}
+	# Doesn't work!
+	bupaR:::apply_grouped_fun(log, FUN, .keep_groups = TRUE, .returns_log = TRUE) -> output
+
+	#if(level != "log") {
+	#	grouped_metric(log, FUN) -> output
+	#} else {
+	#	grouped_metric_raw_log(log, FUN) -> output
+	#}
 
 	if(sort && level %in% c("case", "trace","activity")) {
 		output %>%
@@ -100,9 +101,8 @@ activity_frequency.activitylog <- function(log, eventlog = deprecated(), level =
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	level <- rlang::arg_match(level)
-	level <- deprecated_level(level, ...)
 
-	activity_frequency.eventlog(to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
+	activity_frequency.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
 }
 
 #' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{grouped_activitylog}}.
@@ -111,7 +111,6 @@ activity_frequency.grouped_activitylog <- function(log, eventlog = deprecated(),
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	level <- rlang::arg_match(level)
-	level <- deprecated_level(level, ...)
 
-	activity_frequency.eventlog(to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
+	activity_frequency.grouped_eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
 }

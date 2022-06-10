@@ -77,3 +77,7 @@ combinations with the absolute and relative number of cases in which each resour
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()}
+}

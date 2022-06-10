@@ -62,3 +62,7 @@ Analyses the structuredness of an event log by use of trace frequencies. Applica
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()}
+}

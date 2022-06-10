@@ -74,3 +74,7 @@ to get an insight in the amount of time each resource \"wastes\" during the proc
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()}
+}
