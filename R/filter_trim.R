@@ -16,7 +16,10 @@
 #'
 #' @export filter_trim
 
-filter_trim <- function(eventlog, start_activities, end_activities, reverse) {
+filter_trim <- function(eventlog,
+						start_activities = NULL,
+						end_activities = NULL,
+						reverse = FALSE) {
 	UseMethod("filter_trim")
 }
 

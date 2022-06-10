@@ -23,7 +23,12 @@
 
 #' @export end_activities
 
-end_activities <- function(eventlog, level, append,  ...) {
+end_activities <-function(eventlog,
+						  level = c("log","case","activity","resource","resource-activity"),
+						  append = FALSE,
+						  append_column = NULL,
+						  sort = TRUE,
+						  ...)  {
 	UseMethod("end_activities")
 }
 

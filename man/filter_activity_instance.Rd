@@ -2,16 +2,10 @@
 % Please edit documentation in R/filter_activity_instances.R
 \name{filter_activity_instance}
 \alias{filter_activity_instance}
-\alias{filter_activity_instance.eventlog}
-\alias{filter_activity_instance.grouped_eventlog}
 \alias{ifilter_activity_instance}
 \title{title Filter: Activity instance}
 \usage{
-filter_activity_instance(eventlog, activity_instances, reverse)
-
-\method{filter_activity_instance}{eventlog}(eventlog, activity_instances = NULL, reverse = FALSE)
-
-\method{filter_activity_instance}{grouped_eventlog}(eventlog, activity_instances = NULL, reverse = FALSE)
+filter_activity_instance(eventlog, activity_instances = NULL, reverse = FALSE)
 
 ifilter_activity_instance(eventlog)
 }
@@ -34,13 +28,6 @@ Filters the log based on activity instance identifier
 The method filter_activity_instance can be used to filter on activity instance identifiers. It has an activity_instances argument,
 to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
-\section{Methods (by class)}{
-\itemize{
-\item \code{eventlog}: Filter for eventlogs
-
-\item \code{grouped_eventlog}: Stratified filter for grouped eventlogs
-}}
-
 \seealso{
 \code{vignette("filters", "edeaR")}
 }

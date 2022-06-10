@@ -7,7 +7,13 @@
 \alias{ifilter_resource_frequency}
 \title{{Filter: Activity frequency}}
 \usage{
-filter_resource_frequency(eventlog, interval, percentage, reverse, ...)
+filter_resource_frequency(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
 \method{filter_resource_frequency}{eventlog}(
   eventlog,

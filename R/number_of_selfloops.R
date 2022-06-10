@@ -66,7 +66,13 @@
 #' @inherit activity_frequency params references seealso return
 #' @export number_of_selfloops
 
-number_of_selfloops <- function(eventlog, type, level, append, ...) {
+number_of_selfloops <- function(eventlog,
+								type = c("all", "repeat","redo"),
+								level = c("log","case","activity","resource","resource-activity"),
+								append = FALSE,
+								append_column = NULL,
+								sort = TRUE,
+								...) {
 	UseMethod("number_of_selfloops")
 }
 

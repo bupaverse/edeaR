@@ -23,7 +23,12 @@
 #' @export
 
 
-filter_time_period <- function(eventlog, interval, filter_method, force_trim, reverse, ...) {
+filter_time_period <- function(eventlog,
+							   interval = NULL,
+							   filter_method = c("contained","intersecting","start","complete","trim"),
+							   force_trim = FALSE,
+							   reverse = FALSE,
+							   ...) {
 	UseMethod("filter_time_period")
 }
 

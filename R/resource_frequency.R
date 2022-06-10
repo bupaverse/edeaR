@@ -40,7 +40,12 @@
 #' @export resource_frequency
 
 
-resource_frequency <- function(eventlog, level, append, ...) {
+resource_frequency <- function(eventlog,
+							   level = c("log","case","activity","resource","resource-activity"),
+							   append = FALSE,
+							   append_column = NULL,
+							   sort = TRUE,
+							   ...) {
 	UseMethod("resource_frequency")
 }
 

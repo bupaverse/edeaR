@@ -19,10 +19,10 @@
 #' @export filter_precedence_condition
 
 filter_precedence_condition <- function(eventlog,
-							  antecedent_condition,
-							  consequent_condition,
-							  precedence_type,
-							  reverse) {
+										antecedent_condition,
+										consequent_condition,
+										precedence_type = c("directly_follows", "eventually_follows"),
+										reverse = FALSE) {
 	UseMethod("filter_precedence_condition")
 }
 

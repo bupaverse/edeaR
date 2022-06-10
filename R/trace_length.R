@@ -24,7 +24,12 @@
 
 #' @export trace_length
 
-trace_length <- function(eventlog, level, append, ...) {
+trace_length <- function(eventlog,
+						 level = c("log","trace","case"),
+						 append = F,
+						 append_column = NULL,
+						 sort = TRUE,
+						 ...) {
 	UseMethod("trace_length")
 }
 
@@ -34,18 +39,20 @@ trace_length <- function(eventlog, level, append, ...) {
 #'
 trace_length.eventlog <- function(eventlog,
 								  level = c("log","trace","case"),
-								  append = F,
+								  append = deprecated(),
 								  append_column = NULL,
 								  sort = TRUE,
 								  ...) {
 	absolute <- NULL
 	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
+
+	append <- lifecycle_warning_append(append)
 
 	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "trace_length",
+		append_column <- case_when(level == "case" ~ "absolute",
 								   T ~ "NA")
 	}
+
 
 	FUN <- switch(level,
 				  log = trace_length_log,

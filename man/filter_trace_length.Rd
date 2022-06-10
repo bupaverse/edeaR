@@ -7,7 +7,13 @@
 \alias{ifilter_trace_length}
 \title{Filter: Trace length percentile}
 \usage{
-filter_trace_length(eventlog, interval, percentage, reverse, ...)
+filter_trace_length(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...
+)
 
 \method{filter_trace_length}{eventlog}(
   eventlog,

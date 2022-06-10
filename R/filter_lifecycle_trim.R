@@ -20,9 +20,9 @@
 #' @export filter_trim_lifecycle
 
 filter_trim_lifecycle <- function(eventlog,
-						start_lifecycle,
-						end_lifecycle,
-						reverse) {
+								  start_lifecycle = NULL,
+								  end_lifecycle = NULL,
+								  reverse = FALSE) {
 	UseMethod("filter_trim_lifecycle")
 }
 

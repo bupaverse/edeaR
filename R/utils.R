@@ -227,3 +227,38 @@ grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 				  ...)
 }
 
+# Warning: The `eventlog` argument of `func()` is deprecated as of bupaR 0.5.0.
+# Please use the `log` argument instead.
+# WARNING: Works only on exported functions!
+lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
+
+	cl <- sys.call(-1L)
+	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
+	func_name <- match.call(definition = func, call = cl)[[1L]]
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn("0.5.0", paste0(func_name, "(eventlog)"), paste0(func_name, "(log)"))
+		return(eventlog)
+	}
+
+	return(log)
+}
+
+lifecycle_warning_append <- function (append = deprecated(), append_column = deprecated(), level) {
+
+	cl <- sys.call(-1L)
+	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
+	func_name <- match.call(definition = func, call = cl)[[1L]]
+
+	if (lifecycle::is_present(append) ) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = paste0(func_name, "(append)"),
+			with = "augment()"
+		)
+	} else {
+		append <- FALSE
+	}
+	return(append)
+}
+

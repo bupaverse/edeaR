@@ -7,7 +7,12 @@
 \alias{ifilter_trim}
 \title{Filter: Trim cases}
 \usage{
-filter_trim(eventlog, start_activities, end_activities, reverse)
+filter_trim(
+  eventlog,
+  start_activities = NULL,
+  end_activities = NULL,
+  reverse = FALSE
+)
 
 \method{filter_trim}{eventlog}(
   eventlog,

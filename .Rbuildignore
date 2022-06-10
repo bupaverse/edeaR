@@ -11,3 +11,5 @@ R\eventlog_from_xes2.R
 ^\.github$
 ^\.idea$
 ^\.lintr$
+^doc$
+^Meta$

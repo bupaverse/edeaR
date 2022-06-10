@@ -19,7 +19,12 @@
 #'
 #' @export trace_coverage
 
-trace_coverage <- function(eventlog, level, append,  ...) {
+trace_coverage <- function(eventlog,
+						   level = c("log","trace","case"),
+						   append = F,
+						   append_column = NULL,
+						   sort = TRUE,
+						   ...) {
 	UseMethod("trace_coverage")
 }
 

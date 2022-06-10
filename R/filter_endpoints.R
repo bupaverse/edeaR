@@ -19,10 +19,10 @@
 #' @export filter_endpoints
 
 filter_endpoints <- function(eventlog,
-							 start_activities,
-							 end_activities,
-							 percentage,
-							 reverse,
+							 start_activities = NULL,
+							 end_activities = NULL,
+							 percentage = NULL,
+							 reverse = FALSE,
 							 ...) {
 	UseMethod("filter_endpoints")
 }

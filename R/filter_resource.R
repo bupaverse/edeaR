@@ -11,7 +11,9 @@
 #'
 #' @export filter_resource
 #'
-filter_resource <- function(eventlog, resources, reverse) {
+filter_resource <- function(eventlog,
+							resources,
+							reverse = FALSE) {
 	UseMethod("filter_resource")
 }
 

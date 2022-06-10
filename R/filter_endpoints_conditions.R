@@ -17,10 +17,10 @@
 #' @export filter_endpoints_conditions
 
 filter_endpoints_conditions <- function(eventlog,
-							 start_condition,
-							 end_condition,
-							 reverse,
-							 ...) {
+										start_condition = NULL,
+										end_condition = NULL,
+										reverse = FALSE,
+										...) {
 	UseMethod("filter_endpoints_conditions")
 }
 

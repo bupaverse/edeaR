@@ -7,7 +7,7 @@
 \alias{ifilter_case}
 \title{title Filter: Case}
 \usage{
-filter_case(eventlog, cases, reverse)
+filter_case(eventlog, cases = NULL, reverse = FALSE)
 
 \method{filter_case}{eventlog}(eventlog, cases = NULL, reverse = FALSE)
 

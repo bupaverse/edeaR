@@ -18,7 +18,10 @@
 #' the original event log.
 #'
 #' @export
-filter_lifecycle <- function(eventlog, lifecycle, reverse, ...) {
+filter_lifecycle <- function(eventlog,
+							 lifecycle,
+							 reverse = FALSE,
+							 ...) {
 	UseMethod("filter_lifecycle")
 }
 

@@ -7,7 +7,14 @@
 \alias{ifilter_processing_time}
 \title{Filter: Processing Time}
 \usage{
-filter_processing_time(eventlog, interval, percentage, reverse, units, ...)
+filter_processing_time(
+  eventlog,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  ...
+)
 
 \method{filter_processing_time}{eventlog}(
   eventlog,

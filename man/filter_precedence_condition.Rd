@@ -8,8 +8,8 @@ filter_precedence_condition(
   eventlog,
   antecedent_condition,
   consequent_condition,
-  precedence_type,
-  reverse
+  precedence_type = c("directly_follows", "eventually_follows"),
+  reverse = FALSE
 )
 }
 \arguments{

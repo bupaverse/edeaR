@@ -6,9 +6,9 @@
 \usage{
 filter_endpoints_conditions(
   eventlog,
-  start_condition,
-  end_condition,
-  reverse,
+  start_condition = NULL,
+  end_condition = NULL,
+  reverse = FALSE,
   ...
 )
 }

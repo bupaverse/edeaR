@@ -7,7 +7,7 @@
 \alias{ifilter_resource}
 \title{Filter: Resource}
 \usage{
-filter_resource(eventlog, resources, reverse)
+filter_resource(eventlog, resources, reverse = FALSE)
 
 \method{filter_resource}{eventlog}(eventlog, resources, reverse = FALSE)
 

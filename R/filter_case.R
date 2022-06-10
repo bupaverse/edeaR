@@ -10,7 +10,9 @@
 #' @inherit filter_activity params references seealso return
 #' @export filter_case
 
-filter_case <- function(eventlog, cases, reverse) {
+filter_case <- function(eventlog,
+						cases = NULL,
+						reverse = FALSE) {
 	UseMethod("filter_case")
 }
 

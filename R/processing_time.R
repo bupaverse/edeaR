@@ -34,7 +34,14 @@
 #'
 #' @export processing_time
 
-processing_time <- function(eventlog, level, append,append_column, units, sort, work_schedule, ...) {
+processing_time <- function(eventlog,
+							level = c("log","trace","case","activity","resource","resource-activity"),
+							append = F,
+							append_column = NULL,
+							units = c("days","hours","mins","secs","weeks"),
+							sort = TRUE,
+							work_schedule = NULL,
+							...) {
 	UseMethod("processing_time")
 }
 
@@ -48,7 +55,7 @@ processing_time.eventlog <- function(eventlog,
 									 units = c("days","hours","mins","secs","weeks"),
 									 sort = TRUE,
 									 work_schedule = NULL,
-									 ...){
+									 ...) {
 
 
 

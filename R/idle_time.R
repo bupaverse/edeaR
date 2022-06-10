@@ -29,7 +29,13 @@
 #'
 #' @export idle_time
 #'
-idle_time <- function(eventlog, level, append, append_column, units, ...) {
+idle_time <- function(eventlog,
+					  level = c("log","case","trace","resource"),
+					  append = FALSE,
+					  append_column = NULL,
+					  units = c("days","hours","mins","secs","weeks"),
+					  sort = TRUE,
+					  ...) {
 	UseMethod("idle_time")
 }
 

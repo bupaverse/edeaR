@@ -24,11 +24,11 @@
 #' @export filter_precedence_resource
 
 filter_precedence_resource <- function(eventlog,
-										antecedents,
-										consequents,
-										precedence_type,
-										filter_method,
-										reverse) {
+									   antecedents,
+									   consequents,
+									   precedence_type = c("directly_follows", "eventually_follows"),
+									   filter_method = c("all","one_of", "none"),
+									   reverse = FALSE) {
 	UseMethod("filter_precedence_resource")
 }
 
