@@ -8,11 +8,12 @@
 \usage{
 throughput_time(
   eventlog,
-  level,
-  append,
-  append_column,
-  units,
-  work_schedule,
+  level = c("log", "trace", "case"),
+  append = FALSE,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  work_schedule = NULL,
+  sort = TRUE,
   ...
 )
 
@@ -44,17 +45,17 @@ throughput_time(
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
 \item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.

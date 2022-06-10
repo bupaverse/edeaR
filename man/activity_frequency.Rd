@@ -12,7 +12,7 @@ activity_frequency(
   log,
   eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = TRUE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
@@ -22,7 +22,7 @@ activity_frequency(
   log,
   eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = TRUE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
@@ -32,7 +32,7 @@ activity_frequency(
   log,
   eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = TRUE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
@@ -42,7 +42,7 @@ activity_frequency(
   log,
   eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = TRUE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
@@ -52,7 +52,7 @@ activity_frequency(
   log,
   eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
-  append = TRUE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
   ...
@@ -65,9 +65,9 @@ activity_frequency(
 
 \item{level}{\code{\link{character}} (default "log"): Level of granularity for the analysis: "log", "trace", "case", "activity". For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 

@@ -6,7 +6,15 @@
 \alias{number_of_repetitions.grouped_eventlog}
 \title{Metric:  Number of repetitions}
 \usage{
-number_of_repetitions(eventlog, type, level, append, ...)
+number_of_repetitions(
+  eventlog,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = FALSE,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{number_of_repetitions}{eventlog}(
   eventlog,
@@ -36,13 +44,13 @@ number_of_repetitions(eventlog, type, level, append, ...)
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides information statistics on the number of repetitions

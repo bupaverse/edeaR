@@ -7,9 +7,23 @@
 \alias{resource_specialisation.grouped_eventlog}
 \title{Metric: Resource Specialisation}
 \usage{
-resource_specialisation(eventlog, level, append, ...)
+resource_specialisation(
+  eventlog,
+  level = c("log", "case", "activity", "resource"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
-resource_specialization(eventlog, level, append, ...)
+resource_specialization(
+  eventlog,
+  level = c("log", "case", "activity", "resource"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{resource_specialisation}{eventlog}(
   eventlog,
@@ -35,13 +49,13 @@ resource_specialization(eventlog, level, append, ...)
 \item{level}{Level of granularity for the analysis: log,  case, or resource.
 For more information, see \code{vignette("metrics", "edeaR")}#'}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Analyses whether resources specialise in specific activities

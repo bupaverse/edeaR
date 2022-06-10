@@ -6,7 +6,14 @@
 \alias{trace_coverage.grouped_eventlog}
 \title{Metric: Trace coverage}
 \usage{
-trace_coverage(eventlog, level, append, ...)
+trace_coverage(
+  eventlog,
+  level = c("log", "trace", "case"),
+  append = F,
+  append_column = NULL,
+  sort = TRUE,
+  ...
+)
 
 \method{trace_coverage}{eventlog}(
   eventlog,
@@ -32,13 +39,13 @@ trace_coverage(eventlog, level, append, ...)
 \item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level

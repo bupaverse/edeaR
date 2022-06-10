@@ -6,7 +6,15 @@
 \alias{idle_time.grouped_eventlog}
 \title{Metric: Idle Time}
 \usage{
-idle_time(eventlog, level, append, append_column, units, ...)
+idle_time(
+  eventlog,
+  level = c("log", "case", "trace", "resource"),
+  append = FALSE,
+  append_column = NULL,
+  units = c("days", "hours", "mins", "secs", "weeks"),
+  sort = TRUE,
+  ...
+)
 
 \method{idle_time}{eventlog}(
   eventlog,
@@ -34,15 +42,15 @@ idle_time(eventlog, level, append, append_column, units, ...)
 \item{level}{Level of granularity for the analysis: log,  case, trace, or resource.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{\code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
 \item{sort}{Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Calculates the amount of time that no activity occurs.

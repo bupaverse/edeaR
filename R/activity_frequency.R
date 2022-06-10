@@ -15,8 +15,8 @@
 #' @param log \code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.
 #' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
 #' @param level \code{\link{character}} (default "log"): Level of granularity for the analysis: "log", "trace", "case", "activity". For more information, see \code{vignette("metrics", "edeaR")}
-#' @param append \code{\link{logical}} (default \code{TRUE}): Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.
-#' @param append_column Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
+#' @param append \code{\link{logical}} (default \code{FALSE}) `r lifecycle::badge("deprecated")`: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.
+#' @param append_column `r lifecycle::badge("deprecated")` Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
 #' @param sort \code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.
 #' @param ... `r lifecycle::badge("deprecated")` Deprecated arguments
 #'
@@ -25,16 +25,17 @@
 #' @references Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 #'
 #' @export activity_frequency
-activity_frequency <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = TRUE, append_column = NULL, sort = TRUE, ...) {
+activity_frequency <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 	UseMethod("activity_frequency")
 }
 
 
 #' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{eventlog}}.
 #' @export
-activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = TRUE, append_column = NULL, sort = TRUE, ...) {
+activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	if(is.null(append_column)) {
@@ -61,9 +62,10 @@ activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c(
 
 #' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
-activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = TRUE, append_column = NULL, sort = TRUE, ...) {
+activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	if(is.null(append_column)) {
@@ -97,9 +99,10 @@ activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), le
 
 #' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{activitylog}}.
 #' @export
-activity_frequency.activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = TRUE, append_column = NULL, sort = TRUE, ...) {
+activity_frequency.activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	activity_frequency.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
@@ -107,9 +110,10 @@ activity_frequency.activitylog <- function(log, eventlog = deprecated(), level =
 
 #' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
-activity_frequency.grouped_activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = TRUE, append_column = NULL, sort = TRUE, ...) {
+activity_frequency.grouped_activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	activity_frequency.grouped_eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
