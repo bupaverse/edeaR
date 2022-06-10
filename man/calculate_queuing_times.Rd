@@ -2,17 +2,47 @@
 % Please edit documentation in R/calculate_queuing_times.R
 \name{calculate_queuing_times}
 \alias{calculate_queuing_times}
+\alias{calculate_queuing_times.eventlog}
+\alias{calculate_queuing_times.activitylog}
 \title{Calculate queuing times}
 \usage{
-calculate_queuing_times(eventlog)
+calculate_queuing_times(
+  log,
+  eventlog = deprecated(),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+)
+
+\method{calculate_queuing_times}{eventlog}(
+  log,
+  eventlog = deprecated(),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+)
+
+\method{calculate_queuing_times}{activitylog}(
+  log,
+  eventlog = deprecated(),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+)
 }
 \arguments{
-\item{eventlog}{The event log object}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+
+\item{units}{\code{\link{character}} (default "auto"): The time unit in which the throughput times should be reported. Should be one of the following values:
+"auto" (default), "secs", "mins", "hours", "days", "weeks". See also the \code{units} argument of \code{\link{difftime}}.}
 }
 \value{
 Returns a list of all the activity instances, with the time they started, and the time since they were queued. Notice that this does not take into account
 any process model notion! The time since they are queued is the completion time of the previous activity in the log.
 }
 \description{
-Calculate queuing times
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Calculate queueing times for \code{\link[bupaR]{eventlog}} and \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
+}}
+
