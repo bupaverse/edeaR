@@ -2,17 +2,39 @@
 % Please edit documentation in R/calculate_queuing_length.R
 \name{calculate_queuing_length}
 \alias{calculate_queuing_length}
-\title{Calculate queue length}
+\title{Calculate queuing length}
 \usage{
-calculate_queuing_length(queueing_times, level, time_interval)
+calculate_queuing_length(
+  queueing_times,
+  level = c("log", "activity", "resource"),
+  time_interval
+)
 }
 \arguments{
-\item{queueing_times}{A data frame with queueing times, returned by calculating_queuing_times}
+\item{queueing_times}{Object of class \code{queuing_times}, returned by \code{\link{calculate_queuing_times}}.}
 
-\item{level}{The level of granularity (log, activity or resource). Log: total number of activity instances  that are queued at a given moment in time. Resource: total number activity instances  that are queued for a given resource. Activity: total number of activity instances that are queue for a given activity type.}
+\item{level}{\code{\link{character}} (default "log"): Level of granularity for the analysis: \code{"log"}, \code{"activity"}, \code{"resource"}. For more information, see 'Details' below.}
 
-\item{time_interval}{The time interval after which the queue length should be calculated. Can be day, week, month, year, or a number of days. The first day for which queue length is calculated is the first timestamp found in the log.}
+\item{time_interval}{The time interval after which the queue length should be calculated. For more information, see 'Details' below and the \code{by} argument of \code{\link{seq.Date}}.}
 }
 \description{
-Calculate queue length
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+}
+\details{
+Argument \code{level} has the following options:
+\itemize{
+\item At \code{log} level, this metric calculates the total number of activity instances that are queued at a given moment in time.
+\item At \code{resource} level, this metric calculates the total number activity instances that are queued for a given resource.
+\item On \code{activity} level, this metric calculates the total number of activity instances that are queue for a given activity type.
+}
+Argument \code{time_interval} has the following options:
+\itemize{
+\item A \code{\link{numeric}}, taken to be in days.
+\item An object of class \code{\link{difftime}}.
+\item A \code{\link{character}} string, which could be one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
+The first day for which queue length is calculated, is the first timestamp found in the log.
+}
+}
+\seealso{
+\code{\link{calculate_queuing_times}}, \code{\link{seq.Date}}
 }

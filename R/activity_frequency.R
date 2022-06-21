@@ -2,23 +2,24 @@
 #'
 #' @description Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
 #'
+#' @param log \code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.
+#' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
+#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"}, \code{"case"}, or \code{"activity"}.
+#' For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
+#' @param append \code{\link{logical}} (default \code{FALSE}) `r lifecycle::badge("deprecated")`: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.
+#' @param append_column `r lifecycle::badge("deprecated")` Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
+#' @param sort \code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.
+#' @param ... `r lifecycle::badge("deprecated")` Deprecated arguments
+#'
 #' @details
 #' \itemize{
-#' \item At \code{log} level, This metric shows the summary statistics of the frequency of activities throughout the complete log.
-#' \item On \code{case} level, this metric showsthe absolute and relative number of times the different activity types occur in each case.
+#' \item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
+#' \item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.
 #' The absolute number shows the number of distinct activity types that occur in each of the cases.
 #' The relative number is calculated based on the total activity executions in the case.
 #' \item On \code{trace} level, this metric presents the absolute and relative number of times a specific activity type occurs in each trace.
 #' \item On \code{activity} level, this metric provides the absolute and relative frequency of a specific activity in the complete log.
 #' }
-#'
-#' @param log \code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.
-#' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
-#' @param level \code{\link{character}} (default "log"): Level of granularity for the analysis: "log", "trace", "case", "activity". For more information, see \code{vignette("metrics", "edeaR")}
-#' @param append \code{\link{logical}} (default \code{FALSE}) `r lifecycle::badge("deprecated")`: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.
-#' @param append_column `r lifecycle::badge("deprecated")` Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
-#' @param sort \code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.
-#' @param ... `r lifecycle::badge("deprecated")` Deprecated arguments
 #'
 #' @family metrics
 #'

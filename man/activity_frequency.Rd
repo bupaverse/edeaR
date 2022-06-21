@@ -63,7 +63,8 @@ activity_frequency(
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{level}{\code{\link{character}} (default "log"): Level of granularity for the analysis: "log", "trace", "case", "activity". For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"}, \code{"case"}, or \code{"activity"}.
+For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
@@ -78,8 +79,8 @@ Provides summary statistics about the frequency of activity types at the level o
 }
 \details{
 \itemize{
-\item At \code{log} level, This metric shows the summary statistics of the frequency of activities throughout the complete log.
-\item On \code{case} level, this metric showsthe absolute and relative number of times the different activity types occur in each case.
+\item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
+\item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.
 The absolute number shows the number of distinct activity types that occur in each of the cases.
 The relative number is calculated based on the total activity executions in the case.
 \item On \code{trace} level, this metric presents the absolute and relative number of times a specific activity type occurs in each trace.

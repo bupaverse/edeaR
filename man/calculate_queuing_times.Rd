@@ -29,8 +29,8 @@ calculate_queuing_times(
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{units}{\code{\link{character}} (default "auto"): The time unit in which the throughput times should be reported. Should be one of the following values:
-"auto" (default), "secs", "mins", "hours", "days", "weeks". See also the \code{units} argument of \code{\link{difftime}}.}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
 }
 \value{
 Returns a list of all the activity instances, with the time they started, and the time since they were queued. Notice that this does not take into account
@@ -46,3 +46,6 @@ any process model notion! The time since they are queued is the completion time 
 \item \code{activitylog}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
+\seealso{
+\code{\link{difftime}}
+}
