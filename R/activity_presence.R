@@ -33,7 +33,7 @@ activity_presence <- function(log, eventlog = deprecated(), append = deprecated(
 	UseMethod("activity_presence")
 }
 
-#' @describeIn activity_presence Compute activity presence for \code{\link[bupaR]{eventlog}}.
+#' @describeIn activity_presence Compute activity presence for an \code{\link[bupaR]{eventlog}}.
 #' @export
 activity_presence.eventlog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -57,7 +57,7 @@ activity_presence.eventlog <- function(log, eventlog = deprecated(), append = de
 	return_metric(log, output, "activity", append, "absolute", "activity_presence")
 }
 
-#' @describeIn activity_presence Compute activity presence for \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn activity_presence Compute activity presence for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 activity_presence.grouped_eventlog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -74,7 +74,7 @@ activity_presence.grouped_eventlog <- function(log, eventlog = deprecated(), app
 	return_metric(log, output, "activity", append, "absolute", "activity_presence")
 }
 
-#' @describeIn activity_presence Compute activity presence for \code{\link[bupaR]{activitylog}}.
+#' @describeIn activity_presence Compute activity presence for an \code{\link[bupaR]{activitylog}}.
 #' @export
 activity_presence.activitylog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -84,7 +84,7 @@ activity_presence.activitylog <- function(log, eventlog = deprecated(), append =
 	activity_presence.eventlog(bupaR::to_eventlog(log), append = append, append_column = append_column, sort = sort, ...)
 }
 
-#' @describeIn activity_presence Compute activity presence for \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn activity_presence Compute activity presence for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
 activity_presence.grouped_activitylog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 

@@ -36,8 +36,8 @@ resource_frequency(
 \arguments{
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
+For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
@@ -93,5 +93,6 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other metrics: 
-\code{\link{activity_presence}()}
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()}
 }

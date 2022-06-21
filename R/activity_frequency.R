@@ -31,7 +31,7 @@ activity_frequency <- function(log, eventlog = deprecated(), level = c("log", "t
 }
 
 
-#' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{eventlog}}.
+#' @describeIn activity_frequency Compute activity frequency for an \code{\link[bupaR]{eventlog}}.
 #' @export
 activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -61,7 +61,7 @@ activity_frequency.eventlog <- function(log, eventlog = deprecated(), level = c(
 	return_metric(log, output, level, append, append_column, "activity_frequency")
 }
 
-#' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn activity_frequency Compute activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -98,7 +98,7 @@ activity_frequency.grouped_eventlog <- function(log, eventlog = deprecated(), le
 	return_metric(log, output, level, append, append_column, "activity_frequency")
 }
 
-#' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{activitylog}}.
+#' @describeIn activity_frequency Compute activity frequency for an \code{\link[bupaR]{activitylog}}.
 #' @export
 activity_frequency.activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 
@@ -109,7 +109,7 @@ activity_frequency.activitylog <- function(log, eventlog = deprecated(), level =
 	activity_frequency.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...)
 }
 
-#' @describeIn activity_frequency Compute activity frequency for \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn activity_frequency Compute activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
 activity_frequency.grouped_activitylog <- function(log, eventlog = deprecated(), level = c("log", "trace", "activity", "case"), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
 

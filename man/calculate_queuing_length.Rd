@@ -27,9 +27,9 @@ Argument \code{level} has the following options:
 \item At \code{resource} level, this metric calculates the total number activity instances that are queued for a given resource.
 \item On \code{activity} level, this metric calculates the total number of activity instances that are queue for a given activity type.
 }
-Argument \code{time_interval} has the following options:
+Argument \code{time_interval} has the following options (see also the \code{by} argument of \code{\link{seq.Date}}):
 \itemize{
-\item A \code{\link{numeric}}, taken to be in days.
+\item A \code{\link{numeric}} as number of days.
 \item An object of class \code{\link{difftime}}.
 \item A \code{\link{character}} string, which could be one of \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.
 The first day for which queue length is calculated, is the first timestamp found in the log.

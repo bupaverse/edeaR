@@ -86,5 +86,6 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other metrics: 
-\code{\link{activity_presence}()}
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()}
 }

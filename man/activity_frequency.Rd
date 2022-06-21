@@ -89,13 +89,13 @@ The relative number is calculated based on the total activity executions in the 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute activity frequency for \code{\link[bupaR]{eventlog}}.
+\item \code{eventlog}: Compute activity frequency for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute activity frequency for \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{grouped_eventlog}: Compute activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Compute activity frequency for \code{\link[bupaR]{activitylog}}.
+\item \code{activitylog}: Compute activity frequency for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Compute activity frequency for \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{grouped_activitylog}: Compute activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
@@ -103,6 +103,7 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other metrics: 
-\code{\link{activity_presence}()}
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()}
 }
 \concept{metrics}
