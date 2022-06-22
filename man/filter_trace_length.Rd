@@ -34,20 +34,20 @@ filter_trace_length(
 ifilter_trace_length(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{interval}{An trace length interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.}
 
 \item{percentage}{A percentage p to be used for relative filtering.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{...}{Deprecated arguments.}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters cases on length, using a percentile threshold.
