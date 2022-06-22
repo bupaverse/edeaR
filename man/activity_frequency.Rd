@@ -10,58 +10,56 @@
 \usage{
 activity_frequency(
   log,
-  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_frequency}{eventlog}(
   log,
-  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_frequency}{grouped_eventlog}(
   log,
-  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_frequency}{activitylog}(
   log,
-  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_frequency}{grouped_activitylog}(
   log,
-  eventlog = deprecated(),
   level = c("log", "trace", "activity", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"}, \code{"case"}, or \code{"activity"}.
 For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
@@ -73,6 +71,8 @@ For more information, see \code{vignette("metrics", "edeaR")} and 'Details' belo
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.

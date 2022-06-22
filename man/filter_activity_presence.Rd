@@ -17,7 +17,7 @@ ifilter_activity_presence(eventlog)
 \arguments{
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{activities}{\code{\ink{character}} vector: Containing one or more activity identifiers.}
+\item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
 \item{method}{Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.}
 

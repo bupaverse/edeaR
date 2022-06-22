@@ -4,7 +4,6 @@
 \alias{filter_activity}
 \alias{filter_activity.log}
 \alias{filter_activity.grouped_log}
-\alias{ifilter_activity}
 \title{Filter Activity}
 \usage{
 filter_activity(log, activities, reverse = FALSE, ..., eventlog = deprecated())
@@ -12,13 +11,11 @@ filter_activity(log, activities, reverse = FALSE, ..., eventlog = deprecated())
 \method{filter_activity}{log}(log, activities, reverse = FALSE, ..., eventlog = deprecated())
 
 \method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, ..., eventlog = deprecated())
-
-ifilter_activity(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
 
-\item{activities}{\code{\ink{character}} vector: Containing one or more activity identifiers.}
+\item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -33,11 +30,6 @@ The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters the log based on activities
-}
-\details{
-blablabla
-
-blablablavbcsev
 }
 \section{Methods (by class)}{
 \itemize{

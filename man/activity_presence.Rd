@@ -10,53 +10,51 @@
 \usage{
 activity_presence(
   log,
-  eventlog = deprecated(),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_presence}{eventlog}(
   log,
-  eventlog = deprecated(),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_presence}{grouped_eventlog}(
   log,
-  eventlog = deprecated(),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_presence}{activitylog}(
   log,
-  eventlog = deprecated(),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
 \method{activity_presence}{grouped_activitylog}(
   log,
-  eventlog = deprecated(),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
@@ -65,6 +63,8 @@ activity_presence(
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Calculates for each activity type in what percentage of cases it is present.

@@ -29,13 +29,13 @@
 #' @family metrics
 #'
 #' @export activity_presence
-activity_presence <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
+activity_presence <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated()) {
 	UseMethod("activity_presence")
 }
 
 #' @describeIn activity_presence Compute activity presence for an \code{\link[bupaR]{eventlog}}.
 #' @export
-activity_presence.eventlog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
+activity_presence.eventlog <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -59,7 +59,7 @@ activity_presence.eventlog <- function(log, eventlog = deprecated(), append = de
 
 #' @describeIn activity_presence Compute activity presence for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
-activity_presence.grouped_eventlog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
+activity_presence.grouped_eventlog <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -76,7 +76,7 @@ activity_presence.grouped_eventlog <- function(log, eventlog = deprecated(), app
 
 #' @describeIn activity_presence Compute activity presence for an \code{\link[bupaR]{activitylog}}.
 #' @export
-activity_presence.activitylog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
+activity_presence.activitylog <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -86,7 +86,7 @@ activity_presence.activitylog <- function(log, eventlog = deprecated(), append =
 
 #' @describeIn activity_presence Compute activity presence for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
-activity_presence.grouped_activitylog <- function(log, eventlog = deprecated(), append = deprecated(), append_column = NULL, sort = TRUE, ...) {
+activity_presence.grouped_activitylog <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)

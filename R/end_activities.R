@@ -24,19 +24,19 @@
 #' @family metrics
 #'
 #' @export end_activities
-end_activities <- function(log, eventlog = deprecated(), level = c("log", "case", "activity", "resource", "resource-activity"), append = deprecated(), append_column = NULL, sort = TRUE, ...)  {
+end_activities <- function(log, level = c("log", "case", "activity", "resource", "resource-activity"), append = deprecated(), append_column = NULL, sort = TRUE, ..., eventlog = deprecated())  {
 	UseMethod("end_activities")
 }
 
 #' @describeIn end_activities Compute end activities for an \code{\link[bupaR]{eventlog}}.
 #' @export
 end_activities.eventlog <- function(log,
-									eventlog = deprecated(),
 									level = c("log", "case", "activity", "resource", "resource-activity"),
 									append = deprecated(),
 									append_column = NULL,
 									sort = TRUE,
-									...) {
+									...,
+									eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -70,12 +70,12 @@ end_activities.eventlog <- function(log,
 #' @describeIn end_activities Compute end activities for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 end_activities.grouped_eventlog <- function(log,
-											eventlog = deprecated(),
 											level = c("log", "case", "activity", "resource", "resource-activity"),
 											append = deprecated(),
 											append_column = NULL,
 											sort = TRUE,
-											...) {
+											...,
+											eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -109,12 +109,12 @@ end_activities.grouped_eventlog <- function(log,
 #' @describeIn end_activities Compute end activities for an \code{\link[bupaR]{activitylog}}.
 #' @export
 end_activities.activitylog <- function(log,
-									   eventlog = deprecated(),
 									   level = c("log", "case", "activity", "resource", "resource-activity"),
 									   append = deprecated(),
 									   append_column = NULL,
 									   sort = TRUE,
-									   ...) {
+									   ...,
+									   eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
@@ -126,12 +126,12 @@ end_activities.activitylog <- function(log,
 #' @describeIn end_activities Compute end activities for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
 end_activities.grouped_activitylog <- function(log,
-											   eventlog = deprecated(),
 											   level = c("log", "case", "activity", "resource", "resource-activity"),
 											   append = deprecated(),
 											   append_column = NULL,
 											   sort = TRUE,
-											   ...) {
+											   ...,
+											   eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)

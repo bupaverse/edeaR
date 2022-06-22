@@ -8,29 +8,29 @@
 \usage{
 calculate_queuing_times(
   log,
-  eventlog = deprecated(),
-  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
 )
 
 \method{calculate_queuing_times}{eventlog}(
   log,
-  eventlog = deprecated(),
-  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
 )
 
 \method{calculate_queuing_times}{activitylog}(
   log,
-  eventlog = deprecated(),
-  units = c("auto", "secs", "mins", "hours", "days", "weeks")
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
 )
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
 
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
-
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
 \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 Returns a list of all the activity instances, with the time they started, and the time since they were queued. Notice that this does not take into account
@@ -46,6 +46,9 @@ any process model notion! The time since they are queued is the completion time 
 \item \code{activitylog}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{\link{difftime}}
 }
