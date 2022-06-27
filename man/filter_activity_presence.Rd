@@ -48,6 +48,12 @@ present.
 
 When only one activity label is supplied, note that methods all and one_of will be identical.
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

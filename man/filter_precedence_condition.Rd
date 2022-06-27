@@ -38,6 +38,12 @@ Further, the filter requires a vector of one or more antecedents (containing act
 can be set. This argument is relevant when there is more than one antecedent or consequent.
 In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

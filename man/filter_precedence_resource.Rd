@@ -44,6 +44,12 @@ can be set. This argument is relevant when there is more than one antecedent or 
 In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
 In case an activity instance exists of more than one events with different resource identifiers, only the first will be considered.
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

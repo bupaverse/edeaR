@@ -71,6 +71,12 @@ a numeric vector of length 2. Half open intervals can be created by using NA. E.
 \item \code{grouped_eventlog}: Filter grouped event logs
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

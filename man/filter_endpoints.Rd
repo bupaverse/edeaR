@@ -70,6 +70,12 @@ For example, when set to 0.9, it will select the most common endpoint pairs whic
 \item \code{grouped_eventlog}: Filter grouped event log stratified
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

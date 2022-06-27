@@ -73,6 +73,12 @@ In such a case, you can specify that all possible precedence combinations must b
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

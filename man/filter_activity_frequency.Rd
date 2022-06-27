@@ -2,30 +2,39 @@
 % Please edit documentation in R/filter_activity_frequency.R
 \name{filter_activity_frequency}
 \alias{filter_activity_frequency}
-\alias{ifilter_activity_frequency}
-\title{Filter: Activity frequency}
+\alias{filter_activity_frequency.log}
+\title{Filter Activity Frequency}
 \usage{
 filter_activity_frequency(
-  eventlog,
+  log,
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...
+  ...,
+  eventlog = deprecated()
 )
 
-ifilter_activity_frequency(eventlog)
+\method{filter_activity_frequency}{log}(
+  log,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...,
+  eventlog = deprecated()
+)
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{interval}{An activity frequency interval (numeric vector of length 2). Half open interval can be created using NA.}
-
-\item{percentage}{The target coverage of activity instances. A percentile of 0.9 will return the most common activity types of the eventlog,
-which account for at least 90\\% of the activity instances.}
+\item{percentage, interval}{The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
+\code{percenatge}: A percentile of 0.9 will return the most common activity types of the log, which account for at least 90\% of the activity instances.\cr
+\code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -39,14 +48,22 @@ Filters the log based on frequency of activities.
 Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
 
 \itemize{
-
-\item percentage: When filtering using a percentage p\\%, the filter will return p\% of the activity instances, starting from the activity labels with the highest
+\item percentage: When filtering using a percentage p\%, the filter will return p\% of the activity instances, starting from the activity labels with the highest
 frequency. The filter will retain additional activity labels as long as the number of activity instances does not exceed the percentage threshold.
-
 \item interval: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-a numeric vector of length 2. Half open intervals can be created by using NA. E.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
+a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}}, e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
 }
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+}}
+
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{vignette("filters", "edeaR")}
+Other filters: 
+\code{\link{filter_activity}()}
 }
+\concept{filters}

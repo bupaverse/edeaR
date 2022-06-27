@@ -13,7 +13,7 @@ filter_activity(log, activities, reverse = FALSE, ..., eventlog = deprecated())
 \method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, ..., eventlog = deprecated())
 }
 \arguments{
-\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}}, \code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
@@ -38,7 +38,13 @@ Filters the log based on activities
 \item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }
 \concept{filters}

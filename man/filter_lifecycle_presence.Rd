@@ -67,6 +67,12 @@ that all the specified life cycle labels must be present for an activity instanc
 \item \code{grouped_eventlog}: Filter grouped event log on presence of life cycle labels.
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

@@ -11,7 +11,7 @@
 #' When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
 #' The returned log will be grouped on the same variables as the original log.
 #'
-#' @inherit activity_frequency params
+#' @inherit activity_frequency params references
 #'
 #' @family filters
 #'

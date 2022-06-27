@@ -41,6 +41,12 @@ to which a vector of identifiers can be given. The selection can be negated with
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

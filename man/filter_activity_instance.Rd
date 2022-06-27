@@ -28,6 +28,12 @@ Filters the log based on activity instance identifier
 The method filter_activity_instance can be used to filter on activity instance identifiers. It has an activity_instances argument,
 to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

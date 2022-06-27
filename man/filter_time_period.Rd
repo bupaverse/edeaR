@@ -75,6 +75,12 @@ Event data can be filtered by supplying a time window to the method filter_time_
 \item \code{grouped_eventlog}: Filter grouped event log
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }

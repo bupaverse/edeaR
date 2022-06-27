@@ -36,6 +36,12 @@ The filter_endpoints method filters cases based on the first and last activity l
 activities and/or allowed end activities, or by specifying a percentile. In the latter case, the percentile value will be used as a cut off.
 For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90\% of the cases, and filter the event log accordingly.
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()}
 }
