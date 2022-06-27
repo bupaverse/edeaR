@@ -42,7 +42,7 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters the log based on activity instance identifier. It has an \code{activity_instances} argument,
+Filters the log based on activity instance identifier. This method has an \code{activity_instances} argument,
 to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 }
 \section{Methods (by class)}{
@@ -59,6 +59,7 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 Other filters: 
 \code{\link{filter_activity_frequency}()},
 \code{\link{filter_activity_presence}()},
-\code{\link{filter_activity}()}
+\code{\link{filter_activity}()},
+\code{\link{filter_case}()}
 }
 \concept{filters}

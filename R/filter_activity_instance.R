@@ -1,6 +1,6 @@
 #' @title Filter Activity Instance
 #'
-#' @description Filters the log based on activity instance identifier. It has an \code{activity_instances} argument,
+#' @description Filters the log based on activity instance identifier. This method has an \code{activity_instances} argument,
 #' to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 #'
 #' @param log \code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).

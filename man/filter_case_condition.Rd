@@ -33,5 +33,6 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 Other filters: 
 \code{\link{filter_activity_frequency}()},
 \code{\link{filter_activity_instance}()},
-\code{\link{filter_activity_presence}()}
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_case}()}
 }
