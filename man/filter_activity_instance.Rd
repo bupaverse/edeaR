@@ -2,19 +2,39 @@
 % Please edit documentation in R/filter_activity_instances.R
 \name{filter_activity_instance}
 \alias{filter_activity_instance}
-\alias{ifilter_activity_instance}
-\title{title Filter: Activity instance}
+\alias{filter_activity_instance.eventlog}
+\alias{filter_activity_instance.grouped_eventlog}
+\title{Filter Activity Instance}
 \usage{
-filter_activity_instance(eventlog, activity_instances = NULL, reverse = FALSE)
+filter_activity_instance(
+  log,
+  activity_instances = NULL,
+  reverse = FALSE,
+  eventlog = deprecated()
+)
 
-ifilter_activity_instance(eventlog)
+\method{filter_activity_instance}{eventlog}(
+  log,
+  activity_instances = NULL,
+  reverse = FALSE,
+  eventlog = deprecated()
+)
+
+\method{filter_activity_instance}{grouped_eventlog}(
+  log,
+  activity_instances = NULL,
+  reverse = FALSE,
+  eventlog = deprecated()
+)
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
 
-\item{activity_instances}{A vector of activity instance identifiers}
+\item{activity_instances}{A vector of activity instance identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -22,18 +42,22 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters the log based on activity instance identifier
+Filters the log based on activity instance identifier. It has an \code{activity_instances} argument,
+to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 }
-\details{
-The method filter_activity_instance can be used to filter on activity instance identifiers. It has an activity_instances argument,
-to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
-}
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filters activities for an \code{\link[bupaR]{eventlog}}.
+
+\item \code{grouped_eventlog}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+}}
+
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{vignette("filters", "edeaR")}
-
 Other filters: 
-\code{\link{filter_activity_frequency}()}
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity}()}
 }
+\concept{filters}

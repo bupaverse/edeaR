@@ -3,6 +3,7 @@
 \name{filter_activity_frequency}
 \alias{filter_activity_frequency}
 \alias{filter_activity_frequency.log}
+\alias{filter_activity_frequency.grouped_log}
 \title{Filter Activity Frequency}
 \usage{
 filter_activity_frequency(
@@ -15,6 +16,15 @@ filter_activity_frequency(
 )
 
 \method{filter_activity_frequency}{log}(
+  log,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  ...,
+  eventlog = deprecated()
+)
+
+\method{filter_activity_frequency}{grouped_log}(
   log,
   interval = NULL,
   percentage = NULL,
@@ -57,6 +67,8 @@ a numeric vector of length 2. Half open intervals can be created by using \code{
 \section{Methods (by class)}{
 \itemize{
 \item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+
+\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
 }}
 
 \references{
@@ -64,6 +76,7 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other filters: 
+\code{\link{filter_activity_instance}()},
 \code{\link{filter_activity}()}
 }
 \concept{filters}

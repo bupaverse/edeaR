@@ -5,13 +5,14 @@
 #' @param activities \code{\link{character}} vector: Containing one or more activity identifiers.
 #' @param reverse \code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.
 #'
-#' @seealso \code{vignette("filters", "edeaR")}
 #'
 #' @return When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
 #' When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
 #' The returned log will be grouped on the same variables as the original log.
 #'
 #' @inherit activity_frequency params references
+#'
+#' @seealso \code{vignette("filters", "edeaR")}
 #'
 #' @family filters
 #'
