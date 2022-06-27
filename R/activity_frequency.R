@@ -12,6 +12,7 @@
 #' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
 #'
 #' @details
+#' Argument \code{level} has the following options:
 #' \itemize{
 #' \item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
 #' \item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.

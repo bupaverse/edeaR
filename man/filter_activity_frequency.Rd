@@ -38,7 +38,8 @@ filter_activity_frequency(
 
 \item{percentage, interval}{The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
 \code{percenatge}: A percentile of 0.9 will return the most common activity types of the log, which account for at least 90\% of the activity instances.\cr
-\code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.}
+\code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.\cr
+For more information, see 'Details' below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -77,6 +78,7 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 \seealso{
 Other filters: 
 \code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
 \code{\link{filter_activity}()}
 }
 \concept{filters}

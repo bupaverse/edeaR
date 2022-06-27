@@ -4,7 +4,8 @@
 #'
 #' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
 #' \code{percenatge}: A percentile of 0.9 will return the most common activity types of the log, which account for at least 90% of the activity instances.\cr
-#' \code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.
+#' \code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.\cr
+#' For more information, see 'Details' below.
 #'
 #' @details
 #' Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.

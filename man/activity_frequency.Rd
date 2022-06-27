@@ -78,6 +78,7 @@ For more information, see \code{vignette("metrics", "edeaR")} and 'Details' belo
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
 }
 \details{
+Argument \code{level} has the following options:
 \itemize{
 \item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
 \item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.
