@@ -2,17 +2,53 @@
 % Please edit documentation in R/calculate_queuing_times.R
 \name{calculate_queuing_times}
 \alias{calculate_queuing_times}
+\alias{calculate_queuing_times.eventlog}
+\alias{calculate_queuing_times.activitylog}
 \title{Calculate queuing times}
 \usage{
-calculate_queuing_times(eventlog)
+calculate_queuing_times(
+  log,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
+)
+
+\method{calculate_queuing_times}{eventlog}(
+  log,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
+)
+
+\method{calculate_queuing_times}{activitylog}(
+  log,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  eventlog = deprecated()
+)
 }
 \arguments{
-\item{eventlog}{The event log object}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
+
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 Returns a list of all the activity instances, with the time they started, and the time since they were queued. Notice that this does not take into account
 any process model notion! The time since they are queued is the completion time of the previous activity in the log.
 }
 \description{
-Calculate queuing times
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Calculate queueing times for \code{\link[bupaR]{eventlog}} and \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
+}}
+
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+\code{\link{difftime}}
 }

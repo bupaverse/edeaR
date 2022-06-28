@@ -34,35 +34,34 @@ filter_resource_frequency(
 ifilter_resource_frequency(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{interval}{An resource frequency interval (numeric vector of length 2). Half open interval can be created using NA.}
 
 \item{percentage}{The target coverage of activity instances. A percentile of 0.9 will return the most common resource types of the eventlog,
-which account for at least 90\% of the activity instances.}
+which account for at least 90\\% of the activity instances.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{...}{Deprecated arguments.}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 {Filters the log based on frequency of activities}
-
 
 Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
 
 \itemize{
 
-\item percentage: When filtering using a percentage p\%, the filter will return p% of the activity instances, starting from the resource labels with the highest
+\item percentage: When filtering using a percentage p\\%, the filter will return p\% of the activity instances, starting from the resource labels with the highest
 frequency. The filter will retain additional resource labels as long as the number of activity instances does not exceed the percentage threshold.
 
 \item interval: When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select resource labels which occur 10 times or more.
+a numeric vector of length 2. Half open intervals can be created by using NA. E.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
 }
 }
 \section{Methods (by class)}{
@@ -72,6 +71,16 @@ a numeric vector of length 2. Half open intervals can be created by using NA. E.
 \item \code{grouped_eventlog}: Filter grouped event logs
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()}
 }

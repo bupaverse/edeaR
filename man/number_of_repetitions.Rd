@@ -37,21 +37,20 @@ number_of_repetitions(
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{type}{The type of repetitions, either repeat or redo.}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
+For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{...}{Deprecated arguments}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides information statistics on the number of repetitions
@@ -66,7 +65,6 @@ not immediately following each other, but by the same resource. Redo repetitions
 are activity executions of the same activity type that are executed not immediately
 following each other and by a different resource than the first activity occurrence of
 this activity type.
-
 
 \itemize{
 
@@ -90,12 +88,12 @@ resource appears in a repetition.
 
 \item Finally, the same metric can be
 looked at on the level of specific resource-activity combinations, providing the
- company with specific information about which activities and which resources
- are involved in the repetitions. For this metric the absolute and relative number
-  of repeat and redo repetitions is provided. Again two difierent relative numbers
-  are provided, one relative to the total number of executions of the activity in the
-  complete event log, and one relative to the total number of executions performed
-  by the resource throughout the complete event log.
+company with specific information about which activities and which resources
+are involved in the repetitions. For this metric the absolute and relative number
+of repeat and redo repetitions is provided. Again two difierent relative numbers
+are provided, one relative to the total number of executions of the activity in the
+complete event log, and one relative to the total number of executions performed
+by the resource throughout the complete event log.
 }
 }
 \section{Methods (by class)}{
@@ -107,4 +105,9 @@ looked at on the level of specific resource-activity combinations, providing the
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()}
 }

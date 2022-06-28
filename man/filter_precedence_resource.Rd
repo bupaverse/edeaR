@@ -14,7 +14,7 @@ filter_precedence_resource(
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{antecedents, consequents}{The set of antecendent and consequent activities. Both are character vectors containing at least one activity identifier.
 All pairs of antecedents and consequents are turned into seperate precedence rules.}
@@ -25,12 +25,12 @@ When \code{eventually_follows}, other events are allowed to happen in between.}
 \item{filter_method}{When \code{all}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
 at least one of the conditions hold are preserved. When \code{none}, none of the relations are allowed.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters cases based on the precedence relations between two sets of activities, where both antecendent and consequent have to be executed by the same resource.
@@ -44,6 +44,16 @@ can be set. This argument is relevant when there is more than one antecedent or 
 In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
 In case an activity instance exists of more than one events with different resource identifiers, only the first will be considered.
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()}
 }

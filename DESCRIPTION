@@ -11,27 +11,35 @@ Depends:
     R(>= 3.0.0)
 Imports:
     bupaR (>= 0.4.1),
-    dplyr, 
-    data.table, 
-    ggplot2, 
-    ggthemes, 
-    glue, 
-    tibble, 
-    shiny, 
-    miniUI, 
-    tidyr, 
-    shinyTime, 
-    lubridate, 
-    purrr, 
+    dplyr,
+    data.table,
+    ggplot2,
+    ggthemes,
+    glue,
+    tibble,
+    shiny,
+    miniUI,
+    tidyr,
+    shinyTime,
+    lubridate,
+    purrr,
     stringr,
-    rlang, 
-    zoo, 
+    rlang,
+    zoo,
     hms,
-    forcats
+    forcats,
+    lifecycle
 LazyData: true
-RoxygenNote: 7.1.2
+Encoding: UTF-8
+RoxygenNote: 7.2.0
 URL: https://www.bupar.net, https://github.com/bupaverse/edeaR
-Suggests: knitr, eventdataR,
-    rmarkdown
+Suggests: 
+    knitr,
+    eventdataR,
+    rmarkdown,
+    covr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 BugReports: https://github.com/bupaverse/edeaR/issues
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

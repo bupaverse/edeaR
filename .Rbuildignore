@@ -7,5 +7,9 @@ edeaR-manual.pdf
 R\eventlog_from_xes2.R
 ^_pkgdown\.yml$
 ^docs$
+^codecov\.yml$
+^\.github$
+^\.idea$
+^\.lintr$
 ^doc$
 ^Meta$

@@ -1,9 +1,9 @@
 
-activity_frequency_activity <- function(eventlog) {
+activity_frequency_activity <- function(log) {
 	absolute <- NULL
-	eventlog %>%
-		group_by(!!as.symbol(activity_id(eventlog))) %>%
-		summarize(absolute = n_distinct(!!as.symbol(activity_instance_id(eventlog)))) %>%
+	log %>%
+		group_by(!!as.symbol(activity_id(log))) %>%
+		summarize(absolute = n_distinct(!!as.symbol(activity_instance_id(log)))) %>%
 		mutate(relative = absolute/sum(absolute))
 
 }

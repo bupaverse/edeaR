@@ -31,18 +31,18 @@ filter_lifecycle_presence(
 ifilter_lifecycle_presence(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{lifecycle}{Character vector containing one or more life cycle identifiers.}
 
 \item{method}{Filter method. If "all", each of the life cycle labels should be present. If "one_of", at least one of them should be present. If "none", none of the life cycle labels are allowed to occur in the filtered activity instances.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters activity instances based on the presence (or absence) of life cycles
@@ -52,12 +52,12 @@ This functions allows to filter activity instances that (do not) contain certain
 It requires as input a vector containing one or more life cycle labels and it has a method
 argument. The latter can have the values all, none or one_of.
 \itemize{
-\item When set to `all`, it means
+\item When set to \code{all}, it means
 that all the specified life cycle labels must be present for an activity instance to be selected
-\item `none` means that they are not allowed to be present.
-\item `one_of` means that at least one of them must be present.
-\item `only` means that only (a set of) these life cycle labels are allowed to be present
-\item `exact` means that only exactly these life cycle labels can be present (although multiple times and in random orderings)
+\item \code{none} means that they are not allowed to be present.
+\item \code{one_of} means that at least one of them must be present.
+\item \code{only} means that only (a set of) these life cycle labels are allowed to be present
+\item \code{exact} means that only exactly these life cycle labels can be present (although multiple times and in random orderings)
 }
 }
 \section{Methods (by class)}{
@@ -67,6 +67,16 @@ that all the specified life cycle labels must be present for an activity instanc
 \item \code{grouped_eventlog}: Filter grouped event log on presence of life cycle labels.
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()}
 }

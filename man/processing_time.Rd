@@ -40,15 +40,14 @@ processing_time(
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
 \item{level}{Level of granularity for the analysis: log,  case, trace, activity, resource or resource-activity.
 For more information, see \code{vignette("metrics", "edeaR")}}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{Time units to be used}
 
@@ -56,32 +55,32 @@ For more information, see \code{vignette("metrics", "edeaR")}}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
-\item{...}{Deprecated arguments}
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides summary statistics about the processing time of the process.
 }
 \details{
 In contrast to the throughput time of the cases in an event log, the metrics concerning
- the active time or the actual processing time provide summary statistics on the
- processing time of events on the level of the complete event log, the specific cases,
-  traces, the activities, and the resource-activity combinations.
+the active time or the actual processing time provide summary statistics on the
+processing time of events on the level of the complete event log, the specific cases,
+traces, the activities, and the resource-activity combinations.
 
-  \itemize{
-  \item On log level, this metric calculates the summary statistics of the actual processing time per case,
-  summarised over the complete event log.
-  \item On case level, a list of cases with their processing time are provided.
-  \item On trace level, the summary statistics of processing time
-  can be calculated for each possible sequence of activities that
-  appears in the event log.
-  \item Duration can also be calculated on the level
-  of each activity. For each activity, an overview of the average processing time
-  -or the service time- of this activity can be of interest.
-  \item We can also look at the processing time per resource.
-  \item On the resource-activity level, finally,
-  we can have a look at the efficiency of resources by looking at the combination
-  of each resource with each activity.
-  }
+\itemize{
+\item On log level, this metric calculates the summary statistics of the actual processing time per case,
+summarised over the complete event log.
+\item On case level, a list of cases with their processing time are provided.
+\item On trace level, the summary statistics of processing time
+can be calculated for each possible sequence of activities that
+appears in the event log.
+\item Duration can also be calculated on the level
+of each activity. For each activity, an overview of the average processing time
+-or the service time- of this activity can be of interest.
+\item We can also look at the processing time per resource.
+\item On the resource-activity level, finally,
+we can have a look at the efficiency of resources by looking at the combination
+of each resource with each activity.
+}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -92,4 +91,9 @@ In contrast to the throughput time of the cases in an event log, the metrics con
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()}
 }

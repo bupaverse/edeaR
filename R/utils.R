@@ -76,7 +76,6 @@ deprecated_end_point <- function(e, ...) {
 	}
 }
 
-
 is_attached <- function(x) {
 	paste0("package:", x) %in% search()
 }
@@ -144,6 +143,8 @@ grouped_filter <- function(eventlog, FILTER, ...) {
 
 return_metric <- function(eventlog, output, level, append, append_column, metric , n_result_col = 2, empty_label = F) {
 
+	append <- maybe_missing(append, default = FALSE)
+
 	if(append && level != "log" && level != "trace") {
 		ncol <- ncol(output)
 		ids <- 1:(ncol-n_result_col)
@@ -210,7 +211,7 @@ grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 				  ...)
 }
 
-# Warning: The `eventlog` argument of `func()` is deprecated as of bupaR 0.5.0.
+# Warning: The `eventlog` argument of `func()` is deprecated as of edeaR 0.9.0.
 # Please use the `log` argument instead.
 # WARNING: Works only on exported functions!
 lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
@@ -220,14 +221,17 @@ lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
 	func_name <- match.call(definition = func, call = cl)[[1L]]
 
 	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn("0.5.0", paste0(func_name, "(eventlog)"), paste0(func_name, "(log)"))
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = paste0(func_name, "(eventlog)"),
+			with = paste0(func_name, "(log)"))
 		return(eventlog)
 	}
 
 	return(log)
 }
 
-lifecycle_warning_append <- function (append = deprecated(), append_column = deprecated(), level) {
+lifecycle_warning_append <- function (append = deprecated(), append_column = deprecated()) {
 
 	cl <- sys.call(-1L)
 	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
@@ -240,8 +244,9 @@ lifecycle_warning_append <- function (append = deprecated(), append_column = dep
 			with = "augment()"
 		)
 	} else {
-		append <- FALSE
+		append <- rlang::missing_arg()
 	}
-	return(append)
+
+	return(rlang::maybe_missing(append))
 }
 
