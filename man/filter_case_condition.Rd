@@ -69,6 +69,7 @@ Other filters:
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_activity}()},
-\code{\link{filter_case}()}
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints}()}
 }
 \concept{filters}

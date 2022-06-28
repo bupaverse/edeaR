@@ -33,9 +33,7 @@ ifilter_trim(eventlog)
 \arguments{
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{start_activities}{A vector of activity identifiers, or NULL}
-
-\item{end_activities}{A vector of activity identifiers, or NULL}
+\item{start_activities, end_activities}{\code{\link{character}} vector (default \code{\link{NULL}}): A vector of activity identifiers, or \code{\link{NULL}}.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 }
@@ -74,5 +72,6 @@ Other filters:
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_case_condition}()},
-\code{\link{filter_case}()}
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints}()}
 }

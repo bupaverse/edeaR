@@ -3,7 +3,7 @@
 #' @description Filters the log based on frequency of activities.
 #'
 #' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
-#' \code{percenatge}: A percentile of 0.9 will return the most common activity types of the log, which account for at least 90% of the activity instances.\cr
+#' \code{percenatge}: A percentile of \code{0.9} will return the most common activity types of the log, which account for at least 90% of the activity instances.\cr
 #' \code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.\cr
 #' For more information, see 'Details' below.
 #'
