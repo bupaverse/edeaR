@@ -1,36 +1,24 @@
-#' Filter: Start and end conditions
+#' @title Filter Start and End Conditions
 #'
-#' Filters cases where the first and/or last activity adhere to the specified conditions
+#' @description Filters cases where the first and/or last activity adhere to the specified conditions.
 #'
-#'The filter_endpoints method filters cases based on the first and last activity label. It can be used in two ways: by specifying vectors with allowed start
-#'activities and/or allowed end activities, or by specifying a percentile. In the latter case, the percentile value will be used as a cut off.
-#'For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90% of the cases, and filter the event log accordingly.
-#'
-#'
-#' @param start_condition A logical condition
-#'
-#' @param end_condition A logical condition
-#'
+#' @param start_condition,end_condition A logical condition.
 #'
 #' @inherit filter_activity params references seealso return
 #'
+#' @family filters
+#'
 #' @export filter_endpoints_conditions
-
-filter_endpoints_conditions <- function(eventlog,
-										start_condition = NULL,
-										end_condition = NULL,
-										reverse = FALSE,
-										...) {
+filter_endpoints_conditions <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 	UseMethod("filter_endpoints_conditions")
 }
 
+#' @describeIn filter_endpoints_conditions Filters cases for an \code{\link[bupaR]{eventlog}}.
 #' @export
+filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-filter_endpoints_conditions.eventlog <- function(eventlog,
-									  start_condition = NULL,
-									  end_condition = NULL,
-									  reverse = FALSE,
-									  ...) {
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
 	START_CONDITION <- NULL
 	END_CONDITION <- NULL
 
@@ -39,19 +27,18 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		is.null(start_condition)
 	}, error = function(e) {
 		start_condition_specified <<- TRUE
-	}
-	)
+	})
 
 	if(!start_condition_specified) {
 		# geen filter gespecifieerd.
-		eventlog <- eventlog %>%
+		log <- log %>%
 			mutate(START_CONDITION = TRUE)
 	} else {
 		start_condition <- enquo(start_condition)
 		error_cond <- FALSE
 
 		tryCatch({
-			eventlog <- eventlog %>% mutate(START_CONDITION = !!(start_condition))
+			log <- log %>% mutate(START_CONDITION = !!(start_condition))
 		}, error = function(e) {
 			error_cond <<- TRUE
 		})
@@ -65,19 +52,18 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		is.null(end_condition)
 	}, error = function(e) {
 		end_condition_specified <<- TRUE
-	}
-	)
+	})
 
 	if(!end_condition_specified) {
 		# geen filter gespecifieerd.
-		eventlog <- eventlog %>%
+		log <- log %>%
 			mutate(END_CONDITION = TRUE)
 	} else {
 		end_condition <- enquo(end_condition)
 		error_cond <- FALSE
 
 		tryCatch({
-			eventlog <- eventlog %>% mutate(END_CONDITION = !!(end_condition))
+			log <- log %>% mutate(END_CONDITION = !!(end_condition))
 		}, error = function(e) {
 			error_cond <<- TRUE
 		})
@@ -87,31 +73,39 @@ filter_endpoints_conditions.eventlog <- function(eventlog,
 		}
 	}
 
-	eventlog %>%
+	log %>%
 		group_by_case() %>%
-		arrange(!!timestamp_(eventlog), .order) %>%
+		arrange(!!timestamp_(log), .order) %>%
 		summarize(START_CONDITION = first(START_CONDITION),
 				  END_CONDITION = last(END_CONDITION)) %>%
 		filter(START_CONDITION & END_CONDITION) %>%
-		pull(!!case_id_(eventlog)) %>%
+		pull(!!case_id_(log)) %>%
 		unique() -> case_selection
 
-	eventlog %>%
+	log %>%
 		select(-START_CONDITION, -END_CONDITION) %>%
 		filter_case(cases = case_selection, reverse = reverse)
-
 }
+
+#' @describeIn filter_endpoints_conditions Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_endpoints_conditions.grouped_log <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-filter_endpoints_conditions.grouped_eventlog <- function(eventlog,
-											  start_condition = NULL,
-											  end_condition = NULL,
-											  reverse = FALSE,
-											  ...) {
-	grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_conditions.log, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
 }
 
+#' @describeIn filter_endpoints_conditions Filters cases for an \code{\link[bupaR]{activitylog}}.
+#' @export
+filter_endpoints_conditions.activitylog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	filter_endpoints_conditions.eventlog(log = bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...) %>%
+		bupaR::to_activitylog()
+}
 
 
 

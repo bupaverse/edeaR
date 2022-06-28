@@ -2,26 +2,57 @@
 % Please edit documentation in R/filter_endpoints_conditions.R
 \name{filter_endpoints_conditions}
 \alias{filter_endpoints_conditions}
-\title{Filter: Start and end conditions}
+\alias{filter_endpoints_conditions.eventlog}
+\alias{filter_endpoints_conditions.grouped_log}
+\alias{filter_endpoints_conditions.activitylog}
+\title{Filter Start and End Conditions}
 \usage{
 filter_endpoints_conditions(
-  eventlog,
+  log,
   start_condition = NULL,
   end_condition = NULL,
   reverse = FALSE,
-  ...
+  ...,
+  eventlog = deprecated()
+)
+
+\method{filter_endpoints_conditions}{eventlog}(
+  log,
+  start_condition = NULL,
+  end_condition = NULL,
+  reverse = FALSE,
+  ...,
+  eventlog = deprecated()
+)
+
+\method{filter_endpoints_conditions}{grouped_log}(
+  log,
+  start_condition = NULL,
+  end_condition = NULL,
+  reverse = FALSE,
+  ...,
+  eventlog = deprecated()
+)
+
+\method{filter_endpoints_conditions}{activitylog}(
+  log,
+  start_condition = NULL,
+  end_condition = NULL,
+  reverse = FALSE,
+  ...,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{start_condition}{A logical condition}
-
-\item{end_condition}{A logical condition}
+\item{start_condition, end_condition}{A logical condition.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -29,24 +60,28 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters cases where the first and/or last activity adhere to the specified conditions
+Filters cases where the first and/or last activity adhere to the specified conditions.
 }
-\details{
-The filter_endpoints method filters cases based on the first and last activity label. It can be used in two ways: by specifying vectors with allowed start
-activities and/or allowed end activities, or by specifying a percentile. In the latter case, the percentile value will be used as a cut off.
-For example, when set to 0.9, it will select the most common endpoint pairs which together cover at least 90\% of the cases, and filter the event log accordingly.
-}
+\section{Methods (by class)}{
+\itemize{
+\item \code{eventlog}: Filters cases for an \code{\link[bupaR]{eventlog}}.
+
+\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+\item \code{activitylog}: Filters cases for an \code{\link[bupaR]{activitylog}}.
+}}
+
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{vignette("filters", "edeaR")}
-
 Other filters: 
 \code{\link{filter_activity_frequency}()},
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints}()}
 }
+\concept{filters}

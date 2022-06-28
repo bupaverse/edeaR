@@ -37,5 +37,6 @@ Other filters:
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
+\code{\link{filter_endpoints_conditions}()},
 \code{\link{filter_endpoints}()}
 }
