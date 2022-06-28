@@ -1,38 +1,33 @@
-#' Filter: precedence relations
+#' @title Filter Precedence Relations
 #'
-#' Filters cases based on the precedence relations between two sets of activities.
+#' @description Filters cases based on the precedence relations between two sets of activities. For more information, see \code{\link{filter_precedence}}.
 #'
-#' In order to extract a subset of an event log which conforms with a set of precedence rules, one can use the filter_precedence method. There are two types of
-#' precendence relations which can be tested: activities that should directly follow each other,
-#' or activities that should eventually follow each other. The type can be set with the precedence type argument.
-#' Further, the filter requires a vector of one or more antecedents (containing activity labels), and one or more consequents. Finally, also a filter method argument
-#' can be set. This argument is relevant when there is more than one antecedent or consequent.
-#' In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
+#' @param antecedent_condition,consequent_condition The antecendent and consequent conditions.
 #'
-#' @param antecedent_condition,consequent_condition The antecendent and consequent conditions
+#' @inherit filter_precedence params references seealso return
 #'
-#' @param precedence_type When \code{directly_follows}, the consequent condition should hold immediately after the antecedent condition hold
-#' When \code{eventually_follows}, other events are allowed to happen in between.
+#' @family filters
 #'
-#'
-#' @inherit filter_activity params references seealso return
 #' @export filter_precedence_condition
-
-filter_precedence_condition <- function(eventlog,
+filter_precedence_condition <- function(log,
 										antecedent_condition,
 										consequent_condition,
 										precedence_type = c("directly_follows", "eventually_follows"),
-										reverse = FALSE) {
+										reverse = FALSE,
+										eventlog = deprecated()) {
 	UseMethod("filter_precedence_condition")
 }
 
+#' @describeIn filter_precedence_condition Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
+filter_precedence_condition.log <- function(log,
+											antecedent_condition,
+											consequent_condition,
+											precedence_type = c("directly_follows", "eventually_follows"),
+											reverse = FALSE,
+											eventlog = deprecated()) {
 
-filter_precedence_condition.eventlog <- function(eventlog,
-									   antecedent_condition,
-									   consequent_condition,
-									   precedence_type = c("directly_follows", "eventually_follows"),
-									   reverse = FALSE) {
+	log <- lifecycle_warning_eventlog(log, eventlog)
 
 	ANTECEDENT_CONDITION <- NULL
 	CONSEQUENT_CONDITION <- NULL
@@ -43,21 +38,16 @@ filter_precedence_condition.eventlog <- function(eventlog,
 	fits <- NULL
 	n_fitting <- NULL
 
-
-	precedence_type <- match.arg(precedence_type)
+	precedence_type <- rlang::arg_match(precedence_type)
 
 	conditions_valid <- NULL
-
-
-
 
 	antecedent_condition_specified <- FALSE
 	tryCatch({
 		is.null(antecedent_condition)
 	}, error = function(e) {
 		antecedent_condition_specified <<- TRUE
-	}
-	)
+	})
 
 	if(!antecedent_condition_specified) {
 		# geen filter gespecifieerd.
@@ -67,7 +57,7 @@ filter_precedence_condition.eventlog <- function(eventlog,
 		error_cond <- FALSE
 
 		tryCatch({
-			eventlog <- eventlog %>% mutate(ANTECEDENT_CONDITION = !!(antecedent_condition))
+			log <- log %>% mutate(ANTECEDENT_CONDITION = !!(antecedent_condition))
 		}, error = function(e) {
 			error_cond <<- TRUE
 		})
@@ -76,13 +66,13 @@ filter_precedence_condition.eventlog <- function(eventlog,
 			stop("The antecedent condition (", expr_text(antecedent_condition), ") is not valid. Check the syntax and column names.")
 		}
 	}
+
 	consequent_condition_specified <- FALSE
 	tryCatch({
 		is.null(consequent_condition)
 	}, error = function(e) {
 		consequent_condition_specified <<- TRUE
-	}
-	)
+	})
 
 	if(!consequent_condition_specified) {
 		# geen filter gespecifieerd.
@@ -92,7 +82,7 @@ filter_precedence_condition.eventlog <- function(eventlog,
 		error_cond <- FALSE
 
 		tryCatch({
-			eventlog <- eventlog %>% mutate(CONSEQUENT_CONDITION = !!(consequent_condition))
+			log <- log %>% mutate(CONSEQUENT_CONDITION = !!(consequent_condition))
 		}, error = function(e) {
 			error_cond <<- TRUE
 		})
@@ -102,12 +92,11 @@ filter_precedence_condition.eventlog <- function(eventlog,
 		}
 	}
 
-	eventlog %>%
+	log %>%
 		mutate(CONDITIONS = ifelse(ANTECEDENT_CONDITION, "antecedent_valid", ifelse(CONSEQUENT_CONDITION, "consequent_valid", "NA"))) %>%
-		set_activity_id("CONDITIONS") -> eventlog_conditions
+		set_activity_id("CONDITIONS") -> log_conditions
 
 	pair <- "antecedent_valid,consequent_valid"
-
 
 	if(precedence_type == "directly_follows") {
 		pattern <- str_flatten(c(",", pair,","))
@@ -115,7 +104,7 @@ filter_precedence_condition.eventlog <- function(eventlog,
 		pattern <- str_flatten(c(",",map_chr(str_split(pair, ","), str_flatten, collapse = "(,NA)*,"),","))
 	}
 
-	eventlog_conditions %>%
+	log_conditions %>%
 		case_list() -> cases
 	cases %>%
 		distinct(trace) %>%
@@ -128,19 +117,23 @@ filter_precedence_condition.eventlog <- function(eventlog,
 		left_join(check_results, by = "trace") -> cases_results
 
 	case_selection <- filter(cases_results, n_fitting == 1) %>%
-		pull(!!as.symbol(case_id(eventlog)))
+		pull(!!as.symbol(case_id(log)))
 
-	filter_case(eventlog, case_selection, reverse)
-
+	filter_case.log(log, cases = case_selection, reverse = reverse)
 }
 
+#' @describeIn filter_precedence_condition Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_precedence_condition.grouped_log <- function(log,
+													antecedent_condition,
+													consequent_condition,
+													precedence_type = c("directly_follows", "eventually_follows"),
+													reverse = FALSE,
+													eventlog = deprecated()) {
 
-filter_precedence_condition.grouped_eventlog <- function(eventlog,
-														 antecedent_condition,
-														 consequent_condition,
-														 precedence_type = c("directly_follows", "eventually_follows"),
-														 reverse = FALSE) {
-	grouped_filter(eventlog, filter_precedence_condition, antecedent_condition, consequent_condition, precedence_type, reverse)
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	bupaR:::apply_grouped_fun(log, fun = filter_precedence.log, antecedent_condition, consequent_condition, precedence_type, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_precedence_condition, antecedent_condition, consequent_condition, precedence_type, reverse)
 }
 
