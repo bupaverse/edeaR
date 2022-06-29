@@ -47,8 +47,6 @@ ifilter_throughput_time(eventlog)
 
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
 \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -91,5 +89,7 @@ Other filters:
 \code{\link{filter_precedence}()},
 \code{\link{filter_processing_time}()},
 \code{\link{filter_resource_frequency}()},
-\code{\link{filter_resource}()}
+\code{\link{filter_resource}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()}
 }

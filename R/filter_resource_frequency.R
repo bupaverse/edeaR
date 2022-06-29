@@ -1,15 +1,15 @@
 #' @title Filter Resource Frequency
 #'
-#' @description Filters the log based on frequency of activities
+#' @description Filters the log based on frequency of resources
 #'
 #' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
-#' \code{percentage} (\code{\link{numeric}}): A percentile of \code{0.9} will return the most common resource types of the log,
-#' which account for at least 90% of the activity instances.\cr
+#' \code{percentage} (\code{\link{numeric}}): A percentile of p will return the most common resource types of the log,
+#' which account for at least p% of the activity instances.\cr
 #' \code{interval} (\code{\link{numeric}} vector of length 2): A resource frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
 #' For more information, see 'Details' below.
 #'
 #' @details
-#' Filtering the log based in resource frequency can be done in two ways: using an \code{interval} of allowed frequencies,
+#' Filtering the log based on resource frequency can be done in two ways: using an \code{interval} of allowed frequencies,
 #' or specify a coverage \code{percentage}:
 #'
 #' \itemize{

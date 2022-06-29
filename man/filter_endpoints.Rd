@@ -46,8 +46,6 @@ until at least the p\% of the cases are selected.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
@@ -86,6 +84,8 @@ Other filters:
 \code{\link{filter_precedence}()},
 \code{\link{filter_processing_time}()},
 \code{\link{filter_resource_frequency}()},
-\code{\link{filter_resource}()}
+\code{\link{filter_resource}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()}
 }
 \concept{filters}

@@ -5,7 +5,6 @@
 #' @param activities \code{\link{character}} vector: Containing one or more activity identifiers.
 #' @param reverse \code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.
 #'
-#'
 #' @return When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
 #' When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
 #' The returned log will be grouped on the same variables as the original log.
@@ -17,13 +16,13 @@
 #' @family filters
 #'
 #' @export
-filter_activity <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_activity <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_activity")
 }
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{log}}.
 #' @export
-filter_activity.log <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_activity.log <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 
@@ -38,7 +37,7 @@ filter_activity.log <- function(log, activities, reverse = FALSE, ..., eventlog 
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_activity.grouped_log <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()){
+filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventlog = deprecated()){
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 

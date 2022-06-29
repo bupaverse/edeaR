@@ -41,8 +41,6 @@ ifilter_trace_length(eventlog)
 \item{percentage}{A percentage p to be used for relative filtering.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -84,5 +82,7 @@ Other filters:
 \code{\link{filter_precedence}()},
 \code{\link{filter_processing_time}()},
 \code{\link{filter_resource_frequency}()},
-\code{\link{filter_resource}()}
+\code{\link{filter_resource}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()}
 }
