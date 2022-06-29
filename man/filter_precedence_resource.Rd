@@ -84,6 +84,7 @@ Other filters:
 \code{\link{filter_endpoints_conditions}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_precedence_condition}()},
-\code{\link{filter_precedence}()}
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()}
 }
 \concept{filters}

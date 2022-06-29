@@ -37,8 +37,8 @@ filter_activity_frequency(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{percentage, interval}{The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
-\code{percenatge}: A percentile of \code{0.9} will return the most common activity types of the log, which account for at least 90\% of the activity instances.\cr
-\code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.\cr
+\code{percentage} (\code{\link{numeric}}): A percentile of \code{0.9} will return the most common activity types of the log, which account for at least 90\% of the activity instances.\cr
+\code{interval} (\code{\link{numeric}} vector of length 2): An activity frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
 For more information, see 'Details' below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
@@ -86,6 +86,7 @@ Other filters:
 \code{\link{filter_endpoints}()},
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
-\code{\link{filter_precedence}()}
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()}
 }
 \concept{filters}
