@@ -11,7 +11,6 @@ filter_activity_frequency(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -20,7 +19,6 @@ filter_activity_frequency(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -29,7 +27,6 @@ filter_activity_frequency(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...,
   eventlog = deprecated()
 )
 }
@@ -37,13 +34,12 @@ filter_activity_frequency(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{percentage, interval}{The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
-\code{percentage} (\code{\link{numeric}}): A percentile of \code{0.9} will return the most common activity types of the log, which account for at least 90\% of the activity instances.\cr
+\code{percentage} (\code{\link{numeric}}): A percentile of \code{0.9} will return the most common activity types of the log,
+which account for at least 90\% of the activity instances.\cr
 \code{interval} (\code{\link{numeric}} vector of length 2): An activity frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
 For more information, see 'Details' below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
@@ -56,13 +52,16 @@ The returned log will be grouped on the same variables as the original log.
 Filters the log based on frequency of activities.
 }
 \details{
-Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+Filtering the event log based in activity frequency can be done in two ways: using an \code{interval} of allowed frequencies,
+or specify a coverage \code{percentage}:
 
 \itemize{
-\item percentage: When filtering using a percentage p\%, the filter will return p\% of the activity instances, starting from the activity labels with the highest
-frequency. The filter will retain additional activity labels as long as the number of activity instances does not exceed the percentage threshold.
-\item interval: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}}, e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
+\item \code{percentage}: When filtering using a percentage p\%, the filter will return p\% of the activity instances,
+starting from the activity labels with the highest frequency. The filter will retain additional activity labels
+as long as the number of activity instances does not exceed the percentage threshold.
+\item \code{interval}: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval.
+The interval is specified using a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}},
+e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
 }
 }
 \section{Methods (by class)}{
@@ -88,6 +87,7 @@ Other filters:
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
 \code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
 \code{\link{filter_resource}()}
 }
 \concept{filters}

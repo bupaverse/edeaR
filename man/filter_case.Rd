@@ -53,6 +53,7 @@ Other filters:
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
 \code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
 \code{\link{filter_resource}()}
 }
 \concept{filters}
