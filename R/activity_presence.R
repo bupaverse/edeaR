@@ -98,6 +98,7 @@ activity_presence.grouped_activitylog <- function(log, append = deprecated(), ap
 activity_presence_FUN <- function(log) {
 
 	log %>%
+		as.data.frame() %>%
 		group_by(.data[[activity_id(log)]]) %>%
 		summarize("absolute" = n_distinct(.data[[case_id(log)]])) %>%
 		mutate("relative" = .data[["absolute"]] / n_cases(log))
