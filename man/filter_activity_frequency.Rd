@@ -83,6 +83,9 @@ Other filters:
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_conditions}()},
-\code{\link{filter_endpoints}()}
+\code{\link{filter_endpoints}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()}
 }
 \concept{filters}
