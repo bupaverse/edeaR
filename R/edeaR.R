@@ -47,6 +47,7 @@
 #' @import stringr
 #' @importFrom rlang expr_text
 #' @importFrom lifecycle deprecated
+#' @importFrom rlang maybe_missing
 ## usethis namespace: end
 
 

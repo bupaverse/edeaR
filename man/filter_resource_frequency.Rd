@@ -55,14 +55,8 @@ The returned log will be grouped on the same variables as the original log.
 
 Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
 
-\itemize{
-
-\item percentage: When filtering using a percentage p\\%, the filter will return p\% of the activity instances, starting from the resource labels with the highest
-frequency. The filter will retain additional resource labels as long as the number of activity instances does not exceed the percentage threshold.
-
-\item interval: When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-a numeric vector of length 2. Half open intervals can be created by using NA. E.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
-}
+When filtering using a percentage p\%, the filter will return p\% of the activity instances, starting from the resource labels with the highest frequency. The filter will retain additional resource labels as long as the number of activity instances does not exceed the percentage threshold.
+When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval. The interval is specified using a numeric vector of length 2. Half open intervals can be created by using NA. E.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
 }
 \section{Methods (by class)}{
 \itemize{

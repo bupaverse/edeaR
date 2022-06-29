@@ -17,7 +17,13 @@ filter_endpoints_conditions <- function(log, start_condition = NULL, end_conditi
 #' @export
 filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_endpoints_conditons(eventlog)",
+			with = "filter_endpoints_conditons(log)")
+		log <- eventlog
+	}
 
 	START_CONDITION <- NULL
 	END_CONDITION <- NULL
@@ -91,7 +97,13 @@ filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, en
 #' @export
 filter_endpoints_conditions.grouped_log <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_endpoints_conditons(eventlog)",
+			with = "filter_endpoints_conditons(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_conditions.log, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
@@ -101,7 +113,13 @@ filter_endpoints_conditions.grouped_log <- function(log, start_condition = NULL,
 #' @export
 filter_endpoints_conditions.activitylog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_endpoints_conditons(eventlog)",
+			with = "filter_endpoints_conditons(log)")
+		log <- eventlog
+	}
 
 	filter_endpoints_conditions.eventlog(log = bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...) %>%
 		bupaR::to_activitylog()
