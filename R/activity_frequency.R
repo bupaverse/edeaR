@@ -83,7 +83,7 @@ activity_frequency.grouped_eventlog <- function(log, level = c("log", "trace", "
 				  activity = activity_frequency_activity)
 
 	# Doesn't work!
-	bupaR:::apply_grouped_fun(log, FUN, .keep_groups = TRUE, .returns_log = TRUE) -> output
+	bupaR:::apply_grouped_fun(log, FUN, .keep_groups = FALSE, .returns_log = FALSE) -> output
 
 	#if(level != "log") {
 	#	grouped_metric(log, FUN) -> output

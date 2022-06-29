@@ -64,7 +64,7 @@ activity_presence.grouped_eventlog <- function(log, append = deprecated(), appen
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
 
-	output <- grouped_metric(log, activity_presence_FUN)
+	output <- bupaR:::apply_grouped_fun(log, activity_presence_FUN)
 
 	if(sort) {
 		output %>%
@@ -96,7 +96,6 @@ activity_presence.grouped_activitylog <- function(log, append = deprecated(), ap
 
 
 activity_presence_FUN <- function(log) {
-
 	log %>%
 		as.data.frame() %>%
 		group_by(.data[[activity_id(log)]]) %>%

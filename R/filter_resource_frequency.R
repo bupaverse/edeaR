@@ -1,6 +1,6 @@
-#' @title {Filter: Activity frequency}
+#' @title Filter: resource frequency
 #'
-#' @description {Filters the log based on frequency of activities}
+#' @description Filters the log based on frequency of resources
 #'
 #'
 #' Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.

@@ -5,7 +5,7 @@
 \alias{filter_resource_frequency.eventlog}
 \alias{filter_resource_frequency.grouped_eventlog}
 \alias{ifilter_resource_frequency}
-\title{{Filter: Activity frequency}}
+\title{Filter: resource frequency}
 \usage{
 filter_resource_frequency(
   eventlog,
@@ -51,7 +51,7 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-{Filters the log based on frequency of activities}
+Filters the log based on frequency of resources
 
 Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
 

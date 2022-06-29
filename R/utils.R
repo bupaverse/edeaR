@@ -81,18 +81,12 @@ is_attached <- function(x) {
 }
 
 grouped_metric <- function(grouped_eventlog, FUN, ...) {
-	mapping <- mapping(grouped_eventlog)
-
-	grouped_eventlog %>%
-		nest %>%
-		mutate(data = map(data, re_map, mapping)) %>%
-		mutate(data = map(data, FUN, ...)) %>%
-		unnest -> output
-	output <- ungroup(output)
-	attr(output, "groups") <- groups(grouped_eventlog)
-
-	return(output)
+	# grouped_metric function should be replaced with bupaR:::apply_grouped_fun
+	bupaR:::apply_grouped_fun(grouped_eventlog, FUN, ...)
 }
+
+
+
 
 grouped_metric_raw_log <- function(grouped_eventlog, FUN, ...) {
 
@@ -177,7 +171,6 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 	} else {
-
 		class(output) <- c(paste0(level, "_metric"),metric, class(output))
 		attr(output, "level") <- level
 		attr(output, "mapping") <- mapping(eventlog)
@@ -193,6 +186,11 @@ summary_statistics <- function(vector) {
 	s <- c(s, St.Dev = sd(vector))
 	s <- c(s, IQR = s[5] - s[2])
 	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
+
+	s <- as.data.frame(s) %>% t
+	rownames(s) <- NULL
+	s <- as_tibble(s)
+
 	return(s)
 }
 
