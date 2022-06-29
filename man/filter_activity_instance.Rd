@@ -66,6 +66,7 @@ Other filters:
 \code{\link{filter_endpoints}()},
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
-\code{\link{filter_precedence}()}
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()}
 }
 \concept{filters}

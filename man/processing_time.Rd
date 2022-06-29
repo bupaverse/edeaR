@@ -4,96 +4,127 @@
 \alias{processing_time}
 \alias{processing_time.eventlog}
 \alias{processing_time.grouped_eventlog}
-\title{Metric: Processing time}
+\alias{processing_time.activitylog}
+\alias{processing_time.grouped_activitylog}
+\title{Processing Time}
 \usage{
 processing_time(
-  eventlog,
+  log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
   work_schedule = NULL,
-  ...
+  eventlog = deprecated()
 )
 
 \method{processing_time}{eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
   work_schedule = NULL,
-  ...
+  eventlog = deprecated()
 )
 
 \method{processing_time}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
   work_schedule = NULL,
-  ...
+  eventlog = deprecated()
+)
+
+\method{processing_time}{activitylog}(
+  log,
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  eventlog = deprecated()
+)
+
+\method{processing_time}{grouped_activitylog}(
+  log,
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, trace, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"},
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
+For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
 \item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{units}{Time units to be used}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
 
-\item{sort}{Sort on decreasing processing time. For case level only.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort on decreasing processing time. For \code{"case"} \code{level} only.}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics about the processing time of the process.
+
+In contrast to the \code{\link{throughput_time}} of the cases in a log, the metrics concerning the active time
+or the actual processing time provide summary statistics on the processing time of events on the level of the complete log,
+the specific cases, traces, the activities, and the resource-activity combinations.
 }
 \details{
-In contrast to the throughput time of the cases in an event log, the metrics concerning
-the active time or the actual processing time provide summary statistics on the
-processing time of events on the level of the complete event log, the specific cases,
-traces, the activities, and the resource-activity combinations.
-
+Argument \code{level} has the following options:
 \itemize{
-\item On log level, this metric calculates the summary statistics of the actual processing time per case,
+\item At \code{"log"} level, this metric calculates the summary statistics of the actual processing time per case,
 summarised over the complete event log.
-\item On case level, a list of cases with their processing time are provided.
-\item On trace level, the summary statistics of processing time
-can be calculated for each possible sequence of activities that
-appears in the event log.
-\item Duration can also be calculated on the level
-of each activity. For each activity, an overview of the average processing time
--or the service time- of this activity can be of interest.
-\item We can also look at the processing time per resource.
-\item On the resource-activity level, finally,
-we can have a look at the efficiency of resources by looking at the combination
-of each resource with each activity.
+\item On \code{"trace"} level, the summary statistics of processing time can be calculated for each possible sequence of activities
+that appears in the event log.
+\item On \code{"case"} level, a list of cases with their processing time are provided.
+\item On \code{"activity"} level, an overview of the average processing time -or the service time- of each activity
+can be calculated.
+\item At \code{"resource"} level, this metric calculates the processing time per resource.
+\item On \code{"resource-activity"} level, the efficiency of resources by looking at the combination of each resource
+with each activity can be investigated.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute processing time for event log
+\item \code{eventlog}: Compute processing time for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute processing time on grouped eventlog
+\item \code{grouped_eventlog}: Compute processing time for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Compute processing time for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Compute processing time for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link{throughput_time}},\code{\link{difftime}}
+
 Other metrics: 
+\code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{end_activities}()}
 }
+\concept{metrics}

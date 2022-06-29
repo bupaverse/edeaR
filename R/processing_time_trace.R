@@ -1,11 +1,8 @@
 
-
-processing_time_trace <- function(eventlog,
-								  units,
-								  work_schedule) {
+processing_time_trace <- function(log, units, work_schedule) {
 	relative_frequency <- NULL
-	traces <- case_list(eventlog)
-	eventlog %>%
+	traces <- case_list(log)
+	log %>%
 		processing_time_case(units = units, work_schedule = work_schedule) %>%
 		merge(traces) -> raw
 	raw %>%

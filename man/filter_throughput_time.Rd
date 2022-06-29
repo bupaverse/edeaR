@@ -39,13 +39,14 @@ ifilter_throughput_time(eventlog)
 \arguments{
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{interval}{An duration interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.}
-
-\item{percentage}{A percentage p to be used for relative filtering.}
+\item{interval, percentage}{Provide either \code{interval} or \code{percentage}.\cr
+\code{interval} (\code{\link{numeric}} vector of length 2): An duration interval. Half open interval can be created using \code{\link{NA}}.\cr
+\code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{units}{The time unit used for defining filter intervals.}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
 
 \item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
@@ -87,5 +88,6 @@ Other filters:
 \code{\link{filter_endpoints}()},
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
-\code{\link{filter_precedence}()}
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()}
 }

@@ -1,10 +1,6 @@
 
+processing_time_activity_instance <- function(log, units, work_schedule) {
 
-
-
-processing_time_activity_instance <- function(eventlog,
-											  units,
-											  work_schedule) {
 	s <- NULL
 	e <- NULL
 	timestamp_classifier <- NULL
@@ -12,24 +8,24 @@ processing_time_activity_instance <- function(eventlog,
 	elapsed <- NULL
 
 
-	renamed_eventlog <- eventlog
+	renamed_log <- log
 
-	colnames(renamed_eventlog)[colnames(renamed_eventlog) == timestamp(eventlog)] <- "timestamp_classifier"
-	colnames(renamed_eventlog)[colnames(renamed_eventlog) == activity_instance_id(eventlog)] <- "activity_id_identifier"
+	colnames(renamed_log)[colnames(renamed_log) == timestamp(log)] <- "timestamp_classifier"
+	colnames(renamed_log)[colnames(renamed_log) == activity_instance_id(log)] <- "activity_id_identifier"
 
-	e <- renamed_eventlog %>%
+	e <- renamed_log %>%
 		as.data.table %>%
 		.[, .(s = min(timestamp_classifier),
 			  e = max(timestamp_classifier)), .(activity_id_identifier)]
 
-	colnames(e)[colnames(e) == "activity_id_identifier"] <- activity_instance_id(eventlog)
+	colnames(e)[colnames(e) == "activity_id_identifier"] <- activity_instance_id(log)
 
 	intervals <- as.data.frame(e)
 
 
 	if(is.null(work_schedule)) {
 		intervals %>%
-			mutate(processing_time = as.double(e - s, units = units)) %>%
+			mutate(processing_time = difftime(e, s, units = units)) %>%
 			select(-s, -e) -> output
 	} else {
 

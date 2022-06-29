@@ -188,8 +188,8 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 summary_statistics <- function(vector) {
 
-
-	s <- summary(vector)
+	# TODO: summary does not work for difftime. Temp work-around: as.double(vector)
+	s <- summary(as.double(vector))
 	s <- c(s, St.Dev = sd(vector))
 	s <- c(s, IQR = s[5] - s[2])
 	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
