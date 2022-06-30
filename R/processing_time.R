@@ -6,9 +6,9 @@
 #' or the actual processing time provide summary statistics on the processing time of events on the level of the complete log,
 #' the specific cases, traces, the activities, and the resource-activity combinations.
 #'
-#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"},
-#' \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
-#' For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
+#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+#' \code{"trace"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+#' see \code{vignette("metrics", "edeaR")} and 'Details' below.
 #' @param units \code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
 #' \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.
 #' @param sort \code{\link{logical}} (default \code{TRUE}): Sort on decreasing processing time. For \code{"case"} \code{level} only.
@@ -48,7 +48,7 @@ processing_time <- function(log,
 	UseMethod("processing_time")
 }
 
-#' @describeIn processing_time Compute processing time for an \code{\link[bupaR]{eventlog}}.
+#' @describeIn processing_time Computes processing time for an \code{\link[bupaR]{eventlog}}.
 #' @export
 processing_time.eventlog <- function(log,
 									 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -76,7 +76,7 @@ processing_time.eventlog <- function(log,
 								   level == "resource" ~ "median",
 								   level == "resource-activity"~"median",
 								   level == "activity"~"median",
-								   T ~ "NA")
+								   TRUE ~ "NA")
 	}
 
 	FUN <- switch(level,
@@ -96,14 +96,14 @@ processing_time.eventlog <- function(log,
 
 	return_metric(log, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",T, F)) -> t
+				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
 	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
 	attr(t, "units") <- units
 	t
 }
 
-#' @describeIn processing_time Compute processing time for a \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn processing_time Computes processing time for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 processing_time.grouped_eventlog <- function(log,
 											 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -139,7 +139,7 @@ processing_time.grouped_eventlog <- function(log,
 								   level == "resource" ~ "median",
 								   level == "resource-activity"~"median",
 								   level == "activity"~"median",
-								   T ~ "NA")
+								   TRUE ~ "NA")
 	}
 
 	if(!(level %in% c("log","activity","resource-activity","resource"))) {
@@ -157,14 +157,14 @@ processing_time.grouped_eventlog <- function(log,
 
 	return_metric(log, output, level, append, append_column,  "processing_time",
 				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",T, F)) -> t
+				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
 	attr(t, "units") <- units
 	t
 
 }
 
-#' @describeIn processing_time Compute processing time for an \code{\link[bupaR]{activitylog}}.
+#' @describeIn processing_time Computes processing time for an \code{\link[bupaR]{activitylog}}.
 #' @export
 processing_time.activitylog <- function(log,
 										level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -177,13 +177,20 @@ processing_time.activitylog <- function(log,
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
+
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
-	processing_time.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, units = units, sort = sort, work_schedule = work_schedule)
+	processing_time.eventlog(bupaR::to_eventlog(log),
+							 level = level,
+							 append = append,
+							 append_column = append_column,
+							 units = units,
+							 sort = sort,
+							 work_schedule = work_schedule)
 }
 
-#' @describeIn processing_time Compute processing time for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn processing_time Computes processing time for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
 processing_time.grouped_activitylog <- function(log,
 												level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -196,8 +203,15 @@ processing_time.grouped_activitylog <- function(log,
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 	append <- lifecycle_warning_append(append)
+
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
-	processing_time.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, units = units, sort = sort, work_schedule = work_schedule)
+	processing_time.grouped_eventlog(bupaR::to_eventlog(log),
+									 level = level,
+									 append = append,
+									 append_column = append_column,
+									 units = units,
+									 sort = sort,
+									 work_schedule = work_schedule)
 }
