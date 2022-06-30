@@ -38,7 +38,13 @@ filter_processing_time.log <- function(log,
 									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 									   eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_processing_time(eventlog)",
+			with = "filter_processing_time(log)")
+		log <- eventlog
+	}
 
 	units <- rlang::arg_match(units)
 

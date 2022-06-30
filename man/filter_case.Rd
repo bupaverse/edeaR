@@ -6,16 +6,16 @@
 \alias{filter_case.grouped_log}
 \title{Filter Case}
 \usage{
-filter_case(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+filter_case(log, cases, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_case}{log}(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{log}(log, cases, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_case}{grouped_log}(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{grouped_log}(log, cases, reverse = FALSE, eventlog = deprecated())
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{cases}{A vector of cases identifiers.}
+\item{cases}{\code{\link{character}} vector: A vector of cases identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -52,6 +52,10 @@ Other filters:
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
-\code{\link{filter_processing_time}()}
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()}
 }
 \concept{filters}

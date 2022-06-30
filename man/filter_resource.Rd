@@ -2,25 +2,24 @@
 % Please edit documentation in R/filter_resource.R
 \name{filter_resource}
 \alias{filter_resource}
-\alias{filter_resource.eventlog}
-\alias{filter_resource.grouped_eventlog}
-\alias{ifilter_resource}
-\title{Filter: Resource}
+\alias{filter_resource.log}
+\alias{filter_resource.grouped_log}
+\title{Filter Resource}
 \usage{
-filter_resource(eventlog, resources, reverse = FALSE)
+filter_resource(log, resources, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_resource}{eventlog}(eventlog, resources, reverse = FALSE)
+\method{filter_resource}{log}(log, resources, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_resource}{grouped_eventlog}(eventlog, resources, reverse = FALSE)
-
-ifilter_resource(eventlog)
+\method{filter_resource}{grouped_log}(log, resources, reverse = FALSE, eventlog = deprecated())
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{resources}{A vector of resources identifiers}
+\item{resources}{\code{\link{character}} vector: A vector of resources identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -29,28 +28,26 @@ The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters the log based on resource identifiers
-}
-\details{
-#' The method filter_resource can be used to filter on resource identifiers. It has a resources argument,
-to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+
+This method can be used to filter on resource identifiers. It has a \code{resources} argument,
+to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event log
+\item \code{log}: Filters resources for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Filter grouped event log
+\item \code{grouped_log}: Filters resources for a \code{\link[bupaR]{grouped_log}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{vignette("filters", "edeaR")}
-
 Other filters: 
 \code{\link{filter_activity_frequency}()},
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_conditions}()},
@@ -58,5 +55,9 @@ Other filters:
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
-\code{\link{filter_processing_time}()}
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()}
 }
+\concept{filters}
