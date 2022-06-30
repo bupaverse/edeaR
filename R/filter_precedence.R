@@ -24,13 +24,13 @@
 #'
 #' @examples
 #'
-#' patients %>%
+#' eventdataR::patients %>%
 #' 	filter_precedence(antecedents = "Triage and Assessment",
 #' 					  consequents = "Blood test",
 #' 					  precedence_type = "directly_follows") %>%
 #' 	bupaR::traces()
 #'
-#' patients %>%
+#' eventdataR::patients %>%
 #' 	filter_precedence(antecedents = "Triage and Assessment",
 #' 					  consequents = c("Blood test", "X-Ray", "MRI SCAN"),
 #' 					  precedence_type = "eventually_follows",

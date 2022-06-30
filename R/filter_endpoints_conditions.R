@@ -79,11 +79,12 @@ filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, en
 		}
 	}
 
+
 	log %>%
 		group_by_case() %>%
 		arrange(!!timestamp_(log), .order) %>%
 		summarize(START_CONDITION = first(START_CONDITION),
-				  END_CONDITION = last(END_CONDITION)) %>%
+				  END_CONDITION = last(END_CONDITION))	%>%
 		filter(START_CONDITION & END_CONDITION) %>%
 		pull(!!case_id_(log)) %>%
 		unique() -> case_selection
@@ -105,7 +106,7 @@ filter_endpoints_conditions.grouped_log <- function(log, start_condition = NULL,
 		log <- eventlog
 	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_conditions.log, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_conditions, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
 }
 
@@ -121,7 +122,7 @@ filter_endpoints_conditions.activitylog <- function(log, start_condition = NULL,
 		log <- eventlog
 	}
 
-	filter_endpoints_conditions.eventlog(log = bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort, ...) %>%
+	filter_endpoints_conditions(log = bupaR::to_eventlog(log), start_condition = enquo(start_condition), end_condition = enquo(end_condition), reverse = reverse, ...) %>%
 		bupaR::to_activitylog()
 }
 

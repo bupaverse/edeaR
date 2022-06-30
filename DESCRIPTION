@@ -8,7 +8,7 @@ Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhassel
 Description: Exploratory and descriptive analysis of event based data. Provides methods for describing and selecting process data, and for preparing event log data for process mining. Builds on the S3-class for event logs implemented in the package 'bupaR'.
 License: MIT + file LICENSE
 Depends:
-    R(>= 3.0.0)
+    R(>= 3.5.0)
 Imports:
     bupaR (>= 0.4.1),
     dplyr,
