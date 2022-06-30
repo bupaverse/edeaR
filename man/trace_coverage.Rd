@@ -2,39 +2,39 @@
 % Please edit documentation in R/trace_coverage.R
 \name{trace_coverage}
 \alias{trace_coverage}
-\alias{trace_coverage.eventlog}
-\alias{trace_coverage.grouped_eventlog}
-\title{Metric: Trace coverage}
+\alias{trace_coverage.log}
+\alias{trace_coverage.grouped_log}
+\title{Trace Coverage}
 \usage{
 trace_coverage(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
-\method{trace_coverage}{eventlog}(
-  eventlog,
+\method{trace_coverage}{log}(
+  log,
   level = c("log", "trace", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
-\method{trace_coverage}{grouped_eventlog}(
-  eventlog,
+\method{trace_coverage}{grouped_log}(
+  log,
   level = c("log", "trace", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
 \code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
@@ -46,25 +46,24 @@ results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
-Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level
+Analyses the structuredness of a log by use of trace frequencies.
 }
 \details{
+Argument \code{level} has the following options:
 \itemize{
-\item Trace: The absolute and relative frequency of each trace is returned
-
-\item Case: for each case, the coverage of the corresponding trace is returned
-
-\item Log: Summary statistics of the coverage of traces is returned.
+\item At \code{"log"} level, summary statistics of the coverage of traces are returned.
+\item On \code{"trace"} level, the absolute and relative frequency of each trace are returned.
+\item On \code{"case"} level, the coverage of the corresponding trace is returned for each case.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Trace coverage metric for eventlog
+\item \code{log}: Calculates trace coverage metric for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Trace coverage metric for grouped eventlog
+\item \code{grouped_log}: Calculates trace coverage metric for a \code{\link[bupaR]{grouped_log}}.
 }}
 
 \references{
@@ -72,6 +71,7 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other metrics: 
+\code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{end_activities}()},
 \code{\link{idle_time}()},
@@ -82,3 +82,4 @@ Other metrics:
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}
 }
+\concept{metrics}
