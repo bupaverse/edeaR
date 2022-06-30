@@ -1,8 +1,8 @@
-idle_time_trace <- function(eventlog, units) {
+idle_time_trace <- function(log, units) {
 
-	cases <- case_list(eventlog)
+	cases <- case_list(log)
 
-	eventlog %>%
+	log %>%
 		idle_time_case(units = units) %>%
 		merge(cases) %>%
 		group_by(trace) %>%
