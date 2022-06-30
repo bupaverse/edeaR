@@ -18,7 +18,14 @@ filter_case <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 #' @export
 filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case(eventlog)",
+			with = "filter_case(log)")
+		log <- eventlog
+	}
+
 
 	if(!reverse) {
 		log %>%
@@ -33,9 +40,15 @@ filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()
 #' @export
 filter_case.grouped_log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case(eventlog)",
+			with = "filter_case(log)")
+		log <- eventlog
+	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 

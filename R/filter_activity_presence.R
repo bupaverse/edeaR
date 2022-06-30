@@ -44,7 +44,14 @@ filter_activity_presence.log <- function(log,
 	in_ <- NULL
 	out_ <- NULL
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_presence(eventlog)",
+			with = "filter_activity_presence(log)")
+		log <- eventlog
+	}
+
 	method <- rlang::arg_match(method)
 
 
@@ -100,7 +107,14 @@ filter_activity_presence.grouped_log <- function(log,
 												 reverse = FALSE,
 												 eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_presence(eventlog)",
+			with = "filter_activity_presence(log)")
+		log <- eventlog
+	}
+
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
