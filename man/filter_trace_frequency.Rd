@@ -90,6 +90,9 @@ Other filters:
 \code{\link{filter_processing_time}()},
 \code{\link{filter_resource_frequency}()},
 \code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_length}()},
 \code{\link{filter_trace}()}
 }
 \concept{filters}

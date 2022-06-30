@@ -66,9 +66,9 @@ processing_time(
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"trace"},
-\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
-For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"trace"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
 
@@ -107,13 +107,13 @@ with each activity can be investigated.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute processing time for an \code{\link[bupaR]{eventlog}}.
+\item \code{eventlog}: Computes processing time for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute processing time for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{grouped_eventlog}: Computes processing time for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Compute processing time for an \code{\link[bupaR]{activitylog}}.
+\item \code{activitylog}: Computes processing time for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Compute processing time for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{grouped_activitylog}: Computes processing time for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
@@ -125,6 +125,8 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 Other metrics: 
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
-\code{\link{end_activities}()}
+\code{\link{end_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_length}()}
 }
 \concept{metrics}

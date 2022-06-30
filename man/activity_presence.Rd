@@ -111,6 +111,8 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 Other metrics: 
 \code{\link{activity_frequency}()},
 \code{\link{end_activities}()},
-\code{\link{processing_time}()}
+\code{\link{processing_time}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_length}()}
 }
 \concept{metrics}
