@@ -1,7 +1,7 @@
 
-trace_length_case <- function(eventlog) {
+trace_length_case <- function(log) {
 
-	eventlog %>%
+	log %>%
 		group_by_case %>%
-		summarize(absolute = n_distinct(!!activity_instance_id_(eventlog)))
+		summarize(absolute = n_distinct(!!activity_instance_id_(log)))
 }

@@ -110,6 +110,7 @@ Other metrics:
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{processing_time}()},
-\code{\link{throughput_time}()}
+\code{\link{throughput_time}()},
+\code{\link{trace_length}()}
 }
 \concept{metrics}

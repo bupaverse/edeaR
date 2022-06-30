@@ -9,7 +9,7 @@
 #' in which this interval is defined can be supplied with the \code{units} argument.
 #'
 #' @param interval,percentage Provide either \code{interval} or \code{percentage}.\cr
-#' \code{interval} (\code{\link{numeric}} vector of length 2): An duration interval. Half open interval can be created using \code{\link{NA}}.\cr
+#' \code{interval} (\code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.\cr
 #' \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.
 #'
 #' @inherit filter_activity params references seealso return

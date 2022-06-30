@@ -4,37 +4,57 @@
 \alias{trace_length}
 \alias{trace_length.eventlog}
 \alias{trace_length.grouped_eventlog}
-\title{Metric: Trace length}
+\alias{trace_length.activitylog}
+\alias{trace_length.grouped_activitylog}
+\title{Trace Length}
 \usage{
 trace_length(
-  eventlog,
-  level = c("log", "trace", "case"),
-  append = F,
-  append_column = NULL,
-  sort = TRUE,
-  ...
-)
-
-\method{trace_length}{eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{trace_length}{eventlog}(
+  log,
+  level = c("log", "trace", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 
 \method{trace_length}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{trace_length}{activitylog}(
+  log,
+  level = c("log", "trace", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{trace_length}{grouped_activitylog}(
+  log,
+  level = c("log", "trace", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
 \code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
@@ -45,33 +65,32 @@ trace_length(
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Analysis of trace lengths
+
+This metric provides an overview of the number of activities that occur in each trace.
+
+An important remark is that this metric takes into account each instance of an activity, but not the individual lifecycle events.
 }
 \details{
-This metric provides an overview of the number of activities that occur in each trace.
-In this metric, instances of an activity, as
-opposed to the actual activities, are calculated.
-
+Argument \code{level} has the following options:
 \itemize{
-
-\item On the level of the log, the number of actual
-transactions in a trace are calculated and aggregated on the log level.
-
-\item On the level of the cases, this metric calculates the number of activity instances in each case.
-
-\item This metric shows the number of activity instances
-executed in each trace.
-#'
+\item At \code{"log"} level, the summary statistics describing the trace length of cases in an aggregated fashion.
+\item On \code{"trace"} level, the trace length of the different process variants or traces in the log are calculated.
+\item On \code{"case"} level, the trace lengths for each case are computed.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Trace length for  eventlog
+\item \code{eventlog}: Computes trace length for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Trace length for grouped eventlog
+\item \code{grouped_eventlog}: Computes trace length for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes trace length for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes trace length for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
@@ -79,8 +98,10 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 }
 \seealso{
 Other metrics: 
+\code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{end_activities}()},
 \code{\link{processing_time}()},
 \code{\link{throughput_time}()}
 }
+\concept{metrics}

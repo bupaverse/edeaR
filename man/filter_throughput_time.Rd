@@ -37,7 +37,7 @@ filter_throughput_time(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{interval, percentage}{Provide either \code{interval} or \code{percentage}.\cr
-\code{interval} (\code{\link{numeric}} vector of length 2): An duration interval. Half open interval can be created using \code{\link{NA}}.\cr
+\code{interval} (\code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.\cr
 \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
@@ -91,6 +91,7 @@ Other filters:
 \code{\link{filter_resource}()},
 \code{\link{filter_time_period}()},
 \code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
 \code{\link{filter_trace}()}
 }
 \concept{filters}

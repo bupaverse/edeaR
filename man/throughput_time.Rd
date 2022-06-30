@@ -5,7 +5,7 @@
 \alias{throughput_time.eventlog}
 \alias{throughput_time.grouped_eventlog}
 \alias{throughput_time.activitylog}
-\alias{processing_time.grouped_activitylog}
+\alias{throughput_time.grouped_activitylog}
 \title{Throughput Time of Cases}
 \usage{
 throughput_time(
@@ -52,9 +52,9 @@ throughput_time(
   eventlog = deprecated()
 )
 
-\method{processing_time}{grouped_activitylog}(
+\method{throughput_time}{grouped_activitylog}(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -88,8 +88,7 @@ Provides summary statistics concerning the throughput times of cases.
 \details{
 Argument \code{level} has the following options:
 \itemize{
-\item At \code{"log"} level, the summary statistics of these throughput to describe the throughput time of cases in an
-aggregated fashion.
+\item At \code{"log"} level, the summary statistics describing the throughput time of cases in an aggregated fashion.
 \item On \code{"trace"} level, the throughput time of the different process variants or traces in the log are calculated.
 \item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
 the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link{idle_time}} is also included
@@ -120,6 +119,7 @@ Other metrics:
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{end_activities}()},
-\code{\link{processing_time}()}
+\code{\link{processing_time}()},
+\code{\link{trace_length}()}
 }
 \concept{metrics}

@@ -10,8 +10,7 @@
 #' @details
 #' Argument \code{level} has the following options:
 #' \itemize{
-#' \item At \code{"log"} level, the summary statistics of these throughput to describe the throughput time of cases in an
-#' aggregated fashion.
+#' \item At \code{"log"} level, the summary statistics describing the throughput time of cases in an aggregated fashion.
 #' \item On \code{"trace"} level, the throughput time of the different process variants or traces in the log are calculated.
 #' \item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
 #' the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link{idle_time}} is also included
@@ -157,8 +156,8 @@ throughput_time.activitylog <- function(log,
 
 #' @describeIn throughput_time Computes throughput time for a \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
-processing_time.grouped_activitylog <- function(log,
-												level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+throughput_time.grouped_activitylog <- function(log,
+												level = c("log", "trace", "case"),
 												append = deprecated(),
 												append_column = NULL,
 												units = c("auto", "secs", "mins", "hours", "days", "weeks"),

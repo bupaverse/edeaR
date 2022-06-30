@@ -86,5 +86,6 @@ Other filters:
 \code{\link{filter_throughput_time}()},
 \code{\link{filter_time_period}()},
 \code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
 \code{\link{filter_trace}()}
 }
