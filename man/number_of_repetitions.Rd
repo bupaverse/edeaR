@@ -133,6 +133,7 @@ Other metrics:
 \code{\link{end_activities}()},
 \code{\link{idle_time}()},
 \code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}

@@ -130,6 +130,7 @@ Other metrics:
 \code{\link{idle_time}()},
 \code{\link{number_of_repetitions}()},
 \code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}
 }
