@@ -125,11 +125,14 @@ following each other and by a different resource than the first activity occurre
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link{number_of_selfloops}}
+
 Other metrics: 
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
 \code{\link{end_activities}()},
 \code{\link{idle_time}()},
+\code{\link{number_of_selfloops}()},
 \code{\link{processing_time}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}

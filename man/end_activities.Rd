@@ -112,6 +112,7 @@ Other metrics:
 \code{\link{activity_presence}()},
 \code{\link{idle_time}()},
 \code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
 \code{\link{processing_time}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}

@@ -39,6 +39,8 @@
 #' @inherit end_activities params
 #' @inherit activity_frequency params references seealso return
 #'
+#' @seealso \code{\link{number_of_selfloops}}
+#'
 #' @family metrics
 #'
 #' @export number_of_repetitions

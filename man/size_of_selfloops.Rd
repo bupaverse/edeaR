@@ -36,7 +36,8 @@ size_of_selfloops(
 \arguments{
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 
-\item{type}{The type of repetitions, either all, repeat or redo.}
+\item{type}{\code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
+\code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
 For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
