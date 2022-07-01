@@ -37,7 +37,7 @@ filter_trim_lifecycle(
 )
 }
 \arguments{
-\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
+\item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
 
 \item{start_lifecycles, end_lifecycles}{\code{\link{character}} vector (default \code{\link{NULL}}): A vector of life cycle
 identifiers, or \code{\link{NULL}}.}
@@ -87,6 +87,7 @@ Other filters:
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_conditions}()},
 \code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
 \code{\link{filter_lifecycle}()},
 \code{\link{filter_precedence_condition}()},
