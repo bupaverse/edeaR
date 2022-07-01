@@ -1,11 +1,11 @@
 
-resource_frequency_log <- function(eventlog) {
+resource_frequency_log <- function(log) {
 
 	freq <- NULL
 
-	eventlog %>%
-		group_by(!!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!resource_id_(log), !!activity_instance_id_(log)) %>%
+		#summarize() %>%
 		summarize(freq = n()) -> raw
 
 	output <- raw %>%

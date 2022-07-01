@@ -44,6 +44,7 @@ Other metrics:
 \code{\link{number_of_repetitions}()},
 \code{\link{number_of_selfloops}()},
 \code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}

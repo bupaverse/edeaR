@@ -1,9 +1,9 @@
-resource_frequency_activity <- function(eventlog) {
+resource_frequency_activity <- function(log) {
 	nr_of_resources <- NULL
-	eventlog %>%
-		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!activity_id_(log), !!resource_id_(log), !!activity_instance_id_(log)) %>%
+		#summarize() %>%
 		summarize(freq = n()) %>%
 		grouped_summary_statistics("freq", nr_of_resources = n()) %>%
-		select(!!activity_id_(eventlog), nr_of_resources, everything())
+		select(!!activity_id_(log), nr_of_resources, everything())
 }

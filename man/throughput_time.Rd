@@ -125,6 +125,7 @@ Other metrics:
 \code{\link{number_of_selfloops}()},
 \code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}
 }
