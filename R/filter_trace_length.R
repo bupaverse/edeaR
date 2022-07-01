@@ -72,7 +72,13 @@ filter_trace_length.grouped_log <- function(log,
 											reverse = FALSE,
 											eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trace_length(eventlog)",
+			with = "filter_trace_length(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_trace_length.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }

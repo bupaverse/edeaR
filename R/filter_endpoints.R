@@ -23,7 +23,13 @@ filter_endpoints <- function(log, start_activities = NULL, end_activities = NULL
 #' @export
 filter_endpoints.log <- function(log, start_activities = NULL, end_activities = NULL, percentage = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_endpoints(eventlog)",
+			with = "filter_endpoints(log)")
+		log <- eventlog
+	}
 
 	if(is.null(start_activities) & is.null(end_activities) & is.null(percentage))
 		stop("At least one set of start or end activities or a percentage must be provided.")
@@ -39,8 +45,13 @@ filter_endpoints.log <- function(log, start_activities = NULL, end_activities = 
 #' @export
 filter_endpoints.grouped_log <- function(log, start_activities = NULL, end_activities = NULL, percentage = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_endpoints(eventlog)",
+			with = "filter_endpoints(log)")
+		log <- eventlog
+	}
 	bupaR:::apply_grouped_fun(log, fun = filter_endpoints.log, start_activities, end_activities, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints, start_activities, end_activities, percentage, reverse, ...)
 }

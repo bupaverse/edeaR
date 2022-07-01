@@ -141,7 +141,13 @@ filter_time_period.grouped_eventlog <- function(log,
 												reverse = FALSE,
 												eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_time_period(eventlog)",
+			with = "filter_time_period(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_time_period.eventlog, interval, filter_method, force_trim, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_time_period, interval, filter_method, force_trim, reverse, ...)
@@ -156,7 +162,13 @@ filter_time_period.activitylog <- function(log,
 										   reverse = FALSE,
 										   eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_time_period(eventlog)",
+			with = "filter_time_period(log)")
+		log <- eventlog
+	}
 
 	filter_time_period.eventlog(log = bupaR::to_eventlog(log), interval = interval, filter_method = filter_method, force_trim = force_trim, reverse = reverse) %>%
 		bupaR::to_activitylog()
