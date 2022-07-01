@@ -1,10 +1,10 @@
-resource_specialisation_log <- function(eventlog) {
+resource_specialisation_log <- function(log) {
 
 	freq <- NULL
 
-	eventlog %>%
-		group_by(!!resource_id_(eventlog), !!activity_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!resource_id_(log), !!activity_id_(log)) %>%
+		#summarize() %>%
 		summarize(freq = n()) -> raw
 
 	raw %>%

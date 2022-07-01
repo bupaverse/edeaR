@@ -36,7 +36,7 @@ resource_involvement(
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{\code{\link{character}} (default \code{"case"}): Level of granularity for the analysis: \code{"case"},
+\item{level}{\code{\link{character}} (default \code{"case"}): Level of granularity for the analysis: \code{"case"} (default),
 \code{"resource"}, or \code{"resource-activity"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
@@ -90,6 +90,7 @@ Other metrics:
 \code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
 \code{\link{resource_frequency}()},
+\code{\link{resource_specialisation}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}

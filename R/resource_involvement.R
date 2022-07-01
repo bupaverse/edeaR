@@ -6,7 +6,7 @@
 #' decide how "indispensable" they are. This metric is provided on three levels of analysis, which are the cases,
 #' the resources, and the resource-activity combinations.
 #'
-#' @param level \code{\link{character}} (default \code{"case"}): Level of granularity for the analysis: \code{"case"},
+#' @param level \code{\link{character}} (default \code{"case"}): Level of granularity for the analysis: \code{"case"} (default),
 #' \code{"resource"}, or \code{"resource-activity"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
 #'
 #' @details
