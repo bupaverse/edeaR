@@ -95,6 +95,8 @@ Other filters:
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_conditions}()},
 \code{\link{filter_endpoints}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
@@ -105,6 +107,7 @@ Other filters:
 \code{\link{filter_time_period}()},
 \code{\link{filter_trace_frequency}()},
 \code{\link{filter_trace_length}()},
-\code{\link{filter_trace}()}
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()}
 }
 \concept{filters}

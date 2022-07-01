@@ -2,8 +2,8 @@
 #'
 #' @description Filters cases based on the presence (or absence) of activities.
 #'
-#' @param method \code{\link{character}} (default \code{"all"}): Filter method: \code{"all"}, \code{"none"}, \code{"one_of"}, \code{"exact"}, or \code{"only"}.
-#' For more information, see 'Details' below.
+#' @param method \code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+#' \code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.
 #'
 #' @details
 #' This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
@@ -115,6 +115,7 @@ filter_activity_presence.grouped_log <- function(log,
 		log <- eventlog
 	}
 
+	method <- rlang::arg_match(method)
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)

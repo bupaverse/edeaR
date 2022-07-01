@@ -11,13 +11,19 @@
 #' @family filters
 #'
 #' @export filter_activity_instance
-filter_activity_instance <- function(log, activity_instances = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_activity_instance <- function(log,
+									 activity_instances,
+									 reverse = FALSE,
+									 eventlog = deprecated()) {
 	UseMethod("filter_activity_instance")
 }
 
 #' @describeIn filter_activity_instance Filters activities for an \code{\link[bupaR]{eventlog}}.
 #' @export
-filter_activity_instance.eventlog <- function(log, activity_instances = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_activity_instance.eventlog <- function(log,
+											  activity_instances,
+											  reverse = FALSE,
+											  eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 
@@ -32,7 +38,10 @@ filter_activity_instance.eventlog <- function(log, activity_instances = NULL, re
 
 #' @describeIn filter_activity_instance Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
-filter_activity_instance.grouped_eventlog <- function(log, activity_instances = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_activity_instance.grouped_eventlog <- function(log,
+													  activity_instances,
+													  reverse = FALSE,
+													  eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
 

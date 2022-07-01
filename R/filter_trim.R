@@ -39,7 +39,7 @@ filter_trim.eventlog <- function(log,
 	}
 
 	if(is.null(start_activities) & is.null(end_activities))
-		stop("At least on start or end activity should be provided")
+		stop("At least one start or end activity should be provided")
 
 	acts <- activities(log) %>% pull(1)
 

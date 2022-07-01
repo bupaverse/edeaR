@@ -35,8 +35,8 @@ filter_activity_presence(
 
 \item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
-\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"}, \code{"none"}, \code{"one_of"}, \code{"exact"}, or \code{"only"}.
-For more information, see 'Details' below.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -83,6 +83,8 @@ Other filters:
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_conditions}()},
 \code{\link{filter_endpoints}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
 \code{\link{filter_precedence_condition}()},
 \code{\link{filter_precedence_resource}()},
 \code{\link{filter_precedence}()},
@@ -94,6 +96,7 @@ Other filters:
 \code{\link{filter_trace_frequency}()},
 \code{\link{filter_trace_length}()},
 \code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
 \code{\link{filter_trim}()}
 }
 \concept{filters}
