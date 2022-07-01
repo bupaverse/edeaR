@@ -62,7 +62,13 @@ filter_precedence.log <- function(log,
 								  reverse = FALSE,
 								  eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_precedence(eventlog)",
+			with = "filter_precedence(log)")
+		log <- eventlog
+	}
 
 	pair <- NULL
 	.trace <- NULL
@@ -147,7 +153,13 @@ filter_precedence.grouped_log <- function(log,
 										  reverse = FALSE,
 										  eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_precedence(eventlog)",
+			with = "filter_precedence(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_precedence.log, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_precedence, antecedents, consequents, precedence_type, filter_method, reverse)

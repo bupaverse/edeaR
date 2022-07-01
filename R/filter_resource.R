@@ -41,7 +41,13 @@ filter_resource.log <- function(log, resources,	reverse = FALSE, eventlog = depr
 #' @export
 filter_resource.grouped_log <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource(eventlog)",
+			with = "filter_resource(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_resource.log, resources, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_resource, resources, reverse)

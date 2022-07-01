@@ -83,7 +83,13 @@ filter_resource_frequency.grouped_log <- function(log,
 												  reverse = FALSE,
 												  eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource_frequency(eventlog)",
+			with = "filter_resource_frequency(log)")
+		log <- eventlog
+	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_resource_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_resource_frequency, interval, percentage, reverse, ...)
