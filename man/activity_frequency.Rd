@@ -110,6 +110,7 @@ Other metrics:
 \code{\link{resource_frequency}()},
 \code{\link{resource_involvement}()},
 \code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}
