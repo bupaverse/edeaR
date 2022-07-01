@@ -80,6 +80,7 @@ Other metrics:
 \code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
 \code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_length}()}
 }

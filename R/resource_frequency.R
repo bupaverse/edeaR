@@ -23,6 +23,8 @@
 #' @inherit end_activities params
 #' @inherit activity_frequency params references seealso return
 #'
+#' @seealso \code{\link{resource_involvement}}
+#'
 #' @family metrics
 #'
 #' @export resource_frequency

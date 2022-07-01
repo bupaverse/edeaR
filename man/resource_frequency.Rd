@@ -104,6 +104,8 @@ occurrences of the activity under consideration.
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link{resource_involvement}}
+
 Other metrics: 
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
@@ -113,6 +115,7 @@ Other metrics:
 \code{\link{number_of_selfloops}()},
 \code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
+\code{\link{resource_involvement}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}
