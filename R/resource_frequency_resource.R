@@ -1,11 +1,11 @@
 
-resource_frequency_resource <- function(eventlog) {
+resource_frequency_resource <- function(log) {
 	absolute <- NULL
 	relative <- NULL
 
-	eventlog %>%
-		group_by(!!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!resource_id_(log), !!activity_instance_id_(log)) %>%
+		#summarize() %>%
 		summarize(absolute = n()) %>%
 		mutate(relative = absolute/sum(absolute))
 

@@ -14,7 +14,6 @@ activity_frequency(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -24,7 +23,6 @@ activity_frequency(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -34,7 +32,6 @@ activity_frequency(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -44,7 +41,6 @@ activity_frequency(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -54,7 +50,6 @@ activity_frequency(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 }
@@ -71,9 +66,9 @@ results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
-
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+
+\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
@@ -91,13 +86,13 @@ The relative number is calculated based on the total activity executions in the 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute activity frequency for an \code{\link[bupaR]{eventlog}}.
+\item \code{eventlog}: Computes the activity frequency for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{grouped_eventlog}: Computes the activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Compute activity frequency for an \code{\link[bupaR]{activitylog}}.
+\item \code{activitylog}: Computes the activity frequency for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Compute activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{grouped_activitylog}: Computes the activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
@@ -112,6 +107,7 @@ Other metrics:
 \code{\link{number_of_selfloops}()},
 \code{\link{number_of_traces}()},
 \code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
 \code{\link{throughput_time}()},
 \code{\link{trace_coverage}()},
 \code{\link{trace_length}()}
