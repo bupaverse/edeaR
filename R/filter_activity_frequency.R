@@ -115,6 +115,8 @@ filter_activity_percentage <- function(log, percentage, reverse) {
 }
 
 
+#' @keywords internal
+#' @rdname filter_activity_frequency
 #' @export ifilter_activity_frequency
 ifilter_activity_frequency <- function(eventlog) {
 

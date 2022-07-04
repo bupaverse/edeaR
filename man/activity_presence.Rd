@@ -13,7 +13,6 @@ activity_presence(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -22,7 +21,6 @@ activity_presence(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -31,7 +29,6 @@ activity_presence(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -40,7 +37,6 @@ activity_presence(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 
@@ -49,7 +45,6 @@ activity_presence(
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...,
   eventlog = deprecated()
 )
 }
@@ -62,8 +57,6 @@ results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 \item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }

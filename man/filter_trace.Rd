@@ -52,7 +52,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},

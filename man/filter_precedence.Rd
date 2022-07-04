@@ -4,6 +4,7 @@
 \alias{filter_precedence}
 \alias{filter_precedence.log}
 \alias{filter_precedence.grouped_log}
+\alias{ifilter_precedence}
 \title{Filter Precedence Relations}
 \usage{
 filter_precedence(
@@ -35,6 +36,8 @@ filter_precedence(
   reverse = FALSE,
   eventlog = deprecated()
 )
+
+ifilter_precedence(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -107,7 +110,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -126,3 +129,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

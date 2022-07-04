@@ -4,6 +4,7 @@
 \alias{filter_processing_time}
 \alias{filter_processing_time.log}
 \alias{filter_processing_time.grouped_log}
+\alias{ifilter_processing_time}
 \title{Filter Processing Time}
 \usage{
 filter_processing_time(
@@ -32,6 +33,8 @@ filter_processing_time(
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   eventlog = deprecated()
 )
+
+ifilter_processing_time(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -81,7 +84,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -100,3 +103,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

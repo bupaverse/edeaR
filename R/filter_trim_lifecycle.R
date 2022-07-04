@@ -133,7 +133,8 @@ filter_trim_lifecycle.grouped_eventlog <- function(log,
 	bupaR:::apply_grouped_fun(log, fun = filter_trim_lifecycle.eventlog, start_lifecycles, end_lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @keywords internals
+#' @rdname filter_trim_lifecycle
 #' @export ifilter_trim_lifecycle
 ifilter_trim_lifecycle <- function(eventlog) {
 

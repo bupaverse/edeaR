@@ -4,6 +4,7 @@
 \alias{filter_case}
 \alias{filter_case.log}
 \alias{filter_case.grouped_log}
+\alias{ifilter_case}
 \title{Filter Case}
 \usage{
 filter_case(log, cases, reverse = FALSE, eventlog = deprecated())
@@ -11,6 +12,8 @@ filter_case(log, cases, reverse = FALSE, eventlog = deprecated())
 \method{filter_case}{log}(log, cases, reverse = FALSE, eventlog = deprecated())
 
 \method{filter_case}{grouped_log}(log, cases, reverse = FALSE, eventlog = deprecated())
+
+ifilter_case(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -47,7 +50,7 @@ Other filters:
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -67,3 +70,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

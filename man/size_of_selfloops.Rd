@@ -4,37 +4,57 @@
 \alias{size_of_selfloops}
 \alias{size_of_selfloops.eventlog}
 \alias{size_of_selfloops.grouped_eventlog}
+\alias{size_of_selfloops.activitylog}
+\alias{size_of_selfloops.grouped_activitylog}
 \title{Metric: Size of selfloops}
 \usage{
 size_of_selfloops(
-  eventlog,
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  ...
+  eventlog = deprecated()
 )
 
 \method{size_of_selfloops}{eventlog}(
-  eventlog,
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  ...
+  eventlog = deprecated()
 )
 
 \method{size_of_selfloops}{grouped_eventlog}(
-  eventlog,
+  log,
   type = c("repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-acitivty"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  ...
+  eventlog = deprecated()
+)
+
+\method{size_of_selfloops}{activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  eventlog = deprecated()
+)
+
+\method{size_of_selfloops}{grouped_activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{type}{\code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
 \code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.}
@@ -48,7 +68,7 @@ results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
 \item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics on the sizes of selfloops
@@ -58,6 +78,10 @@ Provides summary statistics on the sizes of selfloops
 \item \code{eventlog}: Size of selfloops for eventlog
 
 \item \code{grouped_eventlog}: Size of selfloops for grouped eventlog
+
+\item \code{activitylog}: Size of selfloops for activitylog
+
+\item \code{grouped_activitylog}: Size of selfloops for grouped activitylog
 }}
 
 \references{

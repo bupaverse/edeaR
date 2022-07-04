@@ -9,7 +9,6 @@
 #' results to original log. Ignored when level is \code{"log"} or \code{"trace"}.
 #' @param append_column `r lifecycle::badge("deprecated")` Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
 #' @param sort \code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.
-#' @param ... `r lifecycle::badge("deprecated")` Deprecated arguments
 #' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
 #'
 #' @details

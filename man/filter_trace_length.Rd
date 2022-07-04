@@ -4,6 +4,7 @@
 \alias{filter_trace_length}
 \alias{filter_trace_length.log}
 \alias{filter_trace_length.grouped_log}
+\alias{ifilter_trace_length}
 \title{Filter Trace Length}
 \usage{
 filter_trace_length(
@@ -29,6 +30,8 @@ filter_trace_length(
   reverse = FALSE,
   eventlog = deprecated()
 )
+
+ifilter_trace_length(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -74,7 +77,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -93,3 +96,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

@@ -72,7 +72,8 @@ filter_lifecycle.grouped_eventlog <- function(log,
 	bupaR:::apply_grouped_fun(log, fun = filter_lifecycle.eventlog, lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @rdname filter_lifecycle
+#' @keywords internal
 #' @export ifilter_lifecycle
 ifilter_lifecycle <- function(eventlog) {
 

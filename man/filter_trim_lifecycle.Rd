@@ -4,6 +4,7 @@
 \alias{filter_trim_lifecycle}
 \alias{filter_trim_lifecycle.eventlog}
 \alias{filter_trim_lifecycle.grouped_eventlog}
+\alias{ifilter_trim_lifecycle}
 \title{Filter Trim Life Cycle}
 \usage{
 filter_trim_lifecycle(
@@ -35,6 +36,8 @@ filter_trim_lifecycle(
   end_lifecycle = deprecated(),
   eventlog = deprecated()
 )
+
+ifilter_trim_lifecycle(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -85,7 +88,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -104,3 +107,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internals}

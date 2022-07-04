@@ -4,6 +4,7 @@
 \alias{filter_activity_instance}
 \alias{filter_activity_instance.eventlog}
 \alias{filter_activity_instance.grouped_eventlog}
+\alias{ifilter_activity_instance}
 \title{Filter Activity Instance}
 \usage{
 filter_activity_instance(
@@ -26,6 +27,8 @@ filter_activity_instance(
   reverse = FALSE,
   eventlog = deprecated()
 )
+
+ifilter_activity_instance(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -62,7 +65,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -82,3 +85,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internals}

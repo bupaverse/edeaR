@@ -123,7 +123,8 @@ filter_resource_percentage <- function(eventlog, percentage, reverse) {
 	filter_resource(eventlog, event_selection, reverse)
 }
 
-
+#' @keywords internals
+#' @rdname filter_resource_frequency
 #' @export ifilter_resource_frequency
 ifilter_resource_frequency <- function(eventlog) {
 

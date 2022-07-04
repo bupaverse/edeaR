@@ -123,6 +123,8 @@ filter_lifecycle_presence.grouped_eventlog <- function(log,
 }
 
 
+#' @keywords internal
+#' @rdname filter_lifecycle_presence
 #' @export ifilter_lifecycle_presence
 ifilter_lifecycle_presence <- function(eventlog) {
 

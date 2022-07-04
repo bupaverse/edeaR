@@ -4,6 +4,7 @@
 \alias{filter_lifecycle_presence}
 \alias{filter_lifecycle_presence.eventlog}
 \alias{filter_lifecycle_presence.grouped_eventlog}
+\alias{ifilter_lifecycle_presence}
 \title{Filter Life Cycle Presence}
 \usage{
 filter_lifecycle_presence(
@@ -32,6 +33,8 @@ filter_lifecycle_presence(
   lifecycle = deprecated(),
   eventlog = deprecated()
 )
+
+ifilter_lifecycle_presence(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -86,7 +89,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle}()},
@@ -105,3 +108,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

@@ -92,7 +92,8 @@ filter_processing_time.grouped_log <- function(log,
 	#grouped_filter(eventlog, filter_processing_time, interval = interval, percentage = percentage, reverse, units, ...)
 }
 
-
+#' @rdname filter_processing_time
+#' @keywords internal
 #' @export ifilter_processing_time
 ifilter_processing_time <- function(eventlog) {
 

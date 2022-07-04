@@ -6,6 +6,7 @@
 \alias{filter_time_period.grouped_eventlog}
 \alias{filter_time_period.activitylog}
 \alias{filter_time_period.grouped_activitylog}
+\alias{ifilter_time_period}
 \title{Filter Time Period}
 \usage{
 filter_time_period(
@@ -52,6 +53,8 @@ filter_time_period(
   reverse = FALSE,
   eventlog = deprecated()
 )
+
+ifilter_time_period(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -111,7 +114,7 @@ Other filters:
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
 \code{\link{filter_case}()},
-\code{\link{filter_endpoints_conditions}()},
+\code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
@@ -130,3 +133,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\keyword{internal}

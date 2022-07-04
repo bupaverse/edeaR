@@ -56,7 +56,8 @@ filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventl
 	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @keywords internal
+#' @rdname filter_activity
 #' @export ifilter_activity
 ifilter_activity <- function(eventlog) {
 

@@ -8,20 +8,28 @@
 #'
 #' @family filters
 #'
-#' @export filter_endpoints_conditions
-filter_endpoints_conditions <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
-	UseMethod("filter_endpoints_conditions")
+#' @export filter_endpoints_condition
+filter_endpoints_condition <- function(log,
+									   start_condition = NULL,
+									   end_condition = NULL,
+									   reverse = FALSE,
+									   eventlog = deprecated()) {
+	UseMethod("filter_endpoints_condition")
 }
 
-#' @describeIn filter_endpoints_conditions Filters cases for an \code{\link[bupaR]{eventlog}}.
+#' @describeIn filter_endpoints_condition Filters cases for an \code{\link[bupaR]{eventlog}}.
 #' @export
-filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints_condition.eventlog <- function(log,
+												start_condition = NULL,
+												end_condition = NULL,
+												reverse = FALSE,
+												eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
 			when = "0.9.0",
-			what = "filter_endpoints_conditons(eventlog)",
-			with = "filter_endpoints_conditons(log)")
+			what = "filter_endpoints_condition(eventlog)",
+			with = "filter_endpoints_condition(log)")
 		log <- eventlog
 	}
 
@@ -94,36 +102,65 @@ filter_endpoints_conditions.eventlog <- function(log, start_condition = NULL, en
 		filter_case(cases = case_selection, reverse = reverse)
 }
 
-#' @describeIn filter_endpoints_conditions Filters cases for a \code{\link[bupaR]{grouped_log}}.
+#' @describeIn filter_endpoints_condition Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_endpoints_conditions.grouped_log <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints_condition.grouped_log <- function(log,
+												   start_condition = NULL,
+												   end_condition = NULL,
+												   reverse = FALSE,
+												   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
 			when = "0.9.0",
-			what = "filter_endpoints_conditons(eventlog)",
-			with = "filter_endpoints_conditons(log)")
+			what = "filter_endpoints_condition(eventlog)",
+			with = "filter_endpoints_condition(log)")
 		log <- eventlog
 	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_conditions, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_condition, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
 }
 
-#' @describeIn filter_endpoints_conditions Filters cases for an \code{\link[bupaR]{activitylog}}.
+#' @describeIn filter_endpoints_condition Filters cases for an \code{\link[bupaR]{activitylog}}.
 #' @export
-filter_endpoints_conditions.activitylog <- function(log, start_condition = NULL, end_condition = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints_condition.activitylog <- function(log,
+												   start_condition = NULL,
+												   end_condition = NULL,
+												   reverse = FALSE,
+												   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
 			when = "0.9.0",
-			what = "filter_endpoints_conditons(eventlog)",
-			with = "filter_endpoints_conditons(log)")
+			what = "filter_endpoints_condition(eventlog)",
+			with = "filter_endpoints_condition(log)")
 		log <- eventlog
 	}
 
-	filter_endpoints_conditions(log = bupaR::to_eventlog(log), start_condition = enquo(start_condition), end_condition = enquo(end_condition), reverse = reverse, ...) %>%
+	filter_endpoints_condition(log = bupaR::to_eventlog(log), start_condition = enquo(start_condition), end_condition = enquo(end_condition), reverse = reverse) %>%
 		bupaR::to_activitylog()
+}
+
+#' @rdname filter_endpoints_condition
+#' @export
+#'
+filter_endpoints_conditions <- function(log,
+										start_condition = NULL,
+										end_condition = NULL,
+										reverse = FALSE,
+										eventlog = deprecated()) {
+	lifecycle::deprecate_warn(
+		"0.9.0",
+		what = "filter_endpoints_conditions",
+		with = "filter_endpoints_condition"
+	)
+
+	filter_endpoints_condition(log,
+							   start_condition,
+							   end_condition,
+							   reverse)
+
 }
 
 

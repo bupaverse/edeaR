@@ -53,7 +53,8 @@ filter_resource.grouped_log <- function(log, resources, reverse = FALSE, eventlo
 	#grouped_filter(eventlog, filter_resource, resources, reverse)
 }
 
-
+#' @rdname filter_resource
+#' @keywords internal
 #' @export ifilter_resource
 ifilter_resource <- function(eventlog) {
 

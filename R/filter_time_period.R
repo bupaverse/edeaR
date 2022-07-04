@@ -189,7 +189,8 @@ filter_time_period.grouped_activitylog <- function(log,
 		bupaR::to_activitylog()
 }
 
-
+#' @rdname filter_time_period
+#' @keywords internal
 #' @export ifilter_time_period
 ifilter_time_period <- function(eventlog) {
 

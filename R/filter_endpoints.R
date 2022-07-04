@@ -15,13 +15,23 @@
 #' @family filters
 #'
 #' @export filter_endpoints
-filter_endpoints <- function(log, start_activities = NULL, end_activities = NULL, percentage = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints <- function(log,
+							 start_activities = NULL,
+							 end_activities = NULL,
+							 percentage = NULL,
+							 reverse = FALSE,
+							 eventlog = deprecated()) {
 	UseMethod("filter_endpoints")
 }
 
 #' @describeIn filter_endpoints Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_endpoints.log <- function(log, start_activities = NULL, end_activities = NULL, percentage = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints.log <- function(log,
+								 start_activities = NULL,
+								 end_activities = NULL,
+								 percentage = NULL,
+								 reverse = FALSE,
+								 eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
@@ -43,7 +53,12 @@ filter_endpoints.log <- function(log, start_activities = NULL, end_activities = 
 
 #' @describeIn filter_endpoints Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_endpoints.grouped_log <- function(log, start_activities = NULL, end_activities = NULL, percentage = NULL, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_endpoints.grouped_log <- function(log,
+										 start_activities = NULL,
+										 end_activities = NULL,
+										 percentage = NULL,
+										 reverse = FALSE,
+										 eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
@@ -56,7 +71,8 @@ filter_endpoints.grouped_log <- function(log, start_activities = NULL, end_activ
 	#grouped_filter(eventlog, filter_endpoints, start_activities, end_activities, percentage, reverse, ...)
 }
 
-
+#' @keywords internal
+#' @rdname filter_endpoints
 #' @export ifilter_endpoints
 ifilter_endpoints <- function(eventlog) {
 

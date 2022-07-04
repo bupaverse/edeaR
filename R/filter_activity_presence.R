@@ -121,7 +121,8 @@ filter_activity_presence.grouped_log <- function(log,
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
 }
 
-
+#' @keywords internals
+#' @rdname filter_activity_presence
 #' @export ifilter_activity_presence
 ifilter_activity_presence <- function(eventlog) {
 

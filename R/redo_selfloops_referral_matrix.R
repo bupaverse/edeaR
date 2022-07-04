@@ -10,16 +10,24 @@
 #'
 #' @export
 #'
-redo_selfloops_referral_matrix <- function(eventlog) {
+redo_selfloops_referral_matrix <- function(log, eventlog = deprecated()) {
 	UseMethod("redo_selfloops_referral_matrix")
 }
 
 #' @describeIn redo_selfloops_referral_matrix Compute matrix for eventlog
 #' @export
 
-redo_selfloops_referral_matrix.eventlog <- function(eventlog) {
+redo_selfloops_referral_matrix.eventlog <- function(log, eventlog = deprecated()) {
 	first_resource <- NULL
 	last_resource <- NULL
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "redo_selfloops_referral_matrix(eventlog)",
+			with = "redo_selfloops_referral_matrix(log)")
+		log <- eventlog
+	}
 
 	eventlog %>%
 		redo_selfloops() %>%
@@ -33,3 +41,20 @@ redo_selfloops_referral_matrix.eventlog <- function(eventlog) {
 	return(output)
 }
 
+#' @describeIn redo_selfloops_referral_matrix Compute matrix for activitylog
+#' @export
+
+redo_selfloops_referral_matrix.activitylog <- function(log, eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "redo_selfloops_referral_matrix(eventlog)",
+			with = "redo_selfloops_referral_matrix(log)")
+		log <- eventlog
+	}
+
+	log %>%
+		to_eventlog() %>%
+		redo_selfloops_referral_matrix()
+}

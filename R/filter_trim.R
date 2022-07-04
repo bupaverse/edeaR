@@ -139,7 +139,8 @@ filter_trim.grouped_activitylog <- function(log,
 								 reverse = reverse) %>%
 		to_activitylog()
 }
-
+#' @keywords internals
+#' @rdname filter_trim
 #' @export ifilter_trim
 ifilter_trim <- function(eventlog) {
 

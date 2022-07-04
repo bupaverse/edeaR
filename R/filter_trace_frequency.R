@@ -81,7 +81,8 @@ filter_trace_frequency.grouped_log <- function(log, interval = NULL, percentage 
 	bupaR:::apply_grouped_fun(log, fun = filter_trace_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @rdname filter_trace_frequency
+#' @keywords internal
 #' @export ifilter_trace_frequency
 ifilter_trace_frequency <- function(eventlog) {
 
