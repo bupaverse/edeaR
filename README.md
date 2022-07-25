@@ -15,7 +15,7 @@ This package provides several useful techniques for Exploratory and Descriptive 
 
 ### Installation 
 
-Version 0.8.0 of the package can be installed from CRAN:
+Version 0.9.0 of the package can be installed from CRAN:
 
 ```r
 install.packages("edeaR")

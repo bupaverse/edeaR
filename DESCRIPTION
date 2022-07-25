@@ -31,7 +31,9 @@ Imports:
     lifecycle
 Encoding: UTF-8
 RoxygenNote: 7.2.0
-URL: https://bupar.net/, https://github.com/bupaverse/edeaR/
+URL: https://bupar.net/,
+    https://github.com/bupaverse/edeaR/,
+    https://bupaverse.github.io/edeaR/
 Suggests: 
     knitr,
     eventdataR,
