@@ -171,9 +171,13 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 	} else {
-		class(output) <- c(paste0(level, "_metric"),metric, class(output))
+		class(output) <- c(str_replace(paste0(level, "_metric"), "-", "_"),metric, class(output)) #replace for resource-activity
 		attr(output, "level") <- level
 		attr(output, "mapping") <- mapping(eventlog)
+		attr(output, "metric_type") <- metric
+		if("grouped_eventlog" %in% class(eventlog)) {
+			attr(output, "groups") <- groups(eventlog)
+		}
 		return(output)
 	}
 }
