@@ -35,13 +35,13 @@
       <a href="../articles/filters.html">Filters</a>
     </li>
     <li>
-      <a href="../articles/work_schedules.html">Performance with work schedules</a>
+      <a href="../articles/metrics.html">Metrics</a>
     </li>
     <li>
       <a href="../articles/queue.html">Queue Analysis</a>
     </li>
     <li>
-      <a href="../articles/metrics.html">Metrics</a>
+      <a href="../articles/work_schedules.html">Performance with work schedules</a>
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
@@ -87,10 +87,6 @@
         </td>
         <td><p>Create work schedule</p></td>
       </tr><tr><td>
-          <p><code><a href="filter_case_condition.html">filter_case_condition()</a></code> </p>
-        </td>
-        <td><p>Filter Case Condition</p></td>
-      </tr><tr><td>
           <p><code><a href="activity_frequency.html">activity_frequency()</a></code> </p>
         </td>
         <td><p>Metric: Activity Frequency</p></td>
@@ -118,10 +114,6 @@
           <p><code><a href="filter_trim_lifecycle.html">filter_trim_lifecycle()</a></code> <code><a href="filter_trim_lifecycle.html">ifilter_trim_lifecycle()</a></code> </p>
         </td>
         <td><p>Filter Trim Life Cycle</p></td>
-      </tr><tr><td>
-          <p><code><a href="filter_precedence_condition.html">filter_precedence_condition()</a></code> </p>
-        </td>
-        <td><p>Filter Precedence Relations</p></td>
       </tr><tr><td>
           <p><code><a href="filter_resource_frequency.html">filter_resource_frequency()</a></code> <code><a href="filter_resource_frequency.html">ifilter_resource_frequency()</a></code> </p>
         </td>
@@ -175,33 +167,17 @@
         </td>
         <td><p>Trace Length</p></td>
       </tr><tr><td>
-          <p><code><a href="filter_trace.html">filter_trace()</a></code> </p>
-        </td>
-        <td><p>Filter Trace</p></td>
-      </tr><tr><td>
-          <p><code><a href="filter_precedence_resource.html">filter_precedence_resource()</a></code> </p>
-        </td>
-        <td><p>Filter Precedence Relations with Identical Resources</p></td>
-      </tr><tr><td>
-          <p><code><a href="filter_infrequent_flows.html">filter_infrequent_flows()</a></code> </p>
-        </td>
-        <td><p>Filter Infrequent Flows</p></td>
-      </tr><tr><td>
           <p><code><a href="throughput_time.html">throughput_time()</a></code> </p>
         </td>
         <td><p>Throughput Time of Cases</p></td>
       </tr><tr><td>
-          <p><code><a href="calculate_queuing_times.html">calculate_queuing_times()</a></code> </p>
-        </td>
-        <td><p>Calculate queuing times</p></td>
-      </tr><tr><td>
-          <p><code><a href="calculate_queuing_length.html">calculate_queuing_length()</a></code> </p>
-        </td>
-        <td><p>Calculate queuing length</p></td>
-      </tr><tr><td>
           <p><code><a href="change_day.html">change_day()</a></code> </p>
         </td>
         <td><p>Adjust days in work schedule</p></td>
+      </tr><tr><td>
+          <p><code><a href="processing_time.html">processing_time()</a></code> </p>
+        </td>
+        <td><p>Processing Time</p></td>
       </tr><tr><td>
           <p><code><a href="add_fixed_holiday.html">add_fixed_holiday()</a></code> </p>
         </td>
@@ -215,21 +191,45 @@
         </td>
         <td><p>Add holiday period to work schedule</p></td>
       </tr><tr><td>
-          <p><code><a href="print.work_schedule.html">print(<i>&lt;work_schedule&gt;</i>)</a></code> </p>
+          <p><code><a href="augment.html">augment()</a></code> </p>
         </td>
-        <td><p>Print work schedule</p></td>
+        <td><p>Augment log with results from metric computation.</p></td>
       </tr><tr><td>
-          <p><code><a href="processing_time.html">processing_time()</a></code> </p>
+          <p><code><a href="calculate_queuing_length.html">calculate_queuing_length()</a></code> </p>
         </td>
-        <td><p>Processing Time</p></td>
+        <td><p>Calculate queuing length</p></td>
+      </tr><tr><td>
+          <p><code><a href="calculate_queuing_times.html">calculate_queuing_times()</a></code> </p>
+        </td>
+        <td><p>Calculate queuing times</p></td>
+      </tr><tr><td>
+          <p><code><a href="filter_case_condition.html">filter_case_condition()</a></code> </p>
+        </td>
+        <td><p>Filter Case Condition</p></td>
       </tr><tr><td>
           <p><code><a href="filter_endpoints_condition.html">filter_endpoints_condition()</a></code> <code><a href="filter_endpoints_condition.html">filter_endpoints_conditions()</a></code> </p>
         </td>
         <td><p>Filter Start and End Conditions</p></td>
       </tr><tr><td>
-          <p><code><a href="augment.html">augment()</a></code> </p>
+          <p><code><a href="filter_infrequent_flows.html">filter_infrequent_flows()</a></code> </p>
         </td>
-        <td><p>Augment log with results from metric computation.</p></td>
+        <td><p>Filter Infrequent Flows</p></td>
+      </tr><tr><td>
+          <p><code><a href="filter_precedence_condition.html">filter_precedence_condition()</a></code> </p>
+        </td>
+        <td><p>Filter Precedence Relations</p></td>
+      </tr><tr><td>
+          <p><code><a href="filter_precedence_resource.html">filter_precedence_resource()</a></code> </p>
+        </td>
+        <td><p>Filter Precedence Relations with Identical Resources</p></td>
+      </tr><tr><td>
+          <p><code><a href="filter_trace.html">filter_trace()</a></code> </p>
+        </td>
+        <td><p>Filter Trace</p></td>
+      </tr><tr><td>
+          <p><code><a href="print.work_schedule.html">print(<i>&lt;work_schedule&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print work schedule</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

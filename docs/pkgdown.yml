@@ -3,8 +3,8 @@ pkgdown: 2.0.5
 pkgdown_sha: ~
 articles:
   filters: filters.html
-  work_schedules: work_schedules.html
-  queue: queue.html
   metrics: metrics.html
-last_built: 2022-07-25T12:32Z
+  queue: queue.html
+  work_schedules: work_schedules.html
+last_built: 2022-07-25T12:58Z
 

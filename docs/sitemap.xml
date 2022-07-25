@@ -10,27 +10,6 @@
     <loc>/reference/activity_presence.html</loc>
   </url>
   <url>
-    <loc>/reference/add_fixed_holiday.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_floating_holiday.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_holiday_periods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_queuing_length.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculate_queuing_times.html</loc>
-  </url>
-  <url>
-    <loc>/reference/change_day.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_work_schedule.html</loc>
-  </url>
-  <url>
     <loc>/reference/edeaR.html</loc>
   </url>
   <url>
@@ -43,40 +22,16 @@
     <loc>/reference/filter_activity_frequency.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_activity_instance.html</loc>
-  </url>
-  <url>
     <loc>/reference/filter_activity_presence.html</loc>
   </url>
   <url>
     <loc>/reference/filter_case.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_case_condition.html</loc>
-  </url>
-  <url>
     <loc>/reference/filter_endpoints.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_endpoints_conditions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_infrequent_flows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_lifecycle.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_lifecycle_presence.html</loc>
-  </url>
-  <url>
     <loc>/reference/filter_precedence.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_precedence_condition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_precedence_resource.html</loc>
   </url>
   <url>
     <loc>/reference/filter_processing_time.html</loc>
@@ -94,9 +49,6 @@
     <loc>/reference/filter_time_period.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_trace.html</loc>
-  </url>
-  <url>
     <loc>/reference/filter_trace_frequency.html</loc>
   </url>
   <url>
@@ -104,9 +56,6 @@
   </url>
   <url>
     <loc>/reference/filter_trim.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filter_trim_lifecycle.html</loc>
   </url>
   <url>
     <loc>/reference/idle_time.html</loc>
@@ -142,13 +91,7 @@
     <loc>/reference/print.throughput_time.html</loc>
   </url>
   <url>
-    <loc>/reference/print.trace_coverage.html</loc>
-  </url>
-  <url>
     <loc>/reference/print.trace_length.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.work_schedule.html</loc>
   </url>
   <url>
     <loc>/reference/processing_time.html</loc>
@@ -172,9 +115,6 @@
     <loc>/reference/resource_specialisation.html</loc>
   </url>
   <url>
-    <loc>/reference/setdiff.html</loc>
-  </url>
-  <url>
     <loc>/reference/size_of_repetitions.html</loc>
   </url>
   <url>
@@ -193,13 +133,70 @@
     <loc>/reference/trace_length.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_endpoints_condition.html</loc>
+    <loc>/reference/add_fixed_holiday.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_floating_holiday.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_holiday_periods.html</loc>
   </url>
   <url>
     <loc>/reference/augment.html</loc>
   </url>
   <url>
-    <loc>/404.html</loc>
+    <loc>/reference/calculate_queuing_length.html</loc>
+  </url>
+  <url>
+    <loc>/reference/calculate_queuing_times.html</loc>
+  </url>
+  <url>
+    <loc>/reference/change_day.html</loc>
+  </url>
+  <url>
+    <loc>/reference/create_work_schedule.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_activity_instance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_case_condition.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_endpoints_condition.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_endpoints_conditions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_infrequent_flows.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_lifecycle.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_lifecycle_presence.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_precedence_condition.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_precedence_resource.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_trace.html</loc>
+  </url>
+  <url>
+    <loc>/reference/filter_trim_lifecycle.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.trace_coverage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/print.work_schedule.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setdiff.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -227,5 +224,8 @@
   </url>
   <url>
     <loc>/articles/work_schedules.html</loc>
+  </url>
+  <url>
+    <loc>/404.html</loc>
   </url>
 </urlset>
