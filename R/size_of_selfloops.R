@@ -11,19 +11,33 @@
 #'
 #' @export size_of_selfloops
 
-size_of_selfloops <- function(eventlog, type, level, append, ...) {
+size_of_selfloops <- function(log,
+							  type = c("all", "repeat","redo"),
+							  level = c("log","case","activity","resource","resource-activity"),
+							  append = deprecated(),
+							  append_column = NULL,
+							  eventlog = deprecated()) {
 	UseMethod("size_of_selfloops")
 }
 
 #' @describeIn size_of_selfloops Size of selfloops for eventlog
 #' @export
 
-size_of_selfloops.eventlog <- function(eventlog,
+size_of_selfloops.eventlog <- function(log,
 									   type = c("all", "repeat","redo"),
 									   level = c("log","case","activity","resource","resource-activity"),
-									   append = FALSE,
+									   append = deprecated(),
 									   append_column = NULL,
-									   ...){
+									   eventlog = deprecated()){
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "size_of_selfloops(eventlog)",
+			with = "size_of_selfloops(log)")
+		log <- eventlog
+	}
+	append <- lifecycle_warning_append(append)
 
 
 	if(all((type) == c("all", "repeat","redo")))
@@ -33,7 +47,6 @@ size_of_selfloops.eventlog <- function(eventlog,
 
 	type <- match.arg(type)
 	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "median",
@@ -72,9 +85,9 @@ size_of_selfloops.eventlog <- function(eventlog,
 
 	}
 
-	output <- FUN(eventlog = eventlog)
+	output <- FUN(eventlog = log)
 
-	output <- return_metric(eventlog, output, level, append, append_column, "size_of_selfloops", 10)
+	output <- return_metric(log, output, level, append, append_column, "size_of_selfloops", 10)
 	attr(output, "type") <- type
 	return(output)
 }
@@ -82,16 +95,23 @@ size_of_selfloops.eventlog <- function(eventlog,
 #' @describeIn size_of_selfloops Size of selfloops for grouped eventlog
 #' @export
 
-size_of_selfloops.grouped_eventlog <- function(eventlog,
+size_of_selfloops.grouped_eventlog <- function(log,
 											   type = c("repeat","redo"),
 											   level = c("log","case","activity","resource","resource-acitivty"),
-											   append = FALSE,
+											   append = deprecated(),
 											   append_column = NULL,
-											   ...){
+											   eventlog = deprecated()){
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "size_of_selfloops(eventlog)",
+			with = "size_of_selfloops(log)")
+		log <- eventlog
+	}
+	append <- lifecycle_warning_append(append)
 
 	type <- match.arg(type)
 	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "median",
@@ -130,15 +150,54 @@ size_of_selfloops.grouped_eventlog <- function(eventlog,
 
 	}
 
-	if(level != "log") {
-		grouped_metric(eventlog, FUN) -> output
-	}
-	else {
-		grouped_metric_raw_log(eventlog, FUN) -> output
-	}
+	output <- bupaR:::apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 
-	output <- return_metric(eventlog, output, level, append, append_column, "size_of_selfloops", 10)
+
+	output <- return_metric(log, output, level, append, append_column, "size_of_selfloops", 10)
 	attr(output, "type") <- type
 	return(output)
+}
+#' @describeIn size_of_selfloops Size of selfloops for activitylog
+#' @export
+size_of_selfloops.activitylog <- function(log,
+									   type = c("all", "repeat","redo"),
+									   level = c("log","case","activity","resource","resource-activity"),
+									   append = deprecated(),
+									   append_column = NULL,
+										eventlog = deprecated()){
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "size_of_selfloops(eventlog)",
+			with = "size_of_selfloops(log)")
+		log <- eventlog
+	}
+	append <- lifecycle_warning_append(append)
+
+	log %>% to_eventlog %>% size_of_selfloops()
+}
+
+#' @describeIn size_of_selfloops Size of selfloops for grouped activitylog
+#' @export
+size_of_selfloops.grouped_activitylog <- function(log,
+										  type = c("all", "repeat","redo"),
+										  level = c("log","case","activity","resource","resource-activity"),
+										  append = deprecated(),
+										  append_column = NULL,
+										  eventlog = deprecated()){
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "size_of_selfloops(eventlog)",
+			with = "size_of_selfloops(log)")
+		log <- eventlog
+	}
+	append <- lifecycle_warning_append(append)
+
+	size_of_selfloops.grouped_eventlog(bupaR::to_eventlog(log),
+									   type = type,
+										level = level,
+										append = append,
+										append_column = append_column)
 }

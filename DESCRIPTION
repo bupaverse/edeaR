@@ -1,37 +1,44 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.8.7
-Date: 2020-12-07
+Version: 0.9.0
+Date: 2022-07-10
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
 	person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"))
 Description: Exploratory and descriptive analysis of event based data. Provides methods for describing and selecting process data, and for preparing event log data for process mining. Builds on the S3-class for event logs implemented in the package 'bupaR'.
 License: MIT + file LICENSE
 Depends:
-    R(>= 3.0.0)
+    R(>= 3.5.0)
 Imports:
     bupaR (>= 0.4.1),
-    dplyr, 
-    data.table, 
-    ggplot2, 
-    ggthemes, 
-    glue, 
-    tibble, 
-    shiny, 
-    miniUI, 
-    tidyr, 
-    shinyTime, 
-    lubridate, 
-    purrr, 
+    dplyr,
+    data.table,
+    ggplot2,
+    ggthemes,
+    glue,
+    tibble,
+    shiny,
+    miniUI,
+    tidyr,
+    shinyTime,
+    lubridate,
+    purrr,
     stringr,
-    rlang, 
-    zoo, 
+    rlang,
+    zoo,
     hms,
-    forcats
-LazyData: true
-RoxygenNote: 7.1.1
-URL: https://www.bupar.net, https://github.com/bupaverse/edeaR
-Suggests: knitr, eventdataR,
-    rmarkdown
+    forcats,
+    lifecycle
+Encoding: UTF-8
+RoxygenNote: 7.2.0
+URL: https://bupar.net/, https://github.com/bupaverse/edeaR/
+Suggests: 
+    knitr,
+    eventdataR,
+    rmarkdown,
+    covr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
-BugReports: https://github.com/bupaverse/edeaR/issues
+BugReports: https://github.com/bupaverse/edeaR/issues/
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

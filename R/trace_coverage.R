@@ -1,83 +1,87 @@
-#' Metric: Trace coverage
+#' @title Trace Coverage
 #'
+#' @description Analyses the structuredness of a log by use of trace frequencies.
 #'
-#' Analyses the structuredness of an event log by use of trace frequencies. Applicable at logn case and trace level
-#'
-#'
-#'
+#' @details
+#' Argument \code{level} has the following options:
 #' \itemize{
-#' \item Trace: The absolute and relative frequency of each trace is returned
-#'
-#' \item Case: for each case, the coverage of the corresponding trace is returned
-#'
-#' \item Log: Summary statistics of the coverage of traces is returned.
+#' \item At \code{"log"} level, summary statistics of the coverage of traces are returned.
+#' \item On \code{"trace"} level, the absolute and relative frequency of each trace are returned.
+#' \item On \code{"case"} level, the coverage of the corresponding trace is returned for each case.
 #' }
-
 #'
 #' @inherit throughput_time params
 #' @inherit activity_frequency params references seealso return
 #'
+#' @family metrics
+#'
 #' @export trace_coverage
-
-trace_coverage <- function(eventlog, level, append,  ...) {
+trace_coverage <- function(log,
+						   level = c("log", "trace", "case"),
+						   append = deprecated(),
+						   append_column = NULL,
+						   sort = TRUE,
+						   eventlog = deprecated()) {
 	UseMethod("trace_coverage")
 }
 
-
-#' @describeIn trace_coverage Trace coverage metric for eventlog
+#' @describeIn trace_coverage Calculates trace coverage metric for a \code{\link[bupaR]{log}}.
 #' @export
+trace_coverage.log <- function(log,
+							   level = c("log", "trace", "case"),
+							   append = deprecated(),
+							   append_column = NULL,
+							   sort = TRUE,
+							   eventlog = deprecated()) {
 
-trace_coverage.eventlog <- function(eventlog,
-									level = c("log","trace","case"),
-									append = F,
-									append_column = NULL,
-									sort = TRUE,
-									...) {
-	absolute <- NULL
-	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
-	if(exists("threshold")) {
-		warning("The threshold parameter is no longer supported")
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "number_of_repetitions(eventlog)",
+			with = "number_of_repetitions(log)")
+		log <- eventlog
 	}
+	append <- lifecycle_warning_append(append)
+
+	level <- rlang::arg_match(level)
+
+	absolute <- NULL
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "absolute",
 								   T ~ "NA")
 	}
 
-
 	FUN <- switch(level,
 				  log = trace_coverage_log,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-	output <- FUN(eventlog = eventlog)
+	output <- FUN(log = log)
 
-	if(sort && level %in% c("trace","case")) {
+	if(sort && level %in% c("trace", "case")) {
 		output %>%
 			arrange(-absolute) -> output
 	}
 
-	return_metric(eventlog, output, level, append, append_column,  "trace_coverage", 2)
-
+	return_metric(log, output, level, append, append_column, "trace_coverage", 2)
 }
 
-
-#' @describeIn trace_coverage Trace coverage metric for grouped eventlog
+#' @describeIn trace_coverage Calculates trace coverage metric for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+trace_coverage.grouped_log <- function(log,
+									   level = c("log", "trace", "case"),
+									   append = deprecated(),
+									   append_column = NULL,
+									   sort = TRUE,
+									   eventlog = deprecated()) {
 
-trace_coverage.grouped_eventlog <- function(eventlog,
-											level = c("log","trace","case"),
-											append = F,
-											append_column = NULL,
-											sort = TRUE,
-											...) {
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+
+	level <- rlang::arg_match(level)
+
 	absolute <- NULL
-	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
-	if(exists("threshold")) {
-		warning("The threshold parameter is no longer supported")
-	}
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "absolute",
@@ -89,14 +93,13 @@ trace_coverage.grouped_eventlog <- function(eventlog,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-	output <- grouped_metric(eventlog, FUN)
+	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
-	if(sort && level %in% c("trace","case")) {
+	if(sort && level %in% c("trace", "case")) {
 		output %>%
 			arrange(-absolute) -> output
 	}
 
-	return_metric(eventlog, output, level, append,append_column,  "trace_coverage", 2)
-
+	return_metric(log, output, level, append, append_column, "trace_coverage", 2)
 }
 

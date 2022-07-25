@@ -32,7 +32,7 @@ plot_idle_time <- function(x, ...) {
 	else if(level == "resource") {
 		x %>%
 			ggplot(aes_string(glue("reorder({mapping$resource_id}, idle_time)"), "idle_time")) +
-			geom_col(aes(fill = idle_time)) +
+			geom_col(aes(fill = as.numeric(idle_time))) +
 			scale_fill_continuous_tableau(name = glue("Idle time (in {units})"), palette = "Blue") +
 			scale_y_continuous() +
 			coord_flip() +
@@ -41,8 +41,8 @@ plot_idle_time <- function(x, ...) {
 	}
 
 
-	if(!is.null(attr(x, "groups"))) {
-		p <-	p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+	if(!is.null(mapping$groups)) {
+		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
 	}
 
 	return(p)

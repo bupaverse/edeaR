@@ -1,6 +1,6 @@
-idle_time_log <- function(eventlog, units) {
+idle_time_log <- function(log, units) {
 
-	idle_times <- idle_time_case(eventlog, units)
+	idle_times <- idle_time_case(log, units)
 
 	idle_times %>%
 		pull(idle_time) %>%

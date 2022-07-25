@@ -76,24 +76,17 @@ deprecated_end_point <- function(e, ...) {
 	}
 }
 
-
 is_attached <- function(x) {
 	paste0("package:", x) %in% search()
 }
 
 grouped_metric <- function(grouped_eventlog, FUN, ...) {
-	mapping <- mapping(grouped_eventlog)
-
-	grouped_eventlog %>%
-		nest %>%
-		mutate(data = map(data, re_map, mapping)) %>%
-		mutate(data = map(data, FUN, ...)) %>%
-		unnest -> output
-	output <- ungroup(output)
-	attr(output, "groups") <- groups(grouped_eventlog)
-
-	return(output)
+	# grouped_metric function should be replaced with bupaR:::apply_grouped_fun
+	bupaR:::apply_grouped_fun(grouped_eventlog, FUN, ...)
 }
+
+
+
 
 grouped_metric_raw_log <- function(grouped_eventlog, FUN, ...) {
 
@@ -144,6 +137,8 @@ grouped_filter <- function(eventlog, FILTER, ...) {
 
 return_metric <- function(eventlog, output, level, append, append_column, metric , n_result_col = 2, empty_label = F) {
 
+	append <- maybe_missing(append, default = FALSE)
+
 	if(append && level != "log" && level != "trace") {
 		ncol <- ncol(output)
 		ids <- 1:(ncol-n_result_col)
@@ -176,10 +171,13 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 	} else {
-
-		class(output) <- c(paste0(level, "_metric"),metric, class(output))
+		class(output) <- c(str_replace(paste0(level, "_metric"), "-", "_"),metric, class(output)) #replace for resource-activity
 		attr(output, "level") <- level
 		attr(output, "mapping") <- mapping(eventlog)
+		attr(output, "metric_type") <- metric
+		if("grouped_eventlog" %in% class(eventlog)) {
+			attr(output, "groups") <- groups(eventlog)
+		}
 		return(output)
 	}
 }
@@ -187,11 +185,16 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 summary_statistics <- function(vector) {
 
-
-	s <- summary(vector)
+	# TODO: summary does not work for difftime. Temp work-around: as.double(vector)
+	s <- summary(as.double(vector))
 	s <- c(s, St.Dev = sd(vector))
 	s <- c(s, IQR = s[5] - s[2])
 	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
+
+	s <- as.data.frame(s) %>% t
+	rownames(s) <- NULL
+	s <- as_tibble(s)
+
 	return(s)
 }
 
@@ -208,5 +211,44 @@ grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 				  iqr = IQR(!!values, na.rm = na.rm),
 				  total = sum(!!values, na.rm = na.rm),
 				  ...)
+}
+
+# Warning: The `eventlog` argument of `func()` is deprecated as of edeaR 0.9.0.
+# Please use the `log` argument instead.
+# WARNING: Works only on exported functions!
+lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
+
+	cl <- sys.call(-1L)
+	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
+	func_name <- match.call(definition = func, call = cl)[[1L]]
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = paste0(func_name, "(eventlog)"),
+			with = paste0(func_name, "(log)"))
+		return(eventlog)
+	}
+
+	return(log)
+}
+
+lifecycle_warning_append <- function (append = deprecated(), append_column = deprecated()) {
+
+	cl <- sys.call(-1L)
+	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
+	func_name <- match.call(definition = func, call = cl)[[1L]]
+
+	if (lifecycle::is_present(append) ) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = paste0(func_name, "(append)"),
+			with = "augment()"
+		)
+	} else {
+		append <- rlang::missing_arg()
+	}
+
+	return(rlang::maybe_missing(append))
 }
 

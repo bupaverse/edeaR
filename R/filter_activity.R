@@ -1,55 +1,67 @@
-#' Filter: Activity
+#' @title Filter Activity
 #'
-#' Filters the log based on activities
+#' @description Filters the log based on activities
 #'
-#' The method filter_activity can be used to filter on activity identifiers. It has an activities argument,
-#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+#' @param activities \code{\link{character}} vector: Containing one or more activity identifiers.
+#' @param reverse \code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.
 #'
-#' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
+#' @return When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+#' When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+#' The returned log will be grouped on the same variables as the original log.
 #'
-#' @param activities Character vector containing one or more activity identifiers.
-#' @param reverse Logical, indicating whether the selection should be reversed.
-#' @param ... Deprecated arguments.
+#' @inherit activity_frequency params references
 #'
 #' @seealso \code{vignette("filters", "edeaR")}
 #'
-#' @return When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-#' in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-#' the original event log.
+#' @family filters
 #'
 #' @export
-filter_activity <- function(eventlog, activities, reverse, ...) {
+filter_activity <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_activity")
 }
 
-#' @describeIn filter_activity Filter eventlog for activity labels
+#' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{log}}.
 #' @export
+filter_activity.log <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 
-filter_activity.eventlog <- function(eventlog,
-									 activities,
-									 reverse = FALSE,
-									 ...){
-	if(reverse == FALSE)
-		filter(eventlog, (!!as.symbol(activity_id(eventlog))) %in% activities)
-	else
-		filter(eventlog, !((!!as.symbol(activity_id(eventlog))) %in% activities))
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity(eventlog)",
+			with = "filter_activity(log)")
+		log <- eventlog
+	}
+
+	if (!reverse) {
+		log %>%
+			filter(.data[[activity_id(.)]] %in% activities)
+	} else {
+		log %>%
+			filter(!(.data[[activity_id(.)]] %in% activities))
+	}
 }
 
-#' @describeIn filter_activity Filter grouped eventlog for activity labels
+#' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventlog = deprecated()){
 
-filter_activity.grouped_eventlog <- function(eventlog,
-											 activities,
-											 reverse = FALSE,
-											 ...){
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity(eventlog)",
+			with = "filter_activity(log)")
+		log <- eventlog
+	}
 
-	grouped_filter(eventlog, filter_activity, activities, reverse)
+	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @keywords internal
 #' @rdname filter_activity
 #' @export ifilter_activity
 ifilter_activity <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_activity()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter activities"),
@@ -74,17 +86,4 @@ ifilter_activity <- function(eventlog) {
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Activities", height = 400))
 
-}
-
-#' @describeIn filter_activity Filter activity_log for activity labels
-#' @export
-
-filter_activity.activitylog <- function(eventlog,
-									 activities,
-									 reverse = FALSE,
-									 ...){
-	if(reverse == FALSE)
-		filter(eventlog, (!!activity_id_(eventlog)) %in% activities)
-	else
-		filter(eventlog, !((!!activity_id_(eventlog)) %in% activities))
 }

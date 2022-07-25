@@ -4,61 +4,113 @@
 \alias{activity_frequency}
 \alias{activity_frequency.eventlog}
 \alias{activity_frequency.grouped_eventlog}
+\alias{activity_frequency.activitylog}
+\alias{activity_frequency.grouped_activitylog}
 \title{Metric: Activity Frequency}
 \usage{
-activity_frequency(eventlog, level, append, append_column, ...)
-
-\method{activity_frequency}{eventlog}(
-  eventlog,
+activity_frequency(
+  log,
   level = c("log", "trace", "activity", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{activity_frequency}{eventlog}(
+  log,
+  level = c("log", "trace", "activity", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 
 \method{activity_frequency}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "activity", "case"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{activity_frequency}{activitylog}(
+  log,
+  level = c("log", "trace", "activity", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{activity_frequency}{grouped_activitylog}(
+  log,
+  level = c("log", "trace", "activity", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default), \code{"trace"}, \code{"case"}, or \code{"activity"}.
+For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{...}{Deprecated arguments}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
 }
 \details{
-\itemize{ \item At log level, This metric shows the summary statistics of the frequency of activities throughout the complete event log.
-\item  On the level of the cases, this metric showsthe absolute and relative number of times the different activity types occur in
-each case. The absolute number shows the number of distinct activity types
-that occur in each of the cases. The relative number is calculated based on the total activity executions in the case. \item On trace level, this metric
-presents the absolute and relative number of times a specific activity type occurs in each trace. \item On the level of the activities, this metric
-provides the absolute and relative frequency of a specific activity in the complete event log.
+Argument \code{level} has the following options:
+\itemize{
+\item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
+\item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.
+The absolute number shows the number of distinct activity types that occur in each of the cases.
+The relative number is calculated based on the total activity executions in the case.
+\item On \code{trace} level, this metric presents the absolute and relative number of times a specific activity type occurs in each trace.
+\item On \code{activity} level, this metric provides the absolute and relative frequency of a specific activity in the complete log.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute activity frequency for eventlog
+\item \code{eventlog}: Computes the activity frequency for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute activity frequency for grouped event log
+\item \code{grouped_eventlog}: Computes the activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes the activity frequency for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes the activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

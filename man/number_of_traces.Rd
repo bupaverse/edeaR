@@ -2,34 +2,54 @@
 % Please edit documentation in R/number_of_traces.R
 \name{number_of_traces}
 \alias{number_of_traces}
-\alias{number_of_traces.eventlog}
-\alias{number_of_traces.grouped_eventlog}
-\title{Metric: Number of traces}
+\alias{number_of_traces.log}
+\alias{number_of_traces.grouped_log}
+\title{Number of Traces}
 \usage{
-number_of_traces(eventlog)
+number_of_traces(log, eventlog = deprecated())
 
-\method{number_of_traces}{eventlog}(eventlog)
+\method{number_of_traces}{log}(log, eventlog = deprecated())
 
-\method{number_of_traces}{grouped_eventlog}(eventlog)
+\method{number_of_traces}{grouped_log}(log, eventlog = deprecated())
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Computes how many traces there are.
-}
-\details{
-This metric provides two values, the absolute and relative number of traces that
-occur in the event log. The relative number shows expected number of traces needed to cover 100 cases.
+
+This metric provides two values, the absolute and relative number of traces that occur in the log.
+The relative number shows expected number of traces needed to cover 100 cases.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Number of traces in eventlog
+\item \code{log}: Number of traces in a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Number of traces in each group of eventlog
+\item \code{grouped_log}: Number of traces in a \code{\link[bupaR]{grouped_log}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link[bupaR]{traces}}
+
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

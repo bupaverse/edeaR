@@ -1,85 +1,54 @@
-#' Metric: Activity Frequency
+#' @title Metric: Activity Frequency
 #'
+#' @description Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
 #'
-#' Provides summary statistics about the frequency of activity types at the level of log, traces, cases, activity types.
+#' @param log \code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).
+#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default), \code{"trace"}, \code{"case"}, or \code{"activity"}.
+#' For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
+#' @param append \code{\link{logical}} (default \code{FALSE}) `r lifecycle::badge("deprecated")`: Indicating whether to append
+#' results to original log. Ignored when level is \code{"log"} or \code{"trace"}.
+#' @param append_column `r lifecycle::badge("deprecated")` Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.
+#' @param sort \code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.
+#' @param eventlog `r lifecycle::badge("deprecated")`; please use \code{log} instead.
 #'
-#'
-#' \itemize{ \item At log level, This metric shows the summary statistics of the frequency of activities throughout the complete event log.
-#' \item  On the level of the cases, this metric showsthe absolute and relative number of times the different activity types occur in
-#' each case. The absolute number shows the number of distinct activity types
-#' that occur in each of the cases. The relative number is calculated based on the total activity executions in the case. \item On trace level, this metric
-#' presents the absolute and relative number of times a specific activity type occurs in each trace. \item On the level of the activities, this metric
-#' provides the absolute and relative frequency of a specific activity in the complete event log.
+#' @details
+#' Argument \code{level} has the following options:
+#' \itemize{
+#' \item At \code{log} level, this metric shows the summary statistics of the frequency of activities throughout the complete log.
+#' \item On \code{case} level, this metric shows the absolute and relative number of times the different activity types occur in each case.
+#' The absolute number shows the number of distinct activity types that occur in each of the cases.
+#' The relative number is calculated based on the total activity executions in the case.
+#' \item On \code{trace} level, this metric presents the absolute and relative number of times a specific activity type occurs in each trace.
+#' \item On \code{activity} level, this metric provides the absolute and relative frequency of a specific activity in the complete log.
 #' }
 #'
-#'
-#' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
-#' \code{eventlog}.
-#'
-#' @param level Level of granularity for the analysis: log, trace, case, activity. For more information, see \code{vignette("metrics", "edeaR")}
-#' @param append Logical, indicating whether to append results to original event log. Ignored when level is log or trace.
-#' @param append_column Which of the output columns to append to log, if append = T. Default column depends on chosen level.
-#' @param sort Sort output on count. Defaults to TRUE. Only for levels with frequency count output.
-#' @param ... Deprecated arguments
+#' @family metrics
 #'
 #' @references Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 #'
 #' @export activity_frequency
-
-activity_frequency <- function(eventlog, level,  append, append_column, ...) {
+activity_frequency <- function(log,
+							   level = c("log", "trace", "activity", "case"),
+							   append = deprecated(),
+							   append_column = NULL,
+							   sort = TRUE,
+							   eventlog = deprecated()) {
 	UseMethod("activity_frequency")
 }
 
 
-#' @describeIn activity_frequency Compute activity frequency for eventlog
+#' @describeIn activity_frequency Computes the activity frequency for an \code{\link[bupaR]{eventlog}}.
 #' @export
-
-activity_frequency.eventlog <- function(eventlog,
-										level = c("log","trace","activity","case"),
-										append = F,
+activity_frequency.eventlog <- function(log,
+										level = c("log", "trace", "activity", "case"),
+										append = deprecated(),
 										append_column = NULL,
 										sort = TRUE,
-										...) {
-	absolute <- NULL
-	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
+										eventlog = deprecated()) {
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "activity" ~ "absolute",
-									level == "case" ~ "absolute",
-									T ~ "NA")
-	}
-
-	FUN <- switch(level,
-				  log = activity_frequency_log,
-				  case = activity_frequency_case,
-				  trace = activity_frequency_trace,
-				  activity = activity_frequency_activity)
-
-
-	output <- FUN(eventlog = eventlog)
-	if(sort && level %in% c("case", "trace","activity")) {
-		output %>%
-			arrange(-absolute) -> output
-	}
-	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
-
-}
-
-
-#' @describeIn activity_frequency Compute activity frequency for grouped event log
-#' @export
-
-activity_frequency.grouped_eventlog <- function(eventlog,
-												level = c("log","trace","activity","case"),
-												append = F,
-												append_column = NULL,
-												sort = TRUE,
-												...) {
-	absolute <- NULL
-
-	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+	level <- rlang::arg_match(level)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "activity" ~ "absolute",
@@ -93,18 +62,86 @@ activity_frequency.grouped_eventlog <- function(eventlog,
 				  trace = activity_frequency_trace,
 				  activity = activity_frequency_activity)
 
-	if(level != "log") {
-		grouped_metric(eventlog, FUN) -> output
+	output <- FUN(log = log)
+
+	if(sort && level %in% c("case", "trace", "activity")) {
+		output %>%
+			arrange(-.data[["absolute"]]) -> output
 	}
-	else {
-		grouped_metric_raw_log(eventlog, FUN) -> output
+
+	return_metric(log, output, level, append, append_column, "activity_frequency")
+}
+
+#' @describeIn activity_frequency Computes the activity frequency for a \code{\link[bupaR]{grouped_eventlog}}.
+#' @export
+activity_frequency.grouped_eventlog <- function(log,
+												level = c("log", "trace", "activity", "case"),
+												append = deprecated(),
+												append_column = NULL,
+												sort = TRUE,
+												eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+	level <- rlang::arg_match(level)
+
+	if(is.null(append_column)) {
+		append_column <- case_when(level == "activity" ~ "absolute",
+								   level == "case" ~ "absolute",
+								   T ~ "NA")
 	}
+
+	FUN <- switch(level,
+				  log = activity_frequency_log,
+				  case = activity_frequency_case,
+				  trace = activity_frequency_trace,
+				  activity = activity_frequency_activity)
+
+	# Doesn't work!
+	bupaR:::apply_grouped_fun(log, FUN, .keep_groups = FALSE, .returns_log = FALSE) -> output
+
+	#if(level != "log") {
+	#	grouped_metric(log, FUN) -> output
+	#} else {
+	#	grouped_metric_raw_log(log, FUN) -> output
+	#}
+
 	if(sort && level %in% c("case", "trace","activity")) {
 		output %>%
-			arrange(-absolute) -> output
+			arrange(-.data[["absolute"]]) -> output
 	}
 
-	return_metric(eventlog, output, level, append, append_column, "activity_frequency")
+	return_metric(log, output, level, append, append_column, "activity_frequency")
+}
 
+#' @describeIn activity_frequency Computes the activity frequency for an \code{\link[bupaR]{activitylog}}.
+#' @export
+activity_frequency.activitylog <- function(log,
+										   level = c("log", "trace", "activity", "case"),
+										   append = deprecated(),
+										   append_column = NULL,
+										   sort = TRUE,
+										   eventlog = deprecated()) {
 
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+	level <- rlang::arg_match(level)
+
+	activity_frequency.eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort)
+}
+
+#' @describeIn activity_frequency Computes the activity frequency for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @export
+activity_frequency.grouped_activitylog <- function(log,
+												   level = c("log", "trace", "activity", "case"),
+												   append = deprecated(),
+												   append_column = NULL,
+												   sort = TRUE,
+												   eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+	level <- rlang::arg_match(level)
+
+	activity_frequency.grouped_eventlog(bupaR::to_eventlog(log), level = level, append = append, append_column = append_column, sort = sort)
 }

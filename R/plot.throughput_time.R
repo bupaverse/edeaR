@@ -34,8 +34,8 @@ plot_throughput_time <- function(x, ...) {
 
 
 
-	if(!is.null(attr(x, "groups"))) {
-		p <-	p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")))
+	if(!is.null(mapping$groups)) {
+		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")))
 	}
 
 	return(p)

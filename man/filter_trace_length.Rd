@@ -2,63 +2,98 @@
 % Please edit documentation in R/filter_trace_length.R
 \name{filter_trace_length}
 \alias{filter_trace_length}
-\alias{filter_trace_length.eventlog}
-\alias{filter_trace_length.grouped_eventlog}
+\alias{filter_trace_length.log}
+\alias{filter_trace_length.grouped_log}
 \alias{ifilter_trace_length}
-\title{Filter: Trace length percentile}
+\title{Filter Trace Length}
 \usage{
-filter_trace_length(eventlog, interval, percentage, reverse, ...)
-
-\method{filter_trace_length}{eventlog}(
-  eventlog,
+filter_trace_length(
+  log,
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...
+  eventlog = deprecated()
 )
 
-\method{filter_trace_length}{grouped_eventlog}(
-  eventlog,
+\method{filter_trace_length}{log}(
+  log,
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{filter_trace_length}{grouped_log}(
+  log,
+  interval = NULL,
+  percentage = NULL,
+  reverse = FALSE,
+  eventlog = deprecated()
 )
 
 ifilter_trace_length(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{interval}{An trace length interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.}
+\item{interval, percentage}{Provide either \code{interval} or \code{percentage}.\cr
+\code{interval} (\code{\link{numeric}} vector of length 2): A trace length interval. Half open interval can be created using \code{\link{NA}}.\cr
+\code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.}
 
-\item{percentage}{A percentage p to be used for relative filtering.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
-
-\item{...}{Deprecated arguments.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters cases on length, using a percentile threshold.
-}
-\details{
-This filter can be used by using an interval or by using a percentage.
+Filters cases on \code{\link{trace_length}}, using a percentile threshold or interval.
+
+This filter can be used by using an \code{interval} or by using a \code{percentage}.
 The percentage will always start with the shortest cases first and stop
 including cases when the specified percentile is reached. On the other hand, an absolute
 interval can be defined instead to filter cases which have a length in this interval.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event log
+\item \code{log}: Filters cases for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Filter grouped event log
+\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
 }}
 
-\seealso{
-\code{vignette("filters", "edeaR")}
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link{trace_length}}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
+}
+\concept{filters}
+\keyword{internal}

@@ -1,14 +1,11 @@
 
+filter_processing_time_percentile <- function(log, percentage, reverse) {
 
-filter_processing_time_percentile <- function(eventlog,
-											  percentage,
-											  reverse) {
-
-	eventlog %>%
+	log %>%
 		processing_time("case") %>%
 		arrange(processing_time) %>%
 		slice(1:ceiling(n()*percentage)) %>%
 		pull(1) -> case_selection
 
-	filter_case(eventlog, case_selection, reverse)
+	filter_case(log, cases = case_selection, reverse = reverse)
 }

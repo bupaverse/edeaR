@@ -2,80 +2,98 @@
 % Please edit documentation in R/resource_involvement.R
 \name{resource_involvement}
 \alias{resource_involvement}
-\alias{resource_involvement.eventlog}
-\alias{resource_involvement.grouped_eventlog}
-\title{Metric: Resource Involvement}
+\alias{resource_involvement.log}
+\alias{resource_involvement.grouped_log}
+\title{Resource Involvement}
 \usage{
-resource_involvement(eventlog, level, append, ...)
-
-\method{resource_involvement}{eventlog}(
-  eventlog,
+resource_involvement(
+  log,
   level = c("case", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
-\method{resource_involvement}{grouped_eventlog}(
-  eventlog,
+\method{resource_involvement}{log}(
+  log,
   level = c("case", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{resource_involvement}{grouped_log}(
+  log,
+  level = c("case", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"case"}): Level of granularity for the analysis: \code{"case"} (default),
+\code{"resource"}, or \code{"resource-activity"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
-Calculates for each resource/resource-activity in what percentage of cases it is present.
+Calculates for each resource or resource-activity combination in what percentage of cases it is present.
+
+Next to the \code{\link{resource_frequency}}, the involvement of resources in cases can be of interest to, e.g.,
+decide how "indispensable" they are. This metric is provided on three levels of analysis, which are the cases,
+the resources, and the resource-activity combinations.
 }
 \details{
-Next to the resource frequency, the involvement of resources in cases can be of interest to, e.g., decide how "indispensable"
-they are. This metric is provided on three levels of analysis, which are the cases,
-the resources, and the resource-activity combinations
-
+Argument \code{level} has the following options:
 \itemize{
-
-\item At the level of the specific
-cases, the absolute and relative number of distinct resources executing activities
-in each case is calculated. This way a company gets an overview of which
-cases are handled by a small amount of resources and which cases need more
+\item On \code{"case"} level, the absolute and relative number of distinct resources executing activities in each case
+is calculated, to get an overview of which cases are handled by a small amount of resources and which cases need more
 resources, indicating a higher level of variance in the process.
-
-\item On the level of the distinct resources,
-this metric provides the absolute and relative number of cases in which each
-resource is involved, indicating which resources are more "necessary" within the
-business process than the others.
-
-\item On the level of the specific
-resource-activity combinations, this metric provides a list of all resource-activity
-combinations with the absolute and relative number of cases in which each resource-activity combination is involved.
-
-
+\item On \code{"resource"} level, this metric provides the absolute and relative number of cases in which each resource
+is involved, indicating which resources are more "necessary" within the process than the others.
+\item On \code{"resource-activity"} level, this metric provides a list of all resource-activity combinations with the
+absolute and relative number of cases in which each resource-activity combination is involved.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Resource involvement for eventlog
+\item \code{log}: Computes the resource involvement for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Resource involvement for grouped eventlog
+\item \code{grouped_log}: Computes the resource involvement for a \code{\link[bupaR]{grouped_log}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link{resource_frequency}}
+
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

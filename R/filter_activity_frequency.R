@@ -1,104 +1,126 @@
-#' Filter: Activity frequency
+#' @title Filter Activity Frequency
 #'
-#' Filters the log based on frequency of activities.
+#' @description Filters the log based on frequency of activities.
 #'
+#' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
+#' \code{percentage} (\code{\link{numeric}}): A percentile of p will return the most common activity types of the log,
+#' which account for at least p% of the activity instances.\cr
+#' \code{interval} (\code{\link{numeric}} vector of length 2): An activity frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
+#' For more information, see 'Details' below.
 #'
-#' Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+#' @details
+#' Filtering the log based on activity frequency can be done in two ways: using an \code{interval} of allowed frequencies,
+#' or specify a coverage \code{percentage}:
 #'
 #' \itemize{
-#'
-#' \item percentage: When filtering using a percentage p\%, the filter will return p% of the activity instances, starting from the activity labels with the highest
-#' frequency. The filter will retain additional activity labels as long as the number of activity instances does not exceed the percentage threshold.
-#'
-#' \item interval: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-#' a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select activity labels which occur 10 times or more.
+#' \item \code{percentage}: When filtering using a percentage p%, the filter will return p% of the activity instances,
+#' starting from the activity labels with the highest frequency. The filter will retain additional activity labels
+#' as long as the number of activity instances does not exceed the percentage threshold.
+#' \item \code{interval}: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval.
+#' The interval is specified using a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}},
+#' e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
 #' }
 #'
-#' @param percentage The target coverage of activity instances. A percentile of 0.9 will return the most common activity types of the eventlog,
-#' which account for at least 90\% of the activity instances.
+#' @inherit filter_activity params references seealso return
 #'
-#' @param interval An activity frequency interval (numeric vector of length 2). Half open interval can be created using NA.
+#' @family filters
 #'
 #' @export filter_activity_frequency
-#'
-#' @inherit filter_activity params references seealso return
-
-filter_activity_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+filter_activity_frequency <- function(log,
+									  interval = NULL,
+									  percentage = NULL,
+									  reverse = FALSE,
+                       				  eventlog = deprecated()) {
 	UseMethod("filter_activity_frequency")
 }
 
-#' @describeIn filter_activity_frequency Filter eventlog on activity frequency
+#' @describeIn filter_activity_frequency Filters activities for a \code{\link[bupaR]{log}}.
 #' @export
+filter_activity_frequency.log <- function(log,
+										  interval = NULL,
+										  percentage = NULL,
+										  reverse = FALSE,
+										  eventlog = deprecated()) {
 
-filter_activity_frequency.eventlog <- function(eventlog,
-											   interval = NULL,
-											   percentage = NULL,
-											   reverse = FALSE,
-											   ...) {
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_frequency(eventlog)",
+			with = "filter_activity_frequency(log)")
+		log <- eventlog
+	}
 
-	percentage <- deprecated_perc(percentage, ...)
 	stopifnot(is.logical(reverse))
+
 	if(!is.null(interval) && !is.null(percentage)) {
-		stop("Provide interval OR percentage Cannot filter using both methods.")
+		stop("Provide interval OR percentage. Cannot filter using both methods.")
 	} else if(!is.null(interval)) {
 		stopifnot(is.numeric(interval))
 		if(length(interval) != 2 || any(interval < 0, na.rm = T) || all(is.na(interval))){
 			stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
 		} else {
-			filter_activity_interval(eventlog, interval[1], interval[2], reverse)
+			filter_activity_interval(log, interval[1], interval[2], reverse)
 		}
 	} else if(!is.null(percentage)) {
 		stopifnot(is.numeric(percentage))
 		if(length(percentage) != 1 || percentage > 1 || percentage < 0) {
 			stop("percentage should be a numeric vector of length 1 with a value between 0 and 1")
 		} else{
-			filter_activity_percentage(eventlog, percentage, reverse)
+			filter_activity_percentage(log, percentage, reverse)
 		}
 	} else {
 		stop("No filter arguments were provided. Please provide percentage or interval.")
 	}
 }
 
-filter_activity_interval <- function(eventlog, lower, upper, reverse) {
+#' @describeIn filter_activity_frequency Filters activities for a \code{\link[bupaR]{grouped_log}}.
+#' @export
+filter_activity_frequency.grouped_log <- function(log,
+												  interval = NULL,
+												  percentage = NULL,
+												  reverse = FALSE,
+												  eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	bupaR:::apply_grouped_fun(log, fun = filter_activity_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+}
+
+filter_activity_interval <- function(log, lower, upper, reverse) {
 	absolute_frequency <- NULL
 	lower <- ifelse(is.na(lower), -Inf, lower)
 	upper <- ifelse(is.na(upper), Inf, upper)
 
-	activities(eventlog) %>%
+	activities(log) %>%
 		filter(between(absolute_frequency, lower, upper)) %>%
 		pull(1) -> event_selection
 
-	filter_activity(eventlog, event_selection, reverse)
+	filter_activity(log, event_selection, reverse)
 }
 
 
-filter_activity_percentage <- function(eventlog, percentage, reverse) {
+filter_activity_percentage <- function(log, percentage, reverse) {
 	absolute_frequency <- NULL
 	relative_frequency <- NULL
 	r <- NULL
 
-	act_freq <- activities(eventlog) %>%
+	act_freq <- activities(log) %>%
 		arrange(-absolute_frequency) %>%
 		mutate(r = cumsum(relative_frequency)) %>%
 		filter(dplyr::lag(r, default = 0) < percentage) %>%
 		dplyr::pull(1) -> event_selection
 
-	filter_activity(eventlog, event_selection, reverse)
+	filter_activity(log, event_selection, reverse)
 
 }
 
 
-
-#' @describeIn filter_activity_frequency Stratified filter for grouped eventlog
-#' @export
-#'
-filter_activity_frequency.grouped_eventlog <- function(eventlog, interval = NULL, percentage = NULL, reverse = FALSE, ...) {
-	grouped_filter(eventlog, filter_activity_frequency, interval, percentage, reverse, ...)
-}
-
+#' @keywords internal
 #' @rdname filter_activity_frequency
 #' @export ifilter_activity_frequency
 ifilter_activity_frequency <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_activity_frequency()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter activities based on frequency"),

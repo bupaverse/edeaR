@@ -4,99 +4,144 @@
 \alias{number_of_repetitions}
 \alias{number_of_repetitions.eventlog}
 \alias{number_of_repetitions.grouped_eventlog}
-\title{Metric:  Number of repetitions}
+\alias{number_of_repetitions.activitylog}
+\alias{number_of_repetitions.grouped_activitylog}
+\title{Number of Repetitions}
 \usage{
-number_of_repetitions(eventlog, type, level, append, ...)
-
-\method{number_of_repetitions}{eventlog}(
-  eventlog,
+number_of_repetitions(
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{number_of_repetitions}{eventlog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 
 \method{number_of_repetitions}{grouped_eventlog}(
-  eventlog,
-  type = c("repeat", "redo"),
+  log,
+  type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = F,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{number_of_repetitions}{activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{number_of_repetitions}{grouped_activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{type}{The type of repetitions, either repeat or redo.}
+\item{type}{\code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
+\code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides information statistics on the number of repetitions
+
+A repetition is an execution of an activity within a case while that activity has already been executed before, but
+one or more other activities are executed in between.
 }
 \details{
-A repetition is an execution
-of an activity within a case while that activity has already been executed before, but
-one or more other activities are executed in between.Similar to the self-loop metric, a distinction
-should be made between repeat and redo repetitions.
-Repeat repetitions are activity executions of the same activity type that are executed
-not immediately following each other, but by the same resource. Redo repetitions
-are activity executions of the same activity type that are executed not immediately
-following each other and by a different resource than the first activity occurrence of
-this activity type.
-
-
+Argument \code{level} has the following options:
 \itemize{
+\item At \code{"log"} level, this metric shows the summary statistics of the number of repetitions within a case,
+which can provide insights in the amount of waste in a log. Each combination of two or more occurrences of the same activity,
+executed not immediately following each other, by the same resource is counted as one repeat repetition of this activity.
+\item On \code{"case"} level, this metric provides the absolute and relative number of repetitions in each case.
+\item On \code{"activity"} level, this metric shows which activities occur the most in a repetition. The absolute and
+relative number of both repeat and redo repetitions is provided by this metric, giving an overview per activity.
+\item On \code{"resource"} level, it can be interesting to have an overview of which resources need more than one time
+to execute an activity in a case or which resources need to have an activity redone later on in the case by another resource.
+This metric provides the absolute and relative number of times each resource appears in a repetition.
+\item On \code{"resource-activity"} level, this metric provides specific information about which activities and which
+resources are involved in the repetitions. For this metric the absolute and relative number of repeat and redo repetitions
+is provided. Again, two difierent relative numbers are provided, one relative to the total number of executions of
+the activity in the complete log, and one relative to the total number of executions performed by the resource throughout
+the complete log.
+}
 
-\item The number of repetitions can be calculated on the level of the complete event log. This metric shows the
-summary statistics of the number of repetitions within a case, which can provide
-insights in the amount of waste in an event log. Each combination of two or more
-occurrences of the same activity, executed not immediately following each other,
-by the same resource is counted as one repeat repetition of this activity.
-
-\item On case level, this metric provides the absolute and relative number of repetitions in each case.
-
-\item On the level of specific activities, this metric shows which activities occur the most in a repetition.
-The absolute and relative number of both repeat and redo repetitions is
-provided by this metric, giving an overview per activity.
-
-\item When looking at the different resources executing activities in the event log, it can be interesting to have an overview
-of which resources need more than one time to execute an activity in a case or
-which resources need to have an activity redone later on in the case by another
-resource. This metric provides the absolute and relative number of times each
-resource appears in a repetition.
-
-\item Finally, the same metric can be
-looked at on the level of specific resource-activity combinations, providing the
- company with specific information about which activities and which resources
- are involved in the repetitions. For this metric the absolute and relative number
-  of repeat and redo repetitions is provided. Again two difierent relative numbers
-  are provided, one relative to the total number of executions of the activity in the
-  complete event log, and one relative to the total number of executions performed
-  by the resource throughout the complete event log.
+Similar to the \link[=number_of_selfloops]{self-loop} metric, a distinction should be made between \code{"repeat"} and
+\code{"redo"} repetitions, as can be set by the \code{type} argument:
+\itemize{
+\item \code{"repeat"} repetitions are activity executions of the same activity type that are executed not immediately
+following each other, but by the same resource.
+\item \code{"redo"} repetitions are activity executions of the same activity type that are executed not immediately
+following each other and by a different resource than the first activity occurrence of this activity type.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Apply metric on event log
+\item \code{eventlog}: Computes the number of repetitions for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Apply metric on grouped eventlog
+\item \code{grouped_eventlog}: Computes the number of repetitions for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes the number of repetitions for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes the number of repetitions for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link{number_of_selfloops}}
+
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

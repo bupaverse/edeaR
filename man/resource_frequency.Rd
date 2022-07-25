@@ -4,84 +4,123 @@
 \alias{resource_frequency}
 \alias{resource_frequency.eventlog}
 \alias{resource_frequency.grouped_eventlog}
-\title{Metric: Resource frequency}
+\alias{resource_frequency.activitylog}
+\alias{resource_frequency.grouped_activitylog}
+\title{Resource Frequency}
 \usage{
-resource_frequency(eventlog, level, append, ...)
-
-\method{resource_frequency}{eventlog}(
-  eventlog,
+resource_frequency(
+  log,
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{resource_frequency}{eventlog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 
 \method{resource_frequency}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{resource_frequency}{activitylog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{resource_frequency}{grouped_activitylog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
-Analyses the frequency of resources at different levels of analysis
+Analyses the frequency of resources at different levels of analysis.
 }
 \details{
-Comparable to the concept of the activity frequency the frequency of resources in a business process can
-also be very insightful for companies, e.g., during company restructuring.
-
+Argument \code{level} has the following options:
 \itemize{
-\item On the level of the complete event log, summary statistics show the number of times
-a resource executes an activity in the complete event log.
-
-\item To get a better view on the variance between the different cases,
-the summary statistics of the frequency of resources can be
-calculated on the level of the cases. This way, a company gets an insight in the
-number of different resources working on each case together with the number
-of activities a resource executes per case.
-
-\item At the level of the different activities, the
-resource frequency states how many different resources are executing a specific
-activity in the complete event log.
-
-\item At the level of the distinct resources in
-the event log, this metric simply shows the absolute and relative frequency of
-occurrences of each resource in the complete event log.
-
-\item Finally, at the most specific level of analysis, the absolute and relative number of times each resource-activity
-level occurs in the complete event log can be calculated. Two different relative
-numbers are provided here, one from the resource perspective and one from
-the activity perspective. At the resource perspective, the denominator is the
-total number of executions by the resource under consideration. At the activity
-perspective, the denominator is the total number of occurrences of the activity
-under consideration.
+\item At \code{"log"} level, summary statistics show the number of times a resource executes an activity in the complete log.
+\item On \code{"case"} level, summary statistics of the frequency of resources can be used to get a better view on the
+variance between the different cases, to get an insight into the number of different resources working on each case together
+with the number of activities a resource executes per case.
+\item On \code{"activity"} level, the resource frequency states how many different resources are executing a specific
+activity in the complete log.
+\item On \code{"resource"} level, this metric simply shows the absolute and relative frequency of occurrences of each
+resource in the complete log.
+\item On \code{"resource-activity"} level, the absolute and relative number of times each resource-activity combination
+occurs in the complete log can be calculated. Two different relative numbers are provided here, one from the resource
+perspective and one from the activity perspective. At the resource perspective, the denominator is the total number of
+executions by the resource under consideration. At the activity perspective, the denominator is the total number of
+occurrences of the activity under consideration.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Resource frequency for eventlog
+\item \code{eventlog}: Computes the resource frequency for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Resource frequency for grouped eventlog
+\item \code{grouped_eventlog}: Computes the resource frequency for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes the resource frequency for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes the resource frequency for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link{resource_involvement}}
+
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

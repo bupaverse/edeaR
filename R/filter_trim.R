@@ -1,37 +1,47 @@
-#' Filter: Trim cases
+#' @title Trim Cases
 #'
-#' Trim cases from the first event of a set of start activities to the last event of a set of end activities.
+#' @description Trim cases from the first event of a set of start activities to the last event of a set of end activities.
 #'
-#' One can trim cases by removing one or more activity instances
-#' at the start and/or end of a case. Trimming is performed until all cases have a start and/or
-#' end point belonging to a set of allowed activity labels. This filter requires a set of allowed
-#' start activities and/or a set of allowed end activities. If one of them is not provided it will
-#' not trim the cases at this edge.The selection can be reversed, which means that
-#' only the trimmed events at the start and end of cases are retained. As such, this argument
-#' allows to cut intermediate parts out of traces.
-#'
+#' One can trim cases by removing one or more activity instances at the start and/or end of a case. Trimming is performed
+#' until all cases have a start and/or end point belonging to a set of allowed activity labels. This filter requires a set
+#' of allowed start activities and/or a set of allowed end activities. If one of them is not provided it will not trim the
+#' cases at this edge. The selection can be reversed, which means that only the trimmed events at the start and end of cases
+#' are retained. As such, this argument allows to cut intermediate parts out of traces.
 #'
 #' @inherit filter_activity params references seealso return
 #' @inherit filter_endpoints params
 #'
+#' @family filters
+#'
 #' @export filter_trim
-
-filter_trim <- function(eventlog, start_activities, end_activities, reverse) {
+filter_trim <- function(log,
+						start_activities = NULL,
+						end_activities = NULL,
+						reverse = FALSE,
+						eventlog = deprecated()) {
 	UseMethod("filter_trim")
 }
 
-#' @describeIn filter_trim Filter event log
+#' @describeIn filter_trim Filters activity instances for an \code{\link[bupaR]{eventlog}}.
 #' @export
+filter_trim.eventlog <- function(log,
+								 start_activities = NULL,
+								 end_activities = NULL,
+								 reverse = FALSE,
+								 eventlog = deprecated()) {
 
-filter_trim.eventlog <- function(eventlog,
-						start_activities = NULL,
-						end_activities = NULL,
-						reverse = FALSE) {
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trim(eventlog)",
+			with = "filter_trim(log)")
+		log <- eventlog
+	}
 
 	if(is.null(start_activities) & is.null(end_activities))
-		stop("At least on start or end activity should be provided")
+		stop("At least one start or end activity should be provided")
 
-	acts <- activities(eventlog) %>% pull(1)
+	acts <- activities(log) %>% pull(1)
 
 	min_order <- NULL
 	min_timestamp <- NULL
@@ -46,44 +56,95 @@ filter_trim.eventlog <- function(eventlog,
 	if(is.null(end_activities))
 		end_activities <- acts
 
-	eventlog %>%
+	log %>%
 		filter_activity_presence(start_activities, method = "one_of") %>%
 		filter_activity_presence(end_activities, method = "one_of") %>%
-		group_by(!!case_id_(eventlog), !!activity_instance_id_(eventlog), !!activity_id_(eventlog)) %>%
-		summarize(min_timestamp = min(!!timestamp_(eventlog), Inf), "min_order" = min(.order, Inf), n = n()) %>%
+		group_by(!!case_id_(log), !!activity_instance_id_(log), !!activity_id_(log)) %>%
+		summarize(min_timestamp = min(!!timestamp_(log), Inf), "min_order" = min(.order, Inf), n = n()) %>%
 		as.data.frame() %>%
 		filter(n > 0) %>%
-		group_by(!!case_id_(eventlog)) %>%
+		group_by(!!case_id_(log)) %>%
 		arrange(min_timestamp, min_order) %>%
 		mutate(r = 1:n()) %>%
-		mutate(start_r = ifelse((!!activity_id_(eventlog)) %in% start_activities, r, NA),
-			   end_r = ifelse((!!activity_id_(eventlog)) %in% end_activities, r, NA)) %>%
-		mutate(min_rank = min(c(Inf,start_r), na.rm = T)) %>%
-		mutate(max_rank = max(c(-Inf,end_r), na.rm = T)) %>%
+		mutate(start_r = ifelse((!!activity_id_(log)) %in% start_activities, r, NA),
+			   end_r = ifelse((!!activity_id_(log)) %in% end_activities, r, NA)) %>%
+		mutate(min_rank = min(c(Inf,start_r), na.rm = TRUE)) %>%
+		mutate(max_rank = max(c(-Inf,end_r), na.rm = TRUE)) %>%
 		filter( r >= min_rank, r <= max_rank) %>%
-		pull(!!activity_instance_id_(eventlog)) -> aid_selection
+		pull(!!activity_instance_id_(log)) -> aid_selection
 
-	if(reverse == F)
-		filter(eventlog, (!!activity_instance_id_(eventlog)) %in% aid_selection)
-	else
-		filter(eventlog, !((!!activity_instance_id_(eventlog)) %in% aid_selection))
-
+	filter_activity_instance.eventlog(log, activity_instances = aid_selection, reverse = reverse)
 }
-#' @describeIn filter_trim Filter grouped event log
+
+#' @describeIn filter_trim Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
+filter_trim.grouped_eventlog <- function(log,
+										 start_activities = NULL,
+										 end_activities = NULL,
+										 reverse = FALSE,
+										 eventlog = deprecated()) {
 
-filter_trim.grouped_eventlog <- function(eventlog,
-								 start_activities = NULL,
-								 end_activities = NULL,
-								 reverse = FALSE) {
-	grouped_filter(eventlog, filter_trim, start_activities, end_activities, reverse)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trim(eventlog)",
+			with = "filter_trim(log)")
+		log <- eventlog
+	}
+	bupaR:::apply_grouped_fun(log, fun = filter_trim.eventlog, start_activities, end_activities, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
+#' @describeIn filter_trim Filters activity instances for an \code{\link[bupaR]{activitylog}}.
+#' @export
+filter_trim.activitylog <- function(log,
+									start_activities = NULL,
+									end_activities = NULL,
+									reverse = FALSE,
+									eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trim(eventlog)",
+			with = "filter_trim(log)")
+		log <- eventlog
+	}
+
+	filter_trim.eventlog(bupaR::to_eventlog(log),
+	                     start_activities = start_activities,
+						 end_activities = end_activities,
+	                     reverse = reverse) %>%
+		to_activitylog()
+}
+
+#' @describeIn filter_trim Filters activity instances for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @export
+filter_trim.grouped_activitylog <- function(log,
+											start_activities = NULL,
+											end_activities = NULL,
+											reverse = FALSE,
+											eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trim(eventlog)",
+			with = "filter_trim(log)")
+		log <- eventlog
+	}
+
+	filter_trim.grouped_eventlog(bupaR::to_eventlog(log),
+								 start_activities = start_activities,
+								 end_activities = end_activities,
+								 reverse = reverse) %>%
+		to_activitylog()
+}
+#' @keywords internals
 #' @rdname filter_trim
 #' @export ifilter_trim
-#'
-#'
 ifilter_trim <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_trim()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Trim cases"),

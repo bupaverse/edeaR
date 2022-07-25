@@ -2,70 +2,106 @@
 % Please edit documentation in R/filter_activity_presence.R
 \name{filter_activity_presence}
 \alias{filter_activity_presence}
-\alias{filter_activity_presence.eventlog}
-\alias{filter_activity_presence.grouped_eventlog}
+\alias{filter_activity_presence.log}
+\alias{filter_activity_presence.grouped_log}
 \alias{ifilter_activity_presence}
-\title{Filter: Activity Presence}
+\title{Filter Activity Presence}
 \usage{
-filter_activity_presence(eventlog, activities, method, reverse)
-
-\method{filter_activity_presence}{eventlog}(
-  eventlog,
+filter_activity_presence(
+  log,
   activities = NULL,
-  method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  eventlog = deprecated()
 )
 
-\method{filter_activity_presence}{grouped_eventlog}(
-  eventlog,
+\method{filter_activity_presence}{log}(
+  log,
   activities = NULL,
-  method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  eventlog = deprecated()
+)
+
+\method{filter_activity_presence}{grouped_log}(
+  log,
+  activities = NULL,
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  eventlog = deprecated()
 )
 
 ifilter_activity_presence(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{activities}{Character vector containing one or more activity identifiers.}
+\item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
-\item{method}{Filter method. If "all", each of the activities should be present. If "one_of", at least one of them should be present. If "none", none of the activities are allowed to occur in the filtered traces.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters cases based on the presence (or absence) of activities
+Filters cases based on the presence (or absence) of activities.
 }
 \details{
-This functions allows to filter cases that contain certain activities.
-It requires as input a vector containing one or more activity labels and it has a method
-argument. The latter can have the values all, none or one_of.
+This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
+and it has a \code{method} argument with following options:
+
 \itemize{
-\item When set to `all`, it means
-that all the specified activity labels must be present for a case to be selected
-\item `none` means
-that they are not allowed to be present.
-\item `one_of` means that at least one of them must be
-present.
-\item `only` means that only (a set of) these activities are allowed to be present
-\item `exact` means that only exactly these activities can be present (although multiple times and in random orderings)
+\item \code{"all"} means that all the specified activity labels must be present for a case to be selected.
+\item \code{"none"} means that they are not allowed to be present.
+\item \code{"one_of"} means that at least one of them must be present.
+\item \code{"exact"} means that only exactly these activities can be present (although multiple times and in random orderings).
+\item \code{"only"} means that only (a set of) these activities are allowed to be present.
 }
 
-When only one activity label is supplied, note that methods all and one_of will be identical.
+When only one activity label is supplied, note that \code{method}s \code{"all"} and \code{"one_of"} will be identical.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event log on presence of activities.
+\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Filter grouped event log on presence of activities.
+\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
 }}
 
-\seealso{
-\code{vignette("filters", "edeaR")}
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
+}
+\concept{filters}
+\keyword{internals}

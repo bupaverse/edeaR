@@ -1,21 +1,17 @@
 
+processing_time_case <- function(log, units, work_schedule) {
 
-processing_time_case <- function(eventlog,
-								 units,
-								 work_schedule) {
+	log %>%
+		distinct(!!case_id_(log), !!activity_instance_id_(log)) -> dict
 
-	eventlog %>%
-		distinct(!!case_id_(eventlog), !!activity_instance_id_(eventlog)) -> dict
-
-	eventlog %>%
+	log %>%
 		processing_time_activity_instance(units = units,
 										  work_schedule = work_schedule) -> raw
 
 
 	dict %>%
-		full_join(raw, by = activity_instance_id(eventlog)) %>%
-		group_by(!!case_id_(eventlog)) %>%
+		full_join(raw, by = activity_instance_id(log)) %>%
+		group_by(!!case_id_(log)) %>%
 		summarize(processing_time = sum(processing_time)) %>%
-		select(!!case_id_(eventlog), processing_time)
-
+		select(!!case_id_(log), processing_time)
 }

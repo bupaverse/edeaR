@@ -1,9 +1,7 @@
 
-
-
-trace_length_log <- function(eventlog) {
+trace_length_log <- function(log) {
 	absolute <- NULL
-	trace_length_case(eventlog) -> raw
+	trace_length_case(log) -> raw
 
 	raw %>%
 		pull(absolute) %>%

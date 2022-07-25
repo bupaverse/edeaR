@@ -1,43 +1,56 @@
-
-
-#' title Filter: Trace
+#' @title Filter Trace
 #'
-#' Filters the log based on trace id
+#' @description Filters the log based on trace identifier.
 #'
-#' The method filter_trace can be used to filter on trace id It has an trace_ids argument,
-#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+#' This method can be used to filter on trace identifier, which can be obtained from \code{\link[bupaR]{case_list}}.
+#' It has a \code{trace_ids} argument, to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 #'
-#' @param trace_ids A vector of trace identifiers
+#' @param trace_ids \code{\link{character}} vector: A vector of trace identifiers
 #'
 #' @inherit filter_activity params references seealso return
+#'
+#' @seealso \code{\link[bupaR]{case_list}}
+#'
+#' @family filters
+#'
 #' @export filter_trace
-
-filter_trace <- function(eventlog, trace_ids, reverse) {
+filter_trace <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_trace")
 }
 
-
+#' @describeIn filter_trace Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_trace.eventlog <- function(eventlog,
-								  trace_ids = NULL,
-								 reverse = FALSE){
+filter_trace.log <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()){
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trace(eventlog)",
+			with = "filter_trace(log)")
+		log <- eventlog
+	}
+
 	trace_id <- NULL
 
-	eventlog %>%
-		case_list %>%
+	log %>%
+		case_list() %>%
 		filter(trace_id %in% trace_ids) %>%
 		pull(1) -> cases
 
-	if(!reverse)
-		filter(eventlog, (!!as.symbol(case_id(eventlog))) %in% cases)
-	else
-		filter(eventlog, !((!!as.symbol(case_id(eventlog))) %in% cases))
+	filter_case.log(log, cases = cases, reverse = reverse)
 }
 
+#' @describeIn filter_trace Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_trace.grouped_log <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()) {
 
-filter_trace.grouped_eventlog <- function(eventlog, trace_ids = NULL, reverse = FALSE) {
-	grouped_filter(eventlog, filter_trace, trace_ids, reverse)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trace(eventlog)",
+			with = "filter_trace(log)")
+		log <- eventlog
+	}
+
+	bupaR:::apply_grouped_fun(log, fun = filter_trace.log, trace_ids, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
-
-

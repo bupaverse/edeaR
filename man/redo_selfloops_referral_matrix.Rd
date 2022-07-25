@@ -3,15 +3,19 @@
 \name{redo_selfloops_referral_matrix}
 \alias{redo_selfloops_referral_matrix}
 \alias{redo_selfloops_referral_matrix.eventlog}
+\alias{redo_selfloops_referral_matrix.activitylog}
 \title{Referral matrix selfloops}
 \usage{
-redo_selfloops_referral_matrix(eventlog)
+redo_selfloops_referral_matrix(log, eventlog = deprecated())
 
-\method{redo_selfloops_referral_matrix}{eventlog}(eventlog)
+\method{redo_selfloops_referral_matrix}{eventlog}(log, eventlog = deprecated())
+
+\method{redo_selfloops_referral_matrix}{activitylog}(log, eventlog = deprecated())
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides a list of initatiors and completers of  redo selfloops
@@ -19,6 +23,8 @@ Provides a list of initatiors and completers of  redo selfloops
 \section{Methods (by class)}{
 \itemize{
 \item \code{eventlog}: Compute matrix for eventlog
+
+\item \code{activitylog}: Compute matrix for activitylog
 }}
 
 \references{

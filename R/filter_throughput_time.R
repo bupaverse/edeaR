@@ -1,38 +1,49 @@
-#' Filter: Throughput Time
+#' @title Filter Throughput Time
 #'
-#' Filters cases based on their throughput time.
+#' @description Filters cases based on their \code{\link{throughput_time}}.
 #'
-#' This filter can be used by using an interval or by using a percentage.
+#' This filter can be used by using an \code{interval} or by using a \code{percentage}.
 #' The percentage will always start with the shortest cases first and stop
 #' including cases when the specified percentile is reached. On the other hand, an absolute
 #' interval can be defined instead to filter cases which have a throughput time in this interval. The time units
-#' in which this interval is defined can be submitted with the units argument.
+#' in which this interval is defined can be supplied with the \code{units} argument.
 #'
 #' @inherit filter_activity params references seealso return
+#' @inherit throughput_time params
 #' @inherit filter_processing_time params
 #'
-#' @export filter_throughput_time
+#' @seealso \code{\link{throughput_time}},\code{\link{difftime}}
 #'
-
-filter_throughput_time <- function(eventlog, interval, percentage, reverse, units, ...) {
-	UseMethod("filter_throughput_time")
-}
-
-#' @describeIn filter_throughput_time Filter event log
-#' @export
-
-filter_throughput_time.eventlog <- function(eventlog,
+#' @family filters
+#'
+#' @export filter_throughput_time
+filter_throughput_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("days","hours","mins","secs","weeks"),
-								   ...) {
+								   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+								   eventlog = deprecated()) {
+	UseMethod("filter_throughput_time")
+}
 
-	units <- match.arg(units)
-	percentage <- deprecated_perc(percentage, ...)
-	interval[1] <- deprecated_lower_thr(interval[1], ...)
-	interval[2] <- deprecated_upper_thr(interval[2], ...)
+#' @describeIn filter_throughput_time Filters cases for a \code{\link[bupaR]{log}}.
+#' @export
+filter_throughput_time.log <- function(log,
+									   interval = NULL,
+									   percentage = NULL,
+									   reverse = FALSE,
+									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+									   eventlog = deprecated()) {
 
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_processing_time(eventlog)",
+			with = "filter_processing_time(log)")
+		log <- eventlog
+	}
+
+	units <- rlang::arg_match(units)
 
 	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = TRUE) || all(is.na(interval)) )) {
 		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
@@ -46,34 +57,44 @@ filter_throughput_time.eventlog <- function(eventlog,
 	else if((!is.null(interval)) & !is.null(percentage))
 		stop("Cannot filter on both interval and percentage simultaneously.")
 	else if(!is.null(percentage))
-		filter_throughput_time_percentile(eventlog,
+		filter_throughput_time_percentile(log,
 										  percentage = percentage,
 										  reverse = reverse)
 	else
-		filter_throughput_time_threshold(eventlog,
+		filter_throughput_time_threshold(log,
 										 lower_threshold = interval[1],
 										 upper_threshold = interval[2],
 										 reverse = reverse,
 										 units = units)
 }
 
-#' @describeIn filter_throughput_time Filter grouped event log
+#' @describeIn filter_throughput_time Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_throughput_time.grouped_log <- function(log,
+											   interval = NULL,
+											   percentage = NULL,
+											   reverse = FALSE,
+											   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+											   eventlog = deprecated()) {
 
-filter_throughput_time.grouped_eventlog <- function(eventlog,
-											interval = NULL,
-											percentage = NULL,
-											reverse = FALSE,
-											units = c("days","hours","mins","secs","week"),
-											...) {
-	grouped_filter(eventlog, filter_throughput_time, interval, percentage, reverse, units, ...)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_processing_time(eventlog)",
+			with = "filter_processing_time(log)")
+		log <- eventlog
+	}
+
+	bupaR:::apply_grouped_fun(log, fun = filter_throughput_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_throughput_time, interval, percentage, reverse, units, ...)
 }
 
-
 #' @rdname filter_throughput_time
+#' @keywords internal
 #' @export ifilter_throughput_time
-
 ifilter_throughput_time <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_throughput_time()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Througput Time"),

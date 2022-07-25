@@ -1,7 +1,5 @@
 
-
-trace_length_trace <- function(eventlog,
-							   threshold = 0.8) {
+trace_length_trace <- function(log) {
 
 	trace <- NULL
 	relative_trace_frequency <- NULL
@@ -9,9 +7,9 @@ trace_length_trace <- function(eventlog,
 	relative_to_median <- NULL
 
 
-	tra <- case_list(eventlog)
+	tra <- case_list(log)
 
-	eventlog %>%
+	log %>%
 		trace_length_case() %>%
 		merge(tra) %>%
 		group_by(trace, absolute) %>%
@@ -19,7 +17,4 @@ trace_length_trace <- function(eventlog,
 		ungroup() %>%
 		mutate(relative_trace_frequency = relative_trace_frequency/sum(relative_trace_frequency)) %>%
 		mutate(relative_to_median = absolute/median(absolute))
-
-
-
 }

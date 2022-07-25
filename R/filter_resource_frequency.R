@@ -1,44 +1,58 @@
-#' @title {Filter: Activity frequency}
+#' @title Filter Resource Frequency
 #'
-#' @description {Filters the log based on frequency of activities}
+#' @description Filters the log based on frequency of resources
 #'
+#' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
+#' \code{percentage} (\code{\link{numeric}}): A percentile of p will return the most common resource types of the log,
+#' which account for at least p% of the activity instances.\cr
+#' \code{interval} (\code{\link{numeric}} vector of length 2): A resource frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
+#' For more information, see 'Details' below.
 #'
-#' Filtering the event log based in resource frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+#' @details
+#' Filtering the log based on resource frequency can be done in two ways: using an \code{interval} of allowed frequencies,
+#' or specify a coverage \code{percentage}:
 #'
 #' \itemize{
-#'
-#' \item percentage: When filtering using a percentage p\%, the filter will return p% of the activity instances, starting from the resource labels with the highest
-#' frequency. The filter will retain additional resource labels as long as the number of activity instances does not exceed the percentage threshold.
-#'
-#' \item interval: When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-#' a numeric vector of length 2. Half open intervals can be created by using NA. E.g., `c(10, NA)` will select resource labels which occur 10 times or more.
+#' \item \code{percentage}: When filtering using a percentage p%, the filter will return p% of the activity instances,
+#' starting from the resource labels with the highest frequency. The filter will retain additional resource labels
+#' as long as the number of activity instances does not exceed the percentage threshold.
+#' \item \code{interval}: When filtering using an interval, resource labels will be retained when their absolute frequency fall in this interval.
+#' The interval is specified using a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}},
+#' e.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
 #' }
 #'
-#' @param percentage The target coverage of activity instances. A percentile of 0.9 will return the most common resource types of the eventlog,
-#' which account for at least 90\% of the activity instances.
-#'
-#' @param interval An resource frequency interval (numeric vector of length 2). Half open interval can be created using NA.
 #' @inherit filter_activity params references seealso return
 #'
+#' @family filters
+#'
 #' @export filter_resource_frequency
-
-filter_resource_frequency <- function(eventlog, interval, percentage, reverse, ...) {
+filter_resource_frequency <- function(log,
+									  interval = NULL,
+									  percentage = NULL,
+									  reverse = FALSE,
+									  eventlog = deprecated()) {
 	UseMethod("filter_resource_frequency")
 }
 
-#' @describeIn filter_resource_frequency Filter event log
+#' @describeIn filter_resource_frequency Filters resources for a \code{\link[bupaR]{log}}.
 #' @export
+filter_resource_frequency.log <- function(log,
+										  interval = NULL,
+										  percentage = NULL,
+										  reverse = FALSE,
+										  eventlog = deprecated()) {
 
-filter_resource_frequency.eventlog <- function(eventlog,
-											   interval = NULL,
-											   percentage = NULL,
-											   reverse = FALSE,
-											   ...) {
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource_frequency(eventlog)",
+			with = "filter_resource_frequency(log)")
+		log <- eventlog
+	}
 
-	percentage <- deprecated_perc(percentage, ...)
 	stopifnot(is.logical(reverse))
 
-	mapping <- mapping(eventlog)
+	mapping <- mapping(log)
 
 	if(!is.null(interval) && !is.null(percentage)) {
 		stop("Provide interval OR percentage Cannot filter using both methods.")
@@ -47,18 +61,38 @@ filter_resource_frequency.eventlog <- function(eventlog,
 		if(length(interval) != 2 || any(interval < 0, na.rm = T) || all(is.na(interval))){
 			stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
 		} else {
-			filter_resource_interval(eventlog, interval[1], interval[2], reverse)
+			filter_resource_interval(log, interval[1], interval[2], reverse)
 		}
 	} else if(!is.null(percentage)) {
 		stopifnot(is.numeric(percentage))
 		if(length(percentage) != 1 || percentage > 1 || percentage < 0) {
 			stop("percentage should be a numeric vector of length 1 with a value between 0 and 1")
 		} else{
-			filter_resource_percentage(eventlog, percentage, reverse)
+			filter_resource_percentage(log, percentage, reverse)
 		}
 	} else {
 		stop("No filter arguments were provided. Please provide percentage or interval.")
 	}
+}
+
+#' @describeIn filter_resource_frequency Filters resources for a \code{\link[bupaR]{grouped_log}}.
+#' @export
+filter_resource_frequency.grouped_log <- function(log,
+												  interval = NULL,
+												  percentage = NULL,
+												  reverse = FALSE,
+												  eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource_frequency(eventlog)",
+			with = "filter_resource_frequency(log)")
+		log <- eventlog
+	}
+
+	bupaR:::apply_grouped_fun(log, fun = filter_resource_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_resource_frequency, interval, percentage, reverse, ...)
 }
 
 filter_resource_interval <- function(eventlog, lower, upper, reverse) {
@@ -89,17 +123,12 @@ filter_resource_percentage <- function(eventlog, percentage, reverse) {
 	filter_resource(eventlog, event_selection, reverse)
 }
 
-#' @describeIn filter_resource_frequency Filter grouped event logs
-#' @export
-
-filter_resource_frequency.grouped_eventlog <- function(eventlog, interval = NULL, percentage = NULL, reverse = FALSE, ...) {
-	grouped_filter(eventlog, filter_resource_frequency, interval, percentage, reverse, ...)
-}
-
-
+#' @keywords internals
 #' @rdname filter_resource_frequency
 #' @export ifilter_resource_frequency
 ifilter_resource_frequency <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_resource_frequency()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter resources based on frequency"),
@@ -118,7 +147,7 @@ ifilter_resource_frequency <- function(eventlog) {
 		observeEvent(input$done, {
 
 			filtered_log <- filter_resource_frequency(eventlog,
-													  percentile_cut_off = input$percentile_cut_off/100,
+													  percentage = input$percentile_cut_off/100,
 													  reverse = ifelse(input$reverse == "Yes", T, F))
 
 

@@ -2,52 +2,73 @@
 % Please edit documentation in R/filter_activity.R
 \name{filter_activity}
 \alias{filter_activity}
-\alias{filter_activity.eventlog}
-\alias{filter_activity.grouped_eventlog}
+\alias{filter_activity.log}
+\alias{filter_activity.grouped_log}
 \alias{ifilter_activity}
-\alias{filter_activity.activitylog}
-\title{Filter: Activity}
+\title{Filter Activity}
 \usage{
-filter_activity(eventlog, activities, reverse, ...)
+filter_activity(log, activities, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_activity}{eventlog}(eventlog, activities, reverse = FALSE, ...)
+\method{filter_activity}{log}(log, activities, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_activity}{grouped_eventlog}(eventlog, activities, reverse = FALSE, ...)
+\method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, eventlog = deprecated())
 
 ifilter_activity(eventlog)
-
-\method{filter_activity}{activitylog}(eventlog, activities, reverse = FALSE, ...)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{activities}{Character vector containing one or more activity identifiers.}
+\item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{...}{Deprecated arguments.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters the log based on activities
 }
-\details{
-The method filter_activity can be used to filter on activity identifiers. It has an activities argument,
-to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
-}
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter eventlog for activity labels
+\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Filter grouped eventlog for activity labels
-
-\item \code{activitylog}: Filter activity_log for activity labels
+\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
 }}
 
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
 \seealso{
 \code{vignette("filters", "edeaR")}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
+\concept{filters}
+\keyword{internal}

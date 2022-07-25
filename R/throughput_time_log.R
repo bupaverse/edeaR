@@ -10,7 +10,7 @@ throughput_time_log <- function(eventlog,
 
 	raw %>%
 		pull(throughput_time) %>%
-		as.double(units = units) %>%
+		#as.double(units = units) %>%
 		summary_statistics() -> output
 
 

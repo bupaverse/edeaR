@@ -1,46 +1,64 @@
-#' Filter: Resource
+#' @title Filter Resource
 #'
-#' Filters the log based on resource identifiers
+#' @description Filters the log based on resource identifiers
 #'
-#' #' The method filter_resource can be used to filter on resource identifiers. It has a resources argument,
-#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+#' This method can be used to filter on resource identifiers. It has a \code{resources} argument,
+#' to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 #'
-#' @param resources A vector of resources identifiers
+#' @param resources \code{\link{character}} vector: A vector of resources identifiers.
 #'
 #' @inherit filter_activity params references seealso return
 #'
-#' @export filter_resource
+#' @family filters
 #'
-filter_resource <- function(eventlog, resources, reverse) {
+#' @export filter_resource
+filter_resource <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_resource")
 }
 
-#' @describeIn filter_resource Filter event log
+#' @describeIn filter_resource Filters resources for a \code{\link[bupaR]{log}}.
 #' @export
+filter_resource.log <- function(log, resources,	reverse = FALSE, eventlog = deprecated()) {
 
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource(eventlog)",
+			with = "filter_resource(log)")
+		log <- eventlog
+	}
 
-filter_resource.eventlog <- function(eventlog,
-							resources,
-							reverse = FALSE){
-
-	if(reverse == F)
-		filter(eventlog, (!!as.symbol(resource_id(eventlog))) %in% resources)
-	else
-		filter(eventlog, !((!!as.symbol(resource_id(eventlog))) %in% resources))
+	if (!reverse) {
+		log %>%
+			filter(.data[[resource_id(.)]] %in% resources)
+	} else {
+		log %>%
+			filter(!(.data[[resource_id(.)]] %in% resources))
+	}
 }
 
-#' @describeIn filter_resource Filter grouped event log
+#' @describeIn filter_resource Filters resources for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_resource.grouped_log <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
 
-filter_resource.grouped_eventlog <- function(eventlog,
-											 resources,
-											 reverse = FALSE) {
-	grouped_filter(eventlog, filter_resource, resources, reverse)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_resource(eventlog)",
+			with = "filter_resource(log)")
+		log <- eventlog
+	}
+
+	bupaR:::apply_grouped_fun(log, fun = filter_resource.log, resources, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_resource, resources, reverse)
 }
 
 #' @rdname filter_resource
+#' @keywords internal
 #' @export ifilter_resource
 ifilter_resource <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_resource()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Resources"),

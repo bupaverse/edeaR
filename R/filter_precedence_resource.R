@@ -1,52 +1,42 @@
-#' Filter: precedence relations with identical resources
+#' @title Filter Precedence Relations with Identical Resources
 #'
-#' Filters cases based on the precedence relations between two sets of activities, where both antecendent and consequent have to be executed by the same resource.
+#' @description Filters cases based on the precedence relations between two sets of activities, where both antecendent and consequent have to be executed by the same resource.
+#' For more information, see \code{\link{filter_precedence}}.
 #'
-#' In order to extract a subset of an event log which conforms with a set of precedence rules, one can use the filter_precedence method. There are two types of
-#' precendence relations which can be tested: activities that should directly follow each other,
-#' or activities that should eventually follow each other. The type can be set with the precedence type argument.
-#' Further, the filter requires a vector of one or more antecedents (containing activity labels), and one or more consequents. Finally, also a filter method argument
-#' can be set. This argument is relevant when there is more than one antecedent or consequent.
-#' In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
-#' In case an activity instance exists of more than one events with different resource identifiers, only the first will be considered.
+#' @inherit filter_precedence params references seealso return
 #'
-#' @param antecedents,consequents The set of antecendent and consequent activities. Both are character vectors containing at least one activity identifier.
-#' All pairs of antecedents and consequents are turned into seperate precedence rules.
+#' @family filters
 #'
-#' @param precedence_type When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
-#' When \code{eventually_follows}, other events are allowed to happen in between.
-#'
-#' @param filter_method When \code{all}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
-#' at least one of the conditions hold are preserved. When \code{none}, none of the relations are allowed.
-#'
-#' @inherit filter_activity params references seealso return
-#' @importFrom forcats fct_recode
 #' @export filter_precedence_resource
-
-filter_precedence_resource <- function(eventlog,
-										antecedents,
-										consequents,
-										precedence_type,
-										filter_method,
-										reverse) {
+filter_precedence_resource <- function(log,
+									   antecedents,
+									   consequents,
+									   precedence_type = c("directly_follows", "eventually_follows"),
+									   filter_method = c("all", "one_of", "none"),
+									   reverse = FALSE,
+									   eventlog = deprecated()) {
 	UseMethod("filter_precedence_resource")
 }
 
+#' @describeIn filter_precedence_resource Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
+filter_precedence_resource.log <- function(log,
+										   antecedents,
+										   consequents,
+										   precedence_type = c("directly_follows", "eventually_follows"),
+										   filter_method = c("all", "one_of", "none"),
+										   reverse = FALSE,
+										   eventlog = deprecated()) {
 
-filter_precedence_resource.eventlog <- function(eventlog,
-												 antecedents,
-												 consequents,
-												 precedence_type = c("directly_follows", "eventually_follows"),
-												 filter_method = c("all","one_of", "none"),
-												 reverse = FALSE) {
-	precedence_type <- match.arg(precedence_type)
-	filter_method <- match.arg(filter_method)
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	precedence_type <- rlang::arg_match(precedence_type)
+	filter_method <- rlang::arg_match(filter_method)
 
 	n_fitting <- NULL
 
 	# TEST VALIDITY ACTIVITY LABELS
-	acts <- activity_labels(eventlog)
+	acts <- activity_labels(log)
 	wrong <-  antecedents[!(antecedents %in% acts)]
 	if(length(wrong) > 0) {
 		warning(glue("{length(wrong)} specified antecedents not found in event log, and removed: {str_flatten(wrong, collapse = ', ')}"))
@@ -70,7 +60,7 @@ filter_precedence_resource.eventlog <- function(eventlog,
 
 	## CHECK EACH FLOW
 	for(i in 1:number_of_conditions) {
-		output[[i]] <- filter_precedence_resource_single(eventlog,
+		output[[i]] <- filter_precedence_resource_single(log,
 														  sequence_pairs$antecedent[i],
 														  sequence_pairs$consequent[i],
 														  precedence_type = precedence_type)
@@ -80,30 +70,34 @@ filter_precedence_resource.eventlog <- function(eventlog,
 	# COMPUTE NUMBER OF FLOWS FOUND
 		output %>%
 			bind_rows() %>%
-			count(!!case_id_(eventlog), name = "n_fitting") -> cases_results
+			count(!!case_id_(log), name = "n_fitting") -> cases_results
 
 	# CREATE CASE SELECTION
 	if(filter_method == "one_of")
-		case_selection <- filter(cases_results, n_fitting > 0) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting > 0) %>% pull(!!as.symbol(case_id(log)))
 	else if(filter_method == "all")
-		case_selection <- filter(cases_results, n_fitting == number_of_conditions) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting == number_of_conditions) %>% pull(!!as.symbol(case_id(log)))
 	else if(filter_method == "none")
-		case_selection <- filter(cases_results, n_fitting == 0) %>% pull(!!as.symbol(case_id(eventlog)))
+		case_selection <- filter(cases_results, n_fitting == 0) %>% pull(!!as.symbol(case_id(log)))
 
 	#FILTER CASES
-	filter_case(eventlog, case_selection, reverse)
-
+	filter_case.log(log, cases = case_selection, reverse = reverse)
 }
 
+#' @describeIn filter_precedence_resource Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
+filter_precedence_resource.grouped_log <- function(log,
+												   antecedents,
+												   consequents,
+												   precedence_type = c("directly_follows", "eventually_follows"),
+												   filter_method = c("all", "one_of", "none"),
+												   reverse = FALSE,
+												   eventlog = deprecated()) {
 
-filter_precedence_resource.grouped_eventlog <- function(eventlog,
-														 antecedents,
-														 consequents,
-														 precedence_type = c("directly_follows", "eventually_follows"),
-														 filter_method = c("all","one_of", "none"),
-														 reverse = FALSE) {
-	grouped_filter(eventlog, filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse)
+	log <- lifecycle_warning_eventlog(log, eventlog)
+
+	bupaR:::apply_grouped_fun(log, fun = filter_precedence_resource.log, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	#grouped_filter(eventlog, filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 
 
@@ -151,10 +145,6 @@ filter_precedence_resource_single <- function(eventlog, antecedent, consequent, 
 				# DISTINCT TO COMBINE OBSERVATIONS FOR MORE THAN ONE RESOURCe
 				distinct(!!case_id_(eventlog))
 		}
-
-
-
-
 }
 
 

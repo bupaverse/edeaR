@@ -1,36 +1,46 @@
-#'  Filter: Trace length percentile
+#' @title Filter Trace Length
 #'
-#' Filters cases on length, using a percentile threshold.
+#' @description Filters cases on \code{\link{trace_length}}, using a percentile threshold or interval.
 #'
-
-#' This filter can be used by using an interval or by using a percentage.
+#' This filter can be used by using an \code{interval} or by using a \code{percentage}.
 #' The percentage will always start with the shortest cases first and stop
 #' including cases when the specified percentile is reached. On the other hand, an absolute
 #' interval can be defined instead to filter cases which have a length in this interval.
 #'
-#
-#' @param interval An trace length interval (numeric vector of length 2) to be used for absolute. Half open interval can be created using NA.
-#' @param percentage A percentage p to be used for relative filtering.
+#' @param interval,percentage Provide either \code{interval} or \code{percentage}.\cr
+#' \code{interval} (\code{\link{numeric}} vector of length 2): A trace length interval. Half open interval can be created using \code{\link{NA}}.\cr
+#' \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.
 #'
 #' @inherit filter_activity params references seealso return
 #'
-#' @export filter_trace_length
+#' @seealso \code{\link{trace_length}}
 #'
-filter_trace_length <- function(eventlog, interval, percentage, reverse,...) {
-	UseMethod("filter_trace_length")
-}
-
-#' @describeIn filter_trace_length Filter event log
-#' @export
-filter_trace_length.eventlog <- function(eventlog,
+#' @family filters
+#'
+#' @export filter_trace_length
+filter_trace_length <- function(log,
 								interval = NULL,
 								percentage = NULL,
 								reverse = FALSE,
-								...) {
+								eventlog = deprecated()) {
+	UseMethod("filter_trace_length")
+}
 
-	percentage  <- deprecated_perc(percentage, ...)
-	interval[1] <- deprecated_lower_thr(interval[1], ...)
-	interval[2] <- deprecated_upper_thr(interval[2], ...)
+#' @describeIn filter_trace_length Filters cases for a \code{\link[bupaR]{log}}.
+#' @export
+filter_trace_length.log <- function(log,
+									interval = NULL,
+									percentage = NULL,
+									reverse = FALSE,
+									eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trace_length(eventlog)",
+			with = "filter_trace_length(log)")
+		log <- eventlog
+	}
 
 	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
 		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
@@ -44,29 +54,42 @@ filter_trace_length.eventlog <- function(eventlog,
 	else if((!is.null(interval)) & !is.null(percentage))
 		stop("Cannot filter on both interval and percentage simultaneously.")
 	else if(!is.null(percentage))
-		filter_trace_length_percentile(eventlog,
-										  percentage = percentage,
-										  reverse = reverse)
+		filter_trace_length_percentile(log,
+									   percentage = percentage,
+									   reverse = reverse)
 	else
-		filter_trace_length_threshold(eventlog,
-										 lower_threshold = interval[1],
-										 upper_threshold = interval[2],
-										 reverse = reverse)
-}
-#' @describeIn filter_trace_length Filter grouped event log
-#' @export
-filter_trace_length.grouped_eventlog <- function(eventlog,
-										 interval = NULL,
-										 percentage = NULL,
-										 reverse = FALSE,
-										 ...) {
-	grouped_filter(eventlog, filter_trace_length, interval, percentage, reverse, ...)
+		filter_trace_length_threshold(log,
+									  lower_threshold = interval[1],
+									  upper_threshold = interval[2],
+									  reverse = reverse)
 }
 
+#' @describeIn filter_trace_length Filters cases for a \code{\link[bupaR]{grouped_log}}.
+#' @export
+filter_trace_length.grouped_log <- function(log,
+											interval = NULL,
+											percentage = NULL,
+											reverse = FALSE,
+											eventlog = deprecated()) {
+
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_trace_length(eventlog)",
+			with = "filter_trace_length(log)")
+		log <- eventlog
+	}
+
+	bupaR:::apply_grouped_fun(log, fun = filter_trace_length.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+}
+
+
+#' @keywords internal
 #' @rdname filter_trace_length
 #' @export ifilter_trace_length
-
 ifilter_trace_length <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_trace_length()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter on Trace Length"),

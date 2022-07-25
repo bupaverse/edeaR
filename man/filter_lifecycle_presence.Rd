@@ -5,63 +5,107 @@
 \alias{filter_lifecycle_presence.eventlog}
 \alias{filter_lifecycle_presence.grouped_eventlog}
 \alias{ifilter_lifecycle_presence}
-\title{Filter: Life cycle Presence}
+\title{Filter Life Cycle Presence}
 \usage{
-filter_lifecycle_presence(eventlog, lifecycle, method, reverse)
+filter_lifecycle_presence(
+  log,
+  lifecycles,
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  lifecycle = deprecated(),
+  eventlog = deprecated()
+)
 
 \method{filter_lifecycle_presence}{eventlog}(
-  eventlog,
-  lifecycle = NULL,
-  method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE
+  log,
+  lifecycles,
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  lifecycle = deprecated(),
+  eventlog = deprecated()
 )
 
 \method{filter_lifecycle_presence}{grouped_eventlog}(
-  eventlog,
-  lifecycle = NULL,
-  method = c("all", "one_of", "none", "exact", "only"),
-  reverse = FALSE
+  log,
+  lifecycles,
+  method = c("all", "none", "one_of", "exact", "only"),
+  reverse = FALSE,
+  lifecycle = deprecated(),
+  eventlog = deprecated()
 )
 
 ifilter_lifecycle_presence(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
 
-\item{lifecycle}{Character vector containing one or more life cycle identifiers.}
+\item{lifecycles}{\code{\link{character}} vector: A vector of life cycle identifiers.}
 
-\item{method}{Filter method. If "all", each of the life cycle labels should be present. If "one_of", at least one of them should be present. If "none", none of the life cycle labels are allowed to occur in the filtered activity instances.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{lifecycle}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{lifecycles} instead.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters activity instances based on the presence (or absence) of life cycles
+Filters activity instances based on the presence (or absence) of life cycles.
 }
 \details{
-This functions allows to filter activity instances that (do not) contain certain life cycle identifiers.
-It requires as input a vector containing one or more life cycle labels and it has a method
-argument. The latter can have the values all, none or one_of.
+This function allows to filter activity instances that (do not) contain certain life cycle identifiers. It requires as
+input a vector containing one or more life cycle labels and it has a \code{method} argument with following options:
 \itemize{
-\item When set to `all`, it means
-that all the specified life cycle labels must be present for an activity instance to be selected
-\item `none` means that they are not allowed to be present.
-\item `one_of` means that at least one of them must be present.
-\item `only` means that only (a set of) these life cycle labels are allowed to be present
-\item `exact` means that only exactly these life cycle labels can be present (although multiple times and in random orderings)
+\item \code{"all"} means that all the specified life cycle labels must be present for an activity instance to be selected.
+\item \code{"none"} means that they are not allowed to be present.
+\item \code{"one_of"} means that at least one of them must be present.
+\item \code{"exact"} means that only exactly these life cycle labels can be present (although multiple times and in random orderings).
+\item \code{"only"} means that only (a set of) these life cycle labels are allowed to be present.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event log on presence of life cycle labels.
+\item \code{eventlog}: Filters activity instances on the presence of life cycle labels for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filter grouped event log on presence of life cycle labels.
+\item \code{grouped_eventlog}: Filters activity instances on the presence of life cycle labels for a \code{\link[bupaR]{grouped_eventlog}}.
 }}
 
-\seealso{
-\code{vignette("filters", "edeaR")}
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link[bupaR]{lifecycle_id}}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
+}
+\concept{filters}
+\keyword{internal}

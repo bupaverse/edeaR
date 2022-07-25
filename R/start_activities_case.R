@@ -1,9 +1,9 @@
-start_activities_case <- function(eventlog) {
+start_activities_case <- function(log) {
 
-	eventlog %>%
+	log %>%
 		as.data.frame() %>%
-		group_by(!!case_id_(eventlog)) %>%
-		arrange(!!as.symbol(timestamp(eventlog)), .order) %>%
-		summarize(!!as.symbol(activity_id(eventlog)) := first(!!as.symbol(activity_id(eventlog)))) %>%
-		select(!!as.symbol(case_id(eventlog)), !!as.symbol(activity_id(eventlog)))
+		group_by(!!case_id_(log)) %>%
+		arrange(!!as.symbol(timestamp(log)), .order) %>%
+		summarize(!!as.symbol(activity_id(log)) := first(!!as.symbol(activity_id(log)))) %>%
+		select(!!as.symbol(case_id(log)), !!as.symbol(activity_id(log)))
 }

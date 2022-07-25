@@ -1,12 +1,13 @@
-resource_frequency_case <- function(eventlog) {
+resource_frequency_case <- function(log) {
 
 	nr_of_resources <- NULL
 
-	eventlog %>%
-		group_by(!!case_id_(eventlog), !!resource_id_(eventlog), !!activity_instance_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		distinct(!!case_id_(log), !!resource_id_(log), !!activity_instance_id_(log)) %>%
+		group_by(!!case_id_(log), !!resource_id_(log)) %>%
 		summarize(freq = n()) %>%
+		group_by(!!case_id_(log)) %>%
 		grouped_summary_statistics("freq", nr_of_resources = n()) %>%
-		select(!!case_id_(eventlog), nr_of_resources, everything())
+		select(!!case_id_(log), nr_of_resources, everything())
 
 }

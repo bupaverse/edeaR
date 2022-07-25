@@ -1,4 +1,4 @@
-idle_time_case <- function(eventlog, units) {
+idle_time_case <- function(log, units) {
 
 	activate <- NULL
 	active <- NULL
@@ -6,14 +6,14 @@ idle_time_case <- function(eventlog, units) {
 	next_ts <- NULL
 	dur <- NULL
 
-	eventlog %>%
-		mutate(activate = ifelse((!!lifecycle_id_(eventlog)) == "start", 1, ifelse((!!lifecycle_id_(eventlog)) == "complete", -1, 0))) %>%
+	log %>%
+		mutate(activate = ifelse((!!lifecycle_id_(log)) == "start", 1, ifelse((!!lifecycle_id_(log)) == "complete", -1, 0))) %>%
 		group_by_case %>%
-		arrange(!!timestamp_(eventlog), .order) %>%
+		arrange(!!timestamp_(log), .order) %>%
 		mutate(active = cumsum(activate),
-			   ts = !!timestamp_(eventlog),
-			   next_ts = lead(!!timestamp_(eventlog))) %>%
-		mutate(dur = as.double(next_ts - ts, units = units)) %>%
+			   ts = !!timestamp_(log),
+			   next_ts = lead(!!timestamp_(log))) %>%
+		mutate(dur = difftime(next_ts, ts, units = units)) %>%
 		filter(active == 0 & !is.na(dur)) %>%
 		summarize(idle_time = sum(dur))
 }

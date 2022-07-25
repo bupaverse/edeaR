@@ -2,77 +2,131 @@
 % Please edit documentation in R/filter_precedence.R
 \name{filter_precedence}
 \alias{filter_precedence}
-\alias{filter_precedence.eventlog}
-\alias{filter_precedence.grouped_eventlog}
+\alias{filter_precedence.log}
+\alias{filter_precedence.grouped_log}
 \alias{ifilter_precedence}
-\title{Filter: precedence relations}
+\title{Filter Precedence Relations}
 \usage{
 filter_precedence(
-  eventlog,
-  antecedents,
-  consequents,
-  precedence_type,
-  filter_method,
-  reverse
-)
-
-\method{filter_precedence}{eventlog}(
-  eventlog,
+  log,
   antecedents,
   consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
   filter_method = c("all", "one_of", "none"),
-  reverse = FALSE
+  reverse = FALSE,
+  eventlog = deprecated()
 )
 
-\method{filter_precedence}{grouped_eventlog}(
-  eventlog,
+\method{filter_precedence}{log}(
+  log,
   antecedents,
   consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
   filter_method = c("all", "one_of", "none"),
-  reverse = FALSE
+  reverse = FALSE,
+  eventlog = deprecated()
+)
+
+\method{filter_precedence}{grouped_log}(
+  log,
+  antecedents,
+  consequents,
+  precedence_type = c("directly_follows", "eventually_follows"),
+  filter_method = c("all", "one_of", "none"),
+  reverse = FALSE,
+  eventlog = deprecated()
 )
 
 ifilter_precedence(eventlog)
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{antecedents, consequents}{The set of antecendent and consequent activities. Both are character vectors containing at leaste one activity identifier.
-All pairs of antecedents and consequents are turned into seperate precedence rules.}
+\item{antecedents, consequents}{\code{\link{character}} vector: The set of antecendent and consequent activities.
+Both are \code{\link{character}} vectors containing at leaste one activity identifier. All pairs of antecedents and consequents are turned into seperate precedence rules.}
 
-\item{precedence_type}{When \code{directly_follows}, the consequent activity should happen immediately after the antecedent activities.
-When \code{eventually_follows}, other events are allowed to happen in between.}
+\item{precedence_type}{\code{\link{character}} (default \code{"directly_follows"}): When \code{"directly_follows"},
+the consequent activity should happen immediately after the antecedent activities.\cr
+When \code{"eventually_follows"}, other events are allowed to happen in between.}
 
-\item{filter_method}{When \code{all}, only cases where all the relations are valid are preserved. When \code{one_of}, all the cases where
-at least one of the conditions hold are preserved. When \code{none}, none of the relations are allowed.}
+\item{filter_method}{\code{\link{character}} (default \code{"all"}): When \code{"all"}, only cases where all the relations are valid are preserved.\cr
+When \code{"one_of"}, all the cases where at least one of the conditions hold, are preserved.\cr
+When \code{"none"}, none of the relations are allowed.}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
 Filters cases based on the precedence relations between two sets of activities.
 }
 \details{
-In order to extract a subset of an event log which conforms with a set of precedence rules, one can use the filter_precedence method. There are two types of
-precendence relations which can be tested: activities that should directly follow each other,
-or activities that should eventually follow each other. The type can be set with the precedence type argument.
-Further, the filter requires a vector of one or more antecedents (containing activity labels), and one or more consequents. Finally, also a filter method argument
-can be set. This argument is relevant when there is more than one antecedent or consequent.
-In such a case, you can specify that all possible precedence combinations must be present (all), at least one of them (one of), or none (none).
+In order to extract a subset of an event log which conforms with a set of precedence rules, one can use the \code{filter_precedence} method.
+There are two types of precendence relations which can be tested: activities that should directly follow (\code{"directly_follows"}) each other,
+or activities that should eventually follow (\code{"eventually_follows"}) each other. The type can be set with the \code{precedence_type} argument.
+
+Further, the filter requires a vector of one or more \code{antecedents} (containing activity labels), and one or more \code{consequents}.
+
+Finally, a \code{filter_method} argument can be set. This argument is relevant when there is more than one antecedent or consequent.
+In such a case, you can specify that all possible precedence combinations must be present (\code{"all"}),
+at least one of them (\code{"one_of"}), or none (\code{"none"}).
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filter event log
+\item \code{log}: Filters cases for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_eventlog}: Filter grouped event log
+\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
 }}
 
-\seealso{
-\code{vignette("filters", "edeaR")}
+\examples{
+
+eventdataR::patients \%>\%
+	filter_precedence(antecedents = "Triage and Assessment",
+					  consequents = "Blood test",
+					  precedence_type = "directly_follows") \%>\%
+	bupaR::traces()
+
+eventdataR::patients \%>\%
+	filter_precedence(antecedents = "Triage and Assessment",
+					  consequents = c("Blood test", "X-Ray", "MRI SCAN"),
+					  precedence_type = "eventually_follows",
+					  filter_method = "one_of") \%>\%
+	bupaR::traces()
+
 }
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
+}
+\seealso{
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
+}
+\concept{filters}
+\keyword{internal}

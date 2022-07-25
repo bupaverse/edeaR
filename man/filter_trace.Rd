@@ -2,29 +2,72 @@
 % Please edit documentation in R/filter_trace.R
 \name{filter_trace}
 \alias{filter_trace}
-\title{title Filter: Trace}
+\alias{filter_trace.log}
+\alias{filter_trace.grouped_log}
+\title{Filter Trace}
 \usage{
-filter_trace(eventlog, trace_ids, reverse)
+filter_trace(log, trace_ids, reverse = FALSE, eventlog = deprecated())
+
+\method{filter_trace}{log}(log, trace_ids, reverse = FALSE, eventlog = deprecated())
+
+\method{filter_trace}{grouped_log}(log, trace_ids, reverse = FALSE, eventlog = deprecated())
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{trace_ids}{A vector of trace identifiers}
+\item{trace_ids}{\code{\link{character}} vector: A vector of trace identifiers}
 
-\item{reverse}{Logical, indicating whether the selection should be reversed.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
-When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-the original event log.
+When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
+When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
+The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters the log based on trace id
+Filters the log based on trace identifier.
+
+This method can be used to filter on trace identifier, which can be obtained from \code{\link[bupaR]{case_list}}.
+It has a \code{trace_ids} argument, to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 }
-\details{
-The method filter_trace can be used to filter on trace id It has an trace_ids argument,
-to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+\section{Methods (by class)}{
+\itemize{
+\item \code{log}: Filters cases for a \code{\link[bupaR]{log}}.
+
+\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+}}
+
+\references{
+Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{vignette("filters", "edeaR")}
+\code{\link[bupaR]{case_list}}
+
+Other filters: 
+\code{\link{filter_activity_frequency}()},
+\code{\link{filter_activity_instance}()},
+\code{\link{filter_activity_presence}()},
+\code{\link{filter_activity}()},
+\code{\link{filter_case_condition}()},
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
+\concept{filters}

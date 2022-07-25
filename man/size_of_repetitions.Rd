@@ -4,42 +4,71 @@
 \alias{size_of_repetitions}
 \alias{size_of_repetitions.eventlog}
 \alias{size_of_repetitions.grouped_eventlog}
+\alias{size_of_repetitions.activitylog}
+\alias{size_of_repetitions.grouped_activitylog}
 \title{Metric: Size of repetitions}
 \usage{
-size_of_repetitions(eventlog, type, level, append, ...)
-
-\method{size_of_repetitions}{eventlog}(
-  eventlog,
+size_of_repetitions(
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  ...
+  eventlog = deprecated()
+)
+
+\method{size_of_repetitions}{eventlog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  eventlog = deprecated()
 )
 
 \method{size_of_repetitions}{grouped_eventlog}(
-  eventlog,
+  log,
   type = c("repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  ...
+  eventlog = deprecated()
+)
+
+\method{size_of_repetitions}{activitylog}(
+  log,
+  type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  eventlog = deprecated()
+)
+
+\method{size_of_repetitions}{grouped_activitylog}(
+  log,
+  type = c("repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{type}{The type of repetitions, either all, repeat or redo.}
+\item{type}{\code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
+\code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics on the sizes of repetitions.
@@ -49,6 +78,10 @@ Provides summary statistics on the sizes of repetitions.
 \item \code{eventlog}: Size of repetitions for eventlog
 
 \item \code{grouped_eventlog}: Size of repetitions for grouped event log
+
+\item \code{activitylog}: Size of repetitions for activitylog
+
+\item \code{grouped_activitylog}: Size of repetitions for grouped activitylog
 }}
 
 \references{

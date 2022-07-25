@@ -1,83 +1,86 @@
-
-#' Metric:  Number of repetitions
+#' @title Number of Repetitions
 #'
-#' Provides information statistics on the number of repetitions
+#' @description Provides information statistics on the number of repetitions
 #'
+#' A repetition is an execution of an activity within a case while that activity has already been executed before, but
+#' one or more other activities are executed in between.
 #'
-#' A repetition is an execution
-#' of an activity within a case while that activity has already been executed before, but
-#' one or more other activities are executed in between.Similar to the self-loop metric, a distinction
-#' should be made between repeat and redo repetitions.
-#' Repeat repetitions are activity executions of the same activity type that are executed
-#' not immediately following each other, but by the same resource. Redo repetitions
-#' are activity executions of the same activity type that are executed not immediately
-#' following each other and by a different resource than the first activity occurrence of
-#' this activity type.
+#' @param type \code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
+#' \code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.
 #'
-#'
+#' @details
+#' Argument \code{level} has the following options:
 #' \itemize{
-#'
-#' \item The number of repetitions can be calculated on the level of the complete event log. This metric shows the
-#' summary statistics of the number of repetitions within a case, which can provide
-#' insights in the amount of waste in an event log. Each combination of two or more
-#' occurrences of the same activity, executed not immediately following each other,
-#' by the same resource is counted as one repeat repetition of this activity.
-#'
-#' \item On case level, this metric provides the absolute and relative number of repetitions in each case.
-#'
-#' \item On the level of specific activities, this metric shows which activities occur the most in a repetition.
-#' The absolute and relative number of both repeat and redo repetitions is
-#' provided by this metric, giving an overview per activity.
-#'
-#' \item When looking at the different resources executing activities in the event log, it can be interesting to have an overview
-#' of which resources need more than one time to execute an activity in a case or
-#' which resources need to have an activity redone later on in the case by another
-#' resource. This metric provides the absolute and relative number of times each
-#' resource appears in a repetition.
-#'
-#' \item Finally, the same metric can be
-#' looked at on the level of specific resource-activity combinations, providing the
-#'  company with specific information about which activities and which resources
-#'  are involved in the repetitions. For this metric the absolute and relative number
-#'   of repeat and redo repetitions is provided. Again two difierent relative numbers
-#'   are provided, one relative to the total number of executions of the activity in the
-#'   complete event log, and one relative to the total number of executions performed
-#'   by the resource throughout the complete event log.
+#' \item At \code{"log"} level, this metric shows the summary statistics of the number of repetitions within a case,
+#' which can provide insights in the amount of waste in a log. Each combination of two or more occurrences of the same activity,
+#' executed not immediately following each other, by the same resource is counted as one repeat repetition of this activity.
+#' \item On \code{"case"} level, this metric provides the absolute and relative number of repetitions in each case.
+#' \item On \code{"activity"} level, this metric shows which activities occur the most in a repetition. The absolute and
+#' relative number of both repeat and redo repetitions is provided by this metric, giving an overview per activity.
+#' \item On \code{"resource"} level, it can be interesting to have an overview of which resources need more than one time
+#' to execute an activity in a case or which resources need to have an activity redone later on in the case by another resource.
+#' This metric provides the absolute and relative number of times each resource appears in a repetition.
+#' \item On \code{"resource-activity"} level, this metric provides specific information about which activities and which
+#' resources are involved in the repetitions. For this metric the absolute and relative number of repeat and redo repetitions
+#' is provided. Again, two difierent relative numbers are provided, one relative to the total number of executions of
+#' the activity in the complete log, and one relative to the total number of executions performed by the resource throughout
+#' the complete log.
 #' }
 #'
-#' @param type The type of repetitions, either repeat or redo.
-#'
+#' Similar to the [self-loop][number_of_selfloops] metric, a distinction should be made between \code{"repeat"} and
+#' \code{"redo"} repetitions, as can be set by the \code{type} argument:
+#' \itemize{
+#' \item \code{"repeat"} repetitions are activity executions of the same activity type that are executed not immediately
+#' following each other, but by the same resource.
+#' \item \code{"redo"} repetitions are activity executions of the same activity type that are executed not immediately
+#' following each other and by a different resource than the first activity occurrence of this activity type.
+#' }
 #'
 #' @inherit end_activities params
 #' @inherit activity_frequency params references seealso return
 #'
+#' @seealso \code{\link{number_of_selfloops}}
+#'
+#' @family metrics
+#'
 #' @export number_of_repetitions
-
-
-number_of_repetitions <- function(eventlog, type, level, append, ...) {
+number_of_repetitions <- function(log,
+								  type = c("all", "repeat", "redo"),
+								  level = c("log", "case", "activity", "resource", "resource-activity"),
+								  append = deprecated(),
+								  append_column = NULL,
+								  sort = TRUE,
+								  eventlog = deprecated()) {
 	UseMethod("number_of_repetitions")
 }
 
-#' @describeIn number_of_repetitions Apply metric on event log
+#' @describeIn number_of_repetitions Computes the number of repetitions for an \code{\link[bupaR]{eventlog}}.
 #' @export
+number_of_repetitions.eventlog <- function(log,
+										   type = c("all", "repeat", "redo"),
+										   level = c("log", "case", "activity", "resource", "resource-activity"),
+										   append = deprecated(),
+										   append_column = NULL,
+										   sort = TRUE,
+										   eventlog = deprecated()) {
 
-number_of_repetitions.eventlog <- function(eventlog,
-								  type = c("all","repeat","redo"),
-								  level = c("log","case","activity","resource","resource-activity"),
-								  append = FALSE,
-								  append_column = NULL,
-								  sort = TRUE,
-								  ...){
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "number_of_repetitions(eventlog)",
+			with = "number_of_repetitions(log)")
+		log <- eventlog
+	}
+	append <- lifecycle_warning_append(append)
+
+	type <- rlang::arg_match(type)
+	level <- rlang::arg_match(level)
+
 	absolute <- NULL
-	if(all((type) == c("all", "repeat","redo")))
-		message("Using default type: all")
-	if(all((level) == c("log","case","activity","resource","resource-activity")))
-		message("Using default level: log")
-
-	type <- match.arg(type)
-	level <- match.arg(level)
-
-	level <- deprecated_level(level, ...)
+	#if(all((type) == c("all", "repeat","redo")))
+	#	message("Using default type: all")
+	#if(all((level) == c("log","case","activity","resource","resource-activity")))
+	#	message("Using default level: log")
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "absolute",
@@ -115,38 +118,36 @@ number_of_repetitions.eventlog <- function(eventlog,
 		)
 	}
 
-	output <- FUN(eventlog = eventlog)
+	output <- FUN(eventlog = log)
 
-
-	if(sort && level %in% c("case","resource", "activity","resource-activity")) {
+	if(sort && level %in% c("case", "resource", "activity", "resource-activity")) {
 		output %>%
 			arrange(-absolute) -> output
 	}
 
-	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric(log, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
 	return(output)
-
 }
 
-
-#' @describeIn number_of_repetitions Apply metric on grouped eventlog
+#' @describeIn number_of_repetitions Computes the number of repetitions for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
-
-number_of_repetitions.grouped_eventlog <- function(eventlog,
-												   type = c("repeat","redo"),
-												   level = c("log","case","activity","resource","resource-activity"),
-												   append = F,
+number_of_repetitions.grouped_eventlog <- function(log,
+												   type = c("all", "repeat", "redo"),
+												   level = c("log", "case", "activity", "resource", "resource-activity"),
+												   append = deprecated(),
 												   append_column = NULL,
 												   sort = TRUE,
-												   ...){
+												   eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+
+	type <- rlang::arg_match(type)
+	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	type <- match.arg(type)
-	level <- match.arg(level)
-	level <- deprecated_level(level, ...)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "absolute",
@@ -185,22 +186,71 @@ number_of_repetitions.grouped_eventlog <- function(eventlog,
 
 	}
 
-	if(level != "log") {
-		grouped_metric(eventlog, FUN) -> output
-	}
-	else {
-		grouped_metric_raw_log(eventlog, FUN) -> output
-	}
+	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+
+	#if(level != "log") {
+	#	grouped_metric(eventlog, FUN) -> output
+	#}
+	#else {
+	#	grouped_metric_raw_log(eventlog, FUN) -> output
+	#}
 
 
-	if(sort && level %in% c("case","resource", "activity","resource-activity")) {
+	if(sort && level %in% c("case", "resource", "activity", "resource-activity")) {
 		output %>%
 			arrange(-absolute) -> output
 	}
 
-	output <- return_metric(eventlog, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric(log, output, level, append, append_column, "number_of_repetitions", ifelse(level == "resource-activity", 3,2))
 	attr(output, "type") <- type
 
 	return(output)
+}
 
+#' @describeIn number_of_repetitions Computes the number of repetitions for an \code{\link[bupaR]{activitylog}}.
+#' @export
+number_of_repetitions.activitylog <- function(log,
+											  type = c("all", "repeat", "redo"),
+											  level = c("log", "case", "activity", "resource", "resource-activity"),
+											  append = deprecated(),
+											  append_column = NULL,
+											  sort = TRUE,
+											  eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+
+	type <- rlang::arg_match(type)
+	level <- rlang::arg_match(level)
+
+	number_of_repetitions.eventlog(bupaR::to_eventlog(log),
+								   type = type,
+								   level = level,
+								   append = append,
+								   append_column = append_column,
+								   sort = sort)
+}
+
+#' @describeIn number_of_repetitions Computes the number of repetitions for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @export
+number_of_repetitions.grouped_activitylog <- function(log,
+													  type = c("all", "repeat", "redo"),
+													  level = c("log", "case", "activity", "resource", "resource-activity"),
+													  append = deprecated(),
+													  append_column = NULL,
+													  sort = TRUE,
+													  eventlog = deprecated()) {
+
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	append <- lifecycle_warning_append(append)
+
+	type <- rlang::arg_match(type)
+	level <- rlang::arg_match(level)
+
+	number_of_repetitions.grouped_eventlog(bupaR::to_eventlog(log),
+										   type = type,
+										   level = level,
+										   append = append,
+										   append_column = append_column,
+										   sort = sort)
 }

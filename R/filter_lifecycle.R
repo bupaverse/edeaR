@@ -1,55 +1,83 @@
-#' Filter: Life cycle
+#' @title Filter Life Cycle
 #'
-#' Filters the log based on the life cycle id
+#' @description Filters the log based on the life cycle identifier.
 #'
-#' The method filter_lifecycle can be used to filter on life cycle identifiers. It has an lifecycle argument,
-#' to which a vector of identifiers can be given. The selection can be negated with the reverse argument.
+#' @param lifecycles \code{\link{character}} vector: A vector of life cycle identifiers.
+#' @param lifecycle `r lifecycle::badge("deprecated")`; please use \code{lifecycles} instead.
 #'
-#' @param eventlog The dataset to be used. Should be a (grouped) eventlog object.
+#' @inherit filter_activity_instance params references seealso return
 #'
-#' @param lifecycle Character vector containing one or more life cycle identifiers.
-#' @param reverse Logical, indicating whether the selection should be reversed.
-#' @param ... Deprecated arguments.
+#' @seealso \code{\link[bupaR]{lifecycle_id}}
 #'
-#' @seealso \code{vignette("filters", "edeaR")}
-#'
-#' @return When given an eventlog, it will return a filtered eventlog. When given a grouped eventlog, the filter will be applied
-#' in a stratified way (i.e. each separately for each group). The returned eventlog will be grouped on the same variables as
-#' the original event log.
+#' @family filters
 #'
 #' @export
-filter_lifecycle <- function(eventlog, lifecycle, reverse, ...) {
+filter_lifecycle <- function(log,
+							 lifecycles,
+							 reverse = FALSE,
+							 lifecycle = deprecated(),
+							 eventlog = deprecated()) {
 	UseMethod("filter_lifecycle")
 }
 
-#' @describeIn filter_lifecycle Filter eventlog on life cycle labels
+#' @describeIn filter_lifecycle Filters based on life cycle identifiers for an \code{\link[bupaR]{eventlog}}.
 #' @export
+filter_lifecycle.eventlog <- function(log,
+									  lifecycles,
+									  reverse = FALSE,
+									  lifecycle = deprecated(),
+									  eventlog = deprecated()) {
 
-filter_lifecycle.eventlog <- function(eventlog,
-									  lifecycle,
-									 reverse = FALSE,
-									 ...){
-	if(reverse == FALSE)
-		filter(eventlog, (!!lifecycle_id_(eventlog)) %in% lifecycle)
-	else
-		filter(eventlog, !((!!lifecycle_id_(eventlog)) %in% lifecycle))
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_lifecycle(eventlog)",
+			with = "filter_lifecycle(log)")
+		log <- eventlog
+	}
+	if(lifecycle::is_present(lifecycle)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_lifecycle(lifecycle)",
+			with = "filter_lifecycle(lifecycles)")
+		lifecycles <- lifecycle
+	}
+
+	if(!reverse) {
+		log %>%
+			filter(.data[[lifecycle_id(.)]] %in% lifecycles)
+	} else {
+		log %>%
+			filter(!(.data[[lifecycle_id(.)]] %in% lifecycles))
+	}
 }
 
-#' @describeIn filter_lifecycle Filter grouped eventlog on life cycle labels
+#' @describeIn filter_lifecycle Filters based on life cycle identifiers a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
+filter_lifecycle.grouped_eventlog <- function(log,
+											  lifecycles,
+											  reverse = FALSE,
+											  lifecycle = deprecated(),
+											  eventlog = deprecated()){
 
-filter_lifecycle.grouped_eventlog <- function(eventlog,
-											  lifecycle,
-											 reverse = FALSE,
-											 ...){
+	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(lifecycle)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_lifecycle(lifecycle)",
+			with = "filter_lifecycle(lifecycles)")
+		lifecycles <- lifecycle
+	}
 
-	grouped_filter(eventlog, filter_lifecycle, lifecycle, reverse)
+	bupaR:::apply_grouped_fun(log, fun = filter_lifecycle.eventlog, lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
-
 
 #' @rdname filter_lifecycle
+#' @keywords internal
 #' @export ifilter_lifecycle
 ifilter_lifecycle <- function(eventlog) {
+
+	lifecycle::deprecate_warn("0.9.0", "ifilter_lifecycle()")
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter life cycle"),

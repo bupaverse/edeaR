@@ -4,67 +4,120 @@
 \alias{end_activities}
 \alias{end_activities.eventlog}
 \alias{end_activities.grouped_eventlog}
-\title{Metric: End activities}
+\alias{end_activities.activitylog}
+\alias{end_activities.grouped_activitylog}
+\title{End activities}
 \usage{
-end_activities(eventlog, level, append, ...)
-
-\method{end_activities}{eventlog}(
-  eventlog,
+end_activities(
+  log,
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{end_activities}{eventlog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 
 \method{end_activities}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{end_activities}{activitylog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{end_activities}{grouped_activitylog}(
+  log,
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{...}{Deprecated arguments}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{sort}{Sort output on count. Defaults to TRUE. Only for levels with frequency count output.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Analyse the end activities in the process.
 }
 \details{
+Argument \code{level} has the following options:
 \itemize{
-\item On log levels, this metric shows the absolute and relative number of activities that are the last activity in one or more of the cases.
-\item On the level of the specific cases, this metric provides an overview of the end activity of each case.
-\item  On the activity level This metric calculates for each activity the absolute and relative number of cases that end with this activity type.
-Similar to the start activities metric, the relative number is calculated as a portion of the
-number of cases, being the number of \"opportunities\" that an activity could be the end activity.
+\item At \code{log} level, this metric shows the absolute and relative number of activities that are the last activity
+in one or more of the cases.
+\item On \code{case} level, this metric provides an overview of the end activity of each case.
+\item On \code{activity} level, this metric calculates for each activity the absolute and relative number of cases that
+end with this activity type. Similar to the \code{\link{start_activities}} metric, the relative number is calculated
+as a portion of the number of cases, being the number of "opportunities" that an activity could be the end activity.
 The cumulative sum is added to have an insight in the number of activities that is required to cover a certain part of the total.
-\item On the level of the distinct resources, an overview of which resources execute the last activity per case can be of interest for a
-company. Probably this person is responsible for the correct communication to the customer.
-\item  Finally, on the resource-activity level,
-this metric shows for each occurring resource-activity combination the absolute and relative number of times this resource executes this
-activity as an end activity in a case.}
+\item At \code{resource} level, an overview of which resources execute the last activity per case is provided.
+\item On \code{resource-activity} level, this metric shows for each occurring resource-activity combination the absolute
+and relative number of times this resource executes this activity as an end activity in a case.
+}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute end activities for eventlog
+\item \code{eventlog}: Computes the end activities for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute end activities for grouped eventlog
+\item \code{grouped_eventlog}: Computes the end activities for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes the end activities for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes the end activities for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+\code{\link{start_activities}}
+
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

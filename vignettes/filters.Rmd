@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r}
+```{r message = F}
 library(bupaR)
 library(edeaR)
 library(eventdataR)
@@ -45,7 +45,7 @@ It is also possible to filter on activity frequency. This filter uses a percenti
 
 ```{r}
 patients %>%
-	filter_activity_frequency(percentile_cut_off = 0.5, reverse = T) %>%
+	filter_activity_frequency(percentage = 0.5, reverse = T) %>%
 	activity_frequency("activity")
 
 	

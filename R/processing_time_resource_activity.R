@@ -1,20 +1,19 @@
 
-processing_time_resource_activity <- function(eventlog,
-											  units,
-											  work_schedule) {
+processing_time_resource_activity <- function(log, units, work_schedule) {
+	relative_frequency <- NULL
 
-	eventlog %>%
+	log %>%
 		processing_time_activity_instance(units = units, work_schedule = work_schedule) -> raw
 
-	eventlog %>%
-		distinct(!!activity_instance_id_(eventlog), !!resource_id_(eventlog), !!activity_id_(eventlog)) -> dict
+	log %>%
+		distinct(!!activity_instance_id_(log), !!resource_id_(log), !!activity_id_(log)) -> dict
 
 	dict %>%
-		full_join(raw, by = activity_instance_id(eventlog)) %>%
+		full_join(raw, by = activity_instance_id(log)) %>%
 		as_tibble() -> raw
 
 	raw %>%
-		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog)) %>%
+		group_by(!!activity_id_(log), !!resource_id_(log)) %>%
 		grouped_summary_statistics("processing_time", relative_frequency = n()) %>%
 		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
 		arrange(desc(relative_frequency)) %>%

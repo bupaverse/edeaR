@@ -4,74 +4,120 @@
 \alias{idle_time}
 \alias{idle_time.eventlog}
 \alias{idle_time.grouped_eventlog}
-\title{Metric: Idle Time}
+\alias{idle_time.activitylog}
+\alias{idle_time.grouped_activitylog}
+\title{Idle Time}
 \usage{
-idle_time(eventlog, level, append, append_column, units, ...)
+idle_time(
+  log,
+  level = c("log", "trace", "case", "resource"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  eventlog = deprecated()
+)
 
 \method{idle_time}{eventlog}(
-  eventlog,
-  level = c("log", "case", "trace", "resource"),
-  append = FALSE,
+  log,
+  level = c("log", "trace", "case", "resource"),
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
 \method{idle_time}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "case", "trace", "resource"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{idle_time}{activitylog}(
+  log,
+  level = c("log", "trace", "case", "resource"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{idle_time}{grouped_activitylog}(
+  log,
+  level = c("log", "trace", "case", "resource"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{The dataset to be used. Should be a (grouped) eventlog object.
-\code{eventlog}.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, trace, or resource.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"trace"}, \code{"case"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{Logical, indicating whether to append results to original event log. Ignored when level is log or trace.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
+results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{Which of the output columns to append to log, if append = T. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{units}{Time units to be used}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
 
-\item{...}{Deprecated arguments}
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort by decreasing idle time. Only relevant for \code{"trace"} and \code{"resource"} \code{level}.}
 
-\item{sort}{Sort by decreasing idle time. Defaults to true. Only relevant voor trace and resource level.}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Calculates the amount of time that no activity occurs.
 }
 \details{
+Argument \code{level} has the following options:
 \itemize{
-
-\item  On the level of the complete event log, the
-  idle time metric provides an overview of summary statistics of the idle
-  time per case, aggregated over the complete event log.
-\item  The metric applied on the level of the specific
- cases in the event log provides an overview of the total idle time per case
-
-\item On the level of the different traces that occur in the event log,
- the idle time metric provides an overview of the summary statistics
- of the idle time for each trace in the event log.
-
-\item The metric can also be of interest on the level of the resources,
- to get an insight in the amount of time each resource \"wastes\" during the process.
+\item  At \code{"log"} level, the idle time metric provides an overview of summary statistics of the idle time per case,
+aggregated over the complete log.
+\item On \code{"trace"} level, the idle time metric provides an overview of the summary statistics of the idle time for each trace in the log.
+\item On \code{"case"} level, the idle time metric provides an overview of the total idle time per case
+\item On \code{"resource"} level, this metric can be used to get an insight in the amount of time each resource "wastes" during the process.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute the idle time for eventlog
+\item \code{eventlog}: Computes the idle time for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute idle time for grouped eventlog
+\item \code{grouped_eventlog}: Computes the idle time for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{activitylog}: Computes the idle time for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{grouped_activitylog}: Computes the idle time for a \code{\link[bupaR]{grouped_activitylog}}.
 }}
 
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
+\seealso{
+Other metrics: 
+\code{\link{activity_frequency}()},
+\code{\link{activity_presence}()},
+\code{\link{end_activities}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
+}
+\concept{metrics}

@@ -1,4 +1,4 @@
-idle_time_resource <- function(eventlog, units) {
+idle_time_resource <- function(log, units) {
 
 	activate <- NULL
 	active <- NULL
@@ -6,15 +6,15 @@ idle_time_resource <- function(eventlog, units) {
 	dur <- NULL
 	ts <- NULL
 
-	eventlog %>%
+	log %>%
 		as.data.frame() %>%
-		mutate(activate = ifelse((!!lifecycle_id_(eventlog)) == "start", 1, ifelse((!!lifecycle_id_(eventlog)) == "complete", -1, 0))) %>%
-		group_by(!!resource_id_(eventlog)) %>%
-		arrange(!!timestamp_(eventlog), .order) %>%
+		mutate(activate = ifelse((!!lifecycle_id_(log)) == "start", 1, ifelse((!!lifecycle_id_(log)) == "complete", -1, 0))) %>%
+		group_by(!!resource_id_(log)) %>%
+		arrange(!!timestamp_(log), .order) %>%
 		mutate(active = cumsum(activate),
-			   ts = !!timestamp_(eventlog),
-			   next_ts = lead(!!timestamp_(eventlog))) %>%
-		mutate(dur = as.double(next_ts - ts, units = units)) %>%
+			   ts = !!timestamp_(log),
+			   next_ts = lead(!!timestamp_(log))) %>%
+		mutate(dur = difftime(next_ts, ts, units = units)) %>%
 		filter(active == 0 & !is.na(dur)) %>%
 		summarize(idle_time = sum(dur))
 

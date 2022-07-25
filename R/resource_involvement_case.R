@@ -1,11 +1,11 @@
-resource_involvement_case <- function(eventlog) {
+resource_involvement_case <- function(log) {
 
 	absolute <- NULL
 	relative <- NULL
 
-	eventlog %>%
-		group_by(!!case_id_(eventlog),  !!resource_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!case_id_(log),  !!resource_id_(log)) %>%
+		#summarize() %>%
 		summarize(absolute = n()) %>%
-		mutate(relative = absolute/n_resources(eventlog))
+		mutate(relative = absolute/n_resources(log))
 }
