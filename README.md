@@ -4,7 +4,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/edeaR)](https://cran.r-project.org/package=edeaR)
 [![R-CMD-check](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/bupaverse/edeaR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/bupaverse/edeaR?branch=master)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://lifecycle.r-lib.org/articles/figures/lifecycle-stable.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable/)
 <!-- badges: end -->
 
 
