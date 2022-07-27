@@ -60,10 +60,12 @@ end_activities(
 \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
 see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
-results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
+have been deprecated in favour of \code{\link{augment}}.\cr
+Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
+Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
@@ -89,15 +91,15 @@ and relative number of times this resource executes this activity as an end acti
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Computes the end activities for an \code{\link[bupaR]{eventlog}}.
+\item \code{end_activities(eventlog)}: Computes the end activities for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Computes the end activities for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{end_activities(grouped_eventlog)}: Computes the end activities for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Computes the end activities for an \code{\link[bupaR]{activitylog}}.
+\item \code{end_activities(activitylog)}: Computes the end activities for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Computes the end activities for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{end_activities(grouped_activitylog)}: Computes the end activities for a \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

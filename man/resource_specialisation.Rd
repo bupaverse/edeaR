@@ -49,10 +49,12 @@ resource_specialization(
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
 \code{"case"}, \code{"activity"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
-results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
+have been deprecated in favour of \code{\link{augment}}.\cr
+Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
+Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
@@ -77,11 +79,11 @@ executing this activity within the complete log. This will give insights into wh
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Computes the resource specialisation for a \code{\link[bupaR]{log}}.
+\item \code{resource_specialisation(log)}: Computes the resource specialisation for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Computes the resource specialisation for a \code{\link[bupaR]{grouped_log}}.
+\item \code{resource_specialisation(grouped_log)}: Computes the resource specialisation for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

@@ -50,11 +50,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters activities for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_activity_instance(eventlog)}: Filters activities for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_activity_instance(grouped_eventlog)}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

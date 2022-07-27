@@ -71,11 +71,11 @@ input a vector containing one or more life cycle labels and it has a \code{metho
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters activity instances on the presence of life cycle labels for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_lifecycle_presence(eventlog)}: Filters activity instances on the presence of life cycle labels for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters activity instances on the presence of life cycle labels for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_lifecycle_presence(grouped_eventlog)}: Filters activity instances on the presence of life cycle labels for a \code{\link[bupaR]{grouped_eventlog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

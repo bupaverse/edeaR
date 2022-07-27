@@ -69,11 +69,11 @@ e.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters resources for a \code{\link[bupaR]{log}}.
+\item \code{filter_resource_frequency(log)}: Filters resources for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters resources for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_resource_frequency(grouped_log)}: Filters resources for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

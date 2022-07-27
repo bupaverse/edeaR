@@ -63,10 +63,12 @@ size_of_repetitions(
 \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
 see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append
-results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
+have been deprecated in favour of \code{\link{augment}}.\cr
+Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
+Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
@@ -75,15 +77,15 @@ Provides summary statistics on the sizes of repetitions.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Size of repetitions for eventlog
+\item \code{size_of_repetitions(eventlog)}: Size of repetitions for eventlog
 
-\item \code{grouped_eventlog}: Size of repetitions for grouped event log
+\item \code{size_of_repetitions(grouped_eventlog)}: Size of repetitions for grouped event log
 
-\item \code{activitylog}: Size of repetitions for activitylog
+\item \code{size_of_repetitions(activitylog)}: Size of repetitions for activitylog
 
-\item \code{grouped_activitylog}: Size of repetitions for grouped activitylog
+\item \code{size_of_repetitions(grouped_activitylog)}: Size of repetitions for grouped activitylog
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

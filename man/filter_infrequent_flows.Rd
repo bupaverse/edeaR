@@ -37,15 +37,15 @@ Filter cases based on infrequent flows.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters infrequent flows for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_infrequent_flows(eventlog)}: Filters infrequent flows for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters infrequent flows for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_infrequent_flows(grouped_eventlog)}: Filters infrequent flows for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Filters infrequent flows for an \code{\link[bupaR]{activitylog}}.
+\item \code{filter_infrequent_flows(activitylog)}: Filters infrequent flows for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Filters infrequent flows for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{filter_infrequent_flows(grouped_activitylog)}: Filters infrequent flows for a \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

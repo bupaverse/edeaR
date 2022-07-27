@@ -22,11 +22,11 @@ Provides a list of initatiors and completers of  redo repetitons
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute matrix for eventlog
+\item \code{redo_repetitions_referral_matrix(eventlog)}: Compute matrix for eventlog
 
-\item \code{activitylog}: Compute matrix for activitylog
+\item \code{redo_repetitions_referral_matrix(activitylog)}: Compute matrix for activitylog
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

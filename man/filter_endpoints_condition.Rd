@@ -67,13 +67,13 @@ Filters cases where the first and/or last activity adhere to the specified condi
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters cases for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_endpoints_condition(eventlog)}: Filters cases for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_endpoints_condition(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
 
-\item \code{activitylog}: Filters cases for an \code{\link[bupaR]{activitylog}}.
+\item \code{filter_endpoints_condition(activitylog)}: Filters cases for an \code{\link[bupaR]{activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

@@ -70,11 +70,11 @@ intermediate parts out of activity instances.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters activity instances for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_trim_lifecycle(eventlog)}: Filters activity instances for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_trim_lifecycle(grouped_eventlog)}: Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
