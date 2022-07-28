@@ -139,12 +139,14 @@ see <code><a href="../articles/metrics.html">vignette("metrics", "edeaR")</a></c
 
 
 <dt>append</dt>
-<dd><p><code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></code> (default <code>FALSE</code>) <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: Indicating whether to append
-results to original log. Ignored when level is <code>"log"</code> or <code>"trace"</code>.</p></dd>
+<dd><p><code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></code> (default <code>FALSE</code>) <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: The arguments <code>append</code> and <code>append_column</code>
+have been deprecated in favour of <code><a href="augment.html">augment</a></code>.<br>
+Indicating whether to append results to original log. Ignored when level is <code>"log"</code> or <code>"trace"</code>.</p></dd>
 
 
 <dt>append_column</dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Which of the output columns to append to log, if <code>append = TRUE</code>. Default column depends on chosen level.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> The arguments <code>append</code> and <code>append_column</code> have been deprecated in favour of <code><a href="augment.html">augment</a></code>.<br>
+Which of the output columns to append to log, if <code>append = TRUE</code>. Default column depends on chosen level.</p></dd>
 
 
 <dt>units</dt>
@@ -180,10 +182,10 @@ with each activity can be investigated.</p></li>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
     
-<ul><li><p><code>eventlog</code>: Computes processing time for an <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>.</p></li>
-<li><p><code>grouped_eventlog</code>: Computes processing time for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_eventlog.html" class="external-link">grouped_eventlog</a></code>.</p></li>
-<li><p><code>activitylog</code>: Computes processing time for an <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>.</p></li>
-<li><p><code>grouped_activitylog</code>: Computes processing time for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_activitylog.html" class="external-link">grouped_activitylog</a></code>.</p></li>
+<ul><li><p><code>processing_time(eventlog)</code>: Computes processing time for an <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>.</p></li>
+<li><p><code>processing_time(grouped_eventlog)</code>: Computes processing time for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_eventlog.html" class="external-link">grouped_eventlog</a></code>.</p></li>
+<li><p><code>processing_time(activitylog)</code>: Computes processing time for an <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>.</p></li>
+<li><p><code>processing_time(grouped_activitylog)</code>: Computes processing time for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_activitylog.html" class="external-link">grouped_activitylog</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
