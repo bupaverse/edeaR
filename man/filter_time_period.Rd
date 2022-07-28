@@ -94,15 +94,15 @@ values for \code{filter_method}:
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters activity instances for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_time_period(eventlog)}: Filters activity instances for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_time_period(grouped_eventlog)}: Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Filters activity instances for an \code{\link[bupaR]{activitylog}}.
+\item \code{filter_time_period(activitylog)}: Filters activity instances for an \code{\link[bupaR]{activitylog}}.
 
-\item \code{grouped_activitylog}: Filters activity instances for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{filter_time_period(grouped_activitylog)}: Filters activity instances for a \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

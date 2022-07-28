@@ -54,11 +54,11 @@ Filters the log based on the life cycle identifier.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters based on life cycle identifiers for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_lifecycle(eventlog)}: Filters based on life cycle identifiers for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters based on life cycle identifiers a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_lifecycle(grouped_eventlog)}: Filters based on life cycle identifiers a \code{\link[bupaR]{grouped_eventlog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

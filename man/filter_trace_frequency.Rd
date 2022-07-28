@@ -69,11 +69,11 @@ e.g., \code{c(10, NA)} will select cases with a trace that occurs 10 times or mo
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters cases for a \code{\link[bupaR]{log}}.
+\item \code{filter_trace_frequency(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_trace_frequency(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

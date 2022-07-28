@@ -18,9 +18,9 @@ Eventlog of activity instances in x which do not belong to y
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Setdiff for eventlogs
-}}
+\item \code{setdiff(eventlog)}: Setdiff for eventlogs
 
+}}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

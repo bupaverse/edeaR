@@ -25,11 +25,11 @@ The relative number shows expected number of traces needed to cover 100 cases.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Number of traces in a \code{\link[bupaR]{log}}.
+\item \code{number_of_traces(log)}: Number of traces in a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Number of traces in a \code{\link[bupaR]{grouped_log}}.
+\item \code{number_of_traces(grouped_log)}: Number of traces in a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

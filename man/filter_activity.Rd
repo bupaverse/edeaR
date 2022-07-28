@@ -34,11 +34,11 @@ Filters the log based on activities
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+\item \code{filter_activity(log)}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_activity(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

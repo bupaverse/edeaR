@@ -69,11 +69,11 @@ When only one activity label is supplied, note that \code{method}s \code{"all"} 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+\item \code{filter_activity_presence(log)}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_activity_presence(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }

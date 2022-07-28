@@ -1,16 +1,23 @@
-
-
-
-#' Augment log with results from metric computation.
+#' @title Augment Log
+#'
+#' @description Augment log with results from metric computation.
 #'
 #' @param metric Metric computed by edeaR
-#' @param log Object of class \code{eventlog} or \code{activitylog} that was used to compute the metric.
-#' @param columns A character vector of column names from the metric that you want to add to the log. If missing, defautls to all columns.
-#' @param prefix A character prefix to be added to the newly added metric columns in the log.
+#' @param log \code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}},
+#' \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.) that was used to compute the \code{metric}.
+#' @param columns \code{\link{character}} vector: Column names from the \code{metric} that you want to add to the \code{log}. If missing, defaults to all columns.
+#' @param prefix \code{\link{character}}: Prefix to be added to the newly added metric columns in the \code{log}.
 #'
-#' @return Object of class \code{eventlog} or \code{activitylog}. Same class as the log input.
+#' @examples
+#' \dontrun{
+#' sepsis %>%
+#' 	throughput_time("case") %>%
+#' 	augment(sepsis)
+#' }
+#'
+#' @return Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}},
+#' \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.). Same class as the \code{log} input.
 #' @export
-#'
 augment <- function(metric, log, columns, prefix = "") {
 	UseMethod("augment")
 }

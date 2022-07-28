@@ -8,7 +8,7 @@
 \alias{augment.resource_metric}
 \alias{augment.resource_activity_metric}
 \alias{augment.trace_metric}
-\title{Augment log with results from metric computation.}
+\title{Augment Log}
 \usage{
 augment(metric, log, columns, prefix = "")
 
@@ -27,30 +27,40 @@ augment(metric, log, columns, prefix = "")
 \arguments{
 \item{metric}{Metric computed by edeaR}
 
-\item{log}{Object of class \code{eventlog} or \code{activitylog} that was used to compute the metric.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}},
+\code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.) that was used to compute the \code{metric}.}
 
-\item{columns}{A character vector of column names from the metric that you want to add to the log. If missing, defautls to all columns.}
+\item{columns}{\code{\link{character}} vector: Column names from the \code{metric} that you want to add to the \code{log}. If missing, defaults to all columns.}
 
-\item{prefix}{A character prefix to be added to the newly added metric columns in the log.}
+\item{prefix}{\code{\link{character}}: Prefix to be added to the newly added metric columns in the \code{log}.}
 }
 \value{
-Object of class \code{eventlog} or \code{activitylog}. Same class as the log input.
+Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}},
+\code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.). Same class as the \code{log} input.
 }
 \description{
 Augment log with results from metric computation.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log_metric}: Augment log metric
+\item \code{augment(log_metric)}: Augment log metric
 
-\item \code{case_metric}: Augment case metric
+\item \code{augment(case_metric)}: Augment case metric
 
-\item \code{activity_metric}: Augment activity metric
+\item \code{augment(activity_metric)}: Augment activity metric
 
-\item \code{resource_metric}: Augment resource metric
+\item \code{augment(resource_metric)}: Augment resource metric
 
-\item \code{resource_activity_metric}: Augment resource-activity metric
+\item \code{augment(resource_activity_metric)}: Augment resource-activity metric
 
-\item \code{trace_metric}: Augment trace metric
+\item \code{augment(trace_metric)}: Augment trace metric
+
 }}
+\examples{
+\dontrun{
+sepsis \%>\%
+	throughput_time("case") \%>\%
+	augment(sepsis)
+}
 
+}
