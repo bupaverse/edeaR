@@ -34,8 +34,9 @@ processing_time_activity_instance <- function(log, units, work_schedule) {
 			rename(processing_time = elapsed) -> output
 
 	}
-	output
 
+	attr(output, "units") <- attr(output[["processing_time"]], "units")
+	return(output)
 }
 
 

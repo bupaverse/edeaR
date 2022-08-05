@@ -89,6 +89,8 @@ processing_time.eventlog <- function(log,
 
 	output <- FUN(log = log, units = units, work_schedule = work_schedule)
 
+	time_units <- attr(output, "units")
+
 	if(sort && level %in% c("case")) {
 		output %>%
 			arrange(-processing_time) -> output
@@ -98,8 +100,7 @@ processing_time.eventlog <- function(log,
 				  ifelse(level == "case", 1, 9),
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
-	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(t, "units") <- units
+	attr(t, "units") <- time_units
 	t
 }
 
