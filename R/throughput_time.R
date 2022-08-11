@@ -66,7 +66,9 @@ throughput_time.eventlog <- function(log,
 				  case = throughput_time_case,
 				  trace = throughput_time_trace)
 
-	output <- FUN(eventlog = log, units = units, work_schedule = work_schedule)
+	output <- FUN(log = log, units = units, work_schedule = work_schedule)
+
+	time_units <- attr(output, "units")
 
 	if(sort && level %in% c("case")) {
 		output %>%
@@ -76,7 +78,7 @@ throughput_time.eventlog <- function(log,
 	output <- return_metric(log, output, level, append, append_column,  "throughput_time", 1, empty_label = TRUE)
 
 	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(output, "units") <- units
+	attr(output, "units") <- time_units
 	return(output)
 }
 

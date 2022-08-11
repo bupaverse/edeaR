@@ -8,6 +8,7 @@ processing_time_trace <- function(log, units, work_schedule) {
 	log %>%
 		processing_time_case(units = units, work_schedule = work_schedule)  -> raw
 
+	# Store time units, because dplyr transformations remove the attributes.
 	time_units <- attr(raw, "units")
 
 	raw %>%

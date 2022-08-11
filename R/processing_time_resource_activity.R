@@ -6,6 +6,7 @@ processing_time_resource_activity <- function(log, units, work_schedule) {
 	log %>%
 		processing_time_activity_instance(units = units, work_schedule = work_schedule) -> raw
 
+	# Store time units, because dplyr transformations remove the attributes.
 	time_units <- attr(raw, "units")
 
 	log %>%

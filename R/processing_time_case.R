@@ -8,6 +8,7 @@ processing_time_case <- function(log, units, work_schedule) {
 		processing_time_activity_instance(units = units,
 										  work_schedule = work_schedule) -> raw
 
+	# Store time units, because dplyr transformations remove the attributes.
 	time_units <- attr(raw, "units")
 
 	dict <- dict %>%
