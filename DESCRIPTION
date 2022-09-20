@@ -27,7 +27,6 @@ Imports:
     rlang,
     zoo,
     hms,
-    forcats,
     lifecycle
 Encoding: UTF-8
 RoxygenNote: 7.2.1

@@ -66,9 +66,8 @@ processing_time(
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-\code{"trace"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
-see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default), \code{"trace"}, \code{"case"},
+\code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information, see \code{vignette("metrics", "edeaR")} and \strong{Details} below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
 have been deprecated in favour of \code{\link{augment}}.\cr
@@ -78,7 +77,7 @@ Indicating whether to append results to original log. Ignored when level is \cod
 Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort on decreasing processing time. For \code{"case"} \code{level} only.}
 
@@ -89,7 +88,7 @@ Which of the output columns to append to log, if \code{append = TRUE}. Default c
 \description{
 Provides summary statistics about the processing time of the process.
 
-In contrast to the \code{\link{throughput_time}} of the cases in a log, the metrics concerning the active time
+In contrast to the \code{\link[=throughput_time]{throughput_time()}} of the cases in a log, the metrics concerning the active time
 or the actual processing time provide summary statistics on the processing time of events on the level of the complete log,
 the specific cases, traces, the activities, and the resource-activity combinations.
 }
@@ -101,8 +100,7 @@ summarised over the complete event log.
 \item On \code{"trace"} level, the summary statistics of processing time can be calculated for each possible sequence of activities
 that appears in the event log.
 \item On \code{"case"} level, a list of cases with their processing time are provided.
-\item On \code{"activity"} level, an overview of the average processing time -or the service time- of each activity
-can be calculated.
+\item On \code{"activity"} level, an overview of the average processing time -or the service time- of each activity can be calculated.
 \item At \code{"resource"} level, this metric calculates the processing time per resource.
 \item On \code{"resource-activity"} level, the efficiency of resources by looking at the combination of each resource
 with each activity can be investigated.
@@ -110,20 +108,20 @@ with each activity can be investigated.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{processing_time(eventlog)}: Computes processing time for an \code{\link[bupaR]{eventlog}}.
+\item \code{processing_time(eventlog)}: Computes processing time for an \code{\link[bupaR:eventlog]{eventlog}}.
 
-\item \code{processing_time(grouped_eventlog)}: Computes processing time for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{processing_time(grouped_eventlog)}: Computes processing time for a \code{\link[bupaR:grouped_eventlog]{grouped_eventlog}}.
 
-\item \code{processing_time(activitylog)}: Computes processing time for an \code{\link[bupaR]{activitylog}}.
+\item \code{processing_time(activitylog)}: Computes processing time for an \code{\link[bupaR:activitylog]{activitylog}}.
 
-\item \code{processing_time(grouped_activitylog)}: Computes processing time for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{processing_time(grouped_activitylog)}: Computes processing time for a \code{\link[bupaR:grouped_activitylog]{grouped_activitylog}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{\link{throughput_time}},\code{\link{difftime}}
+\code{\link[=throughput_time]{throughput_time()}},\code{\link[=difftime]{difftime()}}
 
 Other metrics: 
 \code{\link{activity_frequency}()},
