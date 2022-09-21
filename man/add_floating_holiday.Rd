@@ -16,3 +16,4 @@ add_floating_holiday(work_schedule, name, dates)
 \description{
 Add floating holiday to work schedule
 }
+\concept{work_schedule}

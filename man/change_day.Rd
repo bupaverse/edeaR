@@ -18,3 +18,4 @@ change_day(work_schedule, day, start_time, end_time)
 \description{
 Adjust days in work schedule
 }
+\concept{work_schedule}

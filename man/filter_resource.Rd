@@ -4,7 +4,6 @@
 \alias{filter_resource}
 \alias{filter_resource.log}
 \alias{filter_resource.grouped_log}
-\alias{ifilter_resource}
 \title{Filter Resource}
 \usage{
 filter_resource(log, resources, reverse = FALSE, eventlog = deprecated())
@@ -12,8 +11,6 @@ filter_resource(log, resources, reverse = FALSE, eventlog = deprecated())
 \method{filter_resource}{log}(log, resources, reverse = FALSE, eventlog = deprecated())
 
 \method{filter_resource}{grouped_log}(log, resources, reverse = FALSE, eventlog = deprecated())
-
-ifilter_resource(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -72,4 +69,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
-\keyword{internal}
+\concept{filters_event}

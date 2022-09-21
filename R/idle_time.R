@@ -22,6 +22,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_time
+#'
 #' @export idle_time
 idle_time <- function(log,
 					  level = c("log", "trace", "case", "resource"),

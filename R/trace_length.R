@@ -19,6 +19,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @export trace_length
 trace_length <- function(log,
 						 level = c("log", "trace", "case"),

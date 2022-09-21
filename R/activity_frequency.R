@@ -26,6 +26,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @references Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 #'
 #' @export activity_frequency

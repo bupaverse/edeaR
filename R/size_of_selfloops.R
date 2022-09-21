@@ -9,6 +9,8 @@
 #'
 #' @seealso \code{\link{number_of_selfloops}}
 #'
+#' @concept metrics_repetition
+#'
 #' @export size_of_selfloops
 
 size_of_selfloops <- function(log,

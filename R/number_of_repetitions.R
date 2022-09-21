@@ -43,6 +43,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_repetition
+#'
 #' @export number_of_repetitions
 number_of_repetitions <- function(log,
 								  type = c("all", "repeat", "redo"),

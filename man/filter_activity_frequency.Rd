@@ -4,7 +4,6 @@
 \alias{filter_activity_frequency}
 \alias{filter_activity_frequency.log}
 \alias{filter_activity_frequency.grouped_log}
-\alias{ifilter_activity_frequency}
 \title{Filter Activity Frequency}
 \usage{
 filter_activity_frequency(
@@ -30,8 +29,6 @@ filter_activity_frequency(
   reverse = FALSE,
   eventlog = deprecated()
 )
-
-ifilter_activity_frequency(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -104,4 +101,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
-\keyword{internal}
+\concept{filters_event}

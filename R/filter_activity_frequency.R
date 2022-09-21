@@ -25,6 +25,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_activity_frequency
 filter_activity_frequency <- function(log,
 									  interval = NULL,
@@ -116,7 +118,7 @@ filter_activity_percentage <- function(log, percentage, reverse) {
 
 
 #' @keywords internal
-#' @rdname filter_activity_frequency
+#' @rdname ifilter
 #' @export ifilter_activity_frequency
 ifilter_activity_frequency <- function(eventlog) {
 

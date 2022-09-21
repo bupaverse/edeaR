@@ -25,6 +25,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export
 filter_time_period <- function(log,
 							   interval = NULL,
@@ -189,8 +191,8 @@ filter_time_period.grouped_activitylog <- function(log,
 		bupaR::to_activitylog()
 }
 
-#' @rdname filter_time_period
 #' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_time_period
 ifilter_time_period <- function(eventlog) {
 

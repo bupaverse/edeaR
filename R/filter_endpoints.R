@@ -14,6 +14,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_endpoints
 filter_endpoints <- function(log,
 							 start_activities = NULL,
@@ -72,7 +74,7 @@ filter_endpoints.grouped_log <- function(log,
 }
 
 #' @keywords internal
-#' @rdname filter_endpoints
+#' @rdname ifilter
 #' @export ifilter_endpoints
 ifilter_endpoints <- function(eventlog) {
 

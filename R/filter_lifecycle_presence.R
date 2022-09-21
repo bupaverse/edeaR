@@ -20,6 +20,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_lifecycle_presence
 filter_lifecycle_presence <- function(log,
 									  lifecycles,
@@ -124,7 +126,7 @@ filter_lifecycle_presence.grouped_eventlog <- function(log,
 
 
 #' @keywords internal
-#' @rdname filter_lifecycle_presence
+#' @rdname ifilter
 #' @export ifilter_lifecycle_presence
 ifilter_lifecycle_presence <- function(eventlog) {
 

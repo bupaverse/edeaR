@@ -32,6 +32,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_time
+#'
 #' @export processing_time
 processing_time <- function(log,
 							level = c("log", "trace", "case", "activity", "resource", "resource-activity"),

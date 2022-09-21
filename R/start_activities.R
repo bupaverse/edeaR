@@ -24,6 +24,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @export start_activities
 start_activities <- function(log,
 							 level = c("log", "case", "activity", "resource", "resource-activity"),

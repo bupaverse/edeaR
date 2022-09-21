@@ -9,6 +9,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_case
 filter_case <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_case")
@@ -51,8 +53,8 @@ filter_case.grouped_log <- function(log, cases, reverse = FALSE, eventlog = depr
 	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @rdname filter_case
 #' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_case
 ifilter_case <- function(eventlog) {
 

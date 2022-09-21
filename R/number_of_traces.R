@@ -11,6 +11,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @export number_of_traces
 number_of_traces <- function(log, eventlog = deprecated()) {
 	UseMethod("number_of_traces")

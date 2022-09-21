@@ -16,3 +16,4 @@ add_holiday_periods(work_schedule, from, to)
 \description{
 Add holiday period to work schedule
 }
+\concept{work_schedule}

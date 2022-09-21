@@ -8,6 +8,8 @@
 #' @param columns \code{\link{character}} vector: Column names from the \code{metric} that you want to add to the \code{log}. If missing, defaults to all columns.
 #' @param prefix \code{\link{character}}: Prefix to be added to the newly added metric columns in the \code{log}.
 #'
+#' @concept metrics_other
+#'
 #' @examples
 #' \dontrun{
 #' sepsis %>%

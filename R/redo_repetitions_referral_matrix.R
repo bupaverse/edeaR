@@ -9,6 +9,8 @@
 #' @inherit activity_frequency params references seealso return
 #' @seealso \code{\link{number_of_repetitions}}
 #'
+#' @concept metrics_repetition
+#'
 #' @export
 #'
 redo_repetitions_referral_matrix <- function(log, eventlog = deprecated()) {

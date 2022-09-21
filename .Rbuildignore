@@ -14,3 +14,4 @@ R\eventlog_from_xes2.R
 ^doc$
 ^Meta$
 ^pkgdown$
+^README\.Rmd$

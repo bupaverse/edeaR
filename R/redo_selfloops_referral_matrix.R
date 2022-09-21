@@ -8,6 +8,8 @@
 #' @seealso \code{\link{number_of_selfloops}}
 
 #'
+#' @concept metrics_repetition
+#'
 #' @export
 #'
 redo_selfloops_referral_matrix <- function(log, eventlog = deprecated()) {

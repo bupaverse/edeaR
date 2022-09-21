@@ -4,7 +4,6 @@
 \alias{filter_lifecycle}
 \alias{filter_lifecycle.eventlog}
 \alias{filter_lifecycle.grouped_eventlog}
-\alias{ifilter_lifecycle}
 \title{Filter Life Cycle}
 \usage{
 filter_lifecycle(
@@ -30,8 +29,6 @@ filter_lifecycle(
   lifecycle = deprecated(),
   eventlog = deprecated()
 )
-
-ifilter_lifecycle(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -91,4 +88,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
-\keyword{internal}
+\concept{filters_event}

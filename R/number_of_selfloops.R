@@ -43,6 +43,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_repetition
+#'
 #' @export number_of_selfloops
 number_of_selfloops <- function(log,
 								type = c("all", "repeat", "redo"),

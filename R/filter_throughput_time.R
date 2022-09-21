@@ -16,6 +16,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_throughput_time
 filter_throughput_time <- function(log,
 								   interval = NULL,
@@ -89,8 +91,8 @@ filter_throughput_time.grouped_log <- function(log,
 	#grouped_filter(eventlog, filter_throughput_time, interval, percentage, reverse, units, ...)
 }
 
-#' @rdname filter_throughput_time
 #' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_throughput_time
 ifilter_throughput_time <- function(eventlog) {
 

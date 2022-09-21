@@ -27,6 +27,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_time
+#'
 #' @export throughput_time
 throughput_time <- function(log,
 							level = c("log", "trace", "case"),
