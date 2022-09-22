@@ -19,9 +19,8 @@ plot_processing_time <- function(x, ...) {
 	}
 	else if(level == "case") {
 		x %>%
-			mutate("processing_time" = as.numeric(.data[["processing_time"]])) %>%
 			ggplot(aes_string(glue("reorder({mapping$case_id}, processing_time)"), "processing_time")) +
-			geom_col(aes(fill = processing_time)) +
+			geom_col(aes(fill = as.numeric(processing_time))) +
 			scale_fill_continuous_tableau(palette = "Blue", name = "Processing Time") +
 			labs(x = "Cases", y = y_lab) +
 			scale_y_continuous() +
