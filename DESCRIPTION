@@ -26,6 +26,7 @@ Imports:
     purrr,
     stringr,
     rlang (>= 1.0.0),
+    cli (>= 3.2.0),
     zoo,
     hms,
     lifecycle

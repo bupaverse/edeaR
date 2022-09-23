@@ -9,9 +9,6 @@
 "_PACKAGE"
 #'
 ## usethis namespace: start
-#' @importFrom data.table data.table
-#' @importFrom data.table :=
-#' @importFrom data.table as.data.table
 #' @import bupaR
 #' @import dplyr
 #' @import ggplot2
@@ -23,34 +20,16 @@
 #' @import shinyTime
 #' @import purrr
 #' @import zoo
-#' @importFrom hms parse_hms
-#' @importFrom lubridate ymd_hms
-#' @importFrom lubridate wday
-#' @importFrom lubridate interval
-#' @importFrom lubridate year
-#' @importFrom lubridate hour
-#' @importFrom lubridate minute
-#' @importFrom lubridate second
-#' @importFrom lubridate hours
-#' @importFrom lubridate minutes
-#' @importFrom lubridate seconds
-#' @importFrom lubridate make_date
-#' @importFrom glue glue
-#' @importFrom stats median
-#' @importFrom stats na.omit
-#' @importFrom stats quantile
-#' @importFrom stats sd
-#' @importFrom stats as.formula
-#' @importFrom stats IQR
-#' @importFrom stats setNames
-#' @importFrom utils head
-#' @importFrom utils setTxtProgressBar
-#' @importFrom utils txtProgressBar
-#' @importFrom utils data
 #' @import stringr
-#' @importFrom rlang expr_text
+#' @importFrom hms parse_hms
+#' @importFrom lubridate ymd_hms wday interval year hour hours minute minutes second seconds make_date
+#' @importFrom glue glue
+#' @importFrom stats median na.omit quantile sd as.formula IQR setNames
+#' @importFrom utils head setTxtProgressBar txtProgressBar data
+#' @importFrom data.table data.table := as.data.table
+#' @importFrom rlang expr_text maybe_missing arg_match
 #' @importFrom lifecycle deprecated
-#' @importFrom rlang maybe_missing
+#' @importFrom cli cli_warn cli_abort
 ## usethis namespace: end
 
 globalVariables(c(".", ".order","min_order", "n"))

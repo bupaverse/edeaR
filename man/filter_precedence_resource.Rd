@@ -2,7 +2,8 @@
 % Please edit documentation in R/filter_precedence_resource.R
 \name{filter_precedence_resource}
 \alias{filter_precedence_resource}
-\alias{filter_precedence_resource.log}
+\alias{filter_precedence_resource.eventlog}
+\alias{filter_precedence_resource.activitylog}
 \alias{filter_precedence_resource.grouped_log}
 \title{Filter Precedence Relations with Identical Resources}
 \usage{
@@ -16,7 +17,17 @@ filter_precedence_resource(
   eventlog = deprecated()
 )
 
-\method{filter_precedence_resource}{log}(
+\method{filter_precedence_resource}{eventlog}(
+  log,
+  antecedents,
+  consequents,
+  precedence_type = c("directly_follows", "eventually_follows"),
+  filter_method = c("all", "one_of", "none"),
+  reverse = FALSE,
+  eventlog = deprecated()
+)
+
+\method{filter_precedence_resource}{activitylog}(
   log,
   antecedents,
   consequents,
@@ -60,20 +71,24 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters cases based on the precedence relations between two sets of activities, where both antecendent and consequent have to be executed by the same resource.
-For more information, see \code{\link{filter_precedence}}.
+Filters cases based on the precedence relations between two sets of activities, where both antecendent
+and consequent have to be executed by the same resource.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{filter_precedence_resource(log)}: Filters cases for a \code{\link[bupaR]{log}}.
+\item \code{filter_precedence_resource(eventlog)}: Filters cases for an \code{\link[bupaR:eventlog]{eventlog}}.
 
-\item \code{filter_precedence_resource(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_precedence_resource(activitylog)}: Filters cases for an \code{\link[bupaR:activitylog]{activitylog}}.
+
+\item \code{filter_precedence_resource(grouped_log)}: Filters cases for a \code{\link[bupaR:grouped_log]{grouped_log}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link[=filter_precedence]{filter_precedence()}}
+
 Other filters: 
 \code{\link{filter_activity_frequency}()},
 \code{\link{filter_activity_instance}()},
