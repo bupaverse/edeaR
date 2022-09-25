@@ -28,6 +28,9 @@
     <loc>https://bupaverse.github.io/edeaR/index.html</loc>
   </url>
   <url>
+    <loc>https://bupaverse.github.io/edeaR/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://bupaverse.github.io/edeaR/reference/activity_frequency.html</loc>
   </url>
   <url>
@@ -137,6 +140,9 @@
   </url>
   <url>
     <loc>https://bupaverse.github.io/edeaR/reference/idle_time.html</loc>
+  </url>
+  <url>
+    <loc>https://bupaverse.github.io/edeaR/reference/ifilter.html</loc>
   </url>
   <url>
     <loc>https://bupaverse.github.io/edeaR/reference/index.html</loc>
