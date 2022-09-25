@@ -22,6 +22,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_time
+#'
 #' @export idle_time
 idle_time <- function(log,
 					  level = c("log", "trace", "case", "resource"),
@@ -62,14 +64,17 @@ idle_time.eventlog <- function(log,
 				  resource = idle_time_resource)
 
 	output <- FUN(log = log, units = units)
+
+	time_units <- attr(output, "units")
+
 	if(sort && level %in% c("case","resource")) {
 		output %>%
 			arrange(-idle_time) -> output
 	}
+
 	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
 
-	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(t, "units") <- units
+	attr(t, "units") <- time_units
 	t
 }
 

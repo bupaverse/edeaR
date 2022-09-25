@@ -28,6 +28,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_organizational
+#'
 #' @export resource_involvement
 resource_involvement <- function(log,
 								 level = c("case", "resource", "resource-activity"),

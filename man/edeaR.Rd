@@ -3,7 +3,29 @@
 \docType{package}
 \name{edeaR}
 \alias{edeaR}
+\alias{edeaR-package}
 \title{edeaR - Exploratory and Descriptive Event-based data Analysis in R}
 \description{
 This package provides several useful techniques for Exploratory and Descriptive analysis of event based data in R, developed by the Business Informatics Research Group of Hasselt University.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://bupar.net/}
+  \item \url{https://github.com/bupaverse/edeaR/}
+  \item \url{https://bupaverse.github.io/edeaR/}
+  \item Report bugs at \url{https://github.com/bupaverse/edeaR/issues/}
+}
+
+}
+\author{
+\strong{Maintainer}: Gert Janssenswillen \email{gert.janssenswillen@uhasselt.be}
+
+Other contributors:
+\itemize{
+  \item Gerard van Hulzen \email{gerard.vanhulzen@uhasselt.be} [contributor]
+  \item Marijke Swennen \email{marijke.swennen@uhasselt.be} [contributor]
+}
+
+}
+\keyword{internal}

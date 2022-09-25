@@ -6,7 +6,6 @@
 \alias{filter_trim.grouped_eventlog}
 \alias{filter_trim.activitylog}
 \alias{filter_trim.grouped_activitylog}
-\alias{ifilter_trim}
 \title{Trim Cases}
 \usage{
 filter_trim(
@@ -48,8 +47,6 @@ filter_trim(
   reverse = FALSE,
   eventlog = deprecated()
 )
-
-ifilter_trim(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -115,4 +112,4 @@ Other filters:
 \code{\link{filter_trim_lifecycle}()}
 }
 \concept{filters}
-\keyword{internals}
+\concept{filters_event}

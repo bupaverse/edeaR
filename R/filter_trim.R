@@ -13,6 +13,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_trim
 filter_trim <- function(log,
 						start_activities = NULL,
@@ -140,7 +142,7 @@ filter_trim.grouped_activitylog <- function(log,
 		to_activitylog()
 }
 #' @keywords internals
-#' @rdname filter_trim
+#' @rdname ifilter
 #' @export ifilter_trim
 ifilter_trim <- function(eventlog) {
 

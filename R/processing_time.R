@@ -2,39 +2,37 @@
 #'
 #' @description Provides summary statistics about the processing time of the process.
 #'
-#' In contrast to the \code{\link{throughput_time}} of the cases in a log, the metrics concerning the active time
+#' In contrast to the [`throughput_time()`] of the cases in a log, the metrics concerning the active time
 #' or the actual processing time provide summary statistics on the processing time of events on the level of the complete log,
 #' the specific cases, traces, the activities, and the resource-activity combinations.
 #'
-#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-#' \code{"trace"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
-#' see \code{vignette("metrics", "edeaR")} and 'Details' below.
-#' @param units \code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
-#' \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.
-#' @param sort \code{\link{logical}} (default \code{TRUE}): Sort on decreasing processing time. For \code{"case"} \code{level} only.
+#' @param level [`character`] (default `"log"`): Level of granularity for the analysis: `"log"` (default), `"trace"`, `"case"`,
+#' `"activity"`, `"resource"`, or `"resource-activity"`. For more information, see `vignette("metrics", "edeaR")` and **Details** below.
+#' @param units [`character`] (default `"auto"`): The time unit in which the processing times should be reported. Should be one of the following values:
+#' `"auto"` (default), `"secs"`, `"mins"`, `"hours"`, `"days"`, `"weeks"`. See also the `units` argument of [`difftime()`].
+#' @param sort [`logical`] (default `TRUE`): Sort on decreasing processing time. For `"case"` `level` only.
 # TODO: update work_schedule arg
 #' @param work_schedule A schedule of working hours. If provided, only working hours are counted as processing time.
 #'
 #' @details
-#' Argument \code{level} has the following options:
-#' \itemize{
-#' \item At \code{"log"} level, this metric calculates the summary statistics of the actual processing time per case,
+#' Argument `level` has the following options:
+#' * At `"log"` level, this metric calculates the summary statistics of the actual processing time per case,
 #' summarised over the complete event log.
-#' \item On \code{"trace"} level, the summary statistics of processing time can be calculated for each possible sequence of activities
+#' * On `"trace"` level, the summary statistics of processing time can be calculated for each possible sequence of activities
 #' that appears in the event log.
-#' \item On \code{"case"} level, a list of cases with their processing time are provided.
-#' \item On \code{"activity"} level, an overview of the average processing time -or the service time- of each activity
-#' can be calculated.
-#' \item At \code{"resource"} level, this metric calculates the processing time per resource.
-#' \item On \code{"resource-activity"} level, the efficiency of resources by looking at the combination of each resource
+#' * On `"case"` level, a list of cases with their processing time are provided.
+#' * On `"activity"` level, an overview of the average processing time -or the service time- of each activity can be calculated.
+#' * At `"resource"` level, this metric calculates the processing time per resource.
+#' * On `"resource-activity"` level, the efficiency of resources by looking at the combination of each resource
 #' with each activity can be investigated.
-#' }
 #'
 #' @inherit activity_frequency params references seealso return
 #'
-#' @seealso \code{\link{throughput_time}},\code{\link{difftime}}
+#' @seealso [`throughput_time()`],[`difftime()`]
 #'
 #' @family metrics
+#'
+#' @concept metrics_time
 #'
 #' @export processing_time
 processing_time <- function(log,
@@ -48,7 +46,7 @@ processing_time <- function(log,
 	UseMethod("processing_time")
 }
 
-#' @describeIn processing_time Computes processing time for an \code{\link[bupaR]{eventlog}}.
+#' @describeIn processing_time Computes processing time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 processing_time.eventlog <- function(log,
 									 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -89,6 +87,8 @@ processing_time.eventlog <- function(log,
 
 	output <- FUN(log = log, units = units, work_schedule = work_schedule)
 
+	time_units <- attr(output, "units")
+
 	if(sort && level %in% c("case")) {
 		output %>%
 			arrange(-processing_time) -> output
@@ -98,12 +98,11 @@ processing_time.eventlog <- function(log,
 				  ifelse(level == "case", 1, 9),
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
-	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(t, "units") <- units
+	attr(t, "units") <- time_units
 	t
 }
 
-#' @describeIn processing_time Computes processing time for a \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn processing_time Computes processing time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 processing_time.grouped_eventlog <- function(log,
 											 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -164,7 +163,7 @@ processing_time.grouped_eventlog <- function(log,
 
 }
 
-#' @describeIn processing_time Computes processing time for an \code{\link[bupaR]{activitylog}}.
+#' @describeIn processing_time Computes processing time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 processing_time.activitylog <- function(log,
 										level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
@@ -190,7 +189,7 @@ processing_time.activitylog <- function(log,
 							 work_schedule = work_schedule)
 }
 
-#' @describeIn processing_time Computes processing time for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn processing_time Computes processing time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 processing_time.grouped_activitylog <- function(log,
 												level = c("log", "trace", "case", "activity", "resource", "resource-activity"),

@@ -6,6 +6,7 @@ plot_processing_time <- function(x, ...) {
 	level <- attr(x, "level")
 	units <- attr(x, "units")
 
+	y_lab <- glue("Processing time (in {units})")
 
 	if(level == "log") {
 		attr(x, "raw") %>%
@@ -14,14 +15,14 @@ plot_processing_time <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "", y = glue("Processing time (in {units})")) -> p
+			labs(x = "", y = y_lab) -> p
 	}
 	else if(level == "case") {
 		x %>%
 			ggplot(aes_string(glue("reorder({mapping$case_id}, processing_time)"), "processing_time")) +
-			geom_col(aes(fill = processing_time)) +
+			geom_col(aes(fill = as.numeric(processing_time))) +
 			scale_fill_continuous_tableau(palette = "Blue", name = "Processing Time") +
-			labs(x = "Cases", y = glue("Processing time (in {units})")) +
+			labs(x = "Cases", y = y_lab) +
 			scale_y_continuous() +
 			theme_light() +
 			theme(axis.text.x = element_blank()) +
@@ -37,7 +38,7 @@ plot_processing_time <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "Activity", y = glue("Processing time (in {units})")) -> p
+			labs(x = "Activity", y = y_lab) -> p
 	}
 	else if(level == "resource") {
 		attr(x, "raw") %>%
@@ -46,7 +47,7 @@ plot_processing_time <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "Resource", y = glue("Processing time (in {units})")) -> p
+			labs(x = "Resource", y = y_lab) -> p
 	}
 	else if(level == "resource-activity") {
 		attr(x, "raw") %>%
@@ -55,13 +56,12 @@ plot_processing_time <- function(x, ...) {
 			scale_y_continuous() +
 			theme_light() +
 			coord_flip() +
-			labs(x = "Activity", y = glue("Processing time (in {units})")) -> p
+			labs(x = "Activity", y = y_lab) -> p
 	}
 
 	if(!is.null(mapping$groups)) {
-		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
 	}
-
 
 	return(p)
 }

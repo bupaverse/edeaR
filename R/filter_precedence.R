@@ -41,6 +41,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_precedence
 filter_precedence <- function(log,
 							  antecedents,
@@ -165,8 +167,8 @@ filter_precedence.grouped_log <- function(log,
 	#grouped_filter(eventlog, filter_precedence, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 
-#' @rdname filter_precedence
 #' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_precedence
 ifilter_precedence <- function(eventlog) {
 

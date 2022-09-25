@@ -15,6 +15,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export
 filter_activity <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_activity")
@@ -57,7 +59,7 @@ filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventl
 }
 
 #' @keywords internal
-#' @rdname filter_activity
+#' @rdname ifilter
 #' @export ifilter_activity
 ifilter_activity <- function(eventlog) {
 

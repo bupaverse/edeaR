@@ -15,6 +15,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @export trace_coverage
 trace_coverage <- function(log,
 						   level = c("log", "trace", "case"),

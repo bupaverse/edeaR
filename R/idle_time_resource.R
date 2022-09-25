@@ -16,7 +16,8 @@ idle_time_resource <- function(log, units) {
 			   next_ts = lead(!!timestamp_(log))) %>%
 		mutate(dur = difftime(next_ts, ts, units = units)) %>%
 		filter(active == 0 & !is.na(dur)) %>%
-		summarize(idle_time = sum(dur))
+		summarize(idle_time = sum(dur)) -> output
 
-
+	attr(output, "units") <- attr(output[["idle_time"]], "units")
+	return(output)
 }

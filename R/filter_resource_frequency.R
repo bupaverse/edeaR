@@ -25,6 +25,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_resource_frequency
 filter_resource_frequency <- function(log,
 									  interval = NULL,
@@ -124,7 +126,7 @@ filter_resource_percentage <- function(eventlog, percentage, reverse) {
 }
 
 #' @keywords internals
-#' @rdname filter_resource_frequency
+#' @rdname ifilter
 #' @export ifilter_resource_frequency
 ifilter_resource_frequency <- function(eventlog) {
 

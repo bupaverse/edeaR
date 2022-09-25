@@ -4,7 +4,6 @@
 \alias{filter_processing_time}
 \alias{filter_processing_time.log}
 \alias{filter_processing_time.grouped_log}
-\alias{ifilter_processing_time}
 \title{Filter Processing Time}
 \usage{
 filter_processing_time(
@@ -33,8 +32,6 @@ filter_processing_time(
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   eventlog = deprecated()
 )
-
-ifilter_processing_time(eventlog)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -46,7 +43,7 @@ ifilter_processing_time(eventlog)
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
@@ -103,4 +100,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
-\keyword{internal}
+\concept{filters_case}

@@ -71,3 +71,4 @@ Other filters:
 \code{\link{filter_trim}()}
 }
 \concept{filters}
+\concept{filters_case}

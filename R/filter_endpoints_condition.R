@@ -8,6 +8,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_endpoints_condition
 filter_endpoints_condition <- function(log,
 									   start_condition = NULL,

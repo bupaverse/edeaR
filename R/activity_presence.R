@@ -28,6 +28,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_structuredness
+#'
 #' @export activity_presence
 activity_presence <- function(log, append = deprecated(), append_column = NULL, sort = TRUE, eventlog = deprecated()) {
 	UseMethod("activity_presence")

@@ -38,3 +38,4 @@ The first day for which queue length is calculated, is the first timestamp found
 \seealso{
 \code{\link{calculate_queuing_times}}, \code{\link{seq.Date}}
 }
+\concept{queues}

@@ -10,6 +10,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_activity_instance
 filter_activity_instance <- function(log,
 									 activity_instances,
@@ -49,7 +51,7 @@ filter_activity_instance.grouped_eventlog <- function(log,
 }
 
 #' @keywords internals
-#' @rdname filter_activity_instance
+#' @rdname ifilter
 #' @export ifilter_activity_instance
 ifilter_activity_instance <- function(eventlog) {
 

@@ -20,6 +20,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_trim_lifecycle
 filter_trim_lifecycle <- function(log,
 								  start_lifecycles = NULL,
@@ -134,7 +136,7 @@ filter_trim_lifecycle.grouped_eventlog <- function(log,
 }
 
 #' @keywords internals
-#' @rdname filter_trim_lifecycle
+#' @rdname ifilter
 #' @export ifilter_trim_lifecycle
 ifilter_trim_lifecycle <- function(eventlog) {
 

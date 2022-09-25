@@ -7,6 +7,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_precedence_resource
 filter_precedence_resource <- function(log,
 									   antecedents,

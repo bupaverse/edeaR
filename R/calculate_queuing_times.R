@@ -13,6 +13,8 @@
 #'
 #' @seealso \code{\link{difftime}}
 #'
+#' @concept queues
+#'
 #' @export
 calculate_queuing_times <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks"), eventlog = deprecated()) {
 	UseMethod("calculate_queuing_times")

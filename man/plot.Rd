@@ -60,3 +60,4 @@ A ggplot object, which can be customized further, if deemed necessary.
 \description{
 Visualize metric
 }
+\concept{visualization}

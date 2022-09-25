@@ -13,6 +13,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_trace
 filter_trace <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_trace")

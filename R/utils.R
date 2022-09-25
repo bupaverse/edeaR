@@ -185,17 +185,18 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 summary_statistics <- function(vector) {
 
-	# TODO: summary does not work for difftime. Temp work-around: as.double(vector)
-	s <- summary(as.double(vector))
-	s <- c(s, St.Dev = sd(vector))
-	s <- c(s, IQR = s[5] - s[2])
-	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
+  vector %>%
+    as_tibble() %>%
+    summarise("min" = min(vector),
+              "q1" = quantile(vector, probs = 0.25),
+              "median" = median(vector),
+              "mean" = mean(vector),
+              "q3" = quantile(vector, probs = 0.75),
+              "max" = max(vector),
+              "st_dev" = sd(vector),
+              "iqr" = .data[["q3"]] - .data[["q1"]]) -> s
 
-	s <- as.data.frame(s) %>% t
-	rownames(s) <- NULL
-	s <- as_tibble(s)
-
-	return(s)
+  return(s)
 }
 
 grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {

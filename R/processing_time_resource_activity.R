@@ -1,9 +1,13 @@
 
 processing_time_resource_activity <- function(log, units, work_schedule) {
+
 	relative_frequency <- NULL
 
 	log %>%
 		processing_time_activity_instance(units = units, work_schedule = work_schedule) -> raw
+
+	# Store time units, because dplyr transformations remove the attributes.
+	time_units <- attr(raw, "units")
 
 	log %>%
 		distinct(!!activity_instance_id_(log), !!resource_id_(log), !!activity_id_(log)) -> dict
@@ -19,9 +23,8 @@ processing_time_resource_activity <- function(log, units, work_schedule) {
 		arrange(desc(relative_frequency)) %>%
 		ungroup() -> output
 
-
 	attr(output, "raw") <- raw
-
+	attr(output, "units") <- time_units
 	return(output)
 
 }

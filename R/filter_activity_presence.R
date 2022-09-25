@@ -23,6 +23,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_activity_presence
 filter_activity_presence <- function(log,
 									 activities = NULL,
@@ -122,7 +124,7 @@ filter_activity_presence.grouped_log <- function(log,
 }
 
 #' @keywords internals
-#' @rdname filter_activity_presence
+#' @rdname ifilter
 #' @export ifilter_activity_presence
 ifilter_activity_presence <- function(eventlog) {
 

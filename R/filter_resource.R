@@ -11,6 +11,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_resource
 filter_resource <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_resource")
@@ -53,8 +55,8 @@ filter_resource.grouped_log <- function(log, resources, reverse = FALSE, eventlo
 	#grouped_filter(eventlog, filter_resource, resources, reverse)
 }
 
-#' @rdname filter_resource
 #' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_resource
 ifilter_resource <- function(eventlog) {
 

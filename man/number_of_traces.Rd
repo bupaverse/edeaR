@@ -53,3 +53,4 @@ Other metrics:
 \code{\link{trace_length}()}
 }
 \concept{metrics}
+\concept{metrics_structuredness}

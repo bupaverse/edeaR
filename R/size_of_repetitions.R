@@ -9,6 +9,8 @@
 #'
 #' @seealso \code{\link{number_of_repetitions}}
 #'
+#' @concept metrics_repetition
+#'
 #' @export size_of_repetitions
 #'
 size_of_repetitions <- function(log,

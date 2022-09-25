@@ -117,3 +117,4 @@ Other metrics:
 \code{\link{trace_coverage}()}
 }
 \concept{metrics}
+\concept{metrics_structuredness}

@@ -5,6 +5,8 @@
 #' @param start_time Character indicating the usual start time for workdays (hh:mm:ss)
 #' @param end_time Character indicating the usual end time for workdays (hh:mm:ss)
 #'
+#' @concept work_schedule
+#'
 #' @export
 #'
 create_work_schedule <- function(start_time = "9:00:00", end_time = "17:00:00") {
@@ -51,6 +53,8 @@ create_work_schedule <- function(start_time = "9:00:00", end_time = "17:00:00") 
 #' @param day A numeric vector containing the days to be changed. 1 = monday.
 #' @param start_time The new start time for selected days (hh:mm:ss)
 #' @param end_time The new end time for selected days (hh:mm:ss)
+#'
+#' @concept work_schedule
 
 
 #' @export
@@ -72,6 +76,9 @@ change_day <- function(work_schedule, day, start_time, end_time) {
 #' @param name Name of holiday
 #' @param month Month in which fixed holiday takes place
 #' @param day Day of fixed holiday
+#'
+#' @concept work_schedule
+#'
 #' @export
 add_fixed_holiday <- function(work_schedule, name, month, day) {
 	work_schedule$fixed_holidays <- work_schedule$fixed_holidays %>%
@@ -82,6 +89,9 @@ add_fixed_holiday <- function(work_schedule, name, month, day) {
 #' @param work_schedule Work schedule created with create_work_schedule
 #' @param name Name of holiday
 #' @param dates Dates of floating holiday. Make sure to list all dates relevant to your time frame
+#'
+#' @concept work_schedule
+#'
 #' @export
 
 add_floating_holiday <- function(work_schedule, name, dates) {
@@ -93,6 +103,9 @@ add_floating_holiday <- function(work_schedule, name, dates) {
 #' @param work_schedule Work schedule created with create_work_schedule
 #' @param from Start of holiday period (included)
 #' @param to End of holiday period (included)
+#'
+#' @concept work_schedule
+#'
 #' @export
 
 add_holiday_periods <- function(work_schedule, from, to) {
@@ -128,6 +141,9 @@ get_holidays <- function(work_schedule, years) {
 #' Print work schedule
 #' @param x Work schedule to print
 #' @param ... Additional arguments (ignored)
+#'
+#' @concept work_schedule
+#'
 #' @export
 
 print.work_schedule <- function(x, ...) {

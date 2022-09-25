@@ -24,6 +24,8 @@
 #'
 #' @seealso \code{\link{calculate_queuing_times}}, \code{\link{seq.Date}}
 #'
+#' @concept queues
+#'
 #' @export
 calculate_queuing_length <- function(queueing_times, level = c("log", "activity", "resource"), time_interval) {
 	UseMethod("calculate_queuing_length")

@@ -27,6 +27,8 @@
 #'
 #' @family metrics
 #'
+#' @concept metrics_organizational
+#'
 #' @export resource_frequency
 resource_frequency <- function(log,
 							   level = c("log", "case", "activity", "resource", "resource-activity"),

@@ -17,6 +17,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_trace_length
 filter_trace_length <- function(log,
 								interval = NULL,
@@ -85,7 +87,7 @@ filter_trace_length.grouped_log <- function(log,
 
 
 #' @keywords internal
-#' @rdname filter_trace_length
+#' @rdname ifilter
 #' @export ifilter_trace_length
 ifilter_trace_length <- function(eventlog) {
 

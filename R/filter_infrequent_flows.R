@@ -11,6 +11,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export
 filter_infrequent_flows <- function(log, min_n, eventlog = deprecated()) {
 	UseMethod("filter_infrequent_flows")

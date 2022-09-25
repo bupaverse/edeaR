@@ -52,3 +52,4 @@ Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence T
 \seealso{
 \code{\link{difftime}}
 }
+\concept{queues}

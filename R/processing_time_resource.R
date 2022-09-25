@@ -2,8 +2,12 @@
 processing_time_resource <- function(log, units, work_schedule) {
 
 	relative_frequency <- NULL
+
 	log %>%
 		processing_time_activity_instance(units = units, work_schedule = work_schedule) -> raw
+
+	# Store time units, because dplyr transformations remove the attributes.
+	time_units <- attr(raw, "units")
 
 	log %>%
 		distinct(!!activity_instance_id_(log), !!resource_id_(log)) -> dict
@@ -18,8 +22,7 @@ processing_time_resource <- function(log, units, work_schedule) {
 		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
 		arrange(desc(relative_frequency)) -> output
 
-
 	attr(output, "raw") <- raw
-
+	attr(output, "units") <- time_units
 	return(output)
 }

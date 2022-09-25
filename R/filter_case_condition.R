@@ -13,6 +13,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_case_condition
 filter_case_condition <- function(log, ..., condition = NULL, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_case_condition")
