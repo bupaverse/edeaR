@@ -1,0 +1,57 @@
+url: https://bupaverse.github.io/edeaR/
+template:
+  bootstrap: 5
+
+home:
+  links:
+    - text: Getting started
+      href: https://bupar.net/getting_started.html
+
+authors:
+  sidebar:
+    roles: [cre, aut, ctb]
+
+reference:
+  - title: Filters
+    desc: Filters for event data subsetting.
+  - subtitle: Event Filters
+    contents:
+      - has_concept("filters_event")
+  - subtitle: Case Filters
+    contents:
+      - has_concept("filters_case")
+  - title: Metrics
+    desc: Metrics for exploring and describing event data.
+    contents:
+      - has_concept("metrics_other")
+  - subtitle: Time Perspective
+    contents:
+      - has_concept("metrics_time")
+  - subtitle: Organizational Perspective
+    contents:
+      - has_concept("metrics_organizational")
+  - subtitle: Structuredness Perspective
+    contents:
+      - has_concept("metrics_structuredness")
+  - subtitle: Repetition
+    contents:
+      - has_concept("metrics_repetition")
+  - title: Queues
+    desc: Queue analysis.
+    contents:
+    - has_concept("queues")
+  - title: Visualization
+    desc: Visualizes metrics.
+    contents:
+      - has_concept("visualization")
+  - title: Other
+  - subtitle: Work Schedule
+    contents:
+      - has_concept("work_schedule")
+
+news:
+  one_page: true
+  cran_dates: true
+  releases:
+    - text: "edeaR 0.9.0"
+      href: https://bupar.net/2022/07/27/bupar-0-5-0-whats-new/

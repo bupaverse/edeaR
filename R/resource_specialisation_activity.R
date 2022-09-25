@@ -1,11 +1,11 @@
-resource_specialisation_activity <- function(eventlog) {
+resource_specialisation_activity <- function(log) {
 
 	absolute <- NULL
 	relative <- NULL
 
-	eventlog %>%
-		group_by(!!activity_id_(eventlog), !!resource_id_(eventlog)) %>%
-		summarize() %>%
+	log %>%
+		group_by(!!activity_id_(log), !!resource_id_(log)) %>%
+		#summarize() %>%
 		summarize(absolute = n()) %>%
-		mutate(relative = absolute/n_resources(eventlog))
+		mutate(relative = absolute/n_resources(log))
 }

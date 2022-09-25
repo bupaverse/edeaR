@@ -6,6 +6,9 @@
 #' @return A ggplot object, which can be customized further, if deemed necessary.
 #' @name plot
 #' @method plot activity_frequency
+#'
+#' @concept visualization
+#'
 #' @export
 
 plot.activity_frequency <- function(x, ...) {

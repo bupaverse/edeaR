@@ -4,124 +4,150 @@
 \alias{number_of_selfloops}
 \alias{number_of_selfloops.eventlog}
 \alias{number_of_selfloops.grouped_eventlog}
-\title{Metric: Number of selfloops in trace}
+\alias{number_of_selfloops.activitylog}
+\alias{number_of_selfloops.grouped_activitylog}
+\title{Number of Self-loops}
 \usage{
 number_of_selfloops(
-  eventlog,
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
 \method{number_of_selfloops}{eventlog}(
-  eventlog,
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
 )
 
 \method{number_of_selfloops}{grouped_eventlog}(
-  eventlog,
+  log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
   sort = TRUE,
-  ...
+  eventlog = deprecated()
+)
+
+\method{number_of_selfloops}{activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
+)
+
+\method{number_of_selfloops}{grouped_activitylog}(
+  log,
+  type = c("all", "repeat", "redo"),
+  level = c("log", "case", "activity", "resource", "resource-activity"),
+  append = deprecated(),
+  append_column = NULL,
+  sort = TRUE,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{type}{The type of repetitions, either all, repeat or redo.}
+\item{type}{\code{\link{character}} (default \code{"all"}): The type of repetitions: \code{"all"} (default),
+\code{"repeat"}, or \code{"redo"}. For more information, see 'Details' below.}
 
-\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"}, \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}.
-For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
+see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
+have been deprecated in favour of \code{\link{augment}}.\cr
+Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
+Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
-Provides information statistics on the number of selfloops.
+Provides information statistics on the number of self-loops in a trace.
+
+Activity instances of the same activity type that are executed more than once immediately after each other by the same
+resource are in a self-loop ("length-1-loop"). If an activity instance of the same activity type is executed 3 times
+after each other by the same resource, this is defined as a "size 2 self-loop".
 }
 \details{
-Activity instances of the same activity type that are executed more than
-once immediately after each other by the same resource are in a self-loop (length-1-loop).
-If an activity instance of the same activity type is executed 3 times
-after each other by the same resource, this is defined as a size 2 self-loop.
-
-Two types of self-loops are defined, which are repeat self-loops and redo self-loops. Repeat self-loops are
-activity executions of the same activity type that are executed immediately following
-each other by the same resource. Redo self-loops are activity executions of the
-same activity type that are executed immediately following each other by a different
-resource. Repeat and redo repetitions are explained further on.
-
-These metrics are presented on five different levels of analysis, which are the
-complete event log, cases, activities, resources and resource-activity combinations.
-
+Two types of self-loops are defined, which can be chosen using the \code{type} argument:
 \itemize{
+\item \code{"repeat"} self-loops are activity executions of the same activity type that are executed immediately following
+each other by the same resource.
+\item \code{"redo"} self-loops are activity executions of the same activity type that are executed immediately following
+each other by a different resource.
+}
 
-\item On the level of the complete event log, the summary statistics of the
-number of self-loops within a trace can give a first insight in the amount of
-waste in an event log. As stated earlier, each combination of two occurrences of
-the same activity executed by the same resource will be counted as one repeat
-self-loop of this activity.
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{\\item This metric on the level of cases provides
-an overview of the absolute and relative number of repeat and redo self-loops
-in each case.  To calculate the relative number, each (repeat or
- redo) self-loop is counted as 1 occurrence, and the other
- activity instances are also counted as 1.
-
- \\item On the level of the distinct activities in the event log, the absolute and relative number of self-loops per
- activity can be an indication for the company which activities are causing the
- most waste in the process.
-
- \\item Similar to the metric on the level of the
- activities, the number of self-loops on the level of the resources executing the
- activities can give a company insights in which employee needs to repeat his or
- her work most often within a case, or for which employee the work he or she
- did should be redone by another employee within the same case. This metric
- shows the absolute and relative number of both repeat and redo self-loops for
- each resource in the event log.
-}\if{html}{\out{</div>}}
-
-\item Finally, the metric can be applied
-to the level of the specifc resource-activity combinations, in order to get an
-insight in which activities are the most crucial for which resources. This metric
-shows the absolute and relative number of both repeat and redo self-loops for
-each of the resource-activity combinations that occur in the event log. Two
-different relative numbers are provided here, one from the resource perspective
-and one from the activity perspective. At the resource perspective, the denominator
-is the total number of executions by the resource under consideration.
-At the activity perspective, the denominator is the total number of occurrences
-of the activity under consideration.
-
+Argument \code{level} has the following options:
+\itemize{
+\item At \code{"log"} level, the summary statistics of the number of self-loops within a trace can give a first insight
+in the amount of waste in a log. As stated earlier, each combination of two occurrences of the same activity executed
+by the same resource will be counted as one repeat self-loop of this activity.
+\item On \code{"case"} level, an overview is provided of the absolute and relative number of repeat and redo self-loops
+in each case. To calculate the relative number, each (repeat or redo) self-loop is counted as 1 occurrence, and the other
+activity instances are also counted as 1.
+\item On \code{"activity"} level, the absolute and relative number of self-loops per activity can be an indication for
+which activities are causing the most waste in the process.
+\item On \code{"resource"} level, this metric can give insights into which resources needs to repeat their work most often
+within a case, or for which resource the work they did should be redone by another resource within the same case.
+This metric shows the absolute and relative number of both repeat and redo self-loops for each resource in the log.
+\item On \code{"resource-activity"} level, this metric can be used to get an insight in which activities are the most
+crucial for which resources. This metric shows the absolute and relative number of both repeat and redo self-loops for
+each of the resource-activity combinations that occur in the log. Two different relative numbers are provided here,
+one from the resource perspective and one from the activity perspective. At the resource perspective, the denominator
+is the total number of executions by the resource under consideration. At the activity perspective, the denominator
+is the total number of occurrences of the activity under consideration.
 }
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute number of selfloops for eventlog
+\item \code{number_of_selfloops(eventlog)}: Computes the number of self-loops for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Compute number of selfloops for grouped eventlog
+\item \code{number_of_selfloops(grouped_eventlog)}: Computes the number of self-loops for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{number_of_selfloops(activitylog)}: Computes the number of self-loops for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{number_of_selfloops(grouped_activitylog)}: Computes the number of self-loops for a \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link{number_of_repetitions}}
+
 Other metrics: 
+\code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
-\code{\link{end_activities}()}
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{throughput_time}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
 }
+\concept{metrics}
+\concept{metrics_repetition}

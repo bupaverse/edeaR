@@ -41,14 +41,15 @@ any process model notion! The time since they are queued is the completion time 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Calculate queueing times for \code{\link[bupaR]{eventlog}} and \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{calculate_queuing_times(eventlog)}: Calculate queueing times for \code{\link[bupaR]{eventlog}} and \code{\link[bupaR]{grouped_eventlog}}.
 
-\item \code{activitylog}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{calculate_queuing_times(activitylog)}: Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
 \code{\link{difftime}}
 }
+\concept{queues}

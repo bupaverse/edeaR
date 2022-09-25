@@ -35,8 +35,8 @@ filter_activity_presence(
 
 \item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
-\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"}, \code{"none"}, \code{"one_of"}, \code{"exact"}, or \code{"only"}.
-For more information, see 'Details' below.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -66,11 +66,11 @@ When only one activity label is supplied, note that \code{method}s \code{"all"} 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+\item \code{filter_activity_presence(log)}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_activity_presence(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
@@ -80,6 +80,25 @@ Other filters:
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
-\code{\link{filter_case}()}
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
 \concept{filters}
+\concept{filters_case}

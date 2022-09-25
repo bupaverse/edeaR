@@ -3,30 +3,35 @@
 #' @description Filters the log based on frequency of activities.
 #'
 #' @param percentage,interval The target coverage of activity instances. Provide either \code{percentage} or \code{interval}.\cr
-#' \code{percenatge}: A percentile of 0.9 will return the most common activity types of the log, which account for at least 90% of the activity instances.\cr
-#' \code{interval}: An activity frequency interval (numeric vector of length 2). Half open interval can be created using \code{\link{NA}}.\cr
+#' \code{percentage} (\code{\link{numeric}}): A percentile of p will return the most common activity types of the log,
+#' which account for at least p% of the activity instances.\cr
+#' \code{interval} (\code{\link{numeric}} vector of length 2): An activity frequency interval. Half open interval can be created using \code{\link{NA}}.\cr
 #' For more information, see 'Details' below.
 #'
 #' @details
-#' Filtering the event log based in activity frequency can be done in two ways: using an interval of allowed frequencies, or specify a coverage percentage.
+#' Filtering the log based on activity frequency can be done in two ways: using an \code{interval} of allowed frequencies,
+#' or specify a coverage \code{percentage}:
 #'
 #' \itemize{
-#' \item percentage: When filtering using a percentage p%, the filter will return p% of the activity instances, starting from the activity labels with the highest
-#' frequency. The filter will retain additional activity labels as long as the number of activity instances does not exceed the percentage threshold.
-#' \item interval: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval. The interval is specified using
-#' a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}}, e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
+#' \item \code{percentage}: When filtering using a percentage p%, the filter will return p% of the activity instances,
+#' starting from the activity labels with the highest frequency. The filter will retain additional activity labels
+#' as long as the number of activity instances does not exceed the percentage threshold.
+#' \item \code{interval}: When filtering using an interval, activity labels will be retained when their absolute frequency fall in this interval.
+#' The interval is specified using a numeric vector of length 2. Half open intervals can be created by using \code{\link{NA}},
+#' e.g., \code{c(10, NA)} will select activity labels which occur 10 times or more.
 #' }
 #'
 #' @inherit filter_activity params references seealso return
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export filter_activity_frequency
 filter_activity_frequency <- function(log,
 									  interval = NULL,
 									  percentage = NULL,
 									  reverse = FALSE,
-									  ...,
                        				  eventlog = deprecated()) {
 	UseMethod("filter_activity_frequency")
 }
@@ -37,10 +42,15 @@ filter_activity_frequency.log <- function(log,
 										  interval = NULL,
 										  percentage = NULL,
 										  reverse = FALSE,
-										  ...,
 										  eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_frequency(eventlog)",
+			with = "filter_activity_frequency(log)")
+		log <- eventlog
+	}
 
 	stopifnot(is.logical(reverse))
 
@@ -71,7 +81,6 @@ filter_activity_frequency.grouped_log <- function(log,
 												  interval = NULL,
 												  percentage = NULL,
 												  reverse = FALSE,
-												  ...,
 												  eventlog = deprecated()) {
 
 	log <- lifecycle_warning_eventlog(log, eventlog)
@@ -108,6 +117,8 @@ filter_activity_percentage <- function(log, percentage, reverse) {
 }
 
 
+#' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_activity_frequency
 ifilter_activity_frequency <- function(eventlog) {
 

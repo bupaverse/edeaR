@@ -6,16 +6,16 @@
 \alias{filter_case.grouped_log}
 \title{Filter Case}
 \usage{
-filter_case(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+filter_case(log, cases, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_case}{log}(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{log}(log, cases, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_case}{grouped_log}(log, cases = NULL, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{grouped_log}(log, cases, reverse = FALSE, eventlog = deprecated())
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{cases}{A vector of cases identifiers.}
+\item{cases}{\code{\link{character}} vector: A vector of cases identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -32,11 +32,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters cases for a \code{\link[bupaR]{log}}.
+\item \code{filter_case(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_case(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
@@ -46,6 +46,25 @@ Other filters:
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_activity}()},
-\code{\link{filter_case_condition}()}
+\code{\link{filter_case_condition}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
 \concept{filters}
+\concept{filters_case}

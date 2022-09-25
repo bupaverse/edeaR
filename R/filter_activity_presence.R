@@ -2,8 +2,8 @@
 #'
 #' @description Filters cases based on the presence (or absence) of activities.
 #'
-#' @param method \code{\link{character}} (default \code{"all"}): Filter method: \code{"all"}, \code{"none"}, \code{"one_of"}, \code{"exact"}, or \code{"only"}.
-#' For more information, see 'Details' below.
+#' @param method \code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
+#' \code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.
 #'
 #' @details
 #' This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
@@ -22,6 +22,8 @@
 #' @inherit filter_activity params references seealso return
 #'
 #' @family filters
+#'
+#' @concept filters_case
 #'
 #' @export filter_activity_presence
 filter_activity_presence <- function(log,
@@ -44,7 +46,14 @@ filter_activity_presence.log <- function(log,
 	in_ <- NULL
 	out_ <- NULL
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_presence(eventlog)",
+			with = "filter_activity_presence(log)")
+		log <- eventlog
+	}
+
 	method <- rlang::arg_match(method)
 
 
@@ -100,13 +109,22 @@ filter_activity_presence.grouped_log <- function(log,
 												 reverse = FALSE,
 												 eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity_presence(eventlog)",
+			with = "filter_activity_presence(log)")
+		log <- eventlog
+	}
+
+	method <- rlang::arg_match(method)
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
 }
 
-
+#' @keywords internals
+#' @rdname ifilter
 #' @export ifilter_activity_presence
 ifilter_activity_presence <- function(eventlog) {
 

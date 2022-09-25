@@ -3,22 +3,31 @@
 #' @description Filters the log based on case identifier. This method has a \code{cases} argument,
 #' to which a vector of identifiers can be given. The selection can be negated with the \code{reverse} argument.
 #'
-#' @param cases A vector of cases identifiers.
+#' @param cases \code{\link{character}} vector: A vector of cases identifiers.
 #'
 #' @inherit filter_activity params references seealso return
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_case
-filter_case <- function(log, cases = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_case <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_case")
 }
 
 #' @describeIn filter_case Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_case.log <- function(log, cases = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case(eventlog)",
+			with = "filter_case(log)")
+		log <- eventlog
+	}
+
 
 	if(!reverse) {
 		log %>%
@@ -31,14 +40,21 @@ filter_case.log <- function(log, cases = NULL, reverse = FALSE, eventlog = depre
 
 #' @describeIn filter_case Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_case.grouped_log <- function(log, cases = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_case.grouped_log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case(eventlog)",
+			with = "filter_case(log)")
+		log <- eventlog
+	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_case
 ifilter_case <- function(eventlog) {
 

@@ -81,18 +81,12 @@ is_attached <- function(x) {
 }
 
 grouped_metric <- function(grouped_eventlog, FUN, ...) {
-	mapping <- mapping(grouped_eventlog)
-
-	grouped_eventlog %>%
-		nest %>%
-		mutate(data = map(data, re_map, mapping)) %>%
-		mutate(data = map(data, FUN, ...)) %>%
-		unnest -> output
-	output <- ungroup(output)
-	attr(output, "groups") <- groups(grouped_eventlog)
-
-	return(output)
+	# grouped_metric function should be replaced with bupaR:::apply_grouped_fun
+	bupaR:::apply_grouped_fun(grouped_eventlog, FUN, ...)
 }
+
+
+
 
 grouped_metric_raw_log <- function(grouped_eventlog, FUN, ...) {
 
@@ -177,10 +171,13 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 	} else {
-
-		class(output) <- c(paste0(level, "_metric"),metric, class(output))
+		class(output) <- c(str_replace(paste0(level, "_metric"), "-", "_"),metric, class(output)) #replace for resource-activity
 		attr(output, "level") <- level
 		attr(output, "mapping") <- mapping(eventlog)
+		attr(output, "metric_type") <- metric
+		if("grouped_eventlog" %in% class(eventlog)) {
+			attr(output, "groups") <- groups(eventlog)
+		}
 		return(output)
 	}
 }
@@ -188,12 +185,18 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 summary_statistics <- function(vector) {
 
+  vector %>%
+    as_tibble() %>%
+    summarise("min" = min(vector),
+              "q1" = quantile(vector, probs = 0.25),
+              "median" = median(vector),
+              "mean" = mean(vector),
+              "q3" = quantile(vector, probs = 0.75),
+              "max" = max(vector),
+              "st_dev" = sd(vector),
+              "iqr" = .data[["q3"]] - .data[["q1"]]) -> s
 
-	s <- summary(vector)
-	s <- c(s, St.Dev = sd(vector))
-	s <- c(s, IQR = s[5] - s[2])
-	names(s) <- c("min","q1","median","mean","q3","max","st_dev","iqr")
-	return(s)
+  return(s)
 }
 
 grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {

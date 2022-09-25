@@ -14,3 +14,4 @@ create_work_schedule(start_time = "9:00:00", end_time = "17:00:00")
 \description{
 Create work schedule
 }
+\concept{work_schedule}

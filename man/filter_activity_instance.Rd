@@ -8,21 +8,21 @@
 \usage{
 filter_activity_instance(
   log,
-  activity_instances = NULL,
+  activity_instances,
   reverse = FALSE,
   eventlog = deprecated()
 )
 
 \method{filter_activity_instance}{eventlog}(
   log,
-  activity_instances = NULL,
+  activity_instances,
   reverse = FALSE,
   eventlog = deprecated()
 )
 
 \method{filter_activity_instance}{grouped_eventlog}(
   log,
-  activity_instances = NULL,
+  activity_instances,
   reverse = FALSE,
   eventlog = deprecated()
 )
@@ -47,11 +47,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Filters activities for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_activity_instance(eventlog)}: Filters activities for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_activity_instance(grouped_eventlog)}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
@@ -61,6 +61,25 @@ Other filters:
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_activity}()},
 \code{\link{filter_case_condition}()},
-\code{\link{filter_case}()}
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
 \concept{filters}
+\concept{filters_event}

@@ -5,3 +5,6 @@ inst/doc
 .idea/
 doc
 Meta
+/doc/
+/Meta/
+docs

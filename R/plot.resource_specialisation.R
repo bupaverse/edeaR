@@ -40,8 +40,8 @@ plot_resource_specialisation <- function(x, ...) {
 	}
 
 
-	if(!is.null(attr(x, "groups"))) {
-		p <- p + facet_grid(as.formula(paste(c(paste(attr(x, "groups"), collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+	if(!is.null(mapping$groups)) {
+		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
 	}
 
 

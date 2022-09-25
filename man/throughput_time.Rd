@@ -4,87 +4,135 @@
 \alias{throughput_time}
 \alias{throughput_time.eventlog}
 \alias{throughput_time.grouped_eventlog}
-\title{Metric: Throughput time of cases}
+\alias{throughput_time.activitylog}
+\alias{throughput_time.grouped_activitylog}
+\title{Throughput Time of Cases}
 \usage{
 throughput_time(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
-  work_schedule = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  ...
+  work_schedule = NULL,
+  eventlog = deprecated()
 )
 
 \method{throughput_time}{eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
-  work_schedule = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  ...
+  work_schedule = NULL,
+  eventlog = deprecated()
 )
 
 \method{throughput_time}{grouped_eventlog}(
-  eventlog,
+  log,
   level = c("log", "trace", "case"),
-  append = FALSE,
+  append = deprecated(),
   append_column = NULL,
-  units = c("days", "hours", "mins", "secs", "weeks"),
-  work_schedule = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  ...
+  work_schedule = NULL,
+  eventlog = deprecated()
+)
+
+\method{throughput_time}{activitylog}(
+  log,
+  level = c("log", "trace", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  eventlog = deprecated()
+)
+
+\method{throughput_time}{grouped_activitylog}(
+  log,
+  level = c("log", "trace", "case"),
+  append = deprecated(),
+  append_column = NULL,
+  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  sort = TRUE,
+  work_schedule = NULL,
+  eventlog = deprecated()
 )
 }
 \arguments{
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{level}{Level of granularity for the analysis: log,  case, activity, resource or resource-activity.
-For more information, see \code{vignette("metrics", "edeaR")}}
+\item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
+\code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: Indicating whether to append results to original log. Ignored when level is \code{log} or \code{trace}.}
+\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
+have been deprecated in favour of \code{\link{augment}}.\cr
+Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
 
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
+\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
+Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{units}{Time units to be used}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+
+\item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
 
-\item{sort}{Sort by decreasing throughput time. Defaults to true. Only relevant for case level.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
+\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics concerning the throughput times of cases.
 }
 \details{
+Argument \code{level} has the following options:
 \itemize{
-
-\item The throughput time of a case is the total duration
-of the case, or the difference between the timestamp of the end event and the
-timestamp of the start event of the case. Possible idle time is also included
+\item At \code{"log"} level, the summary statistics describing the throughput time of cases in an aggregated fashion.
+\item On \code{"trace"} level, the throughput time of the different process variants or traces in the log are calculated.
+\item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
+the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link{idle_time}} is also included
 in this calculation.
-\item On log level, the summary statistics of these throughput to describe the throughput time of cases in an
-aggregated fashion.
-\item Instead of looking at all cases in the log, it
-can be interesting to analyse the different process variants or traces in the log
 }
+
+For other levels (e.g. \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}), the throughput time is equal
+to the \code{\link{processing_time}} and are, therefore, not supported by this method.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Throughput time for eventlog
+\item \code{throughput_time(eventlog)}: Computes throughput time for an \code{\link[bupaR]{eventlog}}.
 
-\item \code{grouped_eventlog}: Throughput time for grouped eventlog
+\item \code{throughput_time(grouped_eventlog)}: Computes throughput time for a \code{\link[bupaR]{grouped_eventlog}}.
+
+\item \code{throughput_time(activitylog)}: Computes throughput time for an \code{\link[bupaR]{activitylog}}.
+
+\item \code{throughput_time(grouped_activitylog)}: Computes throughput time for a \code{\link[bupaR]{grouped_activitylog}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link{idle_time}},\code{\link{processing_time}},\code{\link{difftime}}
+
 Other metrics: 
+\code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
-\code{\link{end_activities}()}
+\code{\link{end_activities}()},
+\code{\link{idle_time}()},
+\code{\link{number_of_repetitions}()},
+\code{\link{number_of_selfloops}()},
+\code{\link{number_of_traces}()},
+\code{\link{processing_time}()},
+\code{\link{resource_frequency}()},
+\code{\link{resource_involvement}()},
+\code{\link{resource_specialisation}()},
+\code{\link{start_activities}()},
+\code{\link{trace_coverage}()},
+\code{\link{trace_length}()}
 }
+\concept{metrics}
+\concept{metrics_time}

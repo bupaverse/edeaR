@@ -1,15 +1,15 @@
 
-trace_coverage_case <- function(eventlog) {
+trace_coverage_case <- function(log) {
 
 	trace_id <- NULL
 	absolute_trace_coverage <- NULL
 
 	absolute <- NULL
 
-	case_list(eventlog) %>%
+	bupaR::case_list(log) %>%
 		group_by(trace) %>%
 		mutate(absolute = n(),
-			   relative = absolute/n_cases(eventlog)) %>%
+			   relative = absolute/n_cases(log)) %>%
 		ungroup() %>%
 		select(-trace_id)
 }

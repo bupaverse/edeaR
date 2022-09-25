@@ -13,6 +13,8 @@
 #'
 #' @family filters
 #'
+#' @concept filters_case
+#'
 #' @export filter_case_condition
 filter_case_condition <- function(log, ..., condition = NULL, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_case_condition")
@@ -22,7 +24,14 @@ filter_case_condition <- function(log, ..., condition = NULL, reverse = FALSE, e
 #' @export
 filter_case_condition.log <- function(log, ..., condition = deprecated(), reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case_condition(eventlog)",
+			with = "filter_case_condition(log)")
+		log <- eventlog
+	}
+
 
 	condition_specified <- FALSE
 	tryCatch({
@@ -62,10 +71,14 @@ filter_case_condition.log <- function(log, ..., condition = deprecated(), revers
 #' @describeIn filter_case_condition Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
 filter_case_condition.grouped_log <- function(log, ..., condition = deprecated(), reverse = FALSE, eventlog = deprecated()) {
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_case_condition(eventlog)",
+			with = "filter_case_condition(log)")
+		log <- eventlog
+	}
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-
-	#grouped_filter(log, filter_case_condition, condition, reverse)
-	bupaR:::apply_grouped_fun(log, fun = filter_case_condition.log, ..., rlang::maybe_missing(condition), reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_case_condition.log, ..., reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 

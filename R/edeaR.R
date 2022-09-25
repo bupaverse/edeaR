@@ -5,6 +5,9 @@
 #' @docType package
 #' @name edeaR
 #'
+#' @keywords internal
+"_PACKAGE"
+#'
 ## usethis namespace: start
 #' @importFrom data.table data.table
 #' @importFrom data.table :=
@@ -47,9 +50,8 @@
 #' @import stringr
 #' @importFrom rlang expr_text
 #' @importFrom lifecycle deprecated
+#' @importFrom rlang maybe_missing
 ## usethis namespace: end
 
-
 globalVariables(c(".", ".order","min_order", "n"))
-"_PACKAGE"
 NULL

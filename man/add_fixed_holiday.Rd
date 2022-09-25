@@ -18,3 +18,4 @@ add_fixed_holiday(work_schedule, name, month, day)
 \description{
 Add fixed holiday to work schedule
 }
+\concept{work_schedule}

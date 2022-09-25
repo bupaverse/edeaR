@@ -3,13 +3,18 @@
 \name{redo_repetitions_referral_matrix}
 \alias{redo_repetitions_referral_matrix}
 \alias{redo_repetitions_referral_matrix.eventlog}
+\alias{redo_repetitions_referral_matrix.activitylog}
 \title{Referral matrix repetitons}
 \usage{
-redo_repetitions_referral_matrix(eventlog)
+redo_repetitions_referral_matrix(log, eventlog = deprecated())
 
-\method{redo_repetitions_referral_matrix}{eventlog}(eventlog)
+\method{redo_repetitions_referral_matrix}{eventlog}(log, eventlog = deprecated())
+
+\method{redo_repetitions_referral_matrix}{activitylog}(log, eventlog = deprecated())
 }
 \arguments{
+\item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
+
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
@@ -17,12 +22,15 @@ Provides a list of initatiors and completers of  redo repetitons
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{eventlog}: Compute matrix for eventlog
-}}
+\item \code{redo_repetitions_referral_matrix(eventlog)}: Compute matrix for eventlog
 
+\item \code{redo_repetitions_referral_matrix(activitylog)}: Compute matrix for activitylog
+
+}}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
 \code{\link{number_of_repetitions}}
 }
+\concept{metrics_repetition}

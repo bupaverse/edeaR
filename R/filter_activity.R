@@ -5,7 +5,6 @@
 #' @param activities \code{\link{character}} vector: Containing one or more activity identifiers.
 #' @param reverse \code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.
 #'
-#'
 #' @return When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
 #' When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will be applied in a stratified way (i.e. each separately for each group).
 #' The returned log will be grouped on the same variables as the original log.
@@ -16,16 +15,24 @@
 #'
 #' @family filters
 #'
+#' @concept filters_event
+#'
 #' @export
-filter_activity <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_activity <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 	UseMethod("filter_activity")
 }
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{log}}.
 #' @export
-filter_activity.log <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()) {
+filter_activity.log <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity(eventlog)",
+			with = "filter_activity(log)")
+		log <- eventlog
+	}
 
 	if (!reverse) {
 		log %>%
@@ -38,14 +45,21 @@ filter_activity.log <- function(log, activities, reverse = FALSE, ..., eventlog 
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_activity.grouped_log <- function(log, activities, reverse = FALSE, ..., eventlog = deprecated()){
+filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventlog = deprecated()){
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
+	if(lifecycle::is_present(eventlog)) {
+		lifecycle::deprecate_warn(
+			when = "0.9.0",
+			what = "filter_activity(eventlog)",
+			with = "filter_activity(log)")
+		log <- eventlog
+	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-
+#' @keywords internal
+#' @rdname ifilter
 #' @export ifilter_activity
 ifilter_activity <- function(eventlog) {
 

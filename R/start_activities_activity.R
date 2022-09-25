@@ -1,23 +1,23 @@
 
-start_activities_activity <- function(eventlog) {
+start_activities_activity <- function(log) {
 
 	first_event <- NULL
 	absolute <- NULL
 	relative <- NULL
 
-	eventlog %>%
+	log %>%
 		as.data.frame() %>%
-		group_by(!!case_id_(eventlog)) %>%
-		arrange(!!timestamp_(eventlog), .order) %>%
-		summarize(first_event = first(!!activity_id_(eventlog))) %>%
+		group_by(!!case_id_(log)) %>%
+		arrange(!!timestamp_(log), .order) %>%
+		summarize(first_event = first(!!activity_id_(log))) %>%
 		group_by(first_event) %>%
 		summarize(absolute = n()) %>%
 		ungroup() %>%
 		arrange(desc(absolute)) %>%
-		mutate(relative = absolute/n_cases(eventlog),
+		mutate(relative = absolute/n_cases(log),
 			   cum_sum = cumsum(relative)) -> r
 
-	colnames(r)[colnames(r) == "first_event"] <- activity_id(eventlog)
+	colnames(r)[colnames(r) == "first_event"] <- activity_id(log)
 	return(r)
 
 }

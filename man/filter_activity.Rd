@@ -6,11 +6,11 @@
 \alias{filter_activity.grouped_log}
 \title{Filter Activity}
 \usage{
-filter_activity(log, activities, reverse = FALSE, ..., eventlog = deprecated())
+filter_activity(log, activities, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_activity}{log}(log, activities, reverse = FALSE, ..., eventlog = deprecated())
+\method{filter_activity}{log}(log, activities, reverse = FALSE, eventlog = deprecated())
 
-\method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, ..., eventlog = deprecated())
+\method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, eventlog = deprecated())
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -18,8 +18,6 @@ filter_activity(log, activities, reverse = FALSE, ..., eventlog = deprecated())
 \item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{...}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated arguments}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
@@ -33,11 +31,11 @@ Filters the log based on activities
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{log}: Filters activities for a \code{\link[bupaR]{log}}.
+\item \code{filter_activity(log)}: Filters activities for a \code{\link[bupaR]{log}}.
 
-\item \code{grouped_log}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_activity(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+
 }}
-
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
@@ -49,6 +47,25 @@ Other filters:
 \code{\link{filter_activity_instance}()},
 \code{\link{filter_activity_presence}()},
 \code{\link{filter_case_condition}()},
-\code{\link{filter_case}()}
+\code{\link{filter_case}()},
+\code{\link{filter_endpoints_condition}()},
+\code{\link{filter_endpoints}()},
+\code{\link{filter_infrequent_flows}()},
+\code{\link{filter_lifecycle_presence}()},
+\code{\link{filter_lifecycle}()},
+\code{\link{filter_precedence_condition}()},
+\code{\link{filter_precedence_resource}()},
+\code{\link{filter_precedence}()},
+\code{\link{filter_processing_time}()},
+\code{\link{filter_resource_frequency}()},
+\code{\link{filter_resource}()},
+\code{\link{filter_throughput_time}()},
+\code{\link{filter_time_period}()},
+\code{\link{filter_trace_frequency}()},
+\code{\link{filter_trace_length}()},
+\code{\link{filter_trace}()},
+\code{\link{filter_trim_lifecycle}()},
+\code{\link{filter_trim}()}
 }
 \concept{filters}
+\concept{filters_event}
