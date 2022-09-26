@@ -38,8 +38,8 @@ filter_lifecycle_presence(
 
 \item{lifecycles}{\code{\link{character}} vector: A vector of life cycle identifiers.}
 
-\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
-\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"}, \code{"one_of"}, \code{"exact"},
+or \code{"only"}. For more information, see \strong{Details} below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
