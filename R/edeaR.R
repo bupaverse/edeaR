@@ -27,7 +27,7 @@
 #' @importFrom stats median na.omit quantile sd as.formula IQR setNames
 #' @importFrom utils head setTxtProgressBar txtProgressBar data
 #' @importFrom data.table data.table := as.data.table
-#' @importFrom rlang expr_text maybe_missing arg_match
+#' @importFrom rlang expr_text maybe_missing arg_match caller_env
 #' @importFrom lifecycle deprecated
 #' @importFrom cli cli_warn cli_abort
 ## usethis namespace: end
