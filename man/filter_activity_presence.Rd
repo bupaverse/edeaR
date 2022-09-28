@@ -35,8 +35,8 @@ filter_activity_presence(
 
 \item{activities}{\code{\link{character}} vector: Containing one or more activity identifiers.}
 
-\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
-\code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.}
+\item{method}{\code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"}, \code{"one_of"}, \code{"exact"},
+or \code{"only"}. For more information, see \strong{Details} below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
@@ -53,7 +53,6 @@ Filters cases based on the presence (or absence) of activities.
 \details{
 This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
 and it has a \code{method} argument with following options:
-
 \itemize{
 \item \code{"all"} means that all the specified activity labels must be present for a case to be selected.
 \item \code{"none"} means that they are not allowed to be present.
@@ -66,9 +65,9 @@ When only one activity label is supplied, note that \code{method}s \code{"all"} 
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{filter_activity_presence(log)}: Filters activities for a \code{\link[bupaR]{log}}.
+\item \code{filter_activity_presence(log)}: Filters activities for a \code{\link[bupaR:log]{log}}.
 
-\item \code{filter_activity_presence(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_activity_presence(grouped_log)}: Filters activities for a \code{\link[bupaR:grouped_log]{grouped_log}}.
 
 }}
 \references{

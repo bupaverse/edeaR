@@ -2,6 +2,9 @@
 
 ## Features
 
+* `filter_infrequent_flows()`'s argument `min_n` now defaults to `2`.
+* `filter_activity_presence()` emits warning when specified activities cannot be found in the log. When no valid activities are specified, an empty log is returned. 
+
 ## Bug Fixes
 
 * Fixed bug when plotting `processing_time()`, `throughput_time()`, or `idle_time()` with argument
@@ -12,6 +15,10 @@ with argument `level = "case"` (e.g. `patients %>% processing_time(level = "case
 `throughput_time()`, or `idle_time()`) now retain the units in the output.
 * `filter_processing_time()` no longer shows the `Warning: between() called on numeric vector with S3 class` 
 when an `interval` is supplied.
+* Fixed bug in `filter_infrequent_flows()` which failed when applied to an `activitylog`.
+* Fixed bug in `filter_activity_presence()` which failed when applied to an `grouped_log`.
+* Fixed bug in `filter_trim()` which failed when applied to an `grouped_log`.
+
 
 ## Other
 

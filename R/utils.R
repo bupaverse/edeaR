@@ -253,3 +253,13 @@ lifecycle_warning_append <- function (append = deprecated(), append_column = dep
 	return(rlang::maybe_missing(append))
 }
 
+check_activities <- function(specified_activities, found_activities, arg = "activities", call = caller_env(), emit_warning = TRUE) {
+	wrong <- specified_activities[!(specified_activities %in% found_activities)]
+	if (length(wrong) > 0 && emit_warning) {
+		cli_warn(c("{.val {length(wrong)}} specified activit{?y/ies} in {.arg {arg}} not found in {.arg log}.",
+				   "!" = "Activit{?y/ies} not found and ignored: {.val {wrong}}."),
+				 call = call)
+	}
+	specified_activities[!(specified_activities %in% wrong)]
+}
+

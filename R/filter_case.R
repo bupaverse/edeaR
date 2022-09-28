@@ -28,8 +28,11 @@ filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()
 		log <- eventlog
 	}
 
-
-	if(!reverse) {
+	if(length(cases) == 0) {
+		#return empty log
+		log %>%
+			filter(FALSE)
+	} else if(!reverse) {
 		log %>%
 			filter(.data[[case_id(.)]] %in% cases)
 	} else {

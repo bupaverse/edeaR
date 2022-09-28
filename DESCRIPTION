@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 Depends:
     R(>= 3.5.0)
 Imports:
-    bupaR (>= 0.5.0),
+    bupaR (>= 0.5.1),
     dplyr,
     data.table,
     ggplot2,
@@ -26,6 +26,7 @@ Imports:
     purrr,
     stringr,
     rlang (>= 1.0.0),
+    cli (>= 3.2.0),
     zoo,
     hms,
     lifecycle
