@@ -18,6 +18,7 @@ when an `interval` is supplied.
 * Fixed bug in `filter_infrequent_flows()` which failed when applied to an `activitylog`.
 * Fixed bug in `filter_activity_presence()` which failed when applied to an `grouped_log`.
 * Fixed bug in `filter_trim()` which failed when applied to an `grouped_log`.
+* Functions `resource_frequency`, `resource_specialization` and `resource_involvement` have been corrected, as they showed erroneous results as of bupaR 0.5.0. 
 
 
 ## Other
