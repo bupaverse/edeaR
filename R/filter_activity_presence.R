@@ -2,22 +2,19 @@
 #'
 #' @description Filters cases based on the presence (or absence) of activities.
 #'
-#' @param method \code{\link{character}} (default \code{"all"}): Filter method: \code{"all"} (default), \code{"none"},
-#' \code{"one_of"}, \code{"exact"}, or \code{"only"}. For more information, see 'Details' below.
+#' @param method [`character`] (default `"all"`): Filter method: `"all"` (default), `"none"`, `"one_of"`, `"exact"`,
+#' or `"only"`. For more information, see **Details** below.
 #'
 #' @details
 #' This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
-#' and it has a \code{method} argument with following options:
+#' and it has a `method` argument with following options:
+#' * `"all"` means that all the specified activity labels must be present for a case to be selected.
+#' * `"none"` means that they are not allowed to be present.
+#' * `"one_of"` means that at least one of them must be present.
+#' * `"exact"` means that only exactly these activities can be present (although multiple times and in random orderings).
+#' * `"only"` means that only (a set of) these activities are allowed to be present.
 #'
-#' \itemize{
-#' \item \code{"all"} means that all the specified activity labels must be present for a case to be selected.
-#' \item \code{"none"} means that they are not allowed to be present.
-#' \item \code{"one_of"} means that at least one of them must be present.
-#' \item \code{"exact"} means that only exactly these activities can be present (although multiple times and in random orderings).
-#' \item \code{"only"} means that only (a set of) these activities are allowed to be present.
-#' }
-#'
-#' When only one activity label is supplied, note that \code{method}s \code{"all"} and \code{"one_of"} will be identical.
+#' When only one activity label is supplied, note that `method`s `"all"` and `"one_of"` will be identical.
 #'
 #' @inherit filter_activity params references seealso return
 #'
@@ -30,17 +27,17 @@ filter_activity_presence <- function(log,
 									 activities = NULL,
 									 method = c("all", "none", "one_of", "exact", "only"),
 									 reverse = FALSE,
-           							 eventlog = deprecated()){
+									 eventlog = deprecated()){
 	UseMethod("filter_activity_presence")
 }
 
-#' @describeIn filter_activity_presence Filters activities for a \code{\link[bupaR]{log}}.
+#' @describeIn filter_activity_presence Filters activities for a [`log`][`bupaR::log`].
 #' @export
 filter_activity_presence.log <- function(log,
 										 activities = NULL,
 										 method = c("all", "none", "one_of", "exact", "only"),
 										 reverse = FALSE,
-              							 eventlog = deprecated()) {
+										 eventlog = deprecated()) {
 
 	in_selection <- NULL
 	in_ <- NULL
@@ -54,30 +51,40 @@ filter_activity_presence.log <- function(log,
 		log <- eventlog
 	}
 
-	method <- rlang::arg_match(method)
+	method <- arg_match(method)
 
+	#check if function is called because on grouped_log
+	grouped <- any(str_detect(as.character(rlang::trace_back()$call), "filter_activity_presence.grouped_log"))
+	#remove activities not in log. Emit warning when not grouped
+	activities <- check_activities(activities, activity_labels(log), emit_warning = !grouped)
 
-	log %>%
-		select(!!as.symbol(activity_id(log)), !!as.symbol(case_id(log)), force_df = T) %>%
-		unique() %>%
-		mutate(in_selection = !!activity_id_(log) %in% activities) %>%
-		group_by(!!as.symbol(case_id(log)), in_selection) %>%
-		summarize(n = n_distinct(!!activity_id_(log))) %>%
-		mutate(in_selection = ifelse(in_selection, "in_", "out_")) %>%
-		spread(in_selection, n, fill = 0) -> selection
+	#if no activities are valid, return empty log
+	if(length(activities) == 0) {
+		log %>%
+			filter(FALSE)
+	} else {
 
-	if(method == "all")
-		filter_case(log, selection %>% filter(in_ == length(activities)) %>% pull(1), reverse)
-	else if(method == "one_of")
-		filter_case(log, selection %>% filter(in_ >= 1) %>% pull(1), reverse)
-	else if (method == "none")
-		filter_case(log, selection %>% filter(in_ == 0) %>% pull(1), reverse)
-	else if (method == "exact")
-		filter_case(log, selection %>% filter(in_ == length(activities), out_ == 0) %>% pull(1), reverse)
-	else if (method == "only")
-		filter_case(log, selection %>% filter(out_ == 0) %>% pull(1), reverse)
+		log %>%
+			select(!!as.symbol(activity_id(log)), !!as.symbol(case_id(log)), force_df = T) %>%
+			unique() %>%
+			mutate(in_selection = !!activity_id_(log) %in% activities) %>%
+			group_by(!!as.symbol(case_id(log)), in_selection) %>%
+			summarize(n = n_distinct(!!activity_id_(log))) %>%
+			mutate(in_selection = ifelse(in_selection, "in_", "out_")) %>%
+			spread(in_selection, n, fill = 0) -> selection
 
+		if(method == "all")
+			filter_case(log, selection %>% filter(in_ == length(activities)) %>% pull(1), reverse)
+		else if(method == "one_of")
+			filter_case(log, selection %>% filter(in_ >= 1) %>% pull(1), reverse)
+		else if (method == "none")
+			filter_case(log, selection %>% filter(in_ == 0) %>% pull(1), reverse)
+		else if (method == "exact")
+			filter_case(log, selection %>% filter(in_ == length(activities), out_ == 0) %>% pull(1), reverse)
+		else if (method == "only")
+			filter_case(log, selection %>% filter(out_ == 0) %>% pull(1), reverse)
 
+	}
 
 
 	# if(method == "all") {
@@ -101,7 +108,7 @@ filter_activity_presence.log <- function(log,
 }
 
 
-#' @describeIn filter_activity_presence Filters activities for a \code{\link[bupaR]{grouped_log}}.
+#' @describeIn filter_activity_presence Filters activities for a [`grouped_log`][`bupaR::grouped_log`].
 #' @export
 filter_activity_presence.grouped_log <- function(log,
 												 activities = NULL,
@@ -117,7 +124,10 @@ filter_activity_presence.grouped_log <- function(log,
 		log <- eventlog
 	}
 
-	method <- rlang::arg_match(method)
+	method <- arg_match(method)
+
+	#check activities are valid
+	activities <- check_activities(activities, activity_labels(ungroup_eventlog(log)))
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
@@ -142,7 +152,7 @@ ifilter_activity_presence <- function(eventlog) {
 							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all")
 					),
 					"If \"all\", each of the activities should be present.
-					If \"one_of\", at least one of them should be present. If \"none\", none of the activities are allowed to occur in the filtered traces."
+              If \"one_of\", at least one of them should be present. If \"none\", none of the activities are allowed to occur in the filtered traces."
 			))
 	)
 

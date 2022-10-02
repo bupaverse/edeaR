@@ -2,7 +2,7 @@ Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
 Version: 0.9.1
-Date: 2022-10-01
+Date: 2022-10-03
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
              person("Gerard","van Hulzen",email = "gerard.vanhulzen@uhasselt.be", role = c("ctb")),
              person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"))
@@ -11,7 +11,7 @@ License: MIT + file LICENSE
 Depends:
     R(>= 3.5.0)
 Imports:
-    bupaR (>= 0.5.0),
+    bupaR (>= 0.5.1),
     dplyr,
     data.table,
     ggplot2,
@@ -26,6 +26,7 @@ Imports:
     purrr,
     stringr,
     rlang (>= 1.0.0),
+    cli (>= 3.2.0),
     zoo,
     hms,
     lifecycle

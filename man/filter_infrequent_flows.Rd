@@ -8,20 +8,20 @@
 \alias{filter_infrequent_flows.grouped_activitylog}
 \title{Filter Infrequent Flows}
 \usage{
-filter_infrequent_flows(log, min_n, eventlog = deprecated())
+filter_infrequent_flows(log, min_n = 2, eventlog = deprecated())
 
-\method{filter_infrequent_flows}{eventlog}(log, min_n, eventlog = deprecated())
+\method{filter_infrequent_flows}{eventlog}(log, min_n = 2, eventlog = deprecated())
 
-\method{filter_infrequent_flows}{grouped_eventlog}(log, min_n, eventlog = deprecated())
+\method{filter_infrequent_flows}{grouped_eventlog}(log, min_n = 2, eventlog = deprecated())
 
-\method{filter_infrequent_flows}{activitylog}(log, min_n, eventlog = deprecated())
+\method{filter_infrequent_flows}{activitylog}(log, min_n = 2, eventlog = deprecated())
 
-\method{filter_infrequent_flows}{grouped_activitylog}(log, min_n, eventlog = deprecated())
+\method{filter_infrequent_flows}{grouped_activitylog}(log, min_n = 2, eventlog = deprecated())
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{min_n}{\code{numeric}: Cases containing a flow that occurs less than \code{min_n} times are discarded.}
+\item{min_n}{\code{\link{numeric}} (default \code{2}): Cases containing a flow that occurs less than \code{min_n} times are discarded.}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
@@ -37,13 +37,13 @@ Filter cases based on infrequent flows.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{filter_infrequent_flows(eventlog)}: Filters infrequent flows for an \code{\link[bupaR]{eventlog}}.
+\item \code{filter_infrequent_flows(eventlog)}: Filters infrequent flows for an \code{\link[bupaR:eventlog]{eventlog}}.
 
-\item \code{filter_infrequent_flows(grouped_eventlog)}: Filters infrequent flows for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{filter_infrequent_flows(grouped_eventlog)}: Filters infrequent flows for a \code{\link[bupaR:grouped_eventlog]{grouped_eventlog}}.
 
-\item \code{filter_infrequent_flows(activitylog)}: Filters infrequent flows for an \code{\link[bupaR]{activitylog}}.
+\item \code{filter_infrequent_flows(activitylog)}: Filters infrequent flows for an \code{\link[bupaR:activitylog]{activitylog}}.
 
-\item \code{filter_infrequent_flows(grouped_activitylog)}: Filters infrequent flows for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{filter_infrequent_flows(grouped_activitylog)}: Filters infrequent flows for a \code{\link[bupaR:grouped_activitylog]{grouped_activitylog}}.
 
 }}
 \references{

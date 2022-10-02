@@ -9,7 +9,7 @@
 \usage{
 resource_specialisation(
   log,
-  level = c("log", "case", "activity", "resource"),
+  level = c("log", "activity", "resource"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
@@ -18,7 +18,7 @@ resource_specialisation(
 
 resource_specialization(
   log,
-  level = c("log", "case", "activity", "resource"),
+  level = c("log", "activity", "resource"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
@@ -27,7 +27,7 @@ resource_specialization(
 
 \method{resource_specialisation}{log}(
   log,
-  level = c("log", "case", "activity", "resource"),
+  level = c("log", "activity", "resource"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
@@ -36,7 +36,7 @@ resource_specialization(
 
 \method{resource_specialisation}{grouped_log}(
   log,
-  level = c("log", "case", "activity", "resource"),
+  level = c("log", "activity", "resource"),
   append = deprecated(),
   append_column = NULL,
   sort = TRUE,
@@ -47,7 +47,7 @@ resource_specialization(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-\code{"case"}, \code{"activity"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+, \code{"activity"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
 have been deprecated in favour of \code{\link{augment}}.\cr
@@ -70,8 +70,6 @@ are responsible for containing all knowledge or capabilities on one topic.
 Argument \code{level} has the following options:
 \itemize{
 \item At \code{"log"} level, this metric provides summary statistics on the number of distinct activities executed per resource.
-\item On \code{"case"} level, this metric provides the number of distinct activities that are executed within each case
-together with the summary statistics of the distinct activities executed per resource in each case.
 \item On \code{"activity"} level, this metric provides an overview of the absolute and relative number of different resources
 executing this activity within the complete log. This will give insights into which activities resources are specialised in.
 \item On \code{"resource"} level, this metric shows the absolute and relative number of distinct activities that each resource executes.

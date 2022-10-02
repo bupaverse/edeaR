@@ -59,23 +59,34 @@ filter_trim.eventlog <- function(log,
 		end_activities <- acts
 
 	log %>%
-		filter_activity_presence(start_activities, method = "one_of") %>%
-		filter_activity_presence(end_activities, method = "one_of") %>%
-		group_by(!!case_id_(log), !!activity_instance_id_(log), !!activity_id_(log)) %>%
-		summarize(min_timestamp = min(!!timestamp_(log), Inf), "min_order" = min(.order, Inf), n = n()) %>%
-		as.data.frame() %>%
-		filter(n > 0) %>%
-		group_by(!!case_id_(log)) %>%
-		arrange(min_timestamp, min_order) %>%
-		mutate(r = 1:n()) %>%
-		mutate(start_r = ifelse((!!activity_id_(log)) %in% start_activities, r, NA),
-			   end_r = ifelse((!!activity_id_(log)) %in% end_activities, r, NA)) %>%
-		mutate(min_rank = min(c(Inf,start_r), na.rm = TRUE)) %>%
-		mutate(max_rank = max(c(-Inf,end_r), na.rm = TRUE)) %>%
-		filter( r >= min_rank, r <= max_rank) %>%
-		pull(!!activity_instance_id_(log)) -> aid_selection
+		filter(.data[[activity_id(log)]] %in% c(start_activities)) -> has_start
+	log %>%
+		filter(.data[[activity_id(log)]] %in% c(end_activities)) -> has_end
 
-	filter_activity_instance.eventlog(log, activity_instances = aid_selection, reverse = reverse)
+	log %>%
+		filter(.data[[case_id(log)]] %in% has_start[[case_id(log)]], .data[[case_id(log)]] %in% has_end[[case_id(log)]]) -> candidate_cases
+
+	if(nrow(candidate_cases) == 0) {
+		log %>%
+			filter(FALSE)
+	} else {
+		log %>%
+			group_by(!!case_id_(log), !!activity_instance_id_(log), !!activity_id_(log)) %>%
+			summarize(min_timestamp = min(!!timestamp_(log), Inf), "min_order" = min(.order, Inf), n = n()) %>%
+			as.data.frame() %>%
+			filter(n > 0) %>%
+			group_by(!!case_id_(log)) %>%
+			arrange(min_timestamp, min_order) %>%
+			mutate(r = 1:n()) %>%
+			mutate(start_r = ifelse((!!activity_id_(log)) %in% start_activities, r, NA),
+				   end_r = ifelse((!!activity_id_(log)) %in% end_activities, r, NA)) %>%
+			mutate(min_rank = min(c(Inf,start_r), na.rm = TRUE)) %>%
+			mutate(max_rank = max(c(-Inf,end_r), na.rm = TRUE)) %>%
+			filter( r >= min_rank, r <= max_rank) %>%
+			pull(!!activity_instance_id_(log)) -> aid_selection
+
+		filter_activity_instance.eventlog(log, activity_instances = aid_selection, reverse = reverse)
+	}
 }
 
 #' @describeIn filter_trim Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
@@ -113,9 +124,9 @@ filter_trim.activitylog <- function(log,
 	}
 
 	filter_trim.eventlog(bupaR::to_eventlog(log),
-	                     start_activities = start_activities,
+						 start_activities = start_activities,
 						 end_activities = end_activities,
-	                     reverse = reverse) %>%
+						 reverse = reverse) %>%
 		to_activitylog()
 }
 
@@ -170,9 +181,9 @@ ifilter_trim <- function(eventlog) {
 		observeEvent(input$done, {
 
 			filtered_log <- filter_trim(eventlog,
-											  start_activities = input$start,
-											  end_activities = input$end,
-											  reverse = ifelse(input$reverse == "Yes", T, F))
+										start_activities = input$start,
+										end_activities = input$end,
+										reverse = ifelse(input$reverse == "Yes", T, F))
 
 
 			stopApp(filtered_log)
