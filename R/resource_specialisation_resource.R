@@ -3,8 +3,8 @@ resource_specialisation_resource <- function(log) {
 	relative <- NULL
 
 	log %>%
-		group_by(!!resource_id_(log), !!activity_id_(log)) %>%
-		#summarize() %>%
+		distinct(!!resource_id_(log), !!activity_id_(log)) %>%
+		group_by(!!resource_id_(log)) %>%
 		summarize(absolute = n()) %>%
 		mutate(relative = absolute/n_activities(log))
 	}

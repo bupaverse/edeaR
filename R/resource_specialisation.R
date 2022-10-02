@@ -6,14 +6,12 @@
 #' are responsible for containing all knowledge or capabilities on one topic.
 #'
 #' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-#' \code{"case"}, \code{"activity"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
+#' , \code{"activity"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
 #'
 #' @details
 #' Argument \code{level} has the following options:
 #' \itemize{
 #' \item At \code{"log"} level, this metric provides summary statistics on the number of distinct activities executed per resource.
-#' \item On \code{"case"} level, this metric provides the number of distinct activities that are executed within each case
-#' together with the summary statistics of the distinct activities executed per resource in each case.
 #' \item On \code{"activity"} level, this metric provides an overview of the absolute and relative number of different resources
 #' executing this activity within the complete log. This will give insights into which activities resources are specialised in.
 #' \item On \code{"resource"} level, this metric shows the absolute and relative number of distinct activities that each resource executes.
@@ -27,7 +25,7 @@
 #'
 #' @export resource_specialisation
 resource_specialisation <- function(log,
-									level = c("log", "case", "activity", "resource"),
+									level = c("log", "activity", "resource"),
 									append = deprecated(),
 									append_column = NULL,
 									sort = TRUE,
@@ -38,7 +36,7 @@ resource_specialisation <- function(log,
 #' @rdname resource_specialisation
 #' @export resource_specialization
 resource_specialization <- function(log,
-									level = c("log", "case", "activity", "resource"),
+									level = c("log", "activity", "resource"),
 									append = deprecated(),
 									append_column = NULL,
 									sort = TRUE,
@@ -49,7 +47,7 @@ resource_specialization <- function(log,
 #' @describeIn resource_specialisation Computes the resource specialisation for a \code{\link[bupaR]{log}}.
 #' @export
 resource_specialisation.log <- function(log,
-										level = c("log", "case", "activity", "resource"),
+										level = c("log", "activity", "resource"),
 										append = deprecated(),
 										append_column = NULL,
 										sort = TRUE,
@@ -69,15 +67,13 @@ resource_specialisation.log <- function(log,
 	absolute <- NULL
 
 	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "median",
-								   level == "resource" ~ "absolute",
+		append_column <- case_when(level == "resource" ~ "absolute",
 								   level == "activity"~"absolute",
 								   T ~ "NA")
 	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
-				  case = resource_specialisation_case,
 				  activity = resource_specialisation_activity,
 				  resource = resource_specialisation_resource)
 
@@ -94,7 +90,7 @@ resource_specialisation.log <- function(log,
 #' @describeIn resource_specialisation Computes the resource specialisation for a \code{\link[bupaR]{grouped_log}}.
 #' @export
 resource_specialisation.grouped_log <- function(log,
-												level = c("log", "case", "activity", "resource"),
+												level = c("log", "activity", "resource"),
 												append = deprecated(),
 												append_column = NULL,
 												sort = TRUE,
@@ -108,15 +104,13 @@ resource_specialisation.grouped_log <- function(log,
 	absolute <- NULL
 
 	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "median",
-								   level == "resource" ~ "absolute",
+		append_column <- case_when(level == "resource" ~ "absolute",
 								   level == "activity"~"absolute",
 								   T ~ "NA")
 	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
-				  case = resource_specialisation_case,
 				  activity = resource_specialisation_activity,
 				  resource = resource_specialisation_resource)
 
