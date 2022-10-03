@@ -102,7 +102,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>log</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
+<dd><p><code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
 
 
 <dt>antecedents, consequents</dt>
@@ -134,8 +134,8 @@ When <code>"none"</code>, none of the relations are allowed.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>.
-When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
+<p>When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>.
+When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
 The returned log will be grouped on the same variables as the original log.</p>
     </div>
     <div class="section level2">
@@ -151,8 +151,8 @@ at least one of them (<code>"one_of"</code>), or none (<code>"none"</code>).</p>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
     
-<ul><li><p><code>filter_precedence(log)</code>: Filters cases for a <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>.</p></li>
-<li><p><code>filter_precedence(grouped_log)</code>: Filters cases for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>.</p></li>
+<ul><li><p><code>filter_precedence(log)</code>: Filters cases for a <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>.</p></li>
+<li><p><code>filter_precedence(grouped_log)</code>: Filters cases for a <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -193,7 +193,7 @@ at least one of them (<code>"one_of"</code>), or none (<code>"none"</code>).</p>
 <span class="r-in"><span>  <span class="fu">filter_precedence</span><span class="op">(</span>antecedents <span class="op">=</span> <span class="st">"Triage and Assessment"</span>,</span></span>
 <span class="r-in"><span>            consequents <span class="op">=</span> <span class="st">"Blood test"</span>,</span></span>
 <span class="r-in"><span>            precedence_type <span class="op">=</span> <span class="st">"directly_follows"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bupaR/man/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                                          absol…¹ relat…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -207,7 +207,7 @@ at least one of them (<code>"one_of"</code>), or none (<code>"none"</code>).</p>
 <span class="r-in"><span>            consequents <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Blood test"</span>, <span class="st">"X-Ray"</span>, <span class="st">"MRI SCAN"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>            precedence_type <span class="op">=</span> <span class="st">"eventually_follows"</span>,</span></span>
 <span class="r-in"><span>            filter_method <span class="op">=</span> <span class="st">"one_of"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
-<span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bupaR/man/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                                          absol…¹ relat…²</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

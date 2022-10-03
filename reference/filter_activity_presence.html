@@ -96,7 +96,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>log</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
+<dd><p><code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
 
 
 <dt>activities</dt>
@@ -104,8 +104,8 @@
 
 
 <dt>method</dt>
-<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></code> (default <code>"all"</code>): Filter method: <code>"all"</code> (default), <code>"none"</code>,
-<code>"one_of"</code>, <code>"exact"</code>, or <code>"only"</code>. For more information, see 'Details' below.</p></dd>
+<dd><p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></code> (default <code>"all"</code>): Filter method: <code>"all"</code> (default), <code>"none"</code>, <code>"one_of"</code>, <code>"exact"</code>,
+or <code>"only"</code>. For more information, see <strong>Details</strong> below.</p></dd>
 
 
 <dt>reverse</dt>
@@ -120,15 +120,14 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>.
-When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
+<p>When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>.
+When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
 The returned log will be grouped on the same variables as the original log.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This functions allows to filter cases that contain certain activities. It requires as input a vector containing one or more activity labels
-and it has a <code>method</code> argument with following options:</p>
-<ul><li><p><code>"all"</code> means that all the specified activity labels must be present for a case to be selected.</p></li>
+and it has a <code>method</code> argument with following options:</p><ul><li><p><code>"all"</code> means that all the specified activity labels must be present for a case to be selected.</p></li>
 <li><p><code>"none"</code> means that they are not allowed to be present.</p></li>
 <li><p><code>"one_of"</code> means that at least one of them must be present.</p></li>
 <li><p><code>"exact"</code> means that only exactly these activities can be present (although multiple times and in random orderings).</p></li>
@@ -138,8 +137,8 @@ and it has a <code>method</code> argument with following options:</p>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
     
-<ul><li><p><code>filter_activity_presence(log)</code>: Filters activities for a <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>.</p></li>
-<li><p><code>filter_activity_presence(grouped_log)</code>: Filters activities for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>.</p></li>
+<ul><li><p><code>filter_activity_presence(log)</code>: Filters activities for a <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>.</p></li>
+<li><p><code>filter_activity_presence(grouped_log)</code>: Filters activities for a <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

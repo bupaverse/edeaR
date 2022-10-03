@@ -61,7 +61,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.1" id="edear-091-dev">edeaR 0.9.1 (dev)<a class="anchor" aria-label="anchor" href="#edear-091-dev"></a></h2>
-<div class="section level3"><h3 id="features-0-9-1">Features<a class="anchor" aria-label="anchor" href="#features-0-9-1"></a></h3></div>
+<div class="section level3">
+<h3 id="features-0-9-1">Features<a class="anchor" aria-label="anchor" href="#features-0-9-1"></a></h3>
+<ul><li>
+<code><a href="../reference/filter_infrequent_flows.html">filter_infrequent_flows()</a></code>’s argument <code>min_n</code> now defaults to <code>2</code>.</li>
+<li>
+<code><a href="../reference/filter_activity_presence.html">filter_activity_presence()</a></code> emits warning when specified activities cannot be found in the log. When no valid activities are specified, an empty log is returned.</li>
+</ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-9-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-9-1"></a></h3>
 <ul><li>Fixed bug when plotting <code><a href="../reference/processing_time.html">processing_time()</a></code>, <code><a href="../reference/throughput_time.html">throughput_time()</a></code>, or <code><a href="../reference/idle_time.html">idle_time()</a></code> with argument <code>units = "auto"</code> (default) which caused units to be ambiguously displayed as “auto” in the graph. (<a href="https://github.com/bupaverse/edeaR/issues/36" class="external-link">#36</a>).</li>
@@ -69,6 +75,10 @@
 <li>Summary statistics of metrics at <code>level = "log"</code> with time units (e.g. <code><a href="../reference/processing_time.html">processing_time()</a></code>, <code><a href="../reference/throughput_time.html">throughput_time()</a></code>, or <code><a href="../reference/idle_time.html">idle_time()</a></code>) now retain the units in the output.</li>
 <li>
 <code><a href="../reference/filter_processing_time.html">filter_processing_time()</a></code> no longer shows the <code>Warning: between() called on numeric vector with S3 class</code> when an <code>interval</code> is supplied.</li>
+<li>Fixed bug in <code><a href="../reference/filter_infrequent_flows.html">filter_infrequent_flows()</a></code> which failed when applied to an <code>activitylog</code>.</li>
+<li>Fixed bug in <code><a href="../reference/filter_activity_presence.html">filter_activity_presence()</a></code> which failed when applied to an <code>grouped_log</code>.</li>
+<li>Fixed bug in <code><a href="../reference/filter_trim.html">filter_trim()</a></code> which failed when applied to an <code>grouped_log</code>.</li>
+<li>Functions <code>resource_frequency</code>, <code>resource_specialization</code> and <code>resource_involvement</code> have been corrected, as they showed erroneous results as of bupaR 0.5.0.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="other-0-9-1">Other<a class="anchor" aria-label="anchor" href="#other-0-9-1"></a></h3>

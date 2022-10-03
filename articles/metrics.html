@@ -90,7 +90,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Metrics</h1>
                         <h4 data-toc-skip class="author">Gert Janssenswillen</h4>
             
-            <h4 data-toc-skip class="date">2022-09-25</h4>
+            <h4 data-toc-skip class="date">2022-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bupaverse/edeaR/blob/HEAD/vignettes/metrics.Rmd" class="external-link"><code>vignettes/metrics.Rmd</code></a></small>
       <div class="d-none name"><code>metrics.Rmd</code></div>
@@ -171,20 +171,16 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/resource_frequency.html">resource_frequency</a></span><span class="op">(</span><span class="st">"resource"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,721 × 4</span></span></span>
-<span><span class="co">##    employee handling_id absolute relative</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> r1       1                  2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> r1       10                 2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> r1       100                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> r1       101                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> r1       102                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> r1       103                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> r1       104                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> r1       105                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> r1       106                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> r1       107                2 0.000<span style="text-decoration: underline;">368</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 2,711 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
+<span><span class="co">##   employee absolute relative</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> r1            500   0.184 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> r2            500   0.184 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> r6            495   0.182 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> r7            492   0.181 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> r5            261   0.095<span style="text-decoration: underline;">9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> r3            237   0.087<span style="text-decoration: underline;">1</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> r4            236   0.086<span style="text-decoration: underline;">7</span></span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="resource-involvement">Resource Involvement<a class="anchor" aria-label="anchor" href="#resource-involvement"></a>
@@ -202,16 +198,16 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/resource_specialisation.html">resource_specialisation</a></span><span class="op">(</span><span class="st">"resource"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 7 × 4</span></span></span>
-<span><span class="co">##   employee handling              absolute relative</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> r1       Registration              <span style="text-decoration: underline;">1</span>000    143. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> r2       Triage and Assessment     <span style="text-decoration: underline;">1</span>000    143. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> r6       Discuss Results            990    141. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> r7       Check-out                  984    141. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> r5       X-Ray                      522     74.6</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> r3       Blood test                 474     67.7</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> r4       MRI SCAN                   472     67.4</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
+<span><span class="co">##   employee absolute relative</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> r1              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> r2              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> r3              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> r4              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> r5              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> r6              1    0.143</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> r7              1    0.143</span></span></code></pre>
 <p>In the simple patients event log, each resource is performing exactly one activity, and is therefore 100% specialized.</p>
 </div>
 </div>

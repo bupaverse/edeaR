@@ -90,7 +90,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Filters</h1>
                         <h4 data-toc-skip class="author">Gert Janssenswillen</h4>
             
-            <h4 data-toc-skip class="date">2022-09-25</h4>
+            <h4 data-toc-skip class="date">2022-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bupaverse/edeaR/blob/HEAD/vignettes/filters.Rmd" class="external-link"><code>vignettes/filters.Rmd</code></a></small>
       <div class="d-none name"><code>filters.Rmd</code></div>
@@ -168,7 +168,7 @@
 <p>The filter_attributes function is a very generic function an can be supplied with conditions on the data set, in the same way as the <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter</a></code> function. As such, it allows you to filter on event or case attributes. Multiple conditions can be listed, separated by a comma. In that case, the comma will be treated as “and”. You can use the |-symbol to state “OR”. Since the patients dataset does not have many additional attributes, the example below uses the resource and activity. This filter is thus the same as the combination of filter_activity and filter_resource, in case both conditions were required. However, it has the advantange of stating both conditions as OR.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/bupaR/man/filter_attributes.html" class="external-link">filter_attributes</a></span><span class="op">(</span><span class="va">employee</span> <span class="op">==</span> <span class="st">"r1"</span> <span class="op">|</span> <span class="va">handling</span> <span class="op">==</span> <span class="st">"X-Ray"</span><span class="op">)</span> </span></code></pre></div>
+<span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/filter_attributes.html" class="external-link">filter_attributes</a></span><span class="op">(</span><span class="va">employee</span> <span class="op">==</span> <span class="st">"r1"</span> <span class="op">|</span> <span class="va">handling</span> <span class="op">==</span> <span class="st">"X-Ray"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">## Warning: `filter_attributes()` was deprecated in bupaR 0.5.0.</span></span>
 <span><span class="co">## Please use `filter()` instead.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># Log of</span> <span style="color: #949494;">1522</span> <span style="color: #949494;">events</span> <span style="color: #949494;">consisting of:</span></span></span>
@@ -209,20 +209,11 @@
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/filter_resource.html">filter_resource</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"r1"</span>,<span class="st">"r4"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/resource_frequency.html">resource_frequency</a></span><span class="op">(</span><span class="st">"resource"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 736 × 4</span></span></span>
-<span><span class="co">##    employee handling_id absolute relative</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> r1       1                  2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> r1       10                 2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> r1       100                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> r1       101                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> r1       102                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> r1       103                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> r1       104                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> r1       105                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> r1       106                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> r1       107                2  0.001<span style="text-decoration: underline;">36</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 726 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">##   employee absolute relative</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> r1            500    0.679</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> r4            236    0.321</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="trim-cases">Trim cases<a class="anchor" aria-label="anchor" href="#trim-cases"></a>
@@ -231,7 +222,7 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/filter_trim.html">filter_trim</a></span><span class="op">(</span>start_activities <span class="op">=</span> <span class="st">"Registration"</span>, end_activities <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MRI SCAN"</span>,<span class="st">"X-Ray"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/bupaR/man/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">##   trace                                                  absolute_freq…¹ relat…²</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>

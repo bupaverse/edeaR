@@ -69,29 +69,29 @@ Filter cases based on infrequent flows."><meta property="og:image" content="http
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, <span class="va">min_n</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, min_n <span class="op">=</span> <span class="fl">2</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for eventlog</span></span>
-<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, <span class="va">min_n</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, min_n <span class="op">=</span> <span class="fl">2</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for grouped_eventlog</span></span>
-<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, <span class="va">min_n</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, min_n <span class="op">=</span> <span class="fl">2</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for activitylog</span></span>
-<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, <span class="va">min_n</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, min_n <span class="op">=</span> <span class="fl">2</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for grouped_activitylog</span></span>
-<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, <span class="va">min_n</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">filter_infrequent_flows</span><span class="op">(</span><span class="va">log</span>, min_n <span class="op">=</span> <span class="fl">2</span>, eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>log</dt>
-<dd><p><code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
+<dd><p><code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>: Object of class <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code> or derivatives (<code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/eventlog.html" class="external-link">eventlog</a></code>, <code><a href="https://bupaverse.github.io/bupaR/reference/activitylog.html" class="external-link">activitylog</a></code>, etc.).</p></dd>
 
 
 <dt>min_n</dt>
-<dd><p><code>numeric</code>: Cases containing a flow that occurs less than <code>min_n</code> times are discarded.</p></dd>
+<dd><p><code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></code> (default <code>2</code>): Cases containing a flow that occurs less than <code>min_n</code> times are discarded.</p></dd>
 
 
 <dt>eventlog</dt>
@@ -102,17 +102,17 @@ Filter cases based on infrequent flows."><meta property="og:image" content="http
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://rdrr.io/pkg/bupaR/man/log.html" class="external-link">log</a></code>.
-When given an object of type <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
+<p>When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>, it will return a filtered <code><a href="https://bupaverse.github.io/bupaR/reference/log.html" class="external-link">log</a></code>.
+When given an object of type <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_log.html" class="external-link">grouped_log</a></code>, the filter will be applied in a stratified way (i.e. each separately for each group).
 The returned log will be grouped on the same variables as the original log.</p>
     </div>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
     
-<ul><li><p><code>filter_infrequent_flows(eventlog)</code>: Filters infrequent flows for an <code><a href="https://rdrr.io/pkg/bupaR/man/eventlog.html" class="external-link">eventlog</a></code>.</p></li>
-<li><p><code>filter_infrequent_flows(grouped_eventlog)</code>: Filters infrequent flows for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_eventlog.html" class="external-link">grouped_eventlog</a></code>.</p></li>
-<li><p><code>filter_infrequent_flows(activitylog)</code>: Filters infrequent flows for an <code><a href="https://rdrr.io/pkg/bupaR/man/activitylog.html" class="external-link">activitylog</a></code>.</p></li>
-<li><p><code>filter_infrequent_flows(grouped_activitylog)</code>: Filters infrequent flows for a <code><a href="https://rdrr.io/pkg/bupaR/man/grouped_activitylog.html" class="external-link">grouped_activitylog</a></code>.</p></li>
+<ul><li><p><code>filter_infrequent_flows(eventlog)</code>: Filters infrequent flows for an <code><a href="https://bupaverse.github.io/bupaR/reference/eventlog.html" class="external-link">eventlog</a></code>.</p></li>
+<li><p><code>filter_infrequent_flows(grouped_eventlog)</code>: Filters infrequent flows for a <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_eventlog.html" class="external-link">grouped_eventlog</a></code>.</p></li>
+<li><p><code>filter_infrequent_flows(activitylog)</code>: Filters infrequent flows for an <code><a href="https://bupaverse.github.io/bupaR/reference/activitylog.html" class="external-link">activitylog</a></code>.</p></li>
+<li><p><code>filter_infrequent_flows(grouped_activitylog)</code>: Filters infrequent flows for a <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_activitylog.html" class="external-link">grouped_activitylog</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
