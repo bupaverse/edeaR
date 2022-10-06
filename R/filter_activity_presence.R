@@ -56,10 +56,10 @@ filter_activity_presence.log <- function(log,
 	#check if function is called because on grouped_log
 	grouped <- any(str_detect(as.character(rlang::trace_back()$call), "filter_activity_presence.grouped_log"))
 	#remove activities not in log. Emit warning when not grouped
-	activities <- check_activities(activities, activity_labels(log), emit_warning = !grouped)
+	correct_activities <- check_activities(activities, activity_labels(log), emit_warning = !grouped)
 
 	#if no activities are valid, return empty log
-	if(length(activities) == 0) {
+	if(length(correct_activities) == 0) {
 		log %>%
 			filter(FALSE)
 	} else {

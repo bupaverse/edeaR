@@ -20,7 +20,7 @@ Descriptive Analysis* of event based data in
 [`R`](https://www.r-project.org/).
 
 For more information, check the [manual on
-GitHub](https://bupaverse.github.io/edeaR) or the [bupaR
+GitHub](https://bupaverse.github.io/edeaR/) or the [bupaR
 Documentation](https://bupar.net/getting_started.html) website.
 
 ## Installation

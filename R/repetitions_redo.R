@@ -11,7 +11,7 @@ redo_repetitions <- function(eventlog) {
 	t_length <- NULL
 
 	eventlog %>%
-		rework_base %>%
+		rework_base() %>%
 		rename("case_classifier" = !!case_id_(eventlog),
 			   "event_classifier" = !!activity_id_(eventlog),
 			   "resource_classifier" = !!resource_id_(eventlog)) %>%
