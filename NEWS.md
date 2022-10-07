@@ -1,4 +1,10 @@
-# edeaR 0.9.1 (dev)
+# edeaR 0.9.2.9000 (dev)
+
+## Breaking Changes
+
+* `filter_activity_presence()` no longer ignores unknown activities. A warning is thrown when the specified activity/ies were not found in the log.
+
+# edeaR 0.9.1
 
 ## Features
 
