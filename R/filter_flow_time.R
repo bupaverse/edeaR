@@ -55,19 +55,45 @@ filter_flow_time.log <- function(log,
 		lower_threshold <- ifelse(is.na(lower_threshold), -Inf, lower_threshold)
 		upper_threshold <- ifelse(is.na(upper_threshold), Inf, upper_threshold)
 
-		log %>%
-			#filter cases on directly follows relationship
-			filter_precedence(antecedents = from, consequents = to) %>%
-			#calculate processing time between the activities
-			group_by_case() %>%
-			mutate(processing_time_between_all_activities = last(time) - first(time),
-				   processing_time_between_all_activities = as.numeric(processing_time_between_all_activities)) %>%
-			ungroup() %>%
-			filter(between(processing_time_between_all_activities, lower_threshold, upper_threshold)) %>%
-			re_map(mapping(patients)) %>%
-			pull(case_id(patients)) -> case_selection
+		processmapR:::create_base_precedence(log,
+											 type_nodes = processmapR::performance(),
+											 type_edges = processmapR::performance()) -> base_precedence
+		base_precedence %>%
+			filter(ACTIVITY_CLASSIFIER_ == from & next_act == to) %>%
+			mutate(idle_time = difftime(next_start_time, end_time, units = units),
+				   idle_time = as.double(idle_time)) %>%
+			# filter for idle time between activities in the interval
+			filter(between(idle_time, lower_threshold, upper_threshold)) %>%
+			pull(CASE_CLASSIFIER_) -> case_selection
 
 		filter_case(log = log, cases = case_selection) #, reverse)
+
+		# log %>%
+		# 	#filter cases on directly follows relationship
+		# 	filter_precedence(antecedents = from, consequents = to) %>%
+		# 	#calculate processing time between the activities
+		# 	group_by_case() %>%
+		# 	mutate(processing_time_between_all_activities = last(time) - first(time),
+		# 		   processing_time_between_all_activities = as.numeric(processing_time_between_all_activities)) %>%
+		# 	ungroup() %>%
+		# 	filter(between(processing_time_between_all_activities, lower_threshold, upper_threshold)) %>%
+		# 	re_map(mapping(patients)) %>%
+		# 	pull(case_id(patients)) -> case_selection
+		#
+		# filter_case(log = log, cases = case_selection) #, reverse)
 	}
 }
 
+	# # KLAD
+	# processmapR:::create_base_precedence(patients,
+	# 									 type_nodes = processmapR::performance(),
+	# 									 type_edges = processmapR::performance()) -> base_precedence
+	# base_precedence %>%
+	# 	filter(ACTIVITY_CLASSIFIER_ == "Triage and Assessment" & next_act == "Blood test") %>%
+	# 	mutate(idle_time = difftime(next_start_time, end_time, units = "hours"),
+	# 		   idle_time = as.double(idle_time)) %>%
+	# 	filter(between(idle_time, 10, 25)) %>%
+	# 	pull(CASE_CLASSIFIER_) -> x
+	#
+	# filter_case(patients, x) %>% activities
+	#
