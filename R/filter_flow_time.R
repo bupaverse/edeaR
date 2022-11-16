@@ -22,32 +22,24 @@
 #' @concept filters_case
 #'
 #' @export filter_case_flow_duration
-filter_case_flow_duration <- function(log,
+filter_flow_time <- function(log,
 									  from = NULL,
 									  to = NULL,
 									  interval = NULL,
 									  #reverse = FALSE,
 									  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 									  eventlog = deprecated()) {
-	UseMethod("filter_case_flow_duration")
+	UseMethod("filter_flow_time")
 }
 
-#' @describeIn filter_processing_time Filters cases for a \code{\link[bupaR]{log}}.
+#' @describeIn filter_flow_time Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_case_flow_duration.log <- function(log,
+filter_flow_time.log <- function(log,
 										  from = NULL,
 										  to = NULL,
 										  interval = NULL,
 										  #reverse = FALSE,
 										  units = c("auto", "secs", "mins", "hours", "days", "weeks")) { #eventlog = deprecated())
-
-	# if(lifecycle::is_present(eventlog)) {
-	#   lifecycle::deprecate_warn(
-	#     when = "0.9.0",
-	#     what = "filter_processing_time(eventlog)",
-	#     with = "filter_processing_time(log)")
-	#   log <- eventlog
-	# }
 
 	units <- rlang::arg_match(units)
 
@@ -78,4 +70,4 @@ filter_case_flow_duration.log <- function(log,
 		filter_case(log = log, cases = case_selection) #, reverse)
 	}
 }
-}
+
