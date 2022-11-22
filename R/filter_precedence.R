@@ -3,7 +3,7 @@
 #' @description Filters cases based on the precedence relations between two sets of activities.
 #'
 #' @param antecedents,consequents \code{\link{character}} vector: The set of antecendent and consequent activities.
-#' Both are \code{\link{character}} vectors containing at leaste one activity identifier. All pairs of antecedents and consequents are turned into seperate precedence rules.
+#' Both are \code{\link{character}} vectors containing at least one activity identifier. All pairs of antecedents and consequents are turned into seperate precedence rules.
 #' @param precedence_type \code{\link{character}} (default \code{"directly_follows"}): When \code{"directly_follows"},
 #' the consequent activity should happen immediately after the antecedent activities.\cr
 #' When \code{"eventually_follows"}, other events are allowed to happen in between.

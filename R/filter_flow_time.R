@@ -8,10 +8,8 @@
 #' interval can be defined instead to filter cases which have a processing time in this interval. The time units
 #' in which this interval is defined can be supplied with the \code{units} argument.
 #'
-#' @param interval,percentage Provide either \code{interval} or \code{percentage}.\cr
-#' \code{interval} (\code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.\cr
-#' \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.
-#'
+#' @param interval \code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.
+#' @param from,to \code{\link{character}} vector of length one: The antecendent and consequent to filter on. Both are \code{\link{character}} vectors containing exactly one activity identifier.
 #' @inherit filter_activity params references seealso return
 #' @inherit processing_time params
 #'
@@ -20,15 +18,15 @@
 #' @family filters
 #'
 #' @concept filters_case
+#' @importFrom data.table `%between%`
 #'
-#' @export filter_case_flow_duration
+#' @export filter_flow_time
 filter_flow_time <- function(log,
 									  from = NULL,
 									  to = NULL,
 									  interval = NULL,
 									  #reverse = FALSE,
-									  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-									  eventlog = deprecated()) {
+									  units = c("secs", "mins", "hours", "days", "weeks")) {
 	UseMethod("filter_flow_time")
 }
 
@@ -39,7 +37,7 @@ filter_flow_time.log <- function(log,
 										  to = NULL,
 										  interval = NULL,
 										  #reverse = FALSE,
-										  units = c("auto", "secs", "mins", "hours", "days", "weeks")) { #eventlog = deprecated())
+										  units = c("secs", "mins", "hours", "days", "weeks")) {
 
 	units <- rlang::arg_match(units)
 
@@ -55,16 +53,14 @@ filter_flow_time.log <- function(log,
 		lower_threshold <- ifelse(is.na(lower_threshold), -Inf, lower_threshold)
 		upper_threshold <- ifelse(is.na(upper_threshold), Inf, upper_threshold)
 
-		processmapR:::create_base_precedence(log,
-											 type_nodes = processmapR::performance(),
-											 type_edges = processmapR::performance()) -> base_precedence
-		base_precedence %>%
-			filter(ACTIVITY_CLASSIFIER_ == from & next_act == to) %>%
-			mutate(idle_time = difftime(next_start_time, end_time, units = units),
-				   idle_time = as.double(idle_time)) %>%
+		create_precedence_df(log) %>%
+			mutate(across(c("next_activity","AID"), as.character)) %>%
+			filter(.data[["AID"]] == from & .data[["next_activity"]] == to) %>%
+			mutate(idle_time = as.double(.data[["next_start_time"]] - .data[["end_time"]], units = units)) %>%
 			# filter for idle time between activities in the interval
 			filter(between(idle_time, lower_threshold, upper_threshold)) %>%
-			pull(CASE_CLASSIFIER_) -> case_selection
+			pull(.data[["CID"]]) %>%
+			unique() -> case_selection
 
 		filter_case(log = log, cases = case_selection) #, reverse)
 

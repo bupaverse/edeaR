@@ -1,6 +1,21 @@
-
+#' @importFrom data.table as.data.table
+#' @importFrom data.table shift
+#' @importFrom data.table .SD
+#' @importFrom data.table .N
 
 create_precedence_df <- function(log) {
+
+	AID <- NULL
+	CID <- NULL
+	AIID <- NULL
+	TS <- NULL
+	start_time <- NULL
+	end_time <- NULL
+	next_activity <- NULL
+	next_start_time <- NULL
+	next_end_time <- NULL
+
+
 
 	log_dt <- log %>%
 		rename(AID = activity_id(log),
@@ -19,7 +34,7 @@ create_precedence_df <- function(log) {
 
 	log_dt <- rbind(starts, log_dt, ends)
 
-	log_dt[order(start_time, end_time, min_order), c("next_activity", "next_start_time","next_end_time") := .(shift(AID, n = -1),
+	log_dt[order(start_time, end_time, min_order), c("next_activity", "next_start_time","next_end_time") := .(shift(as.character(AID), n = -1),
 																											  shift(start_time, n = -1),
 																											  shift(end_time, n = -1)), by = .(CID)]
 
