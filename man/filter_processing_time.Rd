@@ -11,7 +11,7 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  units = c("secs", "mins", "hours", "days", "weeks"),
   eventlog = deprecated()
 )
 
@@ -20,7 +20,7 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  units = c("secs", "mins", "hours", "days", "weeks"),
   eventlog = deprecated()
 )
 
@@ -29,7 +29,7 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+  units = c("secs", "mins", "hours", "days", "weeks"),
   eventlog = deprecated()
 )
 }
@@ -42,8 +42,8 @@ filter_processing_time(
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
+\item{units}{\code{\link{character}} (default \code{"secs"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+\code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
 
 \item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }

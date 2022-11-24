@@ -7,6 +7,8 @@
 #' including cases when the specified percentile is reached. On the other hand, an absolute
 #' interval can be defined instead to filter cases which have a throughput time in this interval. The time units
 #' in which this interval is defined can be supplied with the \code{units} argument.
+#' @param units \code{\link{character}} (default \code{"secs"}): The time unit in which the throughput times should be reported. Should be one of the following values:
+#' \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.
 #'
 #' @inherit filter_activity params references seealso return
 #' @inherit throughput_time params
@@ -23,7 +25,7 @@ filter_throughput_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+								   units = c("secs", "mins", "hours", "days", "weeks"),
 								   eventlog = deprecated()) {
 	UseMethod("filter_throughput_time")
 }
@@ -34,7 +36,7 @@ filter_throughput_time.log <- function(log,
 									   interval = NULL,
 									   percentage = NULL,
 									   reverse = FALSE,
-									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+									   units = c("secs", "mins", "hours", "days", "weeks"),
 									   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
@@ -76,7 +78,7 @@ filter_throughput_time.grouped_log <- function(log,
 											   interval = NULL,
 											   percentage = NULL,
 											   reverse = FALSE,
-											   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+											   units = c("secs", "mins", "hours", "days", "weeks"),
 											   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {

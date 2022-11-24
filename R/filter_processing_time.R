@@ -13,7 +13,7 @@
 #' \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.
 #'
 #' @inherit filter_activity params references seealso return
-#' @inherit processing_time params
+#' @inherit filter_throughput_time params
 #'
 #' @seealso \code{\link{processing_time}}
 #'
@@ -26,7 +26,7 @@ filter_processing_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+								   units = c("secs", "mins", "hours", "days", "weeks"),
 								   eventlog = deprecated()) {
 	UseMethod("filter_processing_time")
 }
@@ -37,7 +37,7 @@ filter_processing_time.log <- function(log,
 									   interval = NULL,
 									   percentage = NULL,
 									   reverse = FALSE,
-									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+									   units = c("secs", "mins", "hours", "days", "weeks"),
 									   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
@@ -79,7 +79,7 @@ filter_processing_time.grouped_log <- function(log,
 											   interval = NULL,
 											   percentage = NULL,
 											   reverse = FALSE,
-											   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+											   units = c("secs", "mins", "hours", "days", "weeks"),
 											   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
