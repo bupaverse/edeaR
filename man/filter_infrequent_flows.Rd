@@ -59,6 +59,7 @@ Other filters:
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
+\code{\link{filter_idle_time}()},
 \code{\link{filter_lifecycle_presence}()},
 \code{\link{filter_lifecycle}()},
 \code{\link{filter_precedence_condition}()},

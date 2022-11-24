@@ -3,6 +3,13 @@
 ## Breaking Changes
 
 * `filter_activity_presence()` no longer ignores unknown activities. A warning is thrown when the specified activity/ies were not found in the log.
+* `units = "auto"` is no longer an available option for `filter_throughput_time` and `filter_processing_time`, as it does not make sense to have units automatically defined when using a duration interval. 
+
+## Features
+
+*  `filter_idle_time` is a new filter, in analogy with `filter_processing_time` and `filter_throughput_time`. 
+
+
 
 # edeaR 0.9.1
 
