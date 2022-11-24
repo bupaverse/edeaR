@@ -1,9 +1,19 @@
-# edeaR 0.9.1 (dev)
+
+# edeaR 0.9.2 (dev)
+
+
+## Features
+
+* `filter_flow_time()`: A new filter function that allows the select cases where the activity `from` is followed by activity `to` within a certain time `interval`.
+* `filter_activity_presence()` emits warning when specified activities cannot be found in the log, but does not ignore them. 
+
+# edeaR 0.9.1 
 
 ## Features
 
 * `filter_infrequent_flows()`'s argument `min_n` now defaults to `2`.
 * `filter_activity_presence()` emits warning when specified activities cannot be found in the log. When no valid activities are specified, an empty log is returned. 
+
 
 ## Bug Fixes
 
