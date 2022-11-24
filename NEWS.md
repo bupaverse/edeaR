@@ -9,6 +9,9 @@
 
 *  `filter_idle_time` is a new filter, in analogy with `filter_processing_time` and `filter_throughput_time`. 
 
+## Bugfixes
+
+*  `filter_time_period` now also works correctly with open-ended intervals, using `NA`. 
 
 
 # edeaR 0.9.1
