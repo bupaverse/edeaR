@@ -39,8 +39,8 @@ filter_idle_time(
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
 
-\item{units}{\code{\link{character}} (default \code{"secs"}): The time unit in which the throughput times should be reported. Should be one of the following values:
-\code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+\item{units}{\code{\link{character}} (default \code{"secs"}): The time unit in which the processing times should be reported. Should be one of the following values:
+\code{"secs"} (default), \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -58,16 +58,16 @@ in which this interval is defined can be supplied with the \code{units} argument
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{filter_idle_time(log)}: Filters cases for a \code{\link[bupaR]{log}}.
+\item \code{filter_idle_time(log)}: Filters cases for a \code{\link[bupaR:log]{log}}.
 
-\item \code{filter_idle_time(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+\item \code{filter_idle_time(grouped_log)}: Filters cases for a \code{\link[bupaR:grouped_log]{grouped_log}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{\link{idle_time}}
+\code{\link[=idle_time]{idle_time()}},\code{\link[=difftime]{difftime()}}
 
 Other filters: 
 \code{\link{filter_activity_frequency}()},
