@@ -31,7 +31,7 @@ Imports:
     hms,
     lifecycle
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 URL:
     https://bupar.net/,
     https://github.com/bupaverse/edeaR/,
