@@ -1,18 +1,17 @@
 #' @title Filter Throughput Time
 #'
-#' @description Filters cases based on their \code{\link{throughput_time}}.
+#' @description Filters cases based on their [`throughput_time`].
 #'
-#' This filter can be used by using an \code{interval} or by using a \code{percentage}.
+#' This filter can be used by using an `interval` or by using a `percentage`.
 #' The percentage will always start with the shortest cases first and stop
 #' including cases when the specified percentile is reached. On the other hand, an absolute
 #' interval can be defined instead to filter cases which have a throughput time in this interval. The time units
-#' in which this interval is defined can be supplied with the \code{units} argument.
+#' in which this interval is defined can be supplied with the `units` argument.
 #'
 #' @inherit filter_activity params references seealso return
-#' @inherit throughput_time params
 #' @inherit filter_processing_time params
 #'
-#' @seealso \code{\link{throughput_time}},\code{\link{difftime}}
+#' @seealso [`throughput_time()`],[`difftime()`]
 #'
 #' @family filters
 #'
@@ -23,18 +22,18 @@ filter_throughput_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+								   units = c("secs", "mins", "hours", "days", "weeks"),
 								   eventlog = deprecated()) {
 	UseMethod("filter_throughput_time")
 }
 
-#' @describeIn filter_throughput_time Filters cases for a \code{\link[bupaR]{log}}.
+#' @describeIn filter_throughput_time Filters cases for a [`log`][`bupaR::log`].
 #' @export
 filter_throughput_time.log <- function(log,
 									   interval = NULL,
 									   percentage = NULL,
 									   reverse = FALSE,
-									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+									   units = c("secs", "mins", "hours", "days", "weeks"),
 									   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
@@ -47,18 +46,9 @@ filter_throughput_time.log <- function(log,
 
 	units <- rlang::arg_match(units)
 
-	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = TRUE) || all(is.na(interval)) )) {
-		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
-	}
-	if(!is.null(percentage) && (!is.numeric(percentage) || !between(percentage,0,1) )) {
-		stop("Percentage should be a numeric value between 0 and 1.")
-	}
+	check_interval_percentage_args(interval, percentage)
 
-	if(is.null(interval) & is.null(percentage))
-		stop("At least an interval or a percentage must be provided.")
-	else if((!is.null(interval)) & !is.null(percentage))
-		stop("Cannot filter on both interval and percentage simultaneously.")
-	else if(!is.null(percentage))
+	if(!is.null(percentage))
 		filter_throughput_time_percentile(log,
 										  percentage = percentage,
 										  reverse = reverse)
@@ -70,13 +60,13 @@ filter_throughput_time.log <- function(log,
 										 units = units)
 }
 
-#' @describeIn filter_throughput_time Filters cases for a \code{\link[bupaR]{grouped_log}}.
+#' @describeIn filter_throughput_time Filters cases for a [`grouped_log`][`bupaR::grouped_log`].
 #' @export
 filter_throughput_time.grouped_log <- function(log,
 											   interval = NULL,
 											   percentage = NULL,
 											   reverse = FALSE,
-											   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+											   units = c("secs", "mins", "hours", "days", "weeks"),
 											   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
