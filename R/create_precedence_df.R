@@ -1,8 +1,3 @@
-#' @importFrom data.table as.data.table
-#' @importFrom data.table shift
-#' @importFrom data.table .SD
-#' @importFrom data.table .N
-
 
 create_precedence_df <- function(log) {
 	UseMethod("create_precedence_df")
@@ -17,9 +12,9 @@ create_precedence_df.eventlog <- function(log) {
 	TS <- NULL
 	start_time <- NULL
 	end_time <- NULL
-	next_activity <- NULL
-	next_start_time <- NULL
-	next_end_time <- NULL
+	#next_activity <- NULL
+	#next_start_time <- NULL
+	#next_end_time <- NULL
 
 
 
@@ -40,7 +35,7 @@ create_precedence_df.eventlog <- function(log) {
 
 	log_dt <- rbind(starts, log_dt, ends)
 
-	log_dt[order(start_time, end_time, min_order), c("next_activity", "next_start_time","next_end_time") := .(shift(as.character(AID), n = -1),
+	log_dt[order(start_time, end_time, min_order), c("next_activity", "next_start_time", "next_end_time") := .(shift(as.character(AID), n = -1),
 																											  shift(start_time, n = -1),
 																											  shift(end_time, n = -1)), by = .(CID)]
 
@@ -48,23 +43,21 @@ create_precedence_df.eventlog <- function(log) {
 }
 
 #' @export
-
 create_precedence_df.activitylog <- function(log) {
+
 	AID <- NULL
 	CID <- NULL
-	AIID <- NULL
-	TS <- NULL
 	start_time <- NULL
 	end_time <- NULL
-	next_activity <- NULL
-	next_start_time <- NULL
-	next_end_time <- NULL
+	#next_activity <- NULL
+	#next_start_time <- NULL
+	#next_end_time <- NULL
 	start <- NULL
 
 
 
 	log_dt <- log %>%
-		as_tibble() %>%
+		#as_tibble() %>%
 		rename(AID = activity_id(log),
 			   CID = case_id(log)) %>%
 		select(AID, CID, .order, start, complete) %>%
@@ -75,7 +68,7 @@ create_precedence_df.activitylog <- function(log) {
 
 	log_dt <- rbind(starts, log_dt, ends)
 
-	log_dt[order(start, complete, .order), c("next_activity", "next_start_time","next_end_time") := .(shift(as.character(AID), n = -1),
+	log_dt[order(start, complete, .order), c("next_activity", "next_start_time", "next_end_time") := .(shift(as.character(AID), n = -1),
 																											  shift(start, n = -1),
 																											  shift(complete, n = -1)), by = .(CID)]
 

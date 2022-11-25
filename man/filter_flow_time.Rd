@@ -3,33 +3,48 @@
 \name{filter_flow_time}
 \alias{filter_flow_time}
 \alias{filter_flow_time.log}
-\title{Filter Directly follows and Processing time}
+\alias{filter_flow_time.grouped_log}
+\title{Filter directly follows with time interval}
 \usage{
 filter_flow_time(
   log,
-  from = NULL,
-  to = NULL,
-  interval = NULL,
+  from,
+  to,
+  interval,
+  reverse = FALSE,
   units = c("secs", "mins", "hours", "days", "weeks")
 )
 
 \method{filter_flow_time}{log}(
   log,
-  from = NULL,
-  to = NULL,
-  interval = NULL,
+  from,
+  to,
+  interval,
+  reverse = FALSE,
+  units = c("secs", "mins", "hours", "days", "weeks")
+)
+
+\method{filter_flow_time}{grouped_log}(
+  log,
+  from,
+  to,
+  interval,
+  reverse = FALSE,
   units = c("secs", "mins", "hours", "days", "weeks")
 )
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{from, to}{\code{\link{character}} vector of length one: The antecendent and consequent to filter on. Both are \code{\link{character}} vectors containing exactly one activity identifier.}
+\item{from, to}{\code{\link{character}} vector of length 1: The antecendent and consequent to filter on. Both are \code{\link{character}}
+vectors containing exactly one activity identifier.}
 
-\item{interval}{\code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.}
+\item{interval}{\code{\link{numeric}} vector of length 2: A duration interval. Half open interval can be created using \code{\link{NA}}.}
 
-\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
+\item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
+
+\item{units}{\code{\link{character}} (default \code{"secs"}): The time unit in which the processing times should be reported. Should be one of the following values:
+\code{"secs"} (default), \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -37,24 +52,20 @@ When given an object of type \code{\link[bupaR]{grouped_log}}, the filter will b
 The returned log will be grouped on the same variables as the original log.
 }
 \description{
-Filters cases based on their \code{\link{processing_time}}.
-
-This filter can be used by using an \code{interval} or by using a \code{percentage}.
-The percentage will always start with the shortest cases first and stop
-including cases when the specified percentile is reached. On the other hand, an absolute
-interval can be defined instead to filter cases which have a processing time in this interval. The time units
-in which this interval is defined can be supplied with the \code{units} argument.
+Filter cases where the activity \code{from} is followed by activity \code{to} within a certain time \code{interval}.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{filter_flow_time(log)}: Filters cases for a \code{\link[bupaR]{log}}.
+\item \code{filter_flow_time(log)}: Filters on flow time for a \code{\link[bupaR:log]{bupaR::log}}.
+
+\item \code{filter_flow_time(grouped_log)}: Filters on flow time for a \code{\link[bupaR:grouped_log]{bupaR::grouped_log}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{\link{processing_time}}
+\code{\link[=processing_time]{processing_time()}},\code{\link[=difftime]{difftime()}}
 
 Other filters: 
 \code{\link{filter_activity_frequency}()},

@@ -2,17 +2,19 @@
 #'
 #' @description Filter cases where the activity `from` is followed by activity `to` within a certain time `interval`.
 #'
-#' @param interval \code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.
-#' @param from,to \code{\link{character}} vector of length one: The antecendent and consequent to filter on. Both are \code{\link{character}} vectors containing exactly one activity identifier.
-#' @inherit filter_activity params references seealso return
-#' @inherit processing_time params
+#' @param interval [`numeric`] vector of length 2: A duration interval. Half open interval can be created using [`NA`].
+#' @param from,to [`character`] vector of length 1: The antecendent and consequent to filter on. Both are [`character`]
+#' vectors containing exactly one activity identifier.
+#' @param units [`character`] (default `"secs"`): The time unit in which the processing times should be reported. Should be one of the following values:
+#' `"secs"` (default), `"mins"`, `"hours"`, `"days"`, `"weeks"`. See also the `units` argument of [`difftime()`].
 #'
-#' @seealso \code{\link{processing_time}}
+#' @inherit filter_activity params references seealso return
+#'
+#' @seealso [`processing_time()`],[`difftime()`]
 #'
 #' @family filters
 #'
 #' @concept filters_case
-#' @importFrom data.table `%between%`
 #'
 #' @export filter_flow_time
 filter_flow_time <- function(log,
@@ -24,7 +26,7 @@ filter_flow_time <- function(log,
 	UseMethod("filter_flow_time")
 }
 
-#' @describeIn filter_flow_time Filters on flow time for a \code{\link[bupaR]{log}}.
+#' @describeIn filter_flow_time Filters on flow time for a [`bupaR::log`].
 #' @export
 filter_flow_time.log <- function(log,
 								 from,
@@ -36,16 +38,17 @@ filter_flow_time.log <- function(log,
 	units <- rlang::arg_match(units)
 
 	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
-		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
+		cli_abort(c("{.arg interval} should be a positive {.cls numeric} vector of length 2.",
+		            "x" = "You supplied a {.cls {class(interval)}}: {.val {interval}}",
+					"i" = "One of the elements can be {.code NA} to create open intervals."))
 	}
 
 	if(is.null(interval))
-		stop("Provide an interval.")
+		cli_abort(c("Invalid {.arg interval}",
+		            "x" = "{.arg interval} cannot be {.code NULL}"))
 	else { #if(!is.null(interval))
-		lower_threshold <- interval[1]
-		upper_threshold <- interval[2]
-		lower_threshold <- ifelse(is.na(lower_threshold), -Inf, lower_threshold)
-		upper_threshold <- ifelse(is.na(upper_threshold), Inf, upper_threshold)
+		lower_threshold <- ifelse(is.na(interval[1]), -Inf, interval[1])
+		upper_threshold <- ifelse(is.na(interval[2]), Inf, interval[2])
 
 		create_precedence_df(log) %>%
 			mutate(across(c("next_activity","AID"), as.character)) %>%
@@ -57,19 +60,17 @@ filter_flow_time.log <- function(log,
 			unique() -> case_selection
 
 		filter_case(log = log, cases = case_selection, reverse)
-
 	}
 }
 
-#' @describeIn filter_throughput_time Filters cases for a \code{\link[bupaR]{grouped_log}}.
+#' @describeIn filter_flow_time Filters on flow time for a [`bupaR::grouped_log`].
 #' @export
 filter_flow_time.grouped_log <- function(log,
 										 from,
 										 to,
 										 interval,
 										 reverse = FALSE,
-										 units = c("secs", "mins", "hours", "days", "weeks"))
-{
+										 units = c("secs", "mins", "hours", "days", "weeks")) {
 
 
 	bupaR:::apply_grouped_fun(log, fun = filter_flow_time.log, interval, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
