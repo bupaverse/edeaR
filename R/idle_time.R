@@ -75,7 +75,8 @@ idle_time.eventlog <- function(log,
 	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
 
 	attr(t, "units") <- time_units
-	t
+
+	return(t)
 }
 
 #' @describeIn idle_time Computes the idle time for a \code{\link[bupaR]{grouped_eventlog}}.
@@ -108,12 +109,11 @@ idle_time.grouped_eventlog <- function(log,
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
-	#if(level != "log") {
-	#	grouped_metric(eventlog, FUN, units) -> output
-	#}
-	#else {
-	#	grouped_metric_raw_log(eventlog, FUN, units) -> output
-	#}
+	if(level %in% c("log", "trace")) {
+		time_units <- attr(output$min, "units")
+	} else {
+		time_units <- attr(output$idle_time, "units")
+	}
 
 	if(sort && level %in% c("case","resource")) {
 		output %>%
@@ -122,9 +122,9 @@ idle_time.grouped_eventlog <- function(log,
 
 	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
 
-	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(t, "units") <- units
-	t
+	attr(t, "units") <- time_units
+
+	return(t)
 }
 
 #' @describeIn idle_time Computes the idle time for an \code{\link[bupaR]{activitylog}}.

@@ -99,7 +99,8 @@ processing_time.eventlog <- function(log,
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
 	attr(t, "units") <- time_units
-	t
+
+	return(t)
 }
 
 #' @describeIn processing_time Computes processing time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
@@ -159,8 +160,8 @@ processing_time.grouped_eventlog <- function(log,
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
 	attr(t, "units") <- units
-	t
 
+	return(t)
 }
 
 #' @describeIn processing_time Computes processing time for an [`activitylog`][`bupaR::activitylog`].
