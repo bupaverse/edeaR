@@ -72,7 +72,7 @@ filter_time_period.eventlog <- function(log,
 	}
 
 	if(is.na(interval[2])) {
-		end_point <- -Inf
+		end_point <- Inf
 	} else {
 		end_point <- interval[2]
 	}

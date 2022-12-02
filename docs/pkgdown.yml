@@ -1,12 +1,12 @@
-pandoc: '2.18'
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  queue: queue.html
-  work_schedules: work_schedules.html
   filters: filters.html
   metrics: metrics.html
-last_built: 2022-09-25T21:26Z
+  queue: queue.html
+  work_schedules: work_schedules.html
+last_built: 2022-11-25T15:19Z
 urls:
   reference: https://bupaverse.github.io/edeaR/reference
   article: https://bupaverse.github.io/edeaR/articles

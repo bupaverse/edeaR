@@ -1,9 +1,32 @@
-# edeaR 0.9.1 (dev)
+# edeaR 0.9.2 (dev)
+
+## Breaking Changes
+
+* `filter_activity_presence()` no longer ignores unknown activities. A warning is thrown when the specified activity/ies were not found in the log.
+* `units = "auto"` is no longer an available option for `filter_throughput_time()` and `filter_processing_time()`, as it does not make sense to have units automatically defined when using a duration interval. 
+
+## Features
+
+*  `filter_idle_time()` is a new filter, in analogy with `filter_processing_time()` and `filter_throughput_time()`. 
+
+## Bugfixes
+
+*  `filter_time_period()` now also works correctly with open-ended intervals, using `NA`.
+
+
+## Features
+
+* `filter_flow_time()`: A new filter function that allows the select cases where the activity `from` is followed by activity `to` within a certain time `interval`.
+* `filter_activity_presence()` emits warning when specified activities cannot be found in the log, but does not ignore them. 
+
+# edeaR 0.9.1
+
 
 ## Features
 
 * `filter_infrequent_flows()`'s argument `min_n` now defaults to `2`.
 * `filter_activity_presence()` emits warning when specified activities cannot be found in the log. When no valid activities are specified, an empty log is returned. 
+
 
 ## Bug Fixes
 
