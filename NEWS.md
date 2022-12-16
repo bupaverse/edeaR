@@ -4,6 +4,7 @@
 
 * `filter_activity_presence()` no longer ignores unknown activities. A warning is thrown when the specified activity/ies were not found in the log.
 * `units = "auto"` is no longer an available option for `filter_throughput_time()` and `filter_processing_time()`, as it does not make sense to have units automatically defined when using a duration interval. 
+* Column `"relative_trace_frequency"` of `throughput_time()` with argument `level = "trace"` is now renamed to `"relative_frequency"` to be more consistent with other methods/levels reporting on relative frequency.
 
 ## Features
 

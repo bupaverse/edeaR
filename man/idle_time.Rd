@@ -62,7 +62,7 @@ idle_time(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-\code{"trace"}, \code{"case"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+\code{"trace"}, \code{"case"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and \strong{Details} below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
 have been deprecated in favour of \code{\link{augment}}.\cr
@@ -72,7 +72,7 @@ Indicating whether to append results to original log. Ignored when level is \cod
 Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort by decreasing idle time. Only relevant for \code{"trace"} and \code{"resource"} \code{level}.}
 
@@ -84,7 +84,7 @@ Calculates the amount of time that no activity occurs.
 \details{
 Argument \code{level} has the following options:
 \itemize{
-\item  At \code{"log"} level, the idle time metric provides an overview of summary statistics of the idle time per case,
+\item At \code{"log"} level, the idle time metric provides an overview of summary statistics of the idle time per case,
 aggregated over the complete log.
 \item On \code{"trace"} level, the idle time metric provides an overview of the summary statistics of the idle time for each trace in the log.
 \item On \code{"case"} level, the idle time metric provides an overview of the total idle time per case
@@ -93,19 +93,21 @@ aggregated over the complete log.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{idle_time(eventlog)}: Computes the idle time for an \code{\link[bupaR]{eventlog}}.
+\item \code{idle_time(eventlog)}: Computes the idle time for an \code{\link[bupaR:eventlog]{eventlog}}.
 
-\item \code{idle_time(grouped_eventlog)}: Computes the idle time for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{idle_time(grouped_eventlog)}: Computes the idle time for a \code{\link[bupaR:grouped_eventlog]{grouped_eventlog}}.
 
-\item \code{idle_time(activitylog)}: Computes the idle time for an \code{\link[bupaR]{activitylog}}.
+\item \code{idle_time(activitylog)}: Computes the idle time for an \code{\link[bupaR:activitylog]{activitylog}}.
 
-\item \code{idle_time(grouped_activitylog)}: Computes the idle time for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{idle_time(grouped_activitylog)}: Computes the idle time for a \code{\link[bupaR:grouped_activitylog]{grouped_activitylog}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
+\code{\link[=throughput_time]{throughput_time()}},\code{\link[=processing_time]{processing_time()}},\code{\link[=difftime]{difftime()}}
+
 Other metrics: 
 \code{\link{activity_frequency}()},
 \code{\link{activity_presence}()},
