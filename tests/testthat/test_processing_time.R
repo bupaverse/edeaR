@@ -140,12 +140,12 @@ test_that("test processing_time attr 'units' set when arg 'units' = 'auto'", {
   processing_resource_activity <- patients %>%
     processing_time(level = "resource-activity", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
-  expect_equal(attr(processing_activity, "units"), "secs")
-  expect_equal(attr(processing_resource, "units"), "secs")
-  expect_equal(attr(processing_resource_activity, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_activity, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
+  expect_false(attr(processing_resource_activity, "units") == "auto")
 })
 
 test_that("test processing_time on grouped_eventlog for attr 'units' set when arg 'units' = 'auto'", {
@@ -165,12 +165,12 @@ test_that("test processing_time on grouped_eventlog for attr 'units' set when ar
   processing_resource_activity <- patients_grouped %>%
       processing_time(level = "resource-activity", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
-  expect_equal(attr(processing_activity, "units"), "secs")
-  expect_equal(attr(processing_resource, "units"), "secs")
-  expect_equal(attr(processing_resource_activity, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_activity, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
+  expect_false(attr(processing_resource_activity, "units") == "auto")
 })
 
 
@@ -193,12 +193,12 @@ test_that("test processing_time on activitylog for attr 'units' set when arg 'un
   processing_resource_activity <- patients_act %>%
       processing_time(level = "resource-activity", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
-  expect_equal(attr(processing_activity, "units"), "secs")
-  expect_equal(attr(processing_resource, "units"), "secs")
-  expect_equal(attr(processing_resource_activity, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_activity, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
+  expect_false(attr(processing_resource_activity, "units") == "auto")
 })
 
 test_that("test processing_time on grouped_activitylog for attr 'units' set when arg 'units' = 'auto'", {
@@ -218,10 +218,10 @@ test_that("test processing_time on grouped_activitylog for attr 'units' set when
   processing_resource_activity <- patients_act_grouped %>%
       processing_time(level = "resource-activity", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
-  expect_equal(attr(processing_activity, "units"), "secs")
-  expect_equal(attr(processing_resource, "units"), "secs")
-  expect_equal(attr(processing_resource_activity, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_activity, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
+  expect_false(attr(processing_resource_activity, "units") == "auto")
 })

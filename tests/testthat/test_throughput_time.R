@@ -12,9 +12,9 @@ test_that("test throughput_time attr 'units' set when arg 'units' = 'auto'", {
   throughput_case <- patients %>%
     throughput_time(level = "case", units = "auto")
 
-  expect_equal(attr(throughput_log, "units"), "secs")
-  expect_equal(attr(throughput_trace, "units"), "secs")
-  expect_equal(attr(throughput_case, "units"), "secs")
+  expect_false(attr(throughput_log, "units") == "auto")
+  expect_false(attr(throughput_trace, "units") == "auto")
+  expect_false(attr(throughput_case, "units") == "auto")
 })
 
 test_that("test throughput_time on eventlog with arg 'level' = 'log'", {
@@ -88,9 +88,9 @@ test_that("test throughput_time on grouped_eventlog for attr 'units' set when ar
   processing_case <- patients_grouped %>%
       throughput_time(level = "case", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
 })
 
 
@@ -107,9 +107,9 @@ test_that("test throughput_time on activitylog for attr 'units' set when arg 'un
   processing_case <- patients_act %>%
       throughput_time(level = "case", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
 })
 
 test_that("test throughput_time on grouped_activitylog for attr 'units' set when arg 'units' = 'auto'", {
@@ -123,7 +123,7 @@ test_that("test throughput_time on grouped_activitylog for attr 'units' set when
   processing_case <- patients_act_grouped %>%
       throughput_time(level = "case", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
 })

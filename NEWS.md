@@ -19,6 +19,7 @@
 
 * `filter_flow_time()`: A new filter function that allows the select cases where the activity `from` is followed by activity `to` within a certain time `interval`.
 * `filter_activity_presence()` emits warning when specified activities cannot be found in the log, but does not ignore them. 
+* `idle_time()` performance has been significantly improved.
 
 # edeaR 0.9.1
 

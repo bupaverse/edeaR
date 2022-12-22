@@ -14,10 +14,10 @@ test_that("test idle_time attr 'units' set when arg 'units' = 'auto'", {
   idle_resource <- patients %>%
     idle_time(level = "resource", units = "auto")
 
-  expect_equal(attr(idle_log, "units"), "secs")
-  expect_equal(attr(idle_trace, "units"), "secs")
-  expect_equal(attr(idle_case, "units"), "secs")
-  expect_equal(attr(idle_resource, "units"), "secs")
+  expect_false(attr(idle_log, "units") == "auto")
+  expect_false(attr(idle_trace, "units") == "auto")
+  expect_false(attr(idle_case, "units") == "auto")
+  expect_false(attr(idle_resource, "units") == "auto")
 })
 
 test_that("test idle_time on eventlog with arg 'level' = 'log'", {
@@ -119,10 +119,10 @@ test_that("test idle_time attr 'units' set when arg 'units' = 'auto' on grouped_
   idle_resource <- patients_grouped %>%
     idle_time(level = "resource", units = "auto")
 
-  expect_equal(attr(idle_log, "units"), "mins")
-  expect_equal(attr(idle_trace, "units"), "mins")
-  expect_equal(attr(idle_case, "units"), "mins")
-  expect_equal(attr(idle_resource, "units"), "secs")
+  expect_false(attr(idle_log, "units") == "auto")
+  expect_false(attr(idle_trace, "units") == "auto")
+  expect_false(attr(idle_case, "units") == "auto")
+  expect_false(attr(idle_resource, "units") == "auto")
 })
 
 
@@ -141,10 +141,10 @@ test_that("test idle_time on activitylog for attr 'units' set when arg 'units' =
   processing_resource <- patients_act %>%
       idle_time(level = "resource", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "secs")
-  expect_equal(attr(processing_trace, "units"), "secs")
-  expect_equal(attr(processing_case, "units"), "secs")
-  expect_equal(attr(processing_resource, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
 })
 
 test_that("test idle_time on grouped_activitylog for attr 'units' set when arg 'units' = 'auto'", {
@@ -164,8 +164,8 @@ test_that("test idle_time on grouped_activitylog for attr 'units' set when arg '
   processing_resource <- patients_act_grouped %>%
       idle_time(level = "resource", units = "auto")
 
-  expect_equal(attr(processing_log, "units"), "mins")
-  expect_equal(attr(processing_trace, "units"), "mins")
-  expect_equal(attr(processing_case, "units"), "mins")
-  expect_equal(attr(processing_resource, "units"), "secs")
+  expect_false(attr(processing_log, "units") == "auto")
+  expect_false(attr(processing_trace, "units") == "auto")
+  expect_false(attr(processing_case, "units") == "auto")
+  expect_false(attr(processing_resource, "units") == "auto")
 })
