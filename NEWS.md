@@ -14,6 +14,7 @@
 ## Bugfixes
 
 *  `filter_time_period()` now also works correctly with open-ended intervals, using `NA`.
+*  `filter_endpoints_condition()` now also works correctly on grouped event logs. Note that the deprecated `filter_endpoints_conditions()` only works with ordinary logs. 
 
 
 ## Features
