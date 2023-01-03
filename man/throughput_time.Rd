@@ -67,7 +67,7 @@ throughput_time(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-\code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.}
+\code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and \strong{Details} below.}
 
 \item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
 have been deprecated in favour of \code{\link{augment}}.\cr
@@ -76,8 +76,9 @@ Indicating whether to append results to original log. Ignored when level is \cod
 \item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
 Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
 
-\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
-\code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.}
+\item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported.
+Should be one of the following values: \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}.
+See also the \code{units} argument of \code{\link{difftime}}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
 
@@ -94,29 +95,29 @@ Argument \code{level} has the following options:
 \item At \code{"log"} level, the summary statistics describing the throughput time of cases in an aggregated fashion.
 \item On \code{"trace"} level, the throughput time of the different process variants or traces in the log are calculated.
 \item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
-the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link{idle_time}} is also included
+the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link[=idle_time]{idle_time()}} is also included
 in this calculation.
 }
 
 For other levels (e.g. \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}), the throughput time is equal
-to the \code{\link{processing_time}} and are, therefore, not supported by this method.
+to the \code{\link[=processing_time]{processing_time()}} and are, therefore, not supported by this method.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{throughput_time(eventlog)}: Computes throughput time for an \code{\link[bupaR]{eventlog}}.
+\item \code{throughput_time(eventlog)}: Computes throughput time for an \code{\link[bupaR:eventlog]{eventlog}}.
 
-\item \code{throughput_time(grouped_eventlog)}: Computes throughput time for a \code{\link[bupaR]{grouped_eventlog}}.
+\item \code{throughput_time(grouped_eventlog)}: Computes throughput time for a \code{\link[bupaR:grouped_eventlog]{grouped_eventlog}}.
 
-\item \code{throughput_time(activitylog)}: Computes throughput time for an \code{\link[bupaR]{activitylog}}.
+\item \code{throughput_time(activitylog)}: Computes throughput time for an \code{\link[bupaR:activitylog]{activitylog}}.
 
-\item \code{throughput_time(grouped_activitylog)}: Computes throughput time for a \code{\link[bupaR]{grouped_activitylog}}.
+\item \code{throughput_time(grouped_activitylog)}: Computes throughput time for a \code{\link[bupaR:grouped_activitylog]{grouped_activitylog}}.
 
 }}
 \references{
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{\link{idle_time}},\code{\link{processing_time}},\code{\link{difftime}}
+\code{\link[=idle_time]{idle_time()}},\code{\link[=processing_time]{processing_time()}},\code{\link[=difftime]{difftime()}}
 
 Other metrics: 
 \code{\link{activity_frequency}()},
