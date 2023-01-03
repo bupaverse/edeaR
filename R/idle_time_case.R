@@ -19,6 +19,14 @@ idle_time_case <- function(log, units) {
 
 	dt <- data.table(log)
 
+	LCID <- NULL
+	activate <- NULL
+	TS <- NULL
+	active <- NULL
+	next_TS <- NULL
+	dur <- NULL
+
+
 	# Override column names for handling
 	setnames(dt,
 			 old = c(lifecycle_id(log), case_id(log), timestamp(log)),

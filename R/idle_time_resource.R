@@ -20,6 +20,13 @@ idle_time_resource <- function(log, units) {
 
 	dt <- data.table(log)
 
+	LCID <- NULL
+	TS <- NULL
+	activate <- NULL
+	active <- NULL
+	next_TS <- NULL
+	dur <- NULL
+
 	# Override column names for handling
 	setnames(dt,
 			 old = c(lifecycle_id(log), resource_id(log), timestamp(log)),
