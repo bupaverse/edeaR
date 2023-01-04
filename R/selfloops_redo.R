@@ -14,7 +14,7 @@ redo_selfloops <- function(eventlog) {
 	t_length <- NULL
 
 	eventlog %>%
-		rework_base -> r
+		rework_base() -> r
 
 	r %>%
 		rename("case_classifier" = !!case_id_(eventlog),

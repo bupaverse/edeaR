@@ -2,23 +2,23 @@
 #'
 #' @description Calculates the amount of time that no activity occurs.
 #'
-#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-#' \code{"trace"}, \code{"case"}, or \code{"resource"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
-#' @param units \code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
-#' \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.
-#' @param sort \code{\link{logical}} (default \code{TRUE}): Sort by decreasing idle time. Only relevant for \code{"trace"} and \code{"resource"} \code{level}.
+#' @param level [`character`] (default `"log"`): Level of granularity for the analysis: `"log"` (default),
+#' `"trace"`, `"case"`, or `"resource"`. For more information, see `vignette("metrics", "edeaR")` and **Details** below.
+#' @param units [`character`] (default `"auto"`): The time unit in which the throughput times should be reported. Should be one of the following values:
+#' `"auto"` (default), `"secs"`, `"mins"`, `"hours"`, `"days"`, `"weeks"`. See also the `units` argument of [`difftime()`].
+#' @param sort [`logical`] (default `TRUE`): Sort by decreasing idle time. Only relevant for `"trace"` and `"resource"` `level`.
 #'
 #' @details
-#' Argument \code{level} has the following options:
-#' \itemize{
-#' \item  At \code{"log"} level, the idle time metric provides an overview of summary statistics of the idle time per case,
+#' Argument `level` has the following options:
+#' * At `"log"` level, the idle time metric provides an overview of summary statistics of the idle time per case,
 #' aggregated over the complete log.
-#' \item On \code{"trace"} level, the idle time metric provides an overview of the summary statistics of the idle time for each trace in the log.
-#' \item On \code{"case"} level, the idle time metric provides an overview of the total idle time per case
-#' \item On \code{"resource"} level, this metric can be used to get an insight in the amount of time each resource "wastes" during the process.
-#' }
+#' * On `"trace"` level, the idle time metric provides an overview of the summary statistics of the idle time for each trace in the log.
+#' * On `"case"` level, the idle time metric provides an overview of the total idle time per case
+#' * On `"resource"` level, this metric can be used to get an insight in the amount of time each resource "wastes" during the process.
 #'
 #' @inherit activity_frequency params references seealso return
+#'
+#' @seealso [`throughput_time()`],[`processing_time()`],[`difftime()`]
 #'
 #' @family metrics
 #'
@@ -35,7 +35,7 @@ idle_time <- function(log,
 	UseMethod("idle_time")
 }
 
-#' @describeIn idle_time Computes the idle time for an \code{\link[bupaR]{eventlog}}.
+#' @describeIn idle_time Computes the idle time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 idle_time.eventlog <- function(log,
 							   level = c("log", "trace", "case", "resource"),
@@ -75,10 +75,11 @@ idle_time.eventlog <- function(log,
 	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
 
 	attr(t, "units") <- time_units
-	t
+
+	return(t)
 }
 
-#' @describeIn idle_time Computes the idle time for a \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn idle_time Computes the idle time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 idle_time.grouped_eventlog <- function(log,
 									   level = c("log", "case", "trace", "resource"),
@@ -108,12 +109,11 @@ idle_time.grouped_eventlog <- function(log,
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
-	#if(level != "log") {
-	#	grouped_metric(eventlog, FUN, units) -> output
-	#}
-	#else {
-	#	grouped_metric_raw_log(eventlog, FUN, units) -> output
-	#}
+	if(level %in% c("log", "trace")) {
+		time_units <- attr(output$min, "units")
+	} else {
+		time_units <- attr(output$idle_time, "units")
+	}
 
 	if(sort && level %in% c("case","resource")) {
 		output %>%
@@ -122,12 +122,12 @@ idle_time.grouped_eventlog <- function(log,
 
 	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
 
-	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
-	attr(t, "units") <- units
-	t
+	attr(t, "units") <- time_units
+
+	return(t)
 }
 
-#' @describeIn idle_time Computes the idle time for an \code{\link[bupaR]{activitylog}}.
+#' @describeIn idle_time Computes the idle time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 idle_time.activitylog <- function(log,
 								  level = c("log", "trace", "case", "resource"),
@@ -151,7 +151,7 @@ idle_time.activitylog <- function(log,
 					   sort = sort)
 }
 
-#' @describeIn idle_time Computes the idle time for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn idle_time Computes the idle time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 idle_time.grouped_activitylog <- function(log,
 										  level = c("log", "trace", "case", "resource"),

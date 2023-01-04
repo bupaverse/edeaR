@@ -28,7 +28,7 @@
 #'
 #' @inherit activity_frequency params references seealso return
 #'
-#' @seealso [`throughput_time()`],[`difftime()`]
+#' @seealso [`idle_time()`],[`throughput_time()`],[`difftime()`]
 #'
 #' @family metrics
 #'
@@ -99,7 +99,8 @@ processing_time.eventlog <- function(log,
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
 	attr(t, "units") <- time_units
-	t
+
+	return(t)
 }
 
 #' @describeIn processing_time Computes processing time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
@@ -141,12 +142,20 @@ processing_time.grouped_eventlog <- function(log,
 								   TRUE ~ "NA")
 	}
 
-	if(!(level %in% c("log","activity","resource-activity","resource"))) {
-		output <- grouped_metric(log, FUN, units, work_schedule)
+	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+
+	if(level %in% c("log", "trace", "activity", "resource", "resource-activity")) {
+		time_units <- attr(output$min, "units")
+	} else {
+		time_units <- attr(output$processing_time, "units")
 	}
-	else {
-		output <- grouped_metric_raw_log(log, FUN, units, work_schedule)
-	}
+
+	#if(!(level %in% c("log","activity","resource-activity","resource"))) {
+	#	output <- grouped_metric(log, FUN, units, work_schedule)
+	#}
+	#else {
+	#	output <- grouped_metric_raw_log(log, FUN, units, work_schedule)
+	#}
 
 	if(sort && level %in% c("case")) {
 		output %>%
@@ -158,9 +167,9 @@ processing_time.grouped_eventlog <- function(log,
 				  ifelse(level == "case", 1, 9),
 				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
 
-	attr(t, "units") <- units
-	t
+	attr(t, "units") <- time_units
 
+	return(t)
 }
 
 #' @describeIn processing_time Computes processing time for an [`activitylog`][`bupaR::activitylog`].

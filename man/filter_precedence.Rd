@@ -40,7 +40,7 @@ filter_precedence(
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
 \item{antecedents, consequents}{\code{\link{character}} vector: The set of antecendent and consequent activities.
-Both are \code{\link{character}} vectors containing at leaste one activity identifier. All pairs of antecedents and consequents are turned into seperate precedence rules.}
+Both are \code{\link{character}} vectors containing at least one activity identifier. All pairs of antecedents and consequents are turned into seperate precedence rules.}
 
 \item{precedence_type}{\code{\link{character}} (default \code{"directly_follows"}): When \code{"directly_follows"},
 the consequent activity should happen immediately after the antecedent activities.\cr
@@ -109,6 +109,8 @@ Other filters:
 \code{\link{filter_case}()},
 \code{\link{filter_endpoints_condition}()},
 \code{\link{filter_endpoints}()},
+\code{\link{filter_flow_time}()},
+\code{\link{filter_idle_time}()},
 \code{\link{filter_infrequent_flows}()},
 \code{\link{filter_lifecycle_presence}()},
 \code{\link{filter_lifecycle}()},

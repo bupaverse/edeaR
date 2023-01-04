@@ -121,7 +121,7 @@ with each activity can be investigated.
 Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.
 }
 \seealso{
-\code{\link[=throughput_time]{throughput_time()}},\code{\link[=difftime]{difftime()}}
+\code{\link[=idle_time]{idle_time()}},\code{\link[=throughput_time]{throughput_time()}},\code{\link[=difftime]{difftime()}}
 
 Other metrics: 
 \code{\link{activity_frequency}()},

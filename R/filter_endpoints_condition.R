@@ -40,11 +40,10 @@ filter_endpoints_condition.eventlog <- function(log,
 
 	start_condition_specified <- FALSE
 	tryCatch({
-		is.null(start_condition)
+		start_condition_specified <- !is.null(start_condition)
 	}, error = function(e) {
 		start_condition_specified <<- TRUE
 	})
-
 	if(!start_condition_specified) {
 		# geen filter gespecifieerd.
 		log <- log %>%
@@ -65,7 +64,7 @@ filter_endpoints_condition.eventlog <- function(log,
 	}
 	end_condition_specified <- FALSE
 	tryCatch({
-		is.null(end_condition)
+		end_condition_specified <- is.null(end_condition)
 	}, error = function(e) {
 		end_condition_specified <<- TRUE
 	})
@@ -120,7 +119,8 @@ filter_endpoints_condition.grouped_log <- function(log,
 		log <- eventlog
 	}
 
-	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_condition, start_condition, end_condition, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_condition, enquo(start_condition), enquo(end_condition), reverse,
+							  .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
 }
 
@@ -154,13 +154,13 @@ filter_endpoints_conditions <- function(log,
 										eventlog = deprecated()) {
 	lifecycle::deprecate_warn(
 		"0.9.0",
-		what = "filter_endpoints_conditions",
-		with = "filter_endpoints_condition"
+		what = "filter_endpoints_conditions()",
+		with = "filter_endpoints_condition()"
 	)
 
 	filter_endpoints_condition(log,
-							   start_condition,
-							   end_condition,
+							   enquo(start_condition),
+							   enquo(end_condition),
 							   reverse)
 
 }

@@ -2,28 +2,27 @@
 #'
 #' @description Provides summary statistics concerning the throughput times of cases.
 #'
-#' @param level \code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default),
-#' \code{"trace"}, or \code{"case"}. For more information, see \code{vignette("metrics", "edeaR")} and 'Details' below.
-#' @param units \code{\link{character}} (default \code{"auto"}): The time unit in which the throughput times should be reported. Should be one of the following values:
-#' \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link{difftime}}.
+#' @param level [`character`] (default `"log"`): Level of granularity for the analysis: `"log"` (default),
+#' `"trace"`, or `"case"`. For more information, see `vignette("metrics", "edeaR")` and **Details** below.
+#' @param units [`character`] (default `"auto"`): The time unit in which the throughput times should be reported.
+#' Should be one of the following values: `"auto"` (default), `"secs"`, `"mins"`, `"hours"`, `"days"`, `"weeks"`.
+#' See also the `units` argument of [`difftime`].
 #'
 #' @details
-#' Argument \code{level} has the following options:
-#' \itemize{
-#' \item At \code{"log"} level, the summary statistics describing the throughput time of cases in an aggregated fashion.
-#' \item On \code{"trace"} level, the throughput time of the different process variants or traces in the log are calculated.
-#' \item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
-#' the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link{idle_time}} is also included
+#' Argument `level` has the following options:
+#' * At `"log"` level, the summary statistics describing the throughput time of cases in an aggregated fashion.
+#' * On `"trace"` level, the throughput time of the different process variants or traces in the log are calculated.
+#' * On `"case"` level, the throughput time is defined as the total duration of the case, or the difference between
+#' the timestamp of the end event and the timestamp of the start event of the case. Possible [`idle_time()`] is also included
 #' in this calculation.
-#' }
 #'
-#' For other levels (e.g. \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}), the throughput time is equal
-#' to the \code{\link{processing_time}} and are, therefore, not supported by this method.
+#' For other levels (e.g. `"activity"`, `"resource"`, or `"resource-activity"`), the throughput time is equal
+#' to the [`processing_time()`] and are, therefore, not supported by this method.
 #'
 #' @inherit activity_frequency params references seealso return
 #' @inherit processing_time params
 #'
-#' @seealso \code{\link{idle_time}},\code{\link{processing_time}},\code{\link{difftime}}
+#' @seealso [`idle_time()`],[`processing_time()`],[`difftime()`]
 #'
 #' @family metrics
 #'
@@ -41,7 +40,7 @@ throughput_time <- function(log,
 	UseMethod("throughput_time")
 }
 
-#' @describeIn throughput_time Computes throughput time for an \code{\link[bupaR]{eventlog}}.
+#' @describeIn throughput_time Computes throughput time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 throughput_time.eventlog <- function(log,
 									 level = c("log", "trace", "case"),
@@ -84,7 +83,7 @@ throughput_time.eventlog <- function(log,
 	return(output)
 }
 
-#' @describeIn throughput_time Computes throughput time for a \code{\link[bupaR]{grouped_eventlog}}.
+#' @describeIn throughput_time Computes throughput time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 throughput_time.grouped_eventlog <- function(log,
 											 level = c("log", "trace", "case"),
@@ -113,6 +112,12 @@ throughput_time.grouped_eventlog <- function(log,
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
+	if(level %in% c("log", "trace")) {
+		time_units <- attr(output$min, "units")
+	} else {
+		time_units <- attr(output$throughput_time, "units")
+	}
+
 	#if(level != "log") {
 	#	grouped_metric(log, FUN, units, work_schedule) -> output
 	#}
@@ -127,12 +132,12 @@ throughput_time.grouped_eventlog <- function(log,
 
 	output <- return_metric(log, output, level, append, append_column, "throughput_time", 1, empty_label = TRUE)
 
-	attr(output, "units") <- units
+	attr(output, "units") <- time_units
 
 	return(output)
 }
 
-#' @describeIn throughput_time Computes throughput time for an \code{\link[bupaR]{activitylog}}.
+#' @describeIn throughput_time Computes throughput time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 throughput_time.activitylog <- function(log,
 										level = c("log", "trace", "case"),
@@ -158,7 +163,7 @@ throughput_time.activitylog <- function(log,
 							 work_schedule = work_schedule)
 }
 
-#' @describeIn throughput_time Computes throughput time for a \code{\link[bupaR]{grouped_activitylog}}.
+#' @describeIn throughput_time Computes throughput time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 throughput_time.grouped_activitylog <- function(log,
 												level = c("log", "trace", "case"),

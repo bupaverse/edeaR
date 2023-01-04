@@ -1,21 +1,22 @@
 #' @title Filter Processing Time
 #'
-#' @description Filters cases based on their \code{\link{processing_time}}.
+#' @description Filters cases based on their [`processing_time`].
 #'
-#' This filter can be used by using an \code{interval} or by using a \code{percentage}.
+#' This filter can be used by using an `interval` or by using a `percentage`.
 #' The percentage will always start with the shortest cases first and stop
 #' including cases when the specified percentile is reached. On the other hand, an absolute
 #' interval can be defined instead to filter cases which have a processing time in this interval. The time units
-#' in which this interval is defined can be supplied with the \code{units} argument.
+#' in which this interval is defined can be supplied with the `units` argument.
 #'
-#' @param interval,percentage Provide either \code{interval} or \code{percentage}.\cr
-#' \code{interval} (\code{\link{numeric}} vector of length 2): A duration interval. Half open interval can be created using \code{\link{NA}}.\cr
-#' \code{percentage} (\code{\link{numeric}}): A percentage p to be used for relative filtering.
+#' @param interval,percentage Provide either `interval` or `percentage`.\cr
+#' `interval` ([`numeric`] vector of length 2): A duration interval. Half open interval can be created using [`NA`].\cr
+#' `percentage` ([`numeric`]): A percentage to be used for relative filtering.
+#' @param units [`character`] (default `"secs"`): The time unit in which the processing times should be reported. Should be one of the following values:
+#' `"secs"` (default), `"mins"`, `"hours"`, `"days"`, `"weeks"`. See also the `units` argument of [`difftime()`].
 #'
 #' @inherit filter_activity params references seealso return
-#' @inherit processing_time params
 #'
-#' @seealso \code{\link{processing_time}}
+#' @seealso [`processing_time()`],[`difftime()`]
 #'
 #' @family filters
 #'
@@ -26,18 +27,18 @@ filter_processing_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+								   units = c("secs", "mins", "hours", "days", "weeks"),
 								   eventlog = deprecated()) {
 	UseMethod("filter_processing_time")
 }
 
-#' @describeIn filter_processing_time Filters cases for a \code{\link[bupaR]{log}}.
+#' @describeIn filter_processing_time Filters cases for a [`log`][`bupaR::log`].
 #' @export
 filter_processing_time.log <- function(log,
 									   interval = NULL,
 									   percentage = NULL,
 									   reverse = FALSE,
-									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+									   units = c("secs", "mins", "hours", "days", "weeks"),
 									   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
@@ -50,18 +51,9 @@ filter_processing_time.log <- function(log,
 
 	units <- rlang::arg_match(units)
 
-	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
-		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
-	}
-	if(!is.null(percentage) && (!is.numeric(percentage) || !between(percentage,0,1) )) {
-		stop("Percentage should be a numeric value between 0 and 1.")
-	}
+	check_interval_percentage_args(interval, percentage)
 
-	if(is.null(interval) & is.null(percentage))
-		stop("At least an interval or a percentage must be provided.")
-	else if((!is.null(interval)) & !is.null(percentage))
-		stop("Cannot filter on both interval and percentage simultaneously.")
-	else if(!is.null(percentage))
+	if(!is.null(percentage))
 		filter_processing_time_percentile(log,
 										  percentage = percentage,
 										  reverse = reverse)
@@ -73,13 +65,13 @@ filter_processing_time.log <- function(log,
 										 units = units)
 }
 
-#' @describeIn filter_processing_time Filters cases for a \code{\link[bupaR]{grouped_log}}.
+#' @describeIn filter_processing_time Filters cases for a [`grouped_log`][`bupaR::grouped_log`].
 #' @export
 filter_processing_time.grouped_log <- function(log,
 											   interval = NULL,
 											   percentage = NULL,
 											   reverse = FALSE,
-											   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
+											   units = c("secs", "mins", "hours", "days", "weeks"),
 											   eventlog = deprecated()) {
 
 	if(lifecycle::is_present(eventlog)) {
@@ -92,6 +84,30 @@ filter_processing_time.grouped_log <- function(log,
 
 	bupaR:::apply_grouped_fun(log, fun = filter_processing_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_processing_time, interval = interval, percentage = percentage, reverse, units, ...)
+}
+
+
+check_interval_percentage_args <- function(interval, percentage, call = caller_env()) {
+
+	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = TRUE) || all(is.na(interval)))) {
+		cli_abort(c("{.arg interval} should be a positive {.cls numeric} vector of length 2.",
+					"x" = "You supplied a {.cls {class(interval)}}: {.val {interval}}",
+					"i" = "One of the elements can be {.code NA} to create open intervals."),
+				  call = call)
+	}
+
+	if(!is.null(percentage) && (!is.numeric(percentage) || !between(percentage,0,1) )) {
+		cli_abort(c("{.arg percentage} should be a {.cls numeric} between 0 and 1.",
+					"x" = "You supplied a {.cls {class(percentage)}}: {.val {percentage}}"),
+				  call = call)
+	}
+
+	if(is.null(interval) && is.null(percentage))
+		cli_abort("At least an {.arg interval} or a {.arg percentage} must be provided.",
+				  call = call)
+	else if(!is.null(interval) && !is.null(percentage))
+		cli_abort("Cannot filter on both {.arg interval} and {.arg percentage} simultaneously.",
+				  call = call)
 }
 
 #' @keywords internal
