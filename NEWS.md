@@ -10,18 +10,17 @@
 ## Features
 
 *  `filter_idle_time()` is a new filter, in analogy with `filter_processing_time()` and `filter_throughput_time()`. 
+* `filter_flow_time()`: A new filter function that allows to select cases where the activity `from` is followed by the activity `to` within a certain time `interval`.
+* `filter_activity_presence()` emits a warning when one or more of the specified activities cannot be found in the log, but will still take all specified activities into account when filtering.
+* `idle_time()` performance has been significantly improved.
+
 
 ## Bugfixes
 
 *  `filter_time_period()` now also works correctly with open-ended intervals, using `NA`.
 *  `filter_endpoints_condition()` now also works correctly on grouped event logs. Note that the deprecated `filter_endpoints_conditions()` only works with ordinary logs. 
+*  `resource_involvement()` at level resource-activity now correctly outputs list of resource-activity, instead of just resources. 
 
-
-## Features
-
-* `filter_flow_time()`: A new filter function that allows to select cases where the activity `from` is followed by the activity `to` within a certain time `interval`.
-* `filter_activity_presence()` emits a warning when one or more of the specified activities cannot be found in the log, but will still take all specified activities into account when filtering.
-* `idle_time()` performance has been significantly improved.
 
 
 # edeaR 0.9.1
