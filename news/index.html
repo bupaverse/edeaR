@@ -73,6 +73,12 @@
 <h3 id="features-0-9-2">Features<a class="anchor" aria-label="anchor" href="#features-0-9-2"></a></h3>
 <ul><li>
 <code><a href="../reference/filter_idle_time.html">filter_idle_time()</a></code> is a new filter, in analogy with <code><a href="../reference/filter_processing_time.html">filter_processing_time()</a></code> and <code><a href="../reference/filter_throughput_time.html">filter_throughput_time()</a></code>.</li>
+<li>
+<code><a href="../reference/filter_flow_time.html">filter_flow_time()</a></code>: A new filter function that allows to select cases where the activity <code>from</code> is followed by the activity <code>to</code> within a certain time <code>interval</code>.</li>
+<li>
+<code><a href="../reference/filter_activity_presence.html">filter_activity_presence()</a></code> emits a warning when one or more of the specified activities cannot be found in the log, but will still take all specified activities into account when filtering.</li>
+<li>
+<code><a href="../reference/idle_time.html">idle_time()</a></code> performance has been significantly improved.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bugfixes-0-9-2">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-0-9-2"></a></h3>
@@ -80,15 +86,8 @@
 <code><a href="../reference/filter_time_period.html">filter_time_period()</a></code> now also works correctly with open-ended intervals, using <code>NA</code>.</li>
 <li>
 <code><a href="../reference/filter_endpoints_condition.html">filter_endpoints_condition()</a></code> now also works correctly on grouped event logs. Note that the deprecated <code><a href="../reference/filter_endpoints_condition.html">filter_endpoints_conditions()</a></code> only works with ordinary logs.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="features-0-9-2-1">Features<a class="anchor" aria-label="anchor" href="#features-0-9-2-1"></a></h3>
-<ul><li>
-<code><a href="../reference/filter_flow_time.html">filter_flow_time()</a></code>: A new filter function that allows to select cases where the activity <code>from</code> is followed by the activity <code>to</code> within a certain time <code>interval</code>.</li>
 <li>
-<code><a href="../reference/filter_activity_presence.html">filter_activity_presence()</a></code> emits a warning when one or more of the specified activities cannot be found in the log, but will still take all specified activities into account when filtering.</li>
-<li>
-<code><a href="../reference/idle_time.html">idle_time()</a></code> performance has been significantly improved.</li>
+<code><a href="../reference/resource_involvement.html">resource_involvement()</a></code> at level resource-activity now correctly outputs list of resource-activity, instead of just resources.</li>
 </ul></div>
 </div>
     <div class="section level2">
