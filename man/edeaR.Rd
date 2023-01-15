@@ -25,6 +25,8 @@ Other contributors:
 \itemize{
   \item Gerard van Hulzen \email{gerard.vanhulzen@uhasselt.be} [contributor]
   \item Marijke Swennen \email{marijke.swennen@uhasselt.be} [contributor]
+  \item Ivan Esin \email{ivan.esin@student.uhasselt.be} [contributor]
+  \item Hasselt University [copyright holder]
 }
 
 }
