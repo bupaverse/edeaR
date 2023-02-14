@@ -7,7 +7,7 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/edeaR)](https://cran.r-project.org/package=edeaR)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-0.9.2.9000-blue)](https://github.com/bupaverse/edeaR)
+version](https://img.shields.io/badge/GitHub-0.9.3-blue)](https://github.com/bupaverse/edeaR)
 [![R-CMD-check](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/bupaverse/edeaR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/bupaverse/edeaR?branch=master)

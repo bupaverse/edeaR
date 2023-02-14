@@ -27,6 +27,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr:reexports]{setdiff}}}
+  \item{dplyr}{\code{\link[dplyr:setops]{setdiff}}}
 }}
 
