@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@
                         <h4 data-toc-skip class="author">Gert
 Janssenswillen</h4>
             
-            <h4 data-toc-skip class="date">2023-03-15</h4>
+            <h4 data-toc-skip class="date">2023-07-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bupaverse/edeaR/blob/HEAD/vignettes/queue.Rmd" class="external-link"><code>vignettes/queue.Rmd</code></a></small>
       <div class="d-none name"><code>queue.Rmd</code></div>
@@ -130,20 +130,20 @@ each case).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">queuing_times</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 14,164 × 7</span></span></span>
-<span><span class="co">#&gt;    case_id activity      activ…¹ resou…² started             in_queue_since     </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> XJ      ER Triage     3835    C       2013-11-07 <span style="color: #949494;">08:29:18</span> 2013-11-07 <span style="color: #949494;">08:18:29</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> XJ      ER Sepsis Tr… 3836    A       2013-11-07 <span style="color: #949494;">08:37:32</span> 2013-11-07 <span style="color: #949494;">08:29:18</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> XJ      CRP           3839    B       2013-11-07 <span style="color: #949494;">08:51:00</span> 2013-11-07 <span style="color: #949494;">08:37:32</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> XJ      LacticAcid    3837    B       2013-11-07 <span style="color: #949494;">08:51:00</span> 2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> XJ      Leucocytes    3838    B       2013-11-07 <span style="color: #949494;">08:51:00</span> 2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> XJ      IV Liquid     3840    A       2013-11-07 <span style="color: #949494;">09:05:57</span> 2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> XJ      IV Antibioti… 3841    A       2013-11-07 <span style="color: #949494;">10:05:58</span> 2013-11-07 <span style="color: #949494;">09:05:57</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> XJ      Admission NC  3842    I       2013-11-07 <span style="color: #949494;">11:11:34</span> 2013-11-07 <span style="color: #949494;">10:05:58</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> XJ      Leucocytes    3843    B       2013-11-08 <span style="color: #949494;">08:00:00</span> 2013-11-07 <span style="color: #949494;">11:11:34</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> I       ER Triage     106     C       2013-11-09 <span style="color: #949494;">09:34:28</span> 2013-11-09 <span style="color: #949494;">09:21:03</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 14,154 more rows, 1 more variable: time_in_queue &lt;drtn&gt;, and</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​activity_instance_id, ²​resource</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    case_id activity         activity_instance_id resource started            </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> XJ      ER Triage        3835                 C        2013-11-07 <span style="color: #949494;">08:29:18</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> XJ      ER Sepsis Triage 3836                 A        2013-11-07 <span style="color: #949494;">08:37:32</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> XJ      CRP              3839                 B        2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> XJ      LacticAcid       3837                 B        2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> XJ      Leucocytes       3838                 B        2013-11-07 <span style="color: #949494;">08:51:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> XJ      IV Liquid        3840                 A        2013-11-07 <span style="color: #949494;">09:05:57</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> XJ      IV Antibiotics   3841                 A        2013-11-07 <span style="color: #949494;">10:05:58</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> XJ      Admission NC     3842                 I        2013-11-07 <span style="color: #949494;">11:11:34</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> XJ      Leucocytes       3843                 B        2013-11-08 <span style="color: #949494;">08:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> I       ER Triage        106                  C        2013-11-09 <span style="color: #949494;">09:34:28</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 14,154 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: in_queue_since &lt;dttm&gt;, time_in_queue &lt;drtn&gt;</span></span></span></code></pre></div>
 <p>We can use the output to compare the times time in queue for
 different activities, for example.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -199,7 +199,7 @@ for each week will thus give us about 75 different observations.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2013-12-26           27</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2014-01-02           32</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2014-01-09           36</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 73 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 73 more rows</span></span></span></code></pre></div>
 <p>The first observation is the data above will always be the first
 timestamp for which an event was recorded. At this point, the queue will
 always be zero. The second observation is the queue length after one
@@ -241,7 +241,7 @@ in the calculation function.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2013-11-28 B                   6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2013-11-28 E                   3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2013-11-28 I                   1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 248 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 248 more rows</span></span></span>
 <span><span class="va">queuing_times</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/calculate_queuing_length.html">calculate_queuing_length</a></span><span class="op">(</span>time_interval <span class="op">=</span> <span class="st">"week"</span>, level <span class="op">=</span> <span class="st">"activity"</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 340 × 3</span></span></span>
@@ -257,7 +257,7 @@ in the calculation function.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2013-11-28 Admission NC            1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2013-11-28 CRP                     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2013-11-28 Leucocytes              1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 330 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 330 more rows</span></span></span></code></pre></div>
 <p>Again, these can be plotted conveniently (we ignore the unknown
 resource):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">

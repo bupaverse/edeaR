@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -197,12 +197,11 @@ at least one of them (<code>"one_of"</code>), or none (<code>"none"</code>).</p>
 <span class="r-in"><span>            precedence_type <span class="op">=</span> <span class="st">"directly_follows"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                                          absol…¹ relat…²</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,Blood test,MRI SCAN,Discus…     234 0.987  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Blood test,MRI SCAN,Discus…       2 0.008<span style="text-decoration: underline;">44</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Registration,Triage and Assessment,Blood test                        1 0.004<span style="text-decoration: underline;">22</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​absolute_frequency, ²​relative_frequency</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                    absolute_frequency relative_frequency</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,Bloo…                234            0.987  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Bloo…                  2            0.008<span style="text-decoration: underline;">44</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Registration,Triage and Assessment,Bloo…                  1            0.004<span style="text-decoration: underline;">22</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">eventdataR</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/eventdataR/man/example_log.html" class="external-link">patients</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">filter_precedence</span><span class="op">(</span>antecedents <span class="op">=</span> <span class="st">"Triage and Assessment"</span>,</span></span>
@@ -211,15 +210,14 @@ at least one of them (<code>"one_of"</code>), or none (<code>"none"</code>).</p>
 <span class="r-in"><span>            filter_method <span class="op">=</span> <span class="st">"one_of"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">bupaR</span><span class="fu">::</span><span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                                          absol…¹ relat…²</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,X-Ray,Discuss Results,Chec…     258 0.518  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Blood test,MRI SCAN,Discus…     234 0.470  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Registration,Triage and Assessment,Blood test,MRI SCAN,Discus…       2 0.004<span style="text-decoration: underline;">02</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Registration,Triage and Assessment,X-Ray                             2 0.004<span style="text-decoration: underline;">02</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Registration,Triage and Assessment,X-Ray,Discuss Results             1 0.002<span style="text-decoration: underline;">01</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Registration,Triage and Assessment,Blood test                        1 0.002<span style="text-decoration: underline;">01</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​absolute_frequency, ²​relative_frequency</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   trace                                    absolute_frequency relative_frequency</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,X-Ra…                258            0.518  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Bloo…                234            0.470  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Registration,Triage and Assessment,Bloo…                  2            0.004<span style="text-decoration: underline;">02</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Registration,Triage and Assessment,X-Ray                  2            0.004<span style="text-decoration: underline;">02</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Registration,Triage and Assessment,X-Ra…                  1            0.002<span style="text-decoration: underline;">01</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Registration,Triage and Assessment,Bloo…                  1            0.002<span style="text-decoration: underline;">01</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

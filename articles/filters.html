@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@
                         <h4 data-toc-skip class="author">Gert
 Janssenswillen</h4>
             
-            <h4 data-toc-skip class="date">2023-03-15</h4>
+            <h4 data-toc-skip class="date">2023-07-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bupaverse/edeaR/blob/HEAD/vignettes/filters.Rmd" class="external-link"><code>vignettes/filters.Rmd</code></a></small>
       <div class="d-none name"><code>filters.Rmd</code></div>
@@ -197,7 +197,10 @@ OR.</p>
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/filter_attributes.html" class="external-link">filter_attributes</a></span><span class="op">(</span><span class="va">employee</span> <span class="op">==</span> <span class="st">"r1"</span> <span class="op">|</span> <span class="va">handling</span> <span class="op">==</span> <span class="st">"X-Ray"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">## Warning: `filter_attributes()` was deprecated in bupaR 0.5.0.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `filter()` instead.</span></span></code></pre>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `filter()` instead.</span></span>
+<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># Log of</span> <span style="color: #949494;">1522</span> <span style="color: #949494;">events</span> <span style="color: #949494;">consisting of:</span></span></span>
 <span><span class="co"><span style="color: #949494;">## </span>2 traces </span></span>
 <span><span class="co">## 500 cases </span></span>
@@ -214,19 +217,20 @@ OR.</p>
 <span><span class="co">## Lifecycle transition:        registration_type </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1,522 × 7</span></span></span>
-<span><span class="co">##    handling     patient employee handling_id regist…¹ time                .order</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Registration 1       r1       1           start    2017-01-02 <span style="color: #949494;">11:41:53</span>      1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Registration 2       r1       2           start    2017-01-02 <span style="color: #949494;">11:41:53</span>      2</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Registration 3       r1       3           start    2017-01-04 <span style="color: #949494;">01:34:05</span>      3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Registration 4       r1       4           start    2017-01-04 <span style="color: #949494;">01:34:04</span>      4</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Registration 5       r1       5           start    2017-01-04 <span style="color: #949494;">16:07:47</span>      5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Registration 6       r1       6           start    2017-01-04 <span style="color: #949494;">16:07:47</span>      6</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Registration 7       r1       7           start    2017-01-05 <span style="color: #949494;">04:56:11</span>      7</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Registration 8       r1       8           start    2017-01-05 <span style="color: #949494;">04:56:11</span>      8</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Registration 9       r1       9           start    2017-01-06 <span style="color: #949494;">05:58:54</span>      9</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Registration 10      r1       10          start    2017-01-06 <span style="color: #949494;">05:58:54</span>     10</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with 1,512 more rows, and abbreviated variable name ¹​registration_type</span></span></span></code></pre>
+<span><span class="co">##    handling   patient employee handling_id registration_type time               </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Registrat… 1       r1       1           start             2017-01-02 <span style="color: #949494;">11:41:53</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Registrat… 2       r1       2           start             2017-01-02 <span style="color: #949494;">11:41:53</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Registrat… 3       r1       3           start             2017-01-04 <span style="color: #949494;">01:34:05</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Registrat… 4       r1       4           start             2017-01-04 <span style="color: #949494;">01:34:04</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Registrat… 5       r1       5           start             2017-01-04 <span style="color: #949494;">16:07:47</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Registrat… 6       r1       6           start             2017-01-04 <span style="color: #949494;">16:07:47</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Registrat… 7       r1       7           start             2017-01-05 <span style="color: #949494;">04:56:11</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Registrat… 8       r1       8           start             2017-01-05 <span style="color: #949494;">04:56:11</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Registrat… 9       r1       9           start             2017-01-06 <span style="color: #949494;">05:58:54</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Registrat… 10      r1       10          start             2017-01-06 <span style="color: #949494;">05:58:54</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1,512 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: .order &lt;int&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="filter-resources">Filter resources<a class="anchor" aria-label="anchor" href="#filter-resources"></a>
@@ -259,11 +263,10 @@ removed instead of preserved.</p>
 <span>    <span class="fu"><a href="../reference/filter_trim.html">filter_trim</a></span><span class="op">(</span>start_activities <span class="op">=</span> <span class="st">"Registration"</span>, end_activities <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MRI SCAN"</span>,<span class="st">"X-Ray"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">##   trace                                                  absolute_freq…¹ relat…²</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,X-Ray                           261   0.525</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Blood test,MRI SCAN             236   0.475</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable names ¹​absolute_frequency, ²​relative_frequency</span></span></span></code></pre>
+<span><span class="co">##   trace                                    absolute_frequency relative_frequency</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                 <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Registration,Triage and Assessment,X-Ray                261              0.525</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Registration,Triage and Assessment,Bloo…                236              0.475</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
