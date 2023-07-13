@@ -7,7 +7,7 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/edeaR)](https://cran.r-project.org/package=edeaR)
 [![GitHub
-version](https://img.shields.io/badge/GitHub-0.9.3-blue)](https://github.com/bupaverse/edeaR)
+version](https://img.shields.io/badge/GitHub-0.9.2-blue)](https://github.com/bupaverse/edeaR)
 [![R-CMD-check](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bupaverse/edeaR/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/bupaverse/edeaR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/bupaverse/edeaR?branch=master)
@@ -21,7 +21,7 @@ Descriptive Analysis* of event based data in
 
 For more information, check the [manual on
 GitHub](https://bupaverse.github.io/edeaR/) or the [bupaR
-Documentation](https://bupar.net/getting_started.html) website.
+Documentation](https://bupaverse.github.io/docs/) website.
 
 ## Installation
 
@@ -51,6 +51,7 @@ library(edeaR)
 #> 
 #>     setdiff
 library(eventdataR)
+#> Warning: package 'eventdataR' was built under R version 4.2.3
 
 # Calculate idle times per resource:
 patients %>%

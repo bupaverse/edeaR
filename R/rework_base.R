@@ -12,6 +12,7 @@ rework_base <- function(eventlog) {
 	activity_group <- NULL
 
 	eventlog %>%
+		as_tibble() %>%
 		rename("case_classifier" = !!case_id_(eventlog),
 			   "event_classifier" = !!activity_id_(eventlog),
 			   "timestamp_classifier" = !!timestamp_(eventlog),
