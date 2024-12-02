@@ -5,6 +5,10 @@ processing_time_activity_instance <- function(log, units, work_schedule) {
 	e <- NULL
 	timestamp_classifier <- NULL
 	activity_id_identifier <- NULL
+	lifecycle_id_identifier <- NULL
+	next_TS <- NULL
+	activate <- NULL
+	dur <- NULL
 	elapsed <- NULL
 
 

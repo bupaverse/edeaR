@@ -30,9 +30,10 @@ Imports:
     cli (>= 3.2.0),
     zoo,
     hms,
-    lifecycle
+    lifecycle,
+    magrittr
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 URL:
     https://bupar.net/,
     https://github.com/bupaverse/edeaR/,
