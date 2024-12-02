@@ -13,6 +13,8 @@ setdiff(x, y, ...)
 \item{x}{Eventlog}
 
 \item{y}{Eventlog}
+
+\item{...}{Ignored}
 }
 \value{
 Eventlog of activity instances in x which do not belong to y
@@ -25,3 +27,4 @@ Set operations
 \item \code{setdiff(eventlog)}: Setdiff for eventlogs
 
 }}
+\keyword{internal}
