@@ -53,7 +53,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">throughput_time</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
-<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"activity-instance"</span><span class="op">)</span>,</span>
 <span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"secs"</span>, <span class="st">"mins"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span>, <span class="st">"weeks"</span><span class="op">)</span>,</span>
@@ -65,7 +65,7 @@
 <span><span class="co"># S3 method for class 'eventlog'</span></span>
 <span><span class="fu">throughput_time</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
-<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"activity-instance"</span><span class="op">)</span>,</span>
 <span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"secs"</span>, <span class="st">"mins"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span>, <span class="st">"weeks"</span><span class="op">)</span>,</span>
@@ -77,7 +77,7 @@
 <span><span class="co"># S3 method for class 'grouped_eventlog'</span></span>
 <span><span class="fu">throughput_time</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
-<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"activity-instance"</span><span class="op">)</span>,</span>
 <span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"secs"</span>, <span class="st">"mins"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span>, <span class="st">"weeks"</span><span class="op">)</span>,</span>
@@ -89,7 +89,7 @@
 <span><span class="co"># S3 method for class 'activitylog'</span></span>
 <span><span class="fu">throughput_time</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
-<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"activity-instance"</span><span class="op">)</span>,</span>
 <span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"secs"</span>, <span class="st">"mins"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span>, <span class="st">"weeks"</span><span class="op">)</span>,</span>
@@ -101,7 +101,7 @@
 <span><span class="co"># S3 method for class 'grouped_activitylog'</span></span>
 <span><span class="fu">throughput_time</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
-<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span><span class="op">)</span>,</span>
+<span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"trace"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"activity-instance"</span><span class="op">)</span>,</span>
 <span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  units <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"secs"</span>, <span class="st">"mins"</span>, <span class="st">"hours"</span>, <span class="st">"days"</span>, <span class="st">"weeks"</span><span class="op">)</span>,</span>
@@ -160,9 +160,11 @@ See also the <code>units</code> argument of <code><a href="https://rdrr.io/r/bas
 <li><p>On <code>"case"</code> level, the throughput time is defined as the total duration of the case, or the difference between
 the timestamp of the end event and the timestamp of the start event of the case. Possible <code><a href="idle_time.html">idle_time()</a></code> is also included
 in this calculation.</p></li>
-</ul><p>For other levels (e.g. <code>"activity"</code>, <code>"resource"</code>, or <code>"resource-activity"</code>), the throughput time is equal
-to the <code><a href="processing_time.html">processing_time()</a></code> and are, therefore, not supported by this method.</p>
-    </div>
+<li><p>On <code>"activity-instance"</code> level, the throughput time of each activity instance. Throughput here is defined as the difference between the first and last event, without considering the lifecycle status. For the lifecycle-aware throughput time (e.g. not incorporating the time the activity is "suspended"), see processing time.</p></li>
+<li><p>on <code>'activity</code> level, summary statistics describing the throuhgput time of activity instances (see above) per activity type.
+For other levels (e.g. <code>"activity"</code>, <code>"resource"</code>, or <code>"resource-activity"</code>), the throughput time is equal
+to the <code><a href="processing_time.html">processing_time()</a></code> and are, therefore, not supported by this method.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
 
