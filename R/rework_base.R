@@ -21,8 +21,8 @@ rework_base <- function(eventlog) {
 		as.data.table %>%
 		.[, .(timestamp = min(timestamp_classifier), min_order = min(.order)), .(case_classifier, aid, event_classifier, resource_classifier)] %>%
 		.[order(timestamp, min_order), .SD , by =  .(case_classifier)] %>%
-		.[,next_activity := lead(event_classifier), .(case_classifier)] %>%
-		.[, same_activity := lag(event_classifier == next_activity)] %>%
+		.[, next_activity := shift(event_classifier, type='lead'), .(case_classifier)] %>%
+		.[, same_activity := shift(event_classifier == next_activity, type='lag')] %>%
 		.[, same_activity := ifelse(is.na(same_activity), FALSE, same_activity)]  %>%
 		.[, activity_group := paste(case_classifier, cumsum(!same_activity), sep = "-")] %>%
 		.[,.(case_classifier, aid, event_classifier, resource_classifier, activity_group)] %>%
