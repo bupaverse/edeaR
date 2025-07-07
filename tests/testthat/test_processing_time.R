@@ -16,7 +16,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'log'", {
   expect_equal(colnames(processing_time), c("min", "q1", "median", "mean", "q3", "max", "st_dev", "iqr"))
 
   # Test means to ensure correct output
-  expect_equal(as.numeric(processing_time$mean), 71.538889)
+  expect_equal(as.numeric(processing_time$mean), 58.277778)
   expect_s3_class(processing_time$mean, "difftime")
   expect_equal(attr(processing_time$mean, "units"), "mins")
 })
@@ -36,7 +36,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'trace'", {
   expect_equal(colnames(processing_time), c("trace", "relative_frequency", "min", "q1", "mean", "median", "q3", "max", "st_dev", "iqr", "total"))
 
   # Test means to ensure correct output
-  expect_equal(as.numeric(processing_time$mean), c(123.433333, 91.183333, 0.0))
+  expect_equal(as.numeric(processing_time$mean), c(108.516667, 66.316667, 0.0))
   expect_s3_class(processing_time$mean, "difftime")
   expect_equal(attr(processing_time$mean, "units"), "mins")
 })
@@ -56,7 +56,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'case'", {
   expect_equal(colnames(processing_time), c(case_id(patients), "processing_time"))
 
   # Test processing time to ensure correct output
-  expect_equal(as.numeric(processing_time$processing_time), c(123.433333, 91.183333, 0.0))
+  expect_equal(as.numeric(processing_time$processing_time), c(108.516667, 66.316667, 0.0))
   expect_s3_class(processing_time$processing_time, "difftime")
   expect_equal(attr(processing_time$processing_time, "units"), "mins")
 })
@@ -76,7 +76,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'activity'", {
   expect_equal(colnames(processing_time), c(activity_id(patients), "min", "q1", "mean", "median", "q3", "max", "st_dev", "iqr", "total", "relative_frequency"))
 
   # Test means to ensure correct output
-  expect_equal(as.numeric(processing_time$mean), c(26.875, 35.70556, 0.0, 0.0, 0.0), tolerance = 0.00001)
+  expect_equal(as.numeric(processing_time$mean), c(23.14583, 27.41667, NaN,NaN,NaN), tolerance = 0.00001)
   expect_s3_class(processing_time$mean, "difftime")
   expect_equal(attr(processing_time$mean, "units"), "mins")
 })
@@ -96,7 +96,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'resource'", {
   expect_equal(colnames(processing_time), c(resource_id(patients), "min", "q1", "mean", "median", "q3", "max", "st_dev", "iqr", "total", "relative_frequency"))
 
   # Test means to ensure correct output
-  expect_equal(as.numeric(processing_time$mean), c(0.0, 27.71667, 46.34167, 14.43333, 24.35), tolerance = 0.00001)
+  expect_equal(as.numeric(processing_time$mean), c(NaN, 22.74444, 33.90833, 14.43333, 24.35), tolerance = 0.00001)
   expect_s3_class(processing_time$mean, "difftime")
   expect_equal(attr(processing_time$mean, "units"), "mins")
 })
@@ -118,7 +118,7 @@ test_that("test processing_time on eventlog with arg 'level' = 'resource-activit
                                             "q3", "max", "st_dev", "iqr", "total", "relative_frequency"))
 
   # Test means to ensure correct output
-  expect_equal(as.numeric(processing_time$mean), c(0.0, 0.0, 0.0, 27.71667, 46.34167, 14.43333, 24.35), tolerance = 0.00001)
+  expect_equal(as.numeric(processing_time$mean), c(NaN, NaN, NaN, 22.74444, 33.90833, 14.43333, 24.35), tolerance = 0.00001)
   expect_s3_class(processing_time$mean, "difftime")
   expect_equal(attr(processing_time$mean, "units"), "mins")
 })

@@ -40,6 +40,7 @@ filter_infrequent_flows.eventlog <- function(log, min_n = 2, eventlog = deprecat
 		add_start_activity("START_ACT") %>%
 		create_minimal_activity_log() %>%
 		select(case_id(log), activity_id(log), timestamp(log), .order) %>%
+		mutate(across(.cols = activity_id(log), as.character)) %>%
 		group_by(!!case_id_(log)) %>%
 		arrange(!!timestamp_(log)) %>%
 		mutate(next_act = lead(!!activity_id_(log), default = "END_ACT")) %>%

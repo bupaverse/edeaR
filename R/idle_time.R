@@ -26,7 +26,7 @@
 #'
 #' @export idle_time
 idle_time <- function(log,
-					  level = c("log", "trace", "case", "resource"),
+					  level = c("log", "trace", "case", "resource", "flow"),
 					  append = deprecated(),
 					  append_column = NULL,
 					  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -38,7 +38,7 @@ idle_time <- function(log,
 #' @describeIn idle_time Computes the idle time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 idle_time.eventlog <- function(log,
-							   level = c("log", "trace", "case", "resource"),
+							   level = c("log", "trace", "case", "resource", "flow"),
 							   append = deprecated(),
 							   append_column = NULL,
 							   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -61,7 +61,8 @@ idle_time.eventlog <- function(log,
 				  log = idle_time_log,
 				  case = idle_time_case,
 				  trace = idle_time_trace,
-				  resource = idle_time_resource)
+				  resource = idle_time_resource,
+				  flow = idle_time_flow)
 
 	output <- FUN(log = log, units = units)
 
@@ -82,7 +83,7 @@ idle_time.eventlog <- function(log,
 #' @describeIn idle_time Computes the idle time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 idle_time.grouped_eventlog <- function(log,
-									   level = c("log", "case", "trace", "resource"),
+									   level = c("log", "case", "trace", "resource", "flow"),
 									   append = deprecated(),
 									   append_column = NULL,
 									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -105,7 +106,8 @@ idle_time.grouped_eventlog <- function(log,
 				  log = idle_time_log,
 				  case = idle_time_case,
 				  trace = idle_time_trace,
-				  resource = idle_time_resource)
+				  resource = idle_time_resource,
+				  flow = idle_time_flow)
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
@@ -130,7 +132,7 @@ idle_time.grouped_eventlog <- function(log,
 #' @describeIn idle_time Computes the idle time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 idle_time.activitylog <- function(log,
-								  level = c("log", "trace", "case", "resource"),
+								  level = c("log", "trace", "case", "resource", "flow"),
 								  append = deprecated(),
 								  append_column = NULL,
 								  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -154,7 +156,7 @@ idle_time.activitylog <- function(log,
 #' @describeIn idle_time Computes the idle time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 idle_time.grouped_activitylog <- function(log,
-										  level = c("log", "trace", "case", "resource"),
+										  level = c("log", "trace", "case", "resource", "flow"),
 										  append = deprecated(),
 										  append_column = NULL,
 										  units = c("auto", "secs", "mins", "hours", "days", "weeks"),

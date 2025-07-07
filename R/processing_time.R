@@ -36,7 +36,7 @@
 #'
 #' @export processing_time
 processing_time <- function(log,
-							level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+							level = c("log", "trace", "case", "activity", "resource", "resource-activity","activity-instance"),
 							append = deprecated(),
 							append_column = NULL,
 							units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -49,7 +49,7 @@ processing_time <- function(log,
 #' @describeIn processing_time Computes processing time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 processing_time.eventlog <- function(log,
-									 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+									 level = c("log", "trace", "case", "activity", "resource", "resource-activity","activity-instance"),
 									 append = deprecated(),
 									 append_column = NULL,
 									 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -83,7 +83,8 @@ processing_time.eventlog <- function(log,
 				  trace = processing_time_trace,
 				  activity = processing_time_activity,
 				  resource = processing_time_resource,
-				  "resource-activity" = processing_time_resource_activity)
+				  "resource-activity" = processing_time_resource_activity,
+				  "activity-instance" = processing_time_activity_instance)
 
 	output <- FUN(log = log, units = units, work_schedule = work_schedule)
 
@@ -106,7 +107,7 @@ processing_time.eventlog <- function(log,
 #' @describeIn processing_time Computes processing time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 processing_time.grouped_eventlog <- function(log,
-											 level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+											 level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
 											 append = deprecated(),
 											 append_column = NULL,
 											 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -132,7 +133,8 @@ processing_time.grouped_eventlog <- function(log,
 				  trace = processing_time_trace,
 				  activity = processing_time_activity,
 				  resource = processing_time_resource,
-				  "resource-activity" = processing_time_resource_activity)
+				  "resource-activity" = processing_time_resource_activity,
+				  "activity-instance" = processing_time_activity_instance)
 
 	if(is.null(append_column)) {
 		append_column <- case_when(level == "case" ~ "processing_time",
@@ -175,7 +177,7 @@ processing_time.grouped_eventlog <- function(log,
 #' @describeIn processing_time Computes processing time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 processing_time.activitylog <- function(log,
-										level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+										level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
 										append = deprecated(),
 										append_column = NULL,
 										units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -201,7 +203,7 @@ processing_time.activitylog <- function(log,
 #' @describeIn processing_time Computes processing time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 processing_time.grouped_activitylog <- function(log,
-												level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+												level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
 												append = deprecated(),
 												append_column = NULL,
 												units = c("auto", "secs", "mins", "hours", "days", "weeks"),

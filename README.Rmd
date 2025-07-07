@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 This package provides several useful techniques for _Exploratory and Descriptive Analysis_ of event based data in [`R`](https://www.r-project.org/).
 
-For more information, check the [manual on GitHub](https://bupaverse.github.io/edeaR/) or the [bupaR Documentation](https://bupar.net/getting_started.html) website.
+For more information, check the [manual on GitHub](https://bupaverse.github.io/edeaR/) or the [bupaR Documentation](https://bupaverse.github.io/docs/) website.
 
 ## Installation
 

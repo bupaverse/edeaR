@@ -15,7 +15,8 @@
 #' * On `"case"` level, the throughput time is defined as the total duration of the case, or the difference between
 #' the timestamp of the end event and the timestamp of the start event of the case. Possible [`idle_time()`] is also included
 #' in this calculation.
-#'
+#' * On `"activity-instance"` level, the throughput time of each activity instance. Throughput here is defined as the difference between the first and last event, without considering the lifecycle status. For the lifecycle-aware throughput time (e.g. not incorporating the time the activity is "suspended"), see processing time.
+#' * on `'activity` level, summary statistics describing the throuhgput time of activity instances (see above) per activity type.
 #' For other levels (e.g. `"activity"`, `"resource"`, or `"resource-activity"`), the throughput time is equal
 #' to the [`processing_time()`] and are, therefore, not supported by this method.
 #'
@@ -30,7 +31,7 @@
 #'
 #' @export throughput_time
 throughput_time <- function(log,
-							level = c("log", "trace", "case"),
+							level = c("log", "trace", "case", "activity","activity-instance"),
 							append = deprecated(),
 							append_column = NULL,
 							units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -43,7 +44,7 @@ throughput_time <- function(log,
 #' @describeIn throughput_time Computes throughput time for an [`eventlog`][`bupaR::eventlog`].
 #' @export
 throughput_time.eventlog <- function(log,
-									 level = c("log", "trace", "case"),
+									 level = c("log", "trace", "case", "activity","activity-instance"),
 									 append = deprecated(),
 									 append_column = NULL,
 									 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -65,7 +66,9 @@ throughput_time.eventlog <- function(log,
 	FUN <- switch(level,
 				  log = throughput_time_log,
 				  case = throughput_time_case,
-				  trace = throughput_time_trace)
+				  trace = throughput_time_trace,
+				  "activity-instance" = throughput_time_activity_instance,
+				  activity = throughput_time_activity)
 
 	output <- FUN(log = log, units = units, work_schedule = work_schedule)
 
@@ -86,7 +89,7 @@ throughput_time.eventlog <- function(log,
 #' @describeIn throughput_time Computes throughput time for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
 throughput_time.grouped_eventlog <- function(log,
-											 level = c("log", "trace", "case"),
+											 level = c("log", "trace", "case", "activity","activity-instance"),
 											 append = deprecated(),
 											 append_column = NULL,
 											 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -140,7 +143,7 @@ throughput_time.grouped_eventlog <- function(log,
 #' @describeIn throughput_time Computes throughput time for an [`activitylog`][`bupaR::activitylog`].
 #' @export
 throughput_time.activitylog <- function(log,
-										level = c("log", "trace", "case"),
+										level = c("log", "trace", "case", "activity","activity-instance"),
 										append = deprecated(),
 										append_column = NULL,
 										units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -166,7 +169,7 @@ throughput_time.activitylog <- function(log,
 #' @describeIn throughput_time Computes throughput time for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
 throughput_time.grouped_activitylog <- function(log,
-												level = c("log", "trace", "case"),
+												level = c("log", "trace", "case", "activity","activity-instance"),
 												append = deprecated(),
 												append_column = NULL,
 												units = c("auto", "secs", "mins", "hours", "days", "weeks"),

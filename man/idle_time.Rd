@@ -10,7 +10,7 @@
 \usage{
 idle_time(
   log,
-  level = c("log", "trace", "case", "resource"),
+  level = c("log", "trace", "case", "resource", "flow"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -20,7 +20,7 @@ idle_time(
 
 \method{idle_time}{eventlog}(
   log,
-  level = c("log", "trace", "case", "resource"),
+  level = c("log", "trace", "case", "resource", "flow"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -30,7 +30,7 @@ idle_time(
 
 \method{idle_time}{grouped_eventlog}(
   log,
-  level = c("log", "case", "trace", "resource"),
+  level = c("log", "case", "trace", "resource", "flow"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -40,7 +40,7 @@ idle_time(
 
 \method{idle_time}{activitylog}(
   log,
-  level = c("log", "trace", "case", "resource"),
+  level = c("log", "trace", "case", "resource", "flow"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -50,7 +50,7 @@ idle_time(
 
 \method{idle_time}{grouped_activitylog}(
   log,
-  level = c("log", "trace", "case", "resource"),
+  level = c("log", "trace", "case", "resource", "flow"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),

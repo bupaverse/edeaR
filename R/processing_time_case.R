@@ -14,7 +14,7 @@ processing_time_case <- function(log, units, work_schedule) {
 	dict <- dict %>%
 		full_join(raw, by = activity_instance_id(log)) %>%
 		group_by(!!case_id_(log)) %>%
-		summarize(processing_time = sum(processing_time)) %>%
+		summarize(processing_time = sum(processing_time, na.rm = T)) %>%
 		select(!!case_id_(log), processing_time)
 
 	attr(dict, "units") <- time_units
