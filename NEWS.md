@@ -1,3 +1,9 @@
+# edeaR 0.9.4
+
+## Bugfixes
+
+*  Rework functions (`number_of_selfloops`, `number_of_repetitions`, `size_of_selfloops`, `size_of_repetitions`) have been fixed to be compatible with changes in bupaR 0.5.3.
+
 # edeaR 0.9.2
 
 ## Breaking Changes

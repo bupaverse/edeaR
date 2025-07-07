@@ -1,8 +1,9 @@
 
 processing_time_case <- function(log, units, work_schedule) {
 
+	case_id <- log %>% case_id_()
 	log %>%
-		distinct(!!case_id_(log), !!activity_instance_id_(log)) -> dict
+		distinct(!!case_id, !!activity_instance_id_(log)) -> dict
 
 	log %>%
 		processing_time_activity_instance(units = units,
@@ -12,10 +13,13 @@ processing_time_case <- function(log, units, work_schedule) {
 	time_units <- attr(raw, "units")
 
 	dict <- dict %>%
-		full_join(raw, by = activity_instance_id(log)) %>%
-		group_by(!!case_id_(log)) %>%
-		summarize(processing_time = sum(processing_time)) %>%
-		select(!!case_id_(log), processing_time)
+		full_join(raw, by = activity_instance_id(log))
+	# Use data.table to summarise
+	dict <- as.data.table(dict)
+	cols <- c(rlang::as_name(case_id),'processing_time')
+	dict <- dict[, ..cols]
+	dict <- dict[, .(processing_time = sum(processing_time, na.rm=TRUE)),
+				   by=c(cols[1])] # by column needs to be a vector
 
 	attr(dict, "units") <- time_units
 	return(dict)

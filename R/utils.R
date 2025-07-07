@@ -187,13 +187,13 @@ summary_statistics <- function(vector) {
 
   vector %>%
     as_tibble() %>%
-    summarise("min" = min(vector),
-              "q1" = quantile(vector, probs = 0.25),
-              "median" = median(vector),
-              "mean" = mean(vector),
-              "q3" = quantile(vector, probs = 0.75),
-              "max" = max(vector),
-              "st_dev" = sd(vector),
+    summarise("min" = suppressWarnings(min(vector, na.rm = T)),
+              "q1" = quantile(vector, probs = 0.25, na.rm = T),
+              "median" = median(vector, na.rm = T),
+              "mean" = mean(vector, na.rm = T),
+              "q3" = quantile(vector, probs = 0.75, na.rm = T),
+              "max" = max(vector, na.rm = T),
+              "st_dev" = suppressWarnings(sd(vector, na.rm = T)),
               "iqr" = .data[["q3"]] - .data[["q1"]]) -> s
 
   return(s)
@@ -202,12 +202,12 @@ summary_statistics <- function(vector) {
 grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 	values <- sym(values)
 	data.frame %>%
-		summarize(min = min(!!values,na.rm = na.rm),
+		summarize(min = suppressWarnings(min(!!values,na.rm = na.rm)),
 				  q1 = quantile(!!values, 0.25, na.rm = na.rm),
 				  mean = mean(!!values, na.rm = na.rm),
 				  median = median(!!values, na.rm = na.rm),
 				  q3 = quantile(!!values, 0.75, na.rm = na.rm),
-				  max = max(!!values, na.rm = na.rm),
+				  max = suppressWarnings(max(!!values, na.rm = na.rm)),
 				  st_dev = sd(!!values, na.rm = na.rm),
 				  iqr = IQR(!!values, na.rm = na.rm),
 				  total = sum(!!values, na.rm = na.rm),

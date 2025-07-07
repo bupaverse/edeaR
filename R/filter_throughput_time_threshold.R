@@ -12,6 +12,7 @@ filter_throughput_time_threshold <- function(eventlog,
 
 	eventlog %>%
 		throughput_time("case", units = units) %>%
+		mutate(throughput_time = as.double(throughput_time, units = units)) %>%
 		filter(between(throughput_time, lower_threshold, upper_threshold)) %>%
 		pull(1) -> case_selection
 

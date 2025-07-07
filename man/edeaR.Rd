@@ -2,8 +2,8 @@
 % Please edit documentation in R/edeaR.R
 \docType{package}
 \name{edeaR}
-\alias{edeaR}
 \alias{edeaR-package}
+\alias{edeaR}
 \title{edeaR - Exploratory and Descriptive Event-based data Analysis in R}
 \description{
 This package provides several useful techniques for Exploratory and Descriptive analysis of event based data in R, developed by the Business Informatics Research Group of Hasselt University.
@@ -25,6 +25,8 @@ Other contributors:
 \itemize{
   \item Gerard van Hulzen \email{gerard.vanhulzen@uhasselt.be} [contributor]
   \item Marijke Swennen \email{marijke.swennen@uhasselt.be} [contributor]
+  \item Ivan Esin \email{ivan.esin@student.uhasselt.be} [contributor]
+  \item Hasselt University [copyright holder]
 }
 
 }

@@ -10,7 +10,7 @@
 \usage{
 throughput_time(
   log,
-  level = c("log", "trace", "case"),
+  level = c("log", "trace", "case", "activity", "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -21,7 +21,7 @@ throughput_time(
 
 \method{throughput_time}{eventlog}(
   log,
-  level = c("log", "trace", "case"),
+  level = c("log", "trace", "case", "activity", "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -32,7 +32,7 @@ throughput_time(
 
 \method{throughput_time}{grouped_eventlog}(
   log,
-  level = c("log", "trace", "case"),
+  level = c("log", "trace", "case", "activity", "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -43,7 +43,7 @@ throughput_time(
 
 \method{throughput_time}{activitylog}(
   log,
-  level = c("log", "trace", "case"),
+  level = c("log", "trace", "case", "activity", "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -54,7 +54,7 @@ throughput_time(
 
 \method{throughput_time}{grouped_activitylog}(
   log,
-  level = c("log", "trace", "case"),
+  level = c("log", "trace", "case", "activity", "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -97,10 +97,11 @@ Argument \code{level} has the following options:
 \item On \code{"case"} level, the throughput time is defined as the total duration of the case, or the difference between
 the timestamp of the end event and the timestamp of the start event of the case. Possible \code{\link[=idle_time]{idle_time()}} is also included
 in this calculation.
-}
-
+\item On \code{"activity-instance"} level, the throughput time of each activity instance. Throughput here is defined as the difference between the first and last event, without considering the lifecycle status. For the lifecycle-aware throughput time (e.g. not incorporating the time the activity is "suspended"), see processing time.
+\item on \verb{'activity} level, summary statistics describing the throuhgput time of activity instances (see above) per activity type.
 For other levels (e.g. \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}), the throughput time is equal
 to the \code{\link[=processing_time]{processing_time()}} and are, therefore, not supported by this method.
+}
 }
 \section{Methods (by class)}{
 \itemize{

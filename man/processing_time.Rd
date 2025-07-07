@@ -10,7 +10,8 @@
 \usage{
 processing_time(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity",
+    "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -21,7 +22,8 @@ processing_time(
 
 \method{processing_time}{eventlog}(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity",
+    "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -32,7 +34,8 @@ processing_time(
 
 \method{processing_time}{grouped_eventlog}(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity",
+    "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -43,7 +46,8 @@ processing_time(
 
 \method{processing_time}{activitylog}(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity",
+    "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
@@ -54,7 +58,8 @@ processing_time(
 
 \method{processing_time}{grouped_activitylog}(
   log,
-  level = c("log", "trace", "case", "activity", "resource", "resource-activity"),
+  level = c("log", "trace", "case", "activity", "resource", "resource-activity",
+    "activity-instance"),
   append = deprecated(),
   append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),

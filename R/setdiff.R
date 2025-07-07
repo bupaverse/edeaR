@@ -5,6 +5,7 @@
 #' @name setdiff
 #' @param x Eventlog
 #' @param y Eventlog
+#' @param ... Ignored
 #'
 #' @return Eventlog of activity instances in x which do not belong to y
 #'
@@ -12,6 +13,7 @@
 #' @export
 dplyr::setdiff
 #' @describeIn setdiff Setdiff for eventlogs
+#' @keywords internal
 #' @export
 
 setdiff.eventlog <- function(x, y, ...) {
