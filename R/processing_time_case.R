@@ -1,3 +1,5 @@
+..cols <- NULL
+
 
 processing_time_case <- function(log, units, work_schedule) {
 
