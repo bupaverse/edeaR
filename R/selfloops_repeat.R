@@ -18,7 +18,9 @@ repeat_selfloops <- function(eventlog) {
 		as.data.table %>%
 		.[, trace_length := .N, by = .(case_classifier)] %>%
 		.[, activity_frequency := .N, by = .(event_classifier)] %>%
-		.[, .(t_length = .N, nr_of_resources = n_distinct(resource_classifier), resource_classifier = first(resource_classifier)),
+		.[, .(t_length = .N,
+			  nr_of_resources = data.table::uniqueN(resource_classifier),
+			  resource_classifier = resource_classifier[1]),
 		  .(case_classifier, activity_group, event_classifier, trace_length, activity_frequency)] %>%
 		.[nr_of_resources == 1 &  t_length > 1] %>%
 		.[, length := t_length -1] %>%
