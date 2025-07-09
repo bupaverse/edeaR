@@ -6,42 +6,20 @@
 \alias{filter_case_condition.grouped_log}
 \title{Filter Case Condition}
 \usage{
-filter_case_condition(
-  log,
-  ...,
-  condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+filter_case_condition(log, ..., reverse = FALSE)
 
-\method{filter_case_condition}{log}(
-  log,
-  ...,
-  condition = deprecated(),
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_case_condition}{log}(log, ..., reverse = FALSE)
 
-\method{filter_case_condition}{grouped_log}(
-  log,
-  ...,
-  condition = deprecated(),
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_case_condition}{grouped_log}(log, ..., reverse = FALSE)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{...}{\code{\link[=dplyr_data_masking]{data-masking}}: Expressions that return a logical value, and are defined in terms of the variables in \code{log}.
+\item{...}{Expressions that return a logical value, and are defined in terms of the variables in \code{log}.
 If multiple expressions are included, they are combined with the \code{&} operator. Only rows for which all conditions evaluate to \code{TRUE} are kept.
 For more information, see \code{\link[dplyr]{filter}}.}
 
-\item{condition}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{\link[=dplyr_data_masking]{data-masking}} expressions instead.}
-
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
