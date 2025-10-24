@@ -257,7 +257,7 @@ check_activities <- function(specified_activities, found_activities, arg = "acti
 	wrong <- specified_activities[!(specified_activities %in% found_activities)]
 	if (length(wrong) > 0 && emit_warning) {
 		cli_warn(c("{.val {length(wrong)}} specified activit{?y/ies} in {.arg {arg}} not found in {.arg log}.",
-				   "!" = "Activit{?y/ies} not found and ignored: {.val {wrong}}."),
+				   "!" = "Activit{?y/ies} not found: {.val {wrong}}."),
 				 call = call)
 	}
 	specified_activities[!(specified_activities %in% wrong)]

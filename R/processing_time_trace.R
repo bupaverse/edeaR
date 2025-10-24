@@ -12,7 +12,9 @@ processing_time_trace <- function(log, units, work_schedule) {
 	time_units <- attr(raw, "units")
 
 	raw %>%
-		merge(traces) %>%
+		merge(traces) -> raw
+
+	raw %>%
 		group_by(trace) %>%
 		grouped_summary_statistics("processing_time", relative_frequency = n()) %>%
 		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%

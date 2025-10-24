@@ -51,5 +51,6 @@ idle_time_resource <- function(log, units) {
 	output <- as_tibble(dt)
 
 	attr(output, "units") <- attr(output[["idle_time"]], "units")
+	attr(output, "raw") <- output
 	return(output)
 }

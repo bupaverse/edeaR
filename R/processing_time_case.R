@@ -24,5 +24,6 @@ processing_time_case <- function(log, units, work_schedule) {
 				   by=c(cols[1])] # by column needs to be a vector
 
 	attr(dict, "units") <- time_units
+	attr(dict, "raw") <- dict
 	return(dict)
 }

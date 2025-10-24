@@ -43,6 +43,11 @@ filter_activity_presence.log <- function(log,
 	in_ <- NULL
 	out_ <- NULL
 
+	if(length(activities) == 0) {
+		cli::cli_abort("No activities specified.")
+	}
+
+
 	if(lifecycle::is_present(eventlog)) {
 		lifecycle::deprecate_warn(
 			when = "0.9.0",
@@ -55,13 +60,18 @@ filter_activity_presence.log <- function(log,
 
 	#check if function is called because on grouped_log
 	grouped <- any(str_detect(as.character(rlang::trace_back()$call), "filter_activity_presence.grouped_log"))
-	#remove activities not in log. Emit warning when not grouped
+	#Emit warning on incorrect activities when not grouped
 	correct_activities <- check_activities(activities, activity_labels(log), emit_warning = !grouped)
 
 	#if no activities are valid, return empty log
 	if(length(correct_activities) == 0) {
-		log %>%
-			filter(FALSE)
+		if(!reverse) {
+			log %>%
+				filter(FALSE)
+		} else {
+			log
+		}
+
 	} else {
 
 		log %>%
@@ -127,7 +137,7 @@ filter_activity_presence.grouped_log <- function(log,
 	method <- arg_match(method)
 
 	#check activities are valid
-	activities <- check_activities(activities, activity_labels(ungroup_eventlog(log)))
+	check_activities(activities, activity_labels(ungroup_eventlog(log)))
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)

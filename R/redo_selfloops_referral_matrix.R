@@ -31,14 +31,14 @@ redo_selfloops_referral_matrix.eventlog <- function(log, eventlog = deprecated()
 		log <- eventlog
 	}
 
-	eventlog %>%
+	log %>%
 		redo_selfloops() %>%
 		group_by(first_resource, last_resource) %>%
 		summarize(absolute = n()) -> output
 
 	class(output) <- c("referral_matrix", class(output))
 	attr(output, "type") <- "selfloop"
-	attr(output, "mapping") <- mapping(eventlog)
+	attr(output, "mapping") <- mapping(log)
 
 	return(output)
 }

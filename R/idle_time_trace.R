@@ -9,10 +9,13 @@ idle_time_trace <- function(log, units) {
 	time_units <- attr(raw, "units")
 
 	raw %>%
-		merge(cases) %>%
+		merge(cases) -> raw
+
+	raw %>%
 		group_by(trace) %>%
 		grouped_summary_statistics("idle_time") -> output
 
+	attr(output, "raw") <- raw
 	attr(output, "units") <- time_units
 	return(output)
 }

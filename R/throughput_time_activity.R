@@ -11,7 +11,8 @@ throughput_time_activity <- function(log, units,	work_schedule) {
 	time_units <- attr(raw, "units")
 
 
-	merge(raw, aid_a_link, by = activity_instance_id(log)) %>%
+	merge(raw, aid_a_link, by = activity_instance_id(log)) -> raw
+	raw %>%
 		group_by(!!sym(activity_id(log))) %>%
 		grouped_summary_statistics("throughput_time", relative_frequency = n()) %>%
 		mutate(relative_frequency = relative_frequency/sum(relative_frequency)) %>%
