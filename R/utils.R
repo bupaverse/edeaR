@@ -149,8 +149,8 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 
 
 		if(empty_label) {
-		output %>%
-			set_names(c(names(.)[ids], paste0(append_column, "_", level))) -> output
+			output %>%
+				set_names(c(names(.)[ids], paste0(append_column, "_", level))) -> output
 		}
 		else {
 			output %>%
@@ -182,21 +182,37 @@ return_metric <- function(eventlog, output, level, append, append_column, metric
 	}
 }
 
+return_metric_v2 <- function(log,  #original log
+							 output,  # output of metric
+							 level,  #name of level
+							 metric) { #name of metric
+
+	class(output) <- c(str_replace(paste0(level, "_metric"), "-", "_"),metric, class(output)) #replace for resource-activity
+	attr(output, "level") <- level
+	attr(output, "mapping") <- mapping(log)
+	attr(output, "metric_type") <- metric
+	if("grouped_eventlog" %in% class(log)) {
+		attr(output, "groups") <- groups(log)
+	}
+	return(output)
+
+}
+
 
 summary_statistics <- function(vector) {
 
-  vector %>%
-    as_tibble() %>%
-    summarise("min" = suppressWarnings(min(vector, na.rm = T)),
-              "q1" = quantile(vector, probs = 0.25, na.rm = T),
-              "median" = median(vector, na.rm = T),
-              "mean" = mean(vector, na.rm = T),
-              "q3" = quantile(vector, probs = 0.75, na.rm = T),
-              "max" = max(vector, na.rm = T),
-              "st_dev" = suppressWarnings(sd(vector, na.rm = T)),
-              "iqr" = .data[["q3"]] - .data[["q1"]]) -> s
+	vector %>%
+		as_tibble() %>%
+		summarise("min" = suppressWarnings(min(vector, na.rm = T)),
+				  "q1" = quantile(vector, probs = 0.25, na.rm = T),
+				  "median" = median(vector, na.rm = T),
+				  "mean" = mean(vector, na.rm = T),
+				  "q3" = quantile(vector, probs = 0.75, na.rm = T),
+				  "max" = max(vector, na.rm = T),
+				  "st_dev" = suppressWarnings(sd(vector, na.rm = T)),
+				  "iqr" = .data[["q3"]] - .data[["q1"]]) -> s
 
-  return(s)
+	return(s)
 }
 
 grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {

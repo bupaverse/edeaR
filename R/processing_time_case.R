@@ -19,7 +19,6 @@ processing_time_case <- function(log, units, work_schedule) {
 	# Use data.table to summarise
 	dict <- as.data.table(dict)
 	cols <- c(rlang::as_name(case_id),'processing_time')
-	dict <- dict[, ..cols]
 	dict <- dict[, .(processing_time = sum(processing_time, na.rm=TRUE)),
 				   by=c(cols[1])] # by column needs to be a vector
 

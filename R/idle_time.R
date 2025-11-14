@@ -27,11 +27,8 @@
 #' @export idle_time
 idle_time <- function(log,
 					  level = c("log", "trace", "case", "resource", "flow"),
-					  append = deprecated(),
-					  append_column = NULL,
 					  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-					  sort = TRUE,
-					  eventlog = deprecated()) {
+					  sort = TRUE) {
 	UseMethod("idle_time")
 }
 
@@ -39,23 +36,11 @@ idle_time <- function(log,
 #' @export
 idle_time.eventlog <- function(log,
 							   level = c("log", "trace", "case", "resource", "flow"),
-							   append = deprecated(),
-							   append_column = NULL,
 							   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-							   sort = TRUE,
-							   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+							   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "idle_time",
-								   level == "resource" ~ "idle_time",
-								   TRUE ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = idle_time_log,
@@ -73,7 +58,7 @@ idle_time.eventlog <- function(log,
 			arrange(-idle_time) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
+	return_metric_v2(log, output, level, "idle_time") -> t
 
 	attr(t, "units") <- time_units
 
@@ -84,23 +69,11 @@ idle_time.eventlog <- function(log,
 #' @export
 idle_time.grouped_eventlog <- function(log,
 									   level = c("log", "case", "trace", "resource", "flow"),
-									   append = deprecated(),
-									   append_column = NULL,
 									   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-									   sort = TRUE,
-									   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+									   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "idle_time",
-								   level == "resource" ~ "idle_time",
-								   TRUE ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = idle_time_log,
@@ -122,7 +95,7 @@ idle_time.grouped_eventlog <- function(log,
 			arrange(-idle_time) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "idle_time", 1, empty_label = TRUE) -> t
+	return_metric_v2(log, output, level, "idle_time") -> t
 
 	attr(t, "units") <- time_units
 
@@ -133,22 +106,14 @@ idle_time.grouped_eventlog <- function(log,
 #' @export
 idle_time.activitylog <- function(log,
 								  level = c("log", "trace", "case", "resource", "flow"),
-								  append = deprecated(),
-								  append_column = NULL,
 								  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-								  sort = TRUE,
-								  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+								  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	idle_time.eventlog(bupaR::to_eventlog(log),
 					   level = level,
-					   append = append,
-					   append_column = append_column,
 					   units = units,
 					   sort = sort)
 }
@@ -157,22 +122,14 @@ idle_time.activitylog <- function(log,
 #' @export
 idle_time.grouped_activitylog <- function(log,
 										  level = c("log", "trace", "case", "resource", "flow"),
-										  append = deprecated(),
-										  append_column = NULL,
 										  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-										  sort = TRUE,
-										  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	idle_time.grouped_eventlog(bupaR::to_eventlog(log),
 							   level = level,
-							   append = append,
-							   append_column = append_column,
 							   units = units,
 							   sort = sort)
 }

@@ -14,15 +14,13 @@
 #' @concept metrics_structuredness
 #'
 #' @export number_of_traces
-number_of_traces <- function(log, eventlog = deprecated()) {
+number_of_traces <- function(log) {
 	UseMethod("number_of_traces")
 }
 
 #' @describeIn number_of_traces Number of traces in a \code{\link[bupaR]{log}}.
 #' @export
-number_of_traces.log <- function(log, eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+number_of_traces.log <- function(log) {
 
 	output <- number_of_traces_FUN(log)
 	class(output) <- c("number_of_traces", class(output))
@@ -32,9 +30,7 @@ number_of_traces.log <- function(log, eventlog = deprecated()) {
 
 #' @describeIn number_of_traces Number of traces in a \code{\link[bupaR]{grouped_log}}.
 #' @export
-number_of_traces.grouped_log <- function(log, eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+number_of_traces.grouped_log <- function(log) {
 
 	output <- bupaR:::apply_grouped_fun(log, fun = number_of_traces_FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 

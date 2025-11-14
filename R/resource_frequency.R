@@ -32,10 +32,7 @@
 #' @export resource_frequency
 resource_frequency <- function(log,
 							   level = c("log", "case", "activity", "resource", "resource-activity"),
-							   append = deprecated(),
-							   append_column = NULL,
-							   sort = TRUE,
-							   eventlog = deprecated()) {
+							   sort = TRUE) {
 	UseMethod("resource_frequency")
 }
 
@@ -43,31 +40,12 @@ resource_frequency <- function(log,
 #' @export
 resource_frequency.eventlog <- function(log,
 										level = c("log", "case", "activity", "resource", "resource-activity"),
-										append = deprecated(),
-										append_column = NULL,
-										sort = TRUE,
-										eventlog = deprecated()) {
+										sort = TRUE) {
 
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "resource_frequency(eventlog)",
-			with = "resource_frequency(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "median",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   level == "activity"~"median",
-								   TRUE ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = resource_frequency_log,
@@ -83,33 +61,18 @@ resource_frequency.eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "resource_frequency", ifelse(level == "resource", 2,
-																				ifelse(level == "resource-activity", 3,9)))
+	return_metric_v2(log, output, level, "resource_frequency")
 }
 
 #' @describeIn resource_frequency Computes the resource frequency for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 resource_frequency.grouped_eventlog <- function(log,
 												level = c("log", "case", "activity", "resource", "resource-activity"),
-												append = deprecated(),
-												append_column = NULL,
-												sort = TRUE,
-												eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												sort = TRUE) {
 
 	level <- rlang::arg_match(level)
-
 	absolute <- NULL
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "median",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   level == "activity"~"median",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = resource_frequency_log,
@@ -132,28 +95,19 @@ resource_frequency.grouped_eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "resource_frequency", ifelse(level == "resource", 2,
-																				ifelse(level == "resource-activity", 3,9)))
+	return_metric_v2(log, output, level,"resource_frequency")
 }
 
 #' @describeIn resource_frequency Computes the resource frequency for an \code{\link[bupaR]{activitylog}}.
 #' @export
 resource_frequency.activitylog <- function(log,
 										   level = c("log", "case", "activity", "resource", "resource-activity"),
-										   append = deprecated(),
-										   append_column = NULL,
-										   sort = TRUE,
-										   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	resource_frequency.eventlog(bupaR::to_eventlog(log),
 								level = level,
-								append = append,
-								append_column = append_column,
 								sort = sort)
 }
 
@@ -161,19 +115,11 @@ resource_frequency.activitylog <- function(log,
 #' @export
 resource_frequency.grouped_activitylog <- function(log,
 												   level = c("log", "case", "activity", "resource", "resource-activity"),
-												   append = deprecated(),
-												   append_column = NULL,
-												   sort = TRUE,
-												   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	resource_frequency.grouped_eventlog(bupaR::to_eventlog(log),
 										level = level,
-										append = append,
-										append_column = append_column,
 										sort = sort)
 }

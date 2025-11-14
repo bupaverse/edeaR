@@ -6,16 +6,14 @@
 \alias{redo_repetitions_referral_matrix.activitylog}
 \title{Referral matrix repetitons}
 \usage{
-redo_repetitions_referral_matrix(log, eventlog = deprecated())
+redo_repetitions_referral_matrix(log)
 
-\method{redo_repetitions_referral_matrix}{eventlog}(log, eventlog = deprecated())
+\method{redo_repetitions_referral_matrix}{eventlog}(log)
 
-\method{redo_repetitions_referral_matrix}{activitylog}(log, eventlog = deprecated())
+\method{redo_repetitions_referral_matrix}{activitylog}(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides a list of initatiors and completers of  redo repetitons

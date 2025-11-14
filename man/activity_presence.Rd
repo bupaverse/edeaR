@@ -8,59 +8,20 @@
 \alias{activity_presence.grouped_activitylog}
 \title{Metric: Activity Presence}
 \usage{
-activity_presence(
-  log,
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
-)
+activity_presence(log, sort = TRUE)
 
-\method{activity_presence}{eventlog}(
-  log,
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
-)
+\method{activity_presence}{eventlog}(log, sort = TRUE)
 
-\method{activity_presence}{grouped_eventlog}(
-  log,
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
-)
+\method{activity_presence}{grouped_eventlog}(log, sort = TRUE)
 
-\method{activity_presence}{activitylog}(
-  log,
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
-)
+\method{activity_presence}{activitylog}(log, sort = TRUE)
 
-\method{activity_presence}{grouped_activitylog}(
-  log,
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
-)
+\method{activity_presence}{grouped_activitylog}(log, sort = TRUE)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
-have been deprecated in favour of \code{\link{augment}}.\cr
-Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
-
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
-Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
-
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Calculates for each activity type in what percentage of cases it is present.

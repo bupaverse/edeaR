@@ -29,10 +29,7 @@
 #' @export start_activities
 start_activities <- function(log,
 							 level = c("log", "case", "activity", "resource", "resource-activity"),
-							 append = deprecated(),
-							 append_column = NULL,
-							 sort = TRUE,
-							 eventlog = deprecated()) {
+							 sort = TRUE) {
 	UseMethod("start_activities")
 }
 
@@ -40,25 +37,11 @@ start_activities <- function(log,
 #' @export
 start_activities.eventlog <- function(log,
 									  level = c("log", "case", "activity", "resource", "resource-activity"),
-									  append = deprecated(),
-									  append_column = NULL,
-									  sort = TRUE,
-									  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+									  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "activity" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity" ~ "absolute",
-								   level == "case" ~ activity_id(log),
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = start_activities_log,
@@ -74,20 +57,14 @@ start_activities.eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "start_activities", ifelse(level == "case",1,3))
+	return_metric_v2(log, output, level,"start_activities")
 }
 
 #' @describeIn start_activities Computes the start activities for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 start_activities.grouped_eventlog <- function(log,
 											  level = c("log", "case", "activity", "resource", "resource-activity"),
-											  append = deprecated(),
-											  append_column = NULL,
-											  sort = TRUE,
-											  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+											  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
@@ -107,27 +84,19 @@ start_activities.grouped_eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "start_activities", ifelse(level == "case",1,3))
+	return_metric_v2(log, output, level, "start_activities")
 }
 
 #' @describeIn start_activities Computes the start activities for an \code{\link[bupaR]{activitylog}}.
 #' @export
 start_activities.activitylog <- function(log,
 										 level = c("log", "case", "activity", "resource", "resource-activity"),
-										 append = deprecated(),
-										 append_column = NULL,
-										 sort = TRUE,
-										 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	start_activities.eventlog(bupaR::to_eventlog(log),
 							  level = level,
-							  append = append,
-							  append_column = append_column,
 							  sort = sort)
 }
 
@@ -135,19 +104,11 @@ start_activities.activitylog <- function(log,
 #' @export
 start_activities.grouped_activitylog <- function(log,
 												 level = c("log", "case", "activity", "resource", "resource-activity"),
-												 append = deprecated(),
-												 append_column = NULL,
-												 sort = TRUE,
-												 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	start_activities.grouped_eventlog(bupaR::to_eventlog(log),
 									  level = level,
-									  append = append,
-									  append_column = append_column,
 									  sort = sort)
 }

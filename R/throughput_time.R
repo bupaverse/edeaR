@@ -32,12 +32,9 @@
 #' @export throughput_time
 throughput_time <- function(log,
 							level = c("log", "trace", "case", "activity","activity-instance"),
-							append = deprecated(),
-							append_column = NULL,
 							units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 							sort = TRUE,
-							work_schedule = NULL,
-							eventlog = deprecated()) {
+							work_schedule = NULL) {
 	UseMethod("throughput_time")
 }
 
@@ -45,23 +42,14 @@ throughput_time <- function(log,
 #' @export
 throughput_time.eventlog <- function(log,
 									 level = c("log", "trace", "case", "activity","activity-instance"),
-									 append = deprecated(),
-									 append_column = NULL,
 									 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 									 sort = TRUE,
-									 work_schedule = NULL,
-									 eventlog = deprecated()) {
+									 work_schedule = NULL) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "throughput_time",
-								   TRUE ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = throughput_time_log,
@@ -79,7 +67,7 @@ throughput_time.eventlog <- function(log,
 			arrange(-throughput_time) -> output
 	}
 
-	output <- return_metric(log, output, level, append, append_column,  "throughput_time", 1, empty_label = TRUE)
+	output <- return_metric_v2(log, output, level,  "throughput_time")
 
 	# TODO: set units according to difftime units from output (useful in case the user set units = "auto")
 	attr(output, "units") <- time_units
@@ -90,23 +78,12 @@ throughput_time.eventlog <- function(log,
 #' @export
 throughput_time.grouped_eventlog <- function(log,
 											 level = c("log", "trace", "case", "activity","activity-instance"),
-											 append = deprecated(),
-											 append_column = NULL,
 											 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 											 sort = TRUE,
-											 work_schedule = NULL,
-											 eventlog = deprecated()){
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+											 work_schedule = NULL){
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "throughput_time",
-								   TRUE ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = throughput_time_log,
@@ -133,7 +110,7 @@ throughput_time.grouped_eventlog <- function(log,
 			arrange(-throughput_time) -> output
 	}
 
-	output <- return_metric(log, output, level, append, append_column, "throughput_time", 1, empty_label = TRUE)
+	output <- return_metric_v2(log, output, level, "throughput_time")
 
 	attr(output, "units") <- time_units
 
@@ -144,23 +121,15 @@ throughput_time.grouped_eventlog <- function(log,
 #' @export
 throughput_time.activitylog <- function(log,
 										level = c("log", "trace", "case", "activity","activity-instance"),
-										append = deprecated(),
-										append_column = NULL,
 										units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 										sort = TRUE,
-										work_schedule = NULL,
-										eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										work_schedule = NULL) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	throughput_time.eventlog(bupaR::to_eventlog(log),
 							 level = level,
-							 append = append,
-							 append_column = append_column,
 							 units = units,
 							 sort = sort,
 							 work_schedule = work_schedule)
@@ -170,23 +139,15 @@ throughput_time.activitylog <- function(log,
 #' @export
 throughput_time.grouped_activitylog <- function(log,
 												level = c("log", "trace", "case", "activity","activity-instance"),
-												append = deprecated(),
-												append_column = NULL,
 												units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 												sort = TRUE,
-												work_schedule = NULL,
-												eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												work_schedule = NULL) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	throughput_time.grouped_eventlog(bupaR::to_eventlog(log),
 									 level = level,
-									 append = append,
-									 append_column = append_column,
 									 units = units,
 									 sort = sort,
 									 work_schedule = work_schedule)

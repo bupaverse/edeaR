@@ -1,7 +1,7 @@
 Package: edeaR
 Type: Package
 Title: Exploratory and Descriptive Event-Based Data Analysis
-Version: 0.9.5
+Version: 1.0.0
 Authors@R: c(person("Gert","Janssenswillen",email = "gert.janssenswillen@uhasselt.be", role = c("aut","cre")),
              person("Gerard","van Hulzen",email = "gerard.vanhulzen@uhasselt.be", role = c("ctb")),
              person("Marijke","Swennen", email = "marijke.swennen@uhasselt.be", role = "ctb"),
@@ -33,7 +33,7 @@ Imports:
     lifecycle,
     magrittr
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL:
     https://bupar.net/,
     https://github.com/bupaverse/edeaR/,

@@ -24,10 +24,7 @@
 #' @export trace_length
 trace_length <- function(log,
 						 level = c("log", "trace", "case"),
-						 append = deprecated(),
-						 append_column = NULL,
-						 sort = TRUE,
-						 eventlog = deprecated()) {
+						 sort = TRUE) {
 	UseMethod("trace_length")
 }
 
@@ -35,28 +32,11 @@ trace_length <- function(log,
 #' @export
 trace_length.eventlog <- function(log,
 								  level = c("log", "trace", "case"),
-								  append = deprecated(),
-								  append_column = NULL,
-								  sort = TRUE,
-								  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "trace_length(eventlog)",
-			with = "trace_length(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
+								  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = trace_length_log,
@@ -70,20 +50,14 @@ trace_length.eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column,  "trace_length", 1,  empty_label = TRUE)
+	return_metric_v2(log, output, level, "trace_length")
 }
 
 #' @describeIn trace_length Computes trace length for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 trace_length.grouped_eventlog <- function(log,
 										  level = c("log", "trace", "case"),
-										  append = deprecated(),
-										  append_column = NULL,
-										  sort = TRUE,
-										  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										  sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
@@ -93,11 +67,6 @@ trace_length.grouped_eventlog <- function(log,
 				  log = trace_length_log,
 				  case = trace_length_case,
 				  trace = trace_length_trace)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "trace_length",
-								   T ~ "NA")
-	}
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
@@ -113,27 +82,19 @@ trace_length.grouped_eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "trace_length", 1, empty_label = TRUE)
+	return_metric_v2(log, output, level, "trace_length")
 }
 
 #' @describeIn trace_length Computes trace length for an \code{\link[bupaR]{activitylog}}.
 #' @export
 trace_length.activitylog <- function(log,
 									 level = c("log", "trace", "case"),
-									 append = deprecated(),
-									 append_column = NULL,
-									 sort = TRUE,
-									 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+									 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	trace_length.eventlog(bupaR::to_eventlog(log),
 						  level = level,
-						  append = append,
-						  append_column = append_column,
 						  sort = sort)
 }
 
@@ -141,19 +102,11 @@ trace_length.activitylog <- function(log,
 #' @export
 trace_length.grouped_activitylog <- function(log,
 											 level = c("log", "trace", "case"),
-											 append = deprecated(),
-											 append_column = NULL,
-											 sort = TRUE,
-											 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+											 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	trace_length.grouped_eventlog(bupaR::to_eventlog(log),
 								  level = level,
-								  append = append,
-								  append_column = append_column,
 								  sort = sort)
 }

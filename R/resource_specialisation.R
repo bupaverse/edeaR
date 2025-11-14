@@ -26,10 +26,7 @@
 #' @export resource_specialisation
 resource_specialisation <- function(log,
 									level = c("log", "activity", "resource"),
-									append = deprecated(),
-									append_column = NULL,
-									sort = TRUE,
-									eventlog = deprecated()) {
+									sort = TRUE) {
 	UseMethod("resource_specialisation")
 }
 
@@ -37,10 +34,7 @@ resource_specialisation <- function(log,
 #' @export resource_specialization
 resource_specialization <- function(log,
 									level = c("log", "activity", "resource"),
-									append = deprecated(),
-									append_column = NULL,
-									sort = TRUE,
-									eventlog = deprecated()) {
+									sort = TRUE) {
 	UseMethod("resource_specialisation")
 }
 
@@ -48,29 +42,13 @@ resource_specialization <- function(log,
 #' @export
 resource_specialisation.log <- function(log,
 										level = c("log", "activity", "resource"),
-										append = deprecated(),
-										append_column = NULL,
-										sort = TRUE,
-										eventlog = deprecated()) {
+										sort = TRUE) {
 
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "resource_specialisation(eventlog)",
-			with = "resource_specialisation(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "resource" ~ "absolute",
-								   level == "activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
@@ -84,30 +62,18 @@ resource_specialisation.log <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",10,2))
+	return_metric_v2(log, output, level, "resource_specialisation")
 }
 
 #' @describeIn resource_specialisation Computes the resource specialisation for a \code{\link[bupaR]{grouped_log}}.
 #' @export
 resource_specialisation.grouped_log <- function(log,
 												level = c("log", "activity", "resource"),
-												append = deprecated(),
-												append_column = NULL,
-												sort = TRUE,
-												eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "resource" ~ "absolute",
-								   level == "activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = resource_specialisation_log,
@@ -128,7 +94,7 @@ resource_specialisation.grouped_log <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append,append_column, "resource_specialisation", ifelse(level == "case",8,2))
+	return_metric_v2(log, output, level,"resource_specialisation")
 }
 
 

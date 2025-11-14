@@ -32,10 +32,7 @@
 #' @export end_activities
 end_activities <- function(log,
 						   level = c("log", "case", "activity", "resource", "resource-activity"),
-						   append = deprecated(),
-						   append_column = NULL,
-						   sort = TRUE,
-						   eventlog = deprecated())  {
+						   sort = TRUE)  {
 	UseMethod("end_activities")
 }
 
@@ -43,22 +40,10 @@ end_activities <- function(log,
 #' @export
 end_activities.eventlog <- function(log,
 									level = c("log", "case", "activity", "resource", "resource-activity"),
-									append = deprecated(),
-									append_column = NULL,
-									sort = TRUE,
-									eventlog = deprecated()) {
+									sort = TRUE) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+
 	level <- rlang::arg_match(level)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "activity" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity" ~ "absolute",
-								   level == "case" ~ activity_id(log),
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = end_activities_log,
@@ -74,29 +59,16 @@ end_activities.eventlog <- function(log,
 			arrange(-.data[["absolute"]]) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
+	return_metric_v2(log, output, level, "end_activities")
 }
 
 #' @describeIn end_activities Computes the end activities for a \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
 end_activities.grouped_eventlog <- function(log,
 											level = c("log", "case", "activity", "resource", "resource-activity"),
-											append = deprecated(),
-											append_column = NULL,
-											sort = TRUE,
-											eventlog = deprecated()) {
+											sort = TRUE) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "activity" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity" ~ "absolute",
-								   level == "case" ~ activity_id(log),
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = end_activities_log,
@@ -112,26 +84,19 @@ end_activities.grouped_eventlog <- function(log,
 			arrange(-.data[["absolute"]])-> output
 	}
 
-	return_metric(log, output, level, append, append_column, "end_activities", n_result_col = ifelse(level == "case",1,3))
+	return_metric_v2(log, output, level, "end_activities")
 }
 
 #' @describeIn end_activities Computes the end activities for an \code{\link[bupaR]{activitylog}}.
 #' @export
 end_activities.activitylog <- function(log,
 									   level = c("log", "case", "activity", "resource", "resource-activity"),
-									   append = deprecated(),
-									   append_column = NULL,
-									   sort = TRUE,
-									   eventlog = deprecated()) {
+									   sort = TRUE) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	end_activities.eventlog(bupaR::to_eventlog(log),
 							level = level,
-							append = append,
-							append_column = append_column,
 							sort = sort)
 }
 
@@ -139,18 +104,11 @@ end_activities.activitylog <- function(log,
 #' @export
 end_activities.grouped_activitylog <- function(log,
 											   level = c("log", "case", "activity", "resource", "resource-activity"),
-											   append = deprecated(),
-											   append_column = NULL,
-											   sort = TRUE,
-											   eventlog = deprecated()) {
+											   sort = TRUE) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 	level <- rlang::arg_match(level)
 
 	end_activities.grouped_eventlog(bupaR::to_eventlog(log),
 									level = level,
-									append = append,
-									append_column = append_column,
 									sort = sort)
 }

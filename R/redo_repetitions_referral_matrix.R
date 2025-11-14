@@ -13,24 +13,16 @@
 #'
 #' @export
 #'
-redo_repetitions_referral_matrix <- function(log, eventlog = deprecated()) {
+redo_repetitions_referral_matrix <- function(log) {
 	UseMethod("redo_repetitions_referral_matrix")
 }
 
 #' @describeIn redo_repetitions_referral_matrix Compute matrix for eventlog
 #' @export
 
-redo_repetitions_referral_matrix.eventlog <- function(log, eventlog = deprecated()) {
+redo_repetitions_referral_matrix.eventlog <- function(log) {
 	first_resource <- NULL
 	last_resource <- NULL
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "redo_repetitions_referral_matrix(eventlog)",
-			with = "redo_repetitions_referral_matrix(log)")
-		log <- eventlog
-	}
 
 	log %>%
 		redo_repetitions() %>%
@@ -47,15 +39,7 @@ redo_repetitions_referral_matrix.eventlog <- function(log, eventlog = deprecated
 #' @describeIn redo_repetitions_referral_matrix Compute matrix for activitylog
 #' @export
 #'
-redo_repetitions_referral_matrix.activitylog <- function(log, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "redo_repetitions_referral_matrix(eventlog)",
-			with = "redo_repetitions_referral_matrix(log)")
-		log <- eventlog
-	}
+redo_repetitions_referral_matrix.activitylog <- function(log) {
 
 	log %>%
 		to_eventlog() %>%

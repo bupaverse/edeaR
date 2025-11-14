@@ -17,8 +17,7 @@ filter_precedence_resource <- function(log,
                                        consequents,
                                        precedence_type = c("directly_follows", "eventually_follows"),
                                        filter_method = c("all", "one_of", "none"),
-                                       reverse = FALSE,
-                                       eventlog = deprecated()) {
+                                       reverse = FALSE) {
   UseMethod("filter_precedence_resource")
 }
 
@@ -29,10 +28,7 @@ filter_precedence_resource.eventlog <- function(log,
                                            consequents,
                                            precedence_type = c("directly_follows", "eventually_follows"),
                                            filter_method = c("all", "one_of", "none"),
-                                           reverse = FALSE,
-                                           eventlog = deprecated()) {
-
-  log <- lifecycle_warning_eventlog(log, eventlog)
+                                           reverse = FALSE) {
 
   precedence_type <- arg_match(precedence_type)
   filter_method <- arg_match(filter_method)
@@ -99,15 +95,13 @@ filter_precedence_resource.activitylog <- function(log,
                                                    consequents,
                                                    precedence_type = c("directly_follows", "eventually_follows"),
                                                    filter_method = c("all", "one_of", "none"),
-                                                   reverse = FALSE,
-                                                   eventlog = deprecated()) {
+                                                   reverse = FALSE) {
 
-  log <- lifecycle_warning_eventlog(log, eventlog)
 
   log %>%
     to_eventlog() %>%
     mutate(!!activity_instance_id(.) := as.character(.data[[activity_instance_id(.)]])) %>%
-    filter_precedence_resource.eventlog(antecedents = antecedents,
+    filter_precedence_resource(antecedents = antecedents,
                                         consequents = consequents,
                                         precedence_type = precedence_type,
                                         filter_method = filter_method,
@@ -122,10 +116,7 @@ filter_precedence_resource.grouped_log <- function(log,
                                                    consequents,
                                                    precedence_type = c("directly_follows", "eventually_follows"),
                                                    filter_method = c("all", "one_of", "none"),
-                                                   reverse = FALSE,
-                                                   eventlog = deprecated()) {
-
-  log <- lifecycle_warning_eventlog(log, eventlog)
+                                                   reverse = FALSE) {
 
   bupaR:::apply_grouped_fun(log, fun = filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
   #grouped_filter(eventlog, filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse)

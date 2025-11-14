@@ -33,10 +33,7 @@
 #' @export resource_involvement
 resource_involvement <- function(log,
 								 level = c("case", "resource", "resource-activity"),
-								 append = deprecated(),
-								 append_column = NULL,
-								 sort = TRUE,
-								 eventlog = deprecated()) {
+								 sort = TRUE) {
 	UseMethod("resource_involvement")
 }
 
@@ -44,30 +41,11 @@ resource_involvement <- function(log,
 #' @export
 resource_involvement.log <- function(log,
 									 level = c("case", "resource", "resource-activity"),
-									 append = deprecated(),
-									 append_column = NULL,
-									 sort = TRUE,
-									 eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "resource_involvement(eventlog)",
-			with = "resource_involvement(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
+									 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  case = resource_involvement_case,
@@ -81,31 +59,19 @@ resource_involvement.log <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "resource_involvement",2)
+	return_metric_v2(log, output, level,"resource_involvement")
 }
 
 #' @describeIn resource_involvement Computes the resource involvement for a \code{\link[bupaR]{grouped_log}}.
 #' @export
 resource_involvement.grouped_log <- function(log,
 											 level = c("case", "resource", "resource-activity"),
-											 append = deprecated(),
-											 append_column = NULL,
-											 sort = TRUE,
-											 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+											 sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  case = resource_involvement_case,
@@ -119,5 +85,5 @@ resource_involvement.grouped_log <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "resource_involvement",2)
+	return_metric_v2(log, output, level, "resource_involvement")
 }

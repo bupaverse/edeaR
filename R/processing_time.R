@@ -37,12 +37,9 @@
 #' @export processing_time
 processing_time <- function(log,
 							level = c("log", "trace", "case", "activity", "resource", "resource-activity","activity-instance"),
-							append = deprecated(),
-							append_column = NULL,
 							units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 							sort = TRUE,
-							work_schedule = NULL,
-							eventlog = deprecated()) {
+							work_schedule = NULL) {
 	UseMethod("processing_time")
 }
 
@@ -50,15 +47,9 @@ processing_time <- function(log,
 #' @export
 processing_time.eventlog <- function(log,
 									 level = c("log", "trace", "case", "activity", "resource", "resource-activity","activity-instance"),
-									 append = deprecated(),
-									 append_column = NULL,
 									 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 									 sort = TRUE,
-									 work_schedule = NULL,
-									 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+									 work_schedule = NULL) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
@@ -67,14 +58,6 @@ processing_time.eventlog <- function(log,
 		if(!("work_schedule" %in% class(work_schedule))) {
 			stop("Make sure the work_schedule is created with the create_work_schedule function.")
 		}
-	}
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "processing_time",
-								   level == "resource" ~ "median",
-								   level == "resource-activity"~"median",
-								   level == "activity"~"median",
-								   TRUE ~ "NA")
 	}
 
 	FUN <- switch(level,
@@ -95,9 +78,7 @@ processing_time.eventlog <- function(log,
 			arrange(-processing_time) -> output
 	}
 
-	return_metric(log, output, level, append, append_column,  "processing_time",
-				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
+	return_metric_v2(log, output, level, "processing_time") -> t
 
 	attr(t, "units") <- time_units
 
@@ -108,15 +89,10 @@ processing_time.eventlog <- function(log,
 #' @export
 processing_time.grouped_eventlog <- function(log,
 											 level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
-											 append = deprecated(),
-											 append_column = NULL,
 											 units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 											 sort = TRUE,
-											 work_schedule = NULL,
-											 eventlog = deprecated()){
+											 work_schedule = NULL){
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
@@ -136,13 +112,6 @@ processing_time.grouped_eventlog <- function(log,
 				  "resource-activity" = processing_time_resource_activity,
 				  "activity-instance" = processing_time_activity_instance)
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "processing_time",
-								   level == "resource" ~ "median",
-								   level == "resource-activity"~"median",
-								   level == "activity"~"median",
-								   TRUE ~ "NA")
-	}
 
 	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
@@ -164,10 +133,7 @@ processing_time.grouped_eventlog <- function(log,
 			arrange(-processing_time) -> output
 	}
 
-
-	return_metric(log, output, level, append, append_column,  "processing_time",
-				  ifelse(level == "case", 1, 9),
-				  empty_label = ifelse(level == "case",TRUE, FALSE)) -> t
+	return_metric_v2(log, output, level, "processing_time") -> t
 
 	attr(t, "units") <- time_units
 
@@ -178,23 +144,15 @@ processing_time.grouped_eventlog <- function(log,
 #' @export
 processing_time.activitylog <- function(log,
 										level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
-										append = deprecated(),
-										append_column = NULL,
 										units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 										sort = TRUE,
-										work_schedule = NULL,
-										eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+										work_schedule = NULL) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	processing_time.eventlog(bupaR::to_eventlog(log),
 							 level = level,
-							 append = append,
-							 append_column = append_column,
 							 units = units,
 							 sort = sort,
 							 work_schedule = work_schedule)
@@ -204,23 +162,15 @@ processing_time.activitylog <- function(log,
 #' @export
 processing_time.grouped_activitylog <- function(log,
 												level = c("log", "trace", "case", "activity", "resource", "resource-activity", "activity-instance"),
-												append = deprecated(),
-												append_column = NULL,
 												units = c("auto", "secs", "mins", "hours", "days", "weeks"),
 												sort = TRUE,
-												work_schedule = NULL,
-												eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												work_schedule = NULL) {
 
 	level <- rlang::arg_match(level)
 	units <- rlang::arg_match(units)
 
 	processing_time.grouped_eventlog(bupaR::to_eventlog(log),
 									 level = level,
-									 append = append,
-									 append_column = append_column,
 									 units = units,
 									 sort = sort,
 									 work_schedule = work_schedule)

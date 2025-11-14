@@ -20,10 +20,7 @@
 #' @export trace_coverage
 trace_coverage <- function(log,
 						   level = c("log", "trace", "case"),
-						   append = deprecated(),
-						   append_column = NULL,
-						   sort = TRUE,
-						   eventlog = deprecated()) {
+						   sort = TRUE) {
 	UseMethod("trace_coverage")
 }
 
@@ -31,28 +28,11 @@ trace_coverage <- function(log,
 #' @export
 trace_coverage.log <- function(log,
 							   level = c("log", "trace", "case"),
-							   append = deprecated(),
-							   append_column = NULL,
-							   sort = TRUE,
-							   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "number_of_repetitions(eventlog)",
-			with = "number_of_repetitions(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
+							   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
-
 	absolute <- NULL
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = trace_coverage_log,
@@ -66,29 +46,18 @@ trace_coverage.log <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	return_metric(log, output, level, append, append_column, "trace_coverage", 2)
+	return_metric_v2(log, output, level, "trace_coverage")
 }
 
 #' @describeIn trace_coverage Calculates trace coverage metric for a \code{\link[bupaR]{grouped_log}}.
 #' @export
 trace_coverage.grouped_log <- function(log,
 									   level = c("log", "trace", "case"),
-									   append = deprecated(),
-									   append_column = NULL,
-									   sort = TRUE,
-									   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+									   sort = TRUE) {
 
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   T ~ "NA")
-	}
 
 	FUN <- switch(level,
 				  log = trace_coverage_log,
@@ -101,7 +70,6 @@ trace_coverage.grouped_log <- function(log,
 		output %>%
 			arrange(-absolute) -> output
 	}
-
-	return_metric(log, output, level, append, append_column, "trace_coverage", 2)
+	return_metric_v2(log, output, level, "trace_coverage")
 }
 

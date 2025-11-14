@@ -6,16 +6,14 @@
 \alias{number_of_traces.grouped_log}
 \title{Number of Traces}
 \usage{
-number_of_traces(log, eventlog = deprecated())
+number_of_traces(log)
 
-\method{number_of_traces}{log}(log, eventlog = deprecated())
+\method{number_of_traces}{log}(log)
 
-\method{number_of_traces}{grouped_log}(log, eventlog = deprecated())
+\method{number_of_traces}{grouped_log}(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Computes how many traces there are.

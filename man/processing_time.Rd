@@ -12,60 +12,45 @@ processing_time(
   log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity",
     "activity-instance"),
-  append = deprecated(),
-  append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  work_schedule = NULL,
-  eventlog = deprecated()
+  work_schedule = NULL
 )
 
 \method{processing_time}{eventlog}(
   log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity",
     "activity-instance"),
-  append = deprecated(),
-  append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  work_schedule = NULL,
-  eventlog = deprecated()
+  work_schedule = NULL
 )
 
 \method{processing_time}{grouped_eventlog}(
   log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity",
     "activity-instance"),
-  append = deprecated(),
-  append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  work_schedule = NULL,
-  eventlog = deprecated()
+  work_schedule = NULL
 )
 
 \method{processing_time}{activitylog}(
   log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity",
     "activity-instance"),
-  append = deprecated(),
-  append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  work_schedule = NULL,
-  eventlog = deprecated()
+  work_schedule = NULL
 )
 
 \method{processing_time}{grouped_activitylog}(
   log,
   level = c("log", "trace", "case", "activity", "resource", "resource-activity",
     "activity-instance"),
-  append = deprecated(),
-  append_column = NULL,
   units = c("auto", "secs", "mins", "hours", "days", "weeks"),
   sort = TRUE,
-  work_schedule = NULL,
-  eventlog = deprecated()
+  work_schedule = NULL
 )
 }
 \arguments{
@@ -74,21 +59,12 @@ processing_time(
 \item{level}{\code{\link{character}} (default \code{"log"}): Level of granularity for the analysis: \code{"log"} (default), \code{"trace"}, \code{"case"},
 \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information, see \code{vignette("metrics", "edeaR")} and \strong{Details} below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
-have been deprecated in favour of \code{\link{augment}}.\cr
-Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
-
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
-Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
-
 \item{units}{\code{\link{character}} (default \code{"auto"}): The time unit in which the processing times should be reported. Should be one of the following values:
 \code{"auto"} (default), \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. See also the \code{units} argument of \code{\link[=difftime]{difftime()}}.}
 
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort on decreasing processing time. For \code{"case"} \code{level} only.}
 
 \item{work_schedule}{A schedule of working hours. If provided, only working hours are counted as processing time.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides summary statistics about the processing time of the process.

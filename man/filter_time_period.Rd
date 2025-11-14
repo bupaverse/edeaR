@@ -66,8 +66,6 @@ of type \code{\link[base]{Date}} or \code{\link[base]{POSIXct}}). Half-open inte
 \code{"trim"}, activity instances on the edges of the interval are cut at the exact edge of the \code{interval}.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.

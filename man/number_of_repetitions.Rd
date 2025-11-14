@@ -12,50 +12,35 @@ number_of_repetitions(
   log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
+  sort = TRUE
 )
 
 \method{number_of_repetitions}{eventlog}(
   log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
+  sort = TRUE
 )
 
 \method{number_of_repetitions}{grouped_eventlog}(
   log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
+  sort = TRUE
 )
 
 \method{number_of_repetitions}{activitylog}(
   log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
+  sort = TRUE
 )
 
 \method{number_of_repetitions}{grouped_activitylog}(
   log,
   type = c("all", "repeat", "redo"),
   level = c("log", "case", "activity", "resource", "resource-activity"),
-  append = deprecated(),
-  append_column = NULL,
-  sort = TRUE,
-  eventlog = deprecated()
+  sort = TRUE
 )
 }
 \arguments{
@@ -68,16 +53,7 @@ number_of_repetitions(
 \code{"case"}, \code{"activity"}, \code{"resource"}, or \code{"resource-activity"}. For more information,
 see \code{vignette("metrics", "edeaR")} and 'Details' below.}
 
-\item{append}{\code{\link{logical}} (default \code{FALSE}) \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}: The arguments \code{append} and \code{append_column}
-have been deprecated in favour of \code{\link{augment}}.\cr
-Indicating whether to append results to original log. Ignored when level is \code{"log"} or \code{"trace"}.}
-
-\item{append_column}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The arguments \code{append} and \code{append_column} have been deprecated in favour of \code{\link{augment}}.\cr
-Which of the output columns to append to log, if \code{append = TRUE}. Default column depends on chosen level.}
-
 \item{sort}{\code{\link{logical}} (default \code{TRUE}): Sort output on count. Only for levels with frequency count output.}
-
-\item{eventlog}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{log} instead.}
 }
 \description{
 Provides information statistics on the number of repetitions

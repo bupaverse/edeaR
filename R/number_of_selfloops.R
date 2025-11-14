@@ -49,10 +49,7 @@
 number_of_selfloops <- function(log,
 								type = c("all", "repeat", "redo"),
 								level = c("log", "case", "activity", "resource", "resource-activity"),
-								append = deprecated(),
-								append_column = NULL,
-								sort = TRUE,
-								eventlog = deprecated()) {
+								sort = TRUE) {
 	UseMethod("number_of_selfloops")
 }
 
@@ -61,19 +58,7 @@ number_of_selfloops <- function(log,
 number_of_selfloops.eventlog <- function(log,
 										 type = c("all", "repeat", "redo"),
 										 level = c("log", "case", "activity", "resource", "resource-activity"),
-										 append = deprecated(),
-										 append_column = NULL,
-										 sort = TRUE,
-										 eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "number_of_repetitions(eventlog)",
-			with = "number_of_repetitions(log)")
-		log <- eventlog
-	}
-	append <- lifecycle_warning_append(append)
+										 sort = TRUE) {
 
 	type <- rlang::arg_match(type)
 	level <- rlang::arg_match(level)
@@ -84,13 +69,6 @@ number_of_selfloops.eventlog <- function(log,
 	#if(all((level) == c("log","case","activity","resource","resource-activity")))
 	#	message("Using default level: log")
 
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   level == "activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	if(type == "all") {
 		FUN <- switch(level,
@@ -127,7 +105,7 @@ number_of_selfloops.eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	output <- return_metric(log, output, level, append, append_column, "number_of_selfloops")
+	output <- return_metric_v2(log, output, level, "number_of_selfloops")
 
 	attr(output, "type") <- type
 
@@ -139,25 +117,12 @@ number_of_selfloops.eventlog <- function(log,
 number_of_selfloops.grouped_eventlog <- function(log,
 												 type = c("all", "repeat", "redo"),
 												 level = c("log", "case", "activity", "resource", "resource-activity"),
-												 append = deprecated(),
-												 append_column = NULL,
-												 sort = TRUE,
-												 eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+												 sort = TRUE) {
 
 	type <- rlang::arg_match(type)
 	level <- rlang::arg_match(level)
 
 	absolute <- NULL
-	if(is.null(append_column)) {
-		append_column <- case_when(level == "case" ~ "absolute",
-								   level == "resource" ~ "absolute",
-								   level == "resource-activity"~"absolute",
-								   level == "activity"~"absolute",
-								   T ~ "NA")
-	}
 
 	if(type == "all") {
 		FUN <- switch(level,
@@ -202,7 +167,7 @@ number_of_selfloops.grouped_eventlog <- function(log,
 			arrange(-absolute) -> output
 	}
 
-	output <- return_metric(log, output, level, append, append_column, "number_of_selfloops", ifelse(level == "resource-activity", 3,2))
+	output <- return_metric_v2(log, output, level, "number_of_selfloops")
 
 	attr(output, "type") <- type
 
@@ -214,13 +179,7 @@ number_of_selfloops.grouped_eventlog <- function(log,
 number_of_selfloops.activitylog <- function(log,
 											type = c("all", "repeat", "redo"),
 											level = c("log", "case", "activity", "resource", "resource-activity"),
-											append = deprecated(),
-											append_column = NULL,
-											sort = TRUE,
-											eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
+											sort = TRUE) {
 
 	type <- rlang::arg_match(type)
 	level <- rlang::arg_match(level)
@@ -228,8 +187,6 @@ number_of_selfloops.activitylog <- function(log,
 	number_of_selfloops.eventlog(bupaR::to_eventlog(log),
 								 type = type,
 								 level = level,
-								 append = append,
-								 append_column = append_column,
 								 sort = sort)
 }
 
@@ -238,13 +195,8 @@ number_of_selfloops.activitylog <- function(log,
 number_of_selfloops.grouped_activitylog <- function(log,
 													type = c("all", "repeat", "redo"),
 													level = c("log", "case", "activity", "resource", "resource-activity"),
-													append = deprecated(),
-													append_column = NULL,
-													sort = TRUE,
-													eventlog = deprecated()) {
+													sort = TRUE) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	append <- lifecycle_warning_append(append)
 
 	type <- rlang::arg_match(type)
 	level <- rlang::arg_match(level)
@@ -252,7 +204,5 @@ number_of_selfloops.grouped_activitylog <- function(log,
 	number_of_selfloops.grouped_eventlog(bupaR::to_eventlog(log),
 										 type = type,
 										 level = level,
-										 append = append,
-										 append_column = append_column,
 										 sort = sort)
 }
