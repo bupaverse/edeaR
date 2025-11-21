@@ -4,13 +4,16 @@
 \alias{filter_resource}
 \alias{filter_resource.log}
 \alias{filter_resource.grouped_log}
+\alias{ifilter_resource}
 \title{Filter Resource}
 \usage{
-filter_resource(log, resources, reverse = FALSE, eventlog = deprecated())
+filter_resource(log, resources, reverse = FALSE)
 
-\method{filter_resource}{log}(log, resources, reverse = FALSE, eventlog = deprecated())
+\method{filter_resource}{log}(log, resources, reverse = FALSE)
 
-\method{filter_resource}{grouped_log}(log, resources, reverse = FALSE, eventlog = deprecated())
+\method{filter_resource}{grouped_log}(log, resources, reverse = FALSE)
+
+ifilter_resource(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -35,6 +38,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 \item \code{filter_resource(log)}: Filters resources for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_resource(grouped_log)}: Filters resources for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_resource()}: Filter interactively
 
 }}
 \references{

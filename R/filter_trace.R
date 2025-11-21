@@ -16,21 +16,13 @@
 #' @concept filters_case
 #'
 #' @export filter_trace
-filter_trace <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()) {
+filter_trace <- function(log, trace_ids, reverse = FALSE) {
 	UseMethod("filter_trace")
 }
 
 #' @describeIn filter_trace Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_trace.log <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()){
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace(eventlog)",
-			with = "filter_trace(log)")
-		log <- eventlog
-	}
+filter_trace.log <- function(log, trace_ids, reverse = FALSE){
 
 	trace_id <- NULL
 
@@ -44,15 +36,7 @@ filter_trace.log <- function(log, trace_ids, reverse = FALSE, eventlog = depreca
 
 #' @describeIn filter_trace Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_trace.grouped_log <- function(log, trace_ids, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace(eventlog)",
-			with = "filter_trace(log)")
-		log <- eventlog
-	}
+filter_trace.grouped_log <- function(log, trace_ids, reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_trace.log, trace_ids, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }

@@ -28,22 +28,14 @@
 #' @concept filters_case
 #'
 #' @export filter_trace_frequency
-filter_trace_frequency <- function(log, interval = NULL, percentage = NULL, reverse = FALSE, eventlog = deprecated()) {
+filter_trace_frequency <- function(log, interval = NULL, percentage = NULL, reverse = FALSE) {
 	UseMethod("filter_trace_frequency")
 }
 
 
 #' @describeIn filter_trace_frequency Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_trace_frequency.log <- function(log, interval = NULL, percentage = NULL, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace_frequency(eventlog)",
-			with = "filter_trace_frequency(log)")
-		log <- eventlog
-	}
+filter_trace_frequency.log <- function(log, interval = NULL, percentage = NULL, reverse = FALSE) {
 
 	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
 		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
@@ -70,25 +62,16 @@ filter_trace_frequency.log <- function(log, interval = NULL, percentage = NULL, 
 
 #' @describeIn filter_trace_frequency Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_trace_frequency.grouped_log <- function(log, interval = NULL, percentage = NULL,	reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace_frequency(eventlog)",
-			with = "filter_trace_frequency(log)")
-		log <- eventlog
-	}
+filter_trace_frequency.grouped_log <- function(log, interval = NULL, percentage = NULL,	reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_trace_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_trace_frequency Filter interactively
 #' @export ifilter_trace_frequency
-ifilter_trace_frequency <- function(eventlog) {
+ifilter_trace_frequency <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_trace_frequency()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter on Trace Frequency"),
@@ -104,11 +87,12 @@ ifilter_trace_frequency <- function(eventlog) {
 	)
 
 	server <- function(input, output, session){
+		max <- max(log %>% trace_list() %>% pull(absolute_frequency))
 		absolute_frequency <- NULL
-			output$filter_ui <- renderUI({
+		output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Trace frequency interval",
-							min = 1, max = max(eventlog %>% trace_list() %>% pull(absolute_frequency)), value = c(1,10), step = 1)
+							min = 1, max = max, value = c(1,max), step = 1)
 
 			}
 			else if(input$filter_type == "percentile") {
@@ -118,16 +102,16 @@ ifilter_trace_frequency <- function(eventlog) {
 
 		observeEvent(input$done, {
 			if(input$filter_type == "int")
-				filtered_log <- filter_trace_frequency(eventlog,
-													   interval = input$interval_slider,
-													   reverse = ifelse(input$reverse == "Yes", T, F))
+				fun_call <- construct_call(input_cmd, list(interval = list(input$interval_slider),
+														   reverse = list(input$reverse == "Yes", FALSE)))
 			else if(input$filter_type == "percentile") {
-				filtered_log <- filter_trace_frequency(eventlog,
-													   percentage = input$percentile_slider/100,
-													   reverse = ifelse(input$reverse == "Yes", T, F))
+				fun_call <- construct_call(input_cmd, list(percentage = list(input$percentile_slider/100),
+														   reverse = list(input$reverse == "Yes", FALSE)))
 			}
 
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter on Trace Frequency", height = 400))

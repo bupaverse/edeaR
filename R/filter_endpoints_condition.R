@@ -14,8 +14,7 @@
 filter_endpoints_condition <- function(log,
 									   start_condition = NULL,
 									   end_condition = NULL,
-									   reverse = FALSE,
-									   eventlog = deprecated()) {
+									   reverse = FALSE) {
 	UseMethod("filter_endpoints_condition")
 }
 
@@ -24,16 +23,7 @@ filter_endpoints_condition <- function(log,
 filter_endpoints_condition.eventlog <- function(log,
 												start_condition = NULL,
 												end_condition = NULL,
-												reverse = FALSE,
-												eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_endpoints_condition(eventlog)",
-			with = "filter_endpoints_condition(log)")
-		log <- eventlog
-	}
+												reverse = FALSE) {
 
 	START_CONDITION <- NULL
 	END_CONDITION <- NULL
@@ -108,16 +98,7 @@ filter_endpoints_condition.eventlog <- function(log,
 filter_endpoints_condition.grouped_log <- function(log,
 												   start_condition = NULL,
 												   end_condition = NULL,
-												   reverse = FALSE,
-												   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_endpoints_condition(eventlog)",
-			with = "filter_endpoints_condition(log)")
-		log <- eventlog
-	}
+												   reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_condition, enquo(start_condition), enquo(end_condition), reverse,
 							  .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
@@ -129,16 +110,7 @@ filter_endpoints_condition.grouped_log <- function(log,
 filter_endpoints_condition.activitylog <- function(log,
 												   start_condition = NULL,
 												   end_condition = NULL,
-												   reverse = FALSE,
-												   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_endpoints_condition(eventlog)",
-			with = "filter_endpoints_condition(log)")
-		log <- eventlog
-	}
+												   reverse = FALSE) {
 
 	filter_endpoints_condition(log = bupaR::to_eventlog(log), start_condition = enquo(start_condition), end_condition = enquo(end_condition), reverse = reverse) %>%
 		bupaR::to_activitylog()
@@ -150,13 +122,7 @@ filter_endpoints_condition.activitylog <- function(log,
 filter_endpoints_conditions <- function(log,
 										start_condition = NULL,
 										end_condition = NULL,
-										reverse = FALSE,
-										eventlog = deprecated()) {
-	lifecycle::deprecate_warn(
-		"0.9.0",
-		what = "filter_endpoints_conditions()",
-		with = "filter_endpoints_condition()"
-	)
+										reverse = FALSE) {
 
 	filter_endpoints_condition(log,
 							   enquo(start_condition),

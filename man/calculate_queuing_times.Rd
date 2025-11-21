@@ -8,20 +8,17 @@
 \usage{
 calculate_queuing_times(
   log,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
 )
 
 \method{calculate_queuing_times}{eventlog}(
   log,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
 )
 
 \method{calculate_queuing_times}{activitylog}(
   log,
-  units = c("auto", "secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("auto", "secs", "mins", "hours", "days", "weeks")
 )
 }
 \arguments{

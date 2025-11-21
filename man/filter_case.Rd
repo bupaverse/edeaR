@@ -4,13 +4,16 @@
 \alias{filter_case}
 \alias{filter_case.log}
 \alias{filter_case.grouped_log}
+\alias{ifilter_case}
 \title{Filter Case}
 \usage{
-filter_case(log, cases, reverse = FALSE, eventlog = deprecated())
+filter_case(log, cases, reverse = FALSE)
 
-\method{filter_case}{log}(log, cases, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{log}(log, cases, reverse = FALSE)
 
-\method{filter_case}{grouped_log}(log, cases, reverse = FALSE, eventlog = deprecated())
+\method{filter_case}{grouped_log}(log, cases, reverse = FALSE)
+
+ifilter_case(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -33,6 +36,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 \item \code{filter_case(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_case(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_case()}: Filter interactively
 
 }}
 \references{

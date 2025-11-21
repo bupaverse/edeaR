@@ -23,8 +23,7 @@
 filter_trace_length <- function(log,
 								interval = NULL,
 								percentage = NULL,
-								reverse = FALSE,
-								eventlog = deprecated()) {
+								reverse = FALSE) {
 	UseMethod("filter_trace_length")
 }
 
@@ -33,16 +32,7 @@ filter_trace_length <- function(log,
 filter_trace_length.log <- function(log,
 									interval = NULL,
 									percentage = NULL,
-									reverse = FALSE,
-									eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace_length(eventlog)",
-			with = "filter_trace_length(log)")
-		log <- eventlog
-	}
+									reverse = FALSE) {
 
 	if(!is.null(interval) && (length(interval) != 2 || !is.numeric(interval) || any(interval < 0, na.rm = T) || all(is.na(interval)) )) {
 		stop("Interval should be a positive numeric vector of length 2. One of the elements can be NA to create open intervals.")
@@ -71,27 +61,15 @@ filter_trace_length.log <- function(log,
 filter_trace_length.grouped_log <- function(log,
 											interval = NULL,
 											percentage = NULL,
-											reverse = FALSE,
-											eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trace_length(eventlog)",
-			with = "filter_trace_length(log)")
-		log <- eventlog
-	}
+											reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_trace_length.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_trace_length Filter interactively
 #' @export ifilter_trace_length
-ifilter_trace_length <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_trace_length()")
+ifilter_trace_length <- function(log) {
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter on Trace Length"),
@@ -107,17 +85,20 @@ ifilter_trace_length <- function(eventlog) {
 	)
 
 	server <- function(input, output, session){
+		input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 		output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
+				suppressWarnings(
 				sliderInput("interval_slider", "Process time interval",
-							min = min(eventlog %>% group_by_case %>%
-									  	summarize(n = n_distinct(!!activity_instance_id_(eventlog))) %>%
+							min = min(log %>% group_by_case %>%
+									  	summarize(n = n_distinct(!!activity_instance_id_(log))) %>%
 									  	pull(n)),
-							max = max(eventlog %>% group_by_case %>%
-									  	summarize(n = n_distinct(!!activity_instance_id_(eventlog))) %>%
+							max = max(log %>% group_by_case %>%
+									  	summarize(n = n_distinct(!!activity_instance_id_(log))) %>%
 									  	pull(n)),
 							value = c(-Inf,Inf), step = 1)
+				)
 
 			}
 			else if(input$filter_type == "percentile") {
@@ -127,16 +108,17 @@ ifilter_trace_length <- function(eventlog) {
 
 		observeEvent(input$done, {
 			if(input$filter_type == "int")
-				filtered_log <- filter_trace_length(eventlog,
-													   interval = input$interval_slider,
-													   reverse = ifelse(input$reverse == "Yes", T, F))
+				fun_call <- construct_call(input_cmd, list(interval = list(input$interval_slider),
+														   reverse = list(input$reverse == "Yes", FALSE)))
+
 			else if(input$filter_type == "percentile") {
-				filtered_log <- filter_trace_length(eventlog,
-													   percentage = input$percentile_slider/100,
-													   reverse = ifelse(input$reverse == "Yes", T, F))
+				fun_call <- construct_call(input_cmd, list(percentage = list(input$percentile_slider/100),
+														   reverse = list(input$reverse == "Yes", FALSE)))
 			}
 
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Trace Length", height = 400))

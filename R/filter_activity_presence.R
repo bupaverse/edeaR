@@ -26,8 +26,7 @@
 filter_activity_presence <- function(log,
 									 activities = NULL,
 									 method = c("all", "none", "one_of", "exact", "only"),
-									 reverse = FALSE,
-									 eventlog = deprecated()){
+									 reverse = FALSE){
 	UseMethod("filter_activity_presence")
 }
 
@@ -36,8 +35,7 @@ filter_activity_presence <- function(log,
 filter_activity_presence.log <- function(log,
 										 activities = NULL,
 										 method = c("all", "none", "one_of", "exact", "only"),
-										 reverse = FALSE,
-										 eventlog = deprecated()) {
+										 reverse = FALSE) {
 
 	in_selection <- NULL
 	in_ <- NULL
@@ -45,15 +43,6 @@ filter_activity_presence.log <- function(log,
 
 	if(length(activities) == 0) {
 		cli::cli_abort("No activities specified.")
-	}
-
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_activity_presence(eventlog)",
-			with = "filter_activity_presence(log)")
-		log <- eventlog
 	}
 
 	method <- arg_match(method)
@@ -123,16 +112,7 @@ filter_activity_presence.log <- function(log,
 filter_activity_presence.grouped_log <- function(log,
 												 activities = NULL,
 												 method = c("all", "none", "one_of", "exact", "only"),
-												 reverse = FALSE,
-												 eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_activity_presence(eventlog)",
-			with = "filter_activity_presence(log)")
-		log <- eventlog
-	}
+												 reverse = FALSE) {
 
 	method <- arg_match(method)
 
@@ -143,23 +123,23 @@ filter_activity_presence.grouped_log <- function(log,
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
 }
 
-#' @keywords internals
-#' @rdname ifilter
+#' @describeIn filter_activity_presence Filter interactively
 #' @export ifilter_activity_presence
-ifilter_activity_presence <- function(eventlog) {
+ifilter_activity_presence <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_activity_presence()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter activities based on presence"),
 		miniContentPanel(
 			fillCol(flex = c(2,1),
-					fillRow(flex = c(10,1,8),
+					fillRow(flex = c(10,1,8,1,8),
 							selectizeInput("selected_activities",
 										   label = "Select activities:",
-										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
 										   	unique, selected = NA,  multiple = TRUE), " ",
-							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all")
+							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all"), " ",
+							radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 					),
 					"If \"all\", each of the activities should be present.
               If \"one_of\", at least one of them should be present. If \"none\", none of the activities are allowed to occur in the filtered traces."
@@ -168,13 +148,11 @@ ifilter_activity_presence <- function(eventlog) {
 
 	server <- function(input, output, session){
 		observeEvent(input$done, {
-
-			filtered_log <- filter_activity_presence(eventlog,
-													 activities = input$selected_activities,
-													 method = input$method)
-
-
-			stopApp(filtered_log)
+			fun_call <- construct_call(input_cmd, list(activities = list(input$selected_activities),
+													   method = list(input$method, "'all'"), reverse = list(input$reverse == "Yes", FALSE)))
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter activities based on presence", height = 400))

@@ -31,7 +31,8 @@ Imports:
     zoo,
     hms,
     lifecycle,
-    magrittr
+    magrittr,
+    rstudioapi
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 URL:

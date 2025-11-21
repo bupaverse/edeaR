@@ -19,8 +19,7 @@
 filter_trim <- function(log,
 						start_activities = NULL,
 						end_activities = NULL,
-						reverse = FALSE,
-						eventlog = deprecated()) {
+						reverse = FALSE) {
 	UseMethod("filter_trim")
 }
 
@@ -29,16 +28,7 @@ filter_trim <- function(log,
 filter_trim.eventlog <- function(log,
 								 start_activities = NULL,
 								 end_activities = NULL,
-								 reverse = FALSE,
-								 eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim(eventlog)",
-			with = "filter_trim(log)")
-		log <- eventlog
-	}
+								 reverse = FALSE) {
 
 	if(is.null(start_activities) & is.null(end_activities))
 		stop("At least one start or end activity should be provided")
@@ -94,16 +84,8 @@ filter_trim.eventlog <- function(log,
 filter_trim.grouped_eventlog <- function(log,
 										 start_activities = NULL,
 										 end_activities = NULL,
-										 reverse = FALSE,
-										 eventlog = deprecated()) {
+										 reverse = FALSE) {
 
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim(eventlog)",
-			with = "filter_trim(log)")
-		log <- eventlog
-	}
 	bupaR:::apply_grouped_fun(log, fun = filter_trim.eventlog, start_activities, end_activities, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
@@ -112,16 +94,7 @@ filter_trim.grouped_eventlog <- function(log,
 filter_trim.activitylog <- function(log,
 									start_activities = NULL,
 									end_activities = NULL,
-									reverse = FALSE,
-									eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim(eventlog)",
-			with = "filter_trim(log)")
-		log <- eventlog
-	}
+									reverse = FALSE) {
 
 	filter_trim.eventlog(bupaR::to_eventlog(log),
 						 start_activities = start_activities,
@@ -135,16 +108,7 @@ filter_trim.activitylog <- function(log,
 filter_trim.grouped_activitylog <- function(log,
 											start_activities = NULL,
 											end_activities = NULL,
-											reverse = FALSE,
-											eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim(eventlog)",
-			with = "filter_trim(log)")
-		log <- eventlog
-	}
+											reverse = FALSE) {
 
 	filter_trim.grouped_eventlog(bupaR::to_eventlog(log),
 								 start_activities = start_activities,
@@ -152,12 +116,11 @@ filter_trim.grouped_activitylog <- function(log,
 								 reverse = reverse) %>%
 		to_activitylog()
 }
-#' @keywords internals
-#' @rdname ifilter
+#' @describeIn filter_trim Filter interactively
 #' @export ifilter_trim
-ifilter_trim <- function(eventlog) {
+ifilter_trim <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_trim()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Trim cases"),
@@ -165,10 +128,10 @@ ifilter_trim <- function(eventlog) {
 			fillCol(flex = c(5,3,2),
 					fillRow(flex = c(10,1,10),
 							selectizeInput("start", label = "Select start activities:",
-										   choices = eventlog %>% pull(!!activity_id_(eventlog)) %>%
+										   choices = log %>% pull(!!activity_id_(log)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T), " ",
 							selectizeInput("end", label = "Select end activities:",
-										   choices = eventlog %>% pull(!!activity_id_(eventlog)) %>%
+										   choices = log %>% pull(!!activity_id_(log)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T)),
 					fillRow(
 						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
@@ -180,13 +143,12 @@ ifilter_trim <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_trim(eventlog,
-										start_activities = input$start,
-										end_activities = input$end,
-										reverse = ifelse(input$reverse == "Yes", T, F))
+			fun_call <- construct_call(input_cmd, list(start_activities = list(input$start),
+													   end_activities = list(input$end), reverse = list(input$reverse == "Yes", FALSE)))
 
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Trim cases", height = 400))

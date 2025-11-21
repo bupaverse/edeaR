@@ -4,31 +4,31 @@
 \alias{filter_resource_frequency}
 \alias{filter_resource_frequency.log}
 \alias{filter_resource_frequency.grouped_log}
+\alias{ifilter_resource_frequency}
 \title{Filter Resource Frequency}
 \usage{
 filter_resource_frequency(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_resource_frequency}{log}(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_resource_frequency}{grouped_log}(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_resource_frequency(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -67,6 +67,11 @@ e.g., \code{c(10, NA)} will select resource labels which occur 10 times or more.
 \item \code{filter_resource_frequency(log)}: Filters resources for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_resource_frequency(grouped_log)}: Filters resources for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_resource_frequency()}: Filter interactively
 
 }}
 \references{

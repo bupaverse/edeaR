@@ -4,31 +4,16 @@
 \alias{filter_trace_length}
 \alias{filter_trace_length.log}
 \alias{filter_trace_length.grouped_log}
+\alias{ifilter_trace_length}
 \title{Filter Trace Length}
 \usage{
-filter_trace_length(
-  log,
-  interval = NULL,
-  percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+filter_trace_length(log, interval = NULL, percentage = NULL, reverse = FALSE)
 
-\method{filter_trace_length}{log}(
-  log,
-  interval = NULL,
-  percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_trace_length}{log}(log, interval = NULL, percentage = NULL, reverse = FALSE)
 
-\method{filter_trace_length}{grouped_log}(
-  log,
-  interval = NULL,
-  percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_trace_length}{grouped_log}(log, interval = NULL, percentage = NULL, reverse = FALSE)
+
+ifilter_trace_length(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -57,6 +42,11 @@ interval can be defined instead to filter cases which have a length in this inte
 \item \code{filter_trace_length(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_trace_length(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_trace_length()}: Filter interactively
 
 }}
 \references{

@@ -22,8 +22,7 @@ filter_throughput_time <- function(log,
 								   interval = NULL,
 								   percentage = NULL,
 								   reverse = FALSE,
-								   units = c("secs", "mins", "hours", "days", "weeks"),
-								   eventlog = deprecated()) {
+								   units = c("secs", "mins", "hours", "days", "weeks")) {
 	UseMethod("filter_throughput_time")
 }
 
@@ -33,16 +32,7 @@ filter_throughput_time.log <- function(log,
 									   interval = NULL,
 									   percentage = NULL,
 									   reverse = FALSE,
-									   units = c("secs", "mins", "hours", "days", "weeks"),
-									   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_processing_time(eventlog)",
-			with = "filter_processing_time(log)")
-		log <- eventlog
-	}
+									   units = c("secs", "mins", "hours", "days", "weeks")) {
 
 	units <- rlang::arg_match(units)
 
@@ -66,27 +56,17 @@ filter_throughput_time.grouped_log <- function(log,
 											   interval = NULL,
 											   percentage = NULL,
 											   reverse = FALSE,
-											   units = c("secs", "mins", "hours", "days", "weeks"),
-											   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_processing_time(eventlog)",
-			with = "filter_processing_time(log)")
-		log <- eventlog
-	}
+											   units = c("secs", "mins", "hours", "days", "weeks")) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_throughput_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_throughput_time, interval, percentage, reverse, units, ...)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_throughput_time Filter interactively
 #' @export ifilter_throughput_time
-ifilter_throughput_time <- function(eventlog) {
+ifilter_throughput_time <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_throughput_time()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Througput Time"),
@@ -94,7 +74,7 @@ ifilter_throughput_time <- function(eventlog) {
 			fillCol(
 				fillRow(
 					radioButtons("filter_type", "Filter type:", choices = c("Interval" = "int", "Use percentile cutoff" = "percentile")),
-					radioButtons("units", "Time units: ", choices = c("weeks","days","hours","mins"), selected = "hours"),
+					radioButtons("units", "Time units: ", choices = c("secs", "mins", "hours", "days", "weeks"), selected = "secs"),
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 				),
 				uiOutput("filter_ui")
@@ -103,11 +83,12 @@ ifilter_throughput_time <- function(eventlog) {
 	)
 
 	server <- function(input, output, session){
+		my_max <- reactive({round(as.double(max(log %>% throughput_time("case", units = input$units) %>% pull(throughput_time))),2)})
 
 		output$filter_ui <- renderUI({
 			if(input$filter_type == "int") {
-				sliderInput("interval_slider", "Throguhput time interval",
-							min = 0, max = max(eventlog %>% throughput_time("case", units = input$units) %>% pull(throughput_time)), value = c(0,1))
+				sliderInput("interval_slider", "Throughput time interval",
+							min = 0, max = my_max(), value = c(0,my_max()))
 
 			}
 			else if(input$filter_type == "percentile") {
@@ -117,21 +98,24 @@ ifilter_throughput_time <- function(eventlog) {
 
 		observeEvent(input$done, {
 			if(input$filter_type == "int")
-				filtered_log <- filter_throughput_time(eventlog,
-													   interval = input$interval_slider,
-													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE),
-													   units = input$units)
+
+				fun_call <- construct_call(input_cmd, list(interval = list(input$interval_slider),
+														   units = list(input$units, "'secs'"),
+														   reverse = list(input$reverse == "Yes", FALSE)))
+
 			else if(input$filter_type == "percentile") {
-				filtered_log <- filter_throughput_time(eventlog,
-													   percentage = input$percentile_slider/100,
-													   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE),
-													   units = input$units)
+
+				fun_call <- construct_call(input_cmd, list(percentage = list(input$percentile_slider/100),
+														   reverse = list(input$reverse == "Yes", FALSE)))
+
 			}
 
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
-	runGadget(ui, server, viewer = dialogViewer("Filter Througput Time", height = 400))
+	runGadget(ui, server, viewer = dialogViewer("Filter Throughput Time", height = 400))
 
 }
 

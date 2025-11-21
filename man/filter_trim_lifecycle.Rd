@@ -4,37 +4,31 @@
 \alias{filter_trim_lifecycle}
 \alias{filter_trim_lifecycle.eventlog}
 \alias{filter_trim_lifecycle.grouped_eventlog}
+\alias{ifilter_trim_lifecycle}
 \title{Filter Trim Life Cycle}
 \usage{
 filter_trim_lifecycle(
   log,
   start_lifecycles = NULL,
   end_lifecycles = NULL,
-  reverse = FALSE,
-  start_lifecycle = deprecated(),
-  end_lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim_lifecycle}{eventlog}(
   log,
   start_lifecycles = NULL,
   end_lifecycles = NULL,
-  reverse = FALSE,
-  start_lifecycle = deprecated(),
-  end_lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim_lifecycle}{grouped_eventlog}(
   log,
   start_lifecycles = NULL,
   end_lifecycles = NULL,
-  reverse = FALSE,
-  start_lifecycle = deprecated(),
-  end_lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_trim_lifecycle(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -43,10 +37,6 @@ filter_trim_lifecycle(
 identifiers, or \code{\link{NULL}}.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{start_lifecycle}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{start_lifecycles} instead.}
-
-\item{end_lifecycle}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{end_lifecycles} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -68,6 +58,11 @@ intermediate parts out of activity instances.
 \item \code{filter_trim_lifecycle(eventlog)}: Filters activity instances for an \code{\link[bupaR]{eventlog}}.
 
 \item \code{filter_trim_lifecycle(grouped_eventlog)}: Filters activity instances for a \code{\link[bupaR]{grouped_eventlog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_trim_lifecycle()}: Filter interactively
 
 }}
 \references{

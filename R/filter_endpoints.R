@@ -21,8 +21,7 @@ filter_endpoints <- function(log,
 							 start_activities = NULL,
 							 end_activities = NULL,
 							 percentage = NULL,
-							 reverse = FALSE,
-							 eventlog = deprecated()) {
+							 reverse = FALSE) {
 	UseMethod("filter_endpoints")
 }
 
@@ -32,16 +31,7 @@ filter_endpoints.log <- function(log,
 								 start_activities = NULL,
 								 end_activities = NULL,
 								 percentage = NULL,
-								 reverse = FALSE,
-								 eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_endpoints(eventlog)",
-			with = "filter_endpoints(log)")
-		log <- eventlog
-	}
+								 reverse = FALSE) {
 
 	if(is.null(start_activities) & is.null(end_activities) & is.null(percentage))
 		stop("At least one set of start or end activities or a percentage must be provided.")
@@ -59,26 +49,16 @@ filter_endpoints.grouped_log <- function(log,
 										 start_activities = NULL,
 										 end_activities = NULL,
 										 percentage = NULL,
-										 reverse = FALSE,
-										 eventlog = deprecated()) {
+										 reverse = FALSE) {
 
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_endpoints(eventlog)",
-			with = "filter_endpoints(log)")
-		log <- eventlog
-	}
 	bupaR:::apply_grouped_fun(log, fun = filter_endpoints.log, start_activities, end_activities, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints, start_activities, end_activities, percentage, reverse, ...)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_endpoints Filter interactively
 #' @export ifilter_endpoints
-ifilter_endpoints <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_endpoints()")
+ifilter_endpoints <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter End Points"),
@@ -99,14 +79,14 @@ ifilter_endpoints <- function(eventlog) {
 			if(input$filter_type == "list") {
 				fillRow(flex = c(8,1,8),
 					selectizeInput("start", label = "Select start activities:",
-								   choices = eventlog %>%
+								   choices = log %>%
 								   	start_activities_activity %>%
-								   	pull(!!as.symbol(activity_id(eventlog))) %>%
+								   	pull(!!as.symbol(activity_id(log))) %>%
 								   	unique, selected = NA,  multiple = TRUE), " ",
 					selectizeInput("end", label = "Select end activities:",
-								   choices = eventlog %>%
+								   choices = log %>%
 								   	end_activities_activity %>%
-								   	pull(!!as.symbol(activity_id(eventlog))) %>%
+								   	pull(!!as.symbol(activity_id(log))) %>%
 								   	unique, selected = NA,  multiple = TRUE)
 				) %>% return()
 			}
@@ -119,17 +99,15 @@ ifilter_endpoints <- function(eventlog) {
 
 		observeEvent(input$done, {
 			if(input$filter_type == "list")
-				filtered_log <- filter_endpoints(eventlog,
-												 start_activities = input$start,
-												 end_activities = input$end,
-												 reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
-			else if(input$filter_type == "percentile") {
-				filtered_log <- filter_endpoints(eventlog,
-												percentage = input$percentile_slider/100,
-												 reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
-			}
+				fun_call <- construct_call(input_cmd, list(start_activities = list(input$start), end_activities = list(input$end), reverse = list(input$reverse == "Yes", FALSE)))
 
-			stopApp(filtered_log)
+			else if(input$filter_type == "percentile") {
+				fun_call <- construct_call(input_cmd, list(percentage = list(input$percentile_slider/100), reverse = list(input$reverse == "Yes", FALSE)))
+
+			}
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter End Points", height = 400))

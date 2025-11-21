@@ -32,8 +32,7 @@ filter_time_period <- function(log,
 							   interval = NULL,
 							   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
 							   force_trim = FALSE,
-							   reverse = FALSE,
-							   eventlog = deprecated()) {
+							   reverse = FALSE) {
 	UseMethod("filter_time_period")
 }
 
@@ -43,16 +42,7 @@ filter_time_period.eventlog <- function(log,
 										interval = NULL,
 										filter_method = c("contained", "intersecting", "start", "complete", "trim"),
 										force_trim = FALSE,
-										reverse = FALSE,
-										eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_time_period(eventlog)",
-			with = "filter_time_period(log)")
-		log <- eventlog
-	}
+										reverse = FALSE) {
 
 	filter_method <- rlang::arg_match(filter_method)
 
@@ -140,16 +130,7 @@ filter_time_period.grouped_eventlog <- function(log,
 												interval = NULL,
 												filter_method = c("contained", "intersecting", "start", "complete", "trim"),
 												force_trim = FALSE,
-												reverse = FALSE,
-												eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_time_period(eventlog)",
-			with = "filter_time_period(log)")
-		log <- eventlog
-	}
+												reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_time_period.eventlog, interval, filter_method, force_trim, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_time_period, interval, filter_method, force_trim, reverse, ...)
@@ -161,16 +142,7 @@ filter_time_period.activitylog <- function(log,
 										   interval = NULL,
 										   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
 										   force_trim = FALSE,
-										   reverse = FALSE,
-										   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_time_period(eventlog)",
-			with = "filter_time_period(log)")
-		log <- eventlog
-	}
+										   reverse = FALSE) {
 
 	filter_time_period.eventlog(log = bupaR::to_eventlog(log), interval = interval, filter_method = filter_method, force_trim = force_trim, reverse = reverse) %>%
 		bupaR::to_activitylog()
@@ -182,56 +154,47 @@ filter_time_period.grouped_activitylog <- function(log,
 												   interval = NULL,
 												   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
 												   force_trim = FALSE,
-												   reverse = FALSE,
-												   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+												   reverse = FALSE) {
 
 	filter_time_period.grouped_eventlog(log = bupaR::to_eventlog(log), interval = interval, filter_method = filter_method, force_trim = force_trim, reverse = reverse) %>%
 		bupaR::to_activitylog()
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_time_period Filter interactively
 #' @export ifilter_time_period
-ifilter_time_period <- function(eventlog) {
+ifilter_time_period <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_time_period()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter time period"),
 		miniContentPanel(
-			fillRow(flex = c(3,3,3),
-					fillCol(
-						dateInput("start_date", "Start Date", value = as.Date(min(eventlog %>% pull(timestamp(eventlog))))),
-						timeInput("start_time", "Start Time")
+			fillRow(column(width = 5,
+						dateInput("start_date", "Start Date", value = as.Date(min(log %>% pull(timestamp(log))))),
+						timeInput("start_time", "Start Time"),
+						radioButtons("method", "Filter method: ", choices = c("contained","intersecting","start","complete","trim"), selected = "contained")
 					),
-					fillCol(
-						dateInput("end_date", "End Date", value = as.Date(max(eventlog %>% pull(timestamp(eventlog))))),
-						timeInput("end_time", "End Time")
+					column(width = 5,
+						dateInput("end_date", "End Date", value = as.Date(max(log %>% pull(timestamp(log))))),
+						timeInput("end_time", "End Time"),
+						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 					)
-			),
-			fillRow(
-				radioButtons("method", "Filter method: ", choices = c("contained","intersecting","start","complete","trim"), selected = "contained"),
-				radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
 		)
 	)
 
 	server <- function(input, output, session){
 		observeEvent(input$done, {
-			start_date <- ymd_hms(paste(as.character(input$start_date), strftime(input$start_time, "%T")))
-			end_date <- ymd_hms(paste(as.character(input$end_date), strftime(input$end_time, "%T")))
-			print(start_date)
-			print(end_date)
+			start_date <- (paste(as.character(input$start_date), strftime(input$start_time, "%T")))
+			end_date <- (paste(as.character(input$end_date), strftime(input$end_time, "%T")))
 
-			filtered_log <- filter_time_period(eventlog,
-											   interval = c(start_date, end_date),
-											   filter_method = input$method,
-											   reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			input_cmd <- paste0(c(input_cmd, "(interval = ymd_hms(c('", start_date, "','", end_date, "'))"), collapse = "")
 
-
-			stopApp(filtered_log)
+			fun_call <- construct_call_open(input_cmd, list(filter_method = list(input$method, "'contained'"),
+													   reverse = list(input$reverse == "Yes", FALSE)))
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Time Period", height = 600))

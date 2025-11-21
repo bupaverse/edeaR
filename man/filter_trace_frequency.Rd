@@ -4,31 +4,31 @@
 \alias{filter_trace_frequency}
 \alias{filter_trace_frequency.log}
 \alias{filter_trace_frequency.grouped_log}
+\alias{ifilter_trace_frequency}
 \title{Filter Trace Frequency}
 \usage{
 filter_trace_frequency(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trace_frequency}{log}(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trace_frequency}{grouped_log}(
   log,
   interval = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_trace_frequency(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -67,6 +67,11 @@ e.g., \code{c(10, NA)} will select cases with a trace that occurs 10 times or mo
 \item \code{filter_trace_frequency(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_trace_frequency(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_trace_frequency()}: Filter interactively
 
 }}
 \references{

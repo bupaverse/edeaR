@@ -11,8 +11,6 @@
 #'
 #' @param start_lifecycles,end_lifecycles \code{\link{character}} vector (default \code{\link{NULL}}): A vector of life cycle
 #' identifiers, or \code{\link{NULL}}.
-#' @param start_lifecycle `r lifecycle::badge("deprecated")`; please use \code{start_lifecycles} instead.
-#' @param end_lifecycle `r lifecycle::badge("deprecated")`; please use \code{end_lifecycles} instead.
 #'
 #' @inherit filter_lifecycle params references seealso return
 #'
@@ -26,10 +24,7 @@
 filter_trim_lifecycle <- function(log,
 								  start_lifecycles = NULL,
 								  end_lifecycles = NULL,
-								  reverse = FALSE,
-								  start_lifecycle = deprecated(),
-								  end_lifecycle = deprecated(),
-								  eventlog = deprecated()) {
+								  reverse = FALSE) {
 	UseMethod("filter_trim_lifecycle")
 }
 
@@ -38,32 +33,7 @@ filter_trim_lifecycle <- function(log,
 filter_trim_lifecycle.eventlog <- function(log,
 										   start_lifecycles = NULL,
 										   end_lifecycles = NULL,
-										   reverse = FALSE,
-										   start_lifecycle = deprecated(),
-										   end_lifecycle = deprecated(),
-										   eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim_lifecycle(eventlog)",
-			with = "filter_trim_lifecycle(log)")
-		log <- eventlog
-	}
-	if(lifecycle::is_present(start_lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim_lifecycle(start_lifecycle)",
-			with = "filter_trim_lifecycle(start_lifecycles)")
-		start_lifecycles <- start_lifecycle
-	}
-	if(lifecycle::is_present(end_lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim_lifecycle(end_lifecycle)",
-			with = "filter_trim_lifecycle(end_lifecycles)")
-		end_lifecycles <- end_lifecycle
-	}
+										   reverse = FALSE) {
 
 	UNIQUE_EVENT_ID <- NULL
 
@@ -111,36 +81,15 @@ filter_trim_lifecycle.eventlog <- function(log,
 filter_trim_lifecycle.grouped_eventlog <- function(log,
 												   start_lifecycles = NULL,
 												   end_lifecycles = NULL,
-												   reverse = FALSE,
-												   start_lifecycle = deprecated(),
-												   end_lifecycle = deprecated(),
-												   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	if(lifecycle::is_present(start_lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim_lifecycle(start_lifecycle)",
-			with = "filter_trim_lifecycle(start_lifecycles)")
-		start_lifecycles <- start_lifecycle
-	}
-	if(lifecycle::is_present(end_lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_trim_lifecycle(end_lifecycle)",
-			with = "filter_trim_lifecycle(end_lifecycles)")
-		end_lifecycles <- end_lifecycle
-	}
+												   reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_trim_lifecycle.eventlog, start_lifecycles, end_lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internals
-#' @rdname ifilter
+#' @describeIn filter_trim_lifecycle Filter interactively
 #' @export ifilter_trim_lifecycle
-ifilter_trim_lifecycle <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_trim_lifecycle()")
+ifilter_trim_lifecycle <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Trim cases"),
@@ -148,10 +97,10 @@ ifilter_trim_lifecycle <- function(eventlog) {
 			fillCol(flex = c(5,3,2),
 					fillRow(flex = c(10,1,10),
 							selectizeInput("start", label = "Select start life cycle labels:",
-										   choices = eventlog %>% pull(!!lifecycle_id_(eventlog)) %>%
+										   choices = log %>% pull(!!lifecycle_id_(log)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T), " ",
 							selectizeInput("end", label = "Select end life cycle labels:",
-										   choices = eventlog %>% pull(!!lifecycle_id_(eventlog)) %>%
+										   choices = log %>% pull(!!lifecycle_id_(log)) %>%
 										   	unique %>% sort, selected = NA,  multiple = T)),
 					fillRow(
 						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
@@ -163,13 +112,14 @@ ifilter_trim_lifecycle <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_trim_lifecycle(eventlog,
-												  start_lifecycle = input$start,
-												  end_lifecycle = input$end,
-										reverse = ifelse(input$reverse == "Yes", T, F))
+			fun_call <- construct_call(input_cmd, list(start_lifecycle = list(input$start),
+													   end_lifecycle = list(input$end),
+													   reverse = list(input$reverse == "Yes", FALSE)))
 
 
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Trim cases", height = 400))

@@ -26,9 +26,7 @@
 filter_lifecycle_presence <- function(log,
 									  lifecycles,
 									  method = c("all", "none", "one_of", "exact", "only"),
-									  reverse = FALSE,
-									  lifecycle = deprecated(),
-									  eventlog = deprecated()) {
+									  reverse = FALSE) {
 	UseMethod("filter_lifecycle_presence")
 }
 
@@ -37,24 +35,7 @@ filter_lifecycle_presence <- function(log,
 filter_lifecycle_presence.eventlog <- function(log,
 											   lifecycles,
 											   method = c("all", "none", "one_of", "exact", "only"),
-											   reverse = FALSE,
-											   lifecycle = deprecated(),
-											   eventlog = deprecated()){
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle_presence(eventlog)",
-			with = "filter_lifecycle_presence(log)")
-		log <- eventlog
-	}
-	if(lifecycle::is_present(lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle_presence(lifecycle)",
-			with = "filter_lifecycle_presence(lifecycles)")
-		lifecycles <- lifecycle
-	}
+											   reverse = FALSE){
 
 	method <- rlang::arg_match(method)
 
@@ -106,18 +87,7 @@ filter_lifecycle_presence.eventlog <- function(log,
 filter_lifecycle_presence.grouped_eventlog <- function(log,
 													   lifecycles,
 													   method = c("all", "none", "one_of", "exact", "only"),
-													   reverse = FALSE,
-													   lifecycle = deprecated(),
-													   eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	if(lifecycle::is_present(lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle_presence(lifecycle)",
-			with = "filter_lifecycle_presence(lifecycles)")
-		lifecycles <- lifecycle
-	}
+													   reverse = FALSE) {
 
 	method <- rlang::arg_match(method)
 
@@ -125,23 +95,22 @@ filter_lifecycle_presence.grouped_eventlog <- function(log,
 }
 
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_lifecycle_presence Filter interactively
 #' @export ifilter_lifecycle_presence
-ifilter_lifecycle_presence <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_lifecycle_presence()")
+ifilter_lifecycle_presence <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
-		gadgetTitleBar("Filter activities based on presence"),
+		gadgetTitleBar("Filter activity instances based on lifecycles presence"),
 		miniContentPanel(
 			fillCol(flex = c(2,1),
-					fillRow(flex = c(10,1,8),
-							selectizeInput("selected_activities",
+					fillRow(flex = c(10,1,8,1,8),
+							selectizeInput("selected_lifecylces",
 										   label = "Select life cycle:",
-										   choices = eventlog %>% pull(!!as.symbol(lifecycle_id(eventlog))) %>%
+										   choices = log %>% pull(!!as.symbol(lifecycle_id(log))) %>%
 										   	unique, selected = NA,  multiple = TRUE), " ",
-							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all")
+							radioButtons("method", "Method: ", choices = c("All" = "all","One of"= "one_of","None" = "none", "Exact" = "exact","Only" = "only"), selected = "all")," ",
+							radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 					),
 					"If \"all\", each of the life cycle labels should be present.
 					If \"one_of\", at least one of them should be present. If \"none\", none of the life cycle labels are allowed to occur in the filtered traces."
@@ -151,12 +120,13 @@ ifilter_lifecycle_presence <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_lifecycle_presence(eventlog,
-													 lifecycle = input$selected_activities,
-													 method = input$method)
+			fun_call <- construct_call(input_cmd, list(lifecycles = list(input$selected_lifecylces),
+													   method = list(input$method, "'all'"),
+													   reverse = list(input$reverse == "Yes", FALSE)))
 
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter activity instances based on presence of life cycle labels", height = 400))

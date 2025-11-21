@@ -8,40 +8,36 @@ plot_activity_frequency <- function(x, ...) {
 
 
 	if(level == "log") {
+
+		range <- x$max - x$min
+
 		attr(x, "raw") %>%
-			ggplot(aes("", absolute)) +
-			geom_boxplot() +
-			coord_flip() +
+			ggplot(aes(absolute)) +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
 			theme_light() +
-			labs(x = "", y = "Absolute Activity Frequency") -> p
+			labs(x = "Absolute Activity Frequency", y = "#cases") -> p
 	}
 	else if(level == "trace") {
+		range <- max(x$absolute) - min(x$absolute)
 		x %>%
-			ggplot(aes_string(glue("reorder(trace, absolute)"), "absolute")) +
-			geom_col(aes(fill = absolute)) +
-			scale_fill_continuous_tableau(name = "Activity Frequency", palette = "Blue")+
+			ggplot(aes(absolute)) +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
 			theme_light() +
-			scale_x_discrete(breaks = NULL) +
-			labs(x = "Traces", y = "Absolute Activity Frequency") +
-			coord_flip() +
-			theme(axis.text.x = element_blank()) -> p
+			labs(x = "Absolute Activity Frequency", y = "#traces") -> p
 	}
 	else if(level == "case") {
+		range <- max(x$absolute) - min(x$absolute)
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, absolute)"), "absolute")) +
-			geom_col(aes(fill = absolute)) +
-			scale_fill_continuous_tableau(name = "Activity Frequency", palette = "Blue")+
-					theme_light() +
-			scale_x_discrete(breaks = NULL) +
-			coord_flip() +
-			labs(x = "Cases", y = "Absolute Activity Frequency") +
-			theme(axis.text.x = element_blank()) -> p
+			ggplot(aes(absolute)) +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
+			theme_light() +
+			labs(x = "Absolute Activity Frequency", y = "#cases") -> p
 	}
 	else if(level == "activity") {
 		x %>%
 			ggplot(aes_string(glue("reorder({mapping$activity_id}, absolute)"), "absolute")) +
 			geom_col(aes(fill = absolute)) +
-			scale_fill_continuous_tableau(name = "Activity Frequency", palette = "Blue")+
+			scale_fill_continuous_bupaR(name = "Activity Frequency", palette = "green")+
 			theme_light() +
 			coord_flip() +
 			labs(x = "Activities", y = "Absolute Activity Frequency") -> p

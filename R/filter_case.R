@@ -12,26 +12,17 @@
 #' @concept filters_case
 #'
 #' @export filter_case
-filter_case <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
+filter_case <- function(log, cases, reverse = FALSE) {
 	UseMethod("filter_case")
 }
 
 #' @describeIn filter_case Filters cases for a \code{\link[bupaR]{log}}.
 #' @export
-filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_case(eventlog)",
-			with = "filter_case(log)")
-		log <- eventlog
-	}
+filter_case.log <- function(log, cases, reverse = FALSE) {
 
 	if(length(cases) == 0) {
 		if(!reverse) {
 			#return empty log
-
 			log %>%
 				filter(FALSE)
 		} else {
@@ -49,31 +40,21 @@ filter_case.log <- function(log, cases, reverse = FALSE, eventlog = deprecated()
 
 #' @describeIn filter_case Filters cases for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_case.grouped_log <- function(log, cases, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_case(eventlog)",
-			with = "filter_case(log)")
-		log <- eventlog
-	}
+filter_case.grouped_log <- function(log, cases, reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_case Filter interactively
 #' @export ifilter_case
-ifilter_case <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_case()")
+ifilter_case <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Cases"),
 		miniContentPanel(
 			fillRow(flex = c(10,1,8),
-					selectizeInput("selected_cases", label = "Select cases:", choices = eventlog %>% pull(!!as.symbol(case_id(eventlog))) %>%
+					selectizeInput("selected_cases", label = "Select cases:", choices = log %>% pull(!!as.symbol(case_id(log))) %>%
 								   	unique, selected = NA,  multiple = T), " ",
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
@@ -81,10 +62,11 @@ ifilter_case <- function(eventlog) {
 	)
 	server <- function(input, output, session){
 		observeEvent(input$done, {
+			fun_call <- construct_call(input_cmd, list(cases = list(input$selected_cases),reverse = list(input$reverse == "Yes", FALSE)))
 
-			filtered_log <- filter_case(eventlog, cases = input$selected_cases, reverse = ifelse(input$reverse == "Yes", T, F))
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Cases", height = 400))

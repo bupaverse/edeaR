@@ -4,6 +4,7 @@
 \alias{filter_processing_time}
 \alias{filter_processing_time.log}
 \alias{filter_processing_time.grouped_log}
+\alias{ifilter_processing_time}
 \title{Filter Processing Time}
 \usage{
 filter_processing_time(
@@ -11,8 +12,7 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("secs", "mins", "hours", "days", "weeks")
 )
 
 \method{filter_processing_time}{log}(
@@ -20,8 +20,7 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("secs", "mins", "hours", "days", "weeks")
 )
 
 \method{filter_processing_time}{grouped_log}(
@@ -29,9 +28,10 @@ filter_processing_time(
   interval = NULL,
   percentage = NULL,
   reverse = FALSE,
-  units = c("secs", "mins", "hours", "days", "weeks"),
-  eventlog = deprecated()
+  units = c("secs", "mins", "hours", "days", "weeks")
 )
+
+ifilter_processing_time(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -64,6 +64,11 @@ in which this interval is defined can be supplied with the \code{units} argument
 \item \code{filter_processing_time(log)}: Filters cases for a \code{\link[bupaR:log]{log}}.
 
 \item \code{filter_processing_time(grouped_log)}: Filters cases for a \code{\link[bupaR:grouped_log]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_processing_time()}: Filter interactively
 
 }}
 \references{

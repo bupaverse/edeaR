@@ -4,6 +4,7 @@
 \alias{filter_precedence}
 \alias{filter_precedence.log}
 \alias{filter_precedence.grouped_log}
+\alias{ifilter_precedence}
 \title{Filter Precedence Relations}
 \usage{
 filter_precedence(
@@ -12,8 +13,7 @@ filter_precedence(
   consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
   filter_method = c("all", "one_of", "none"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_precedence}{log}(
@@ -22,8 +22,7 @@ filter_precedence(
   consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
   filter_method = c("all", "one_of", "none"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_precedence}{grouped_log}(
@@ -32,9 +31,10 @@ filter_precedence(
   consequents,
   precedence_type = c("directly_follows", "eventually_follows"),
   filter_method = c("all", "one_of", "none"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_precedence(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -76,6 +76,11 @@ at least one of them (\code{"one_of"}), or none (\code{"none"}).
 \item \code{filter_precedence(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_precedence(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_precedence()}: Filter interactively
 
 }}
 \examples{

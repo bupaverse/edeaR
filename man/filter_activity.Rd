@@ -4,13 +4,16 @@
 \alias{filter_activity}
 \alias{filter_activity.log}
 \alias{filter_activity.grouped_log}
+\alias{ifilter_activity}
 \title{Filter Activity}
 \usage{
-filter_activity(log, activities, reverse = FALSE, eventlog = deprecated())
+filter_activity(log, activities, reverse = FALSE)
 
-\method{filter_activity}{log}(log, activities, reverse = FALSE, eventlog = deprecated())
+\method{filter_activity}{log}(log, activities, reverse = FALSE)
 
-\method{filter_activity}{grouped_log}(log, activities, reverse = FALSE, eventlog = deprecated())
+\method{filter_activity}{grouped_log}(log, activities, reverse = FALSE)
+
+ifilter_activity(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -32,6 +35,11 @@ Filters the log based on activities
 \item \code{filter_activity(log)}: Filters activities for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_activity(grouped_log)}: Filters activities for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_activity()}: Filter interactively
 
 }}
 \references{

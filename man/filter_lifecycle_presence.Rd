@@ -4,34 +4,31 @@
 \alias{filter_lifecycle_presence}
 \alias{filter_lifecycle_presence.eventlog}
 \alias{filter_lifecycle_presence.grouped_eventlog}
+\alias{ifilter_lifecycle_presence}
 \title{Filter Life Cycle Presence}
 \usage{
 filter_lifecycle_presence(
   log,
   lifecycles,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_lifecycle_presence}{eventlog}(
   log,
   lifecycles,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_lifecycle_presence}{grouped_eventlog}(
   log,
   lifecycles,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_lifecycle_presence(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -42,8 +39,6 @@ filter_lifecycle_presence(
 or \code{"only"}. For more information, see \strong{Details} below.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{lifecycle}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{lifecycles} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -69,6 +64,11 @@ input a vector containing one or more life cycle labels and it has a \code{metho
 \item \code{filter_lifecycle_presence(eventlog)}: Filters activity instances on the presence of life cycle labels for an \code{\link[bupaR]{eventlog}}.
 
 \item \code{filter_lifecycle_presence(grouped_eventlog)}: Filters activity instances on the presence of life cycle labels for a \code{\link[bupaR]{grouped_eventlog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_lifecycle_presence()}: Filter interactively
 
 }}
 \references{

@@ -49,8 +49,7 @@ filter_precedence <- function(log,
 							  consequents,
 							  precedence_type = c("directly_follows", "eventually_follows"),
 							  filter_method = c("all", "one_of", "none"),
-							  reverse = FALSE,
-     						  eventlog = deprecated()) {
+							  reverse = FALSE) {
 	UseMethod("filter_precedence")
 }
 
@@ -61,16 +60,7 @@ filter_precedence.log <- function(log,
 								  consequents,
 								  precedence_type = c("directly_follows", "eventually_follows"),
 								  filter_method = c("all", "one_of", "none"),
-								  reverse = FALSE,
-								  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_precedence(eventlog)",
-			with = "filter_precedence(log)")
-		log <- eventlog
-	}
+								  reverse = FALSE) {
 
 	pair <- NULL
 	.trace <- NULL
@@ -152,27 +142,17 @@ filter_precedence.grouped_log <- function(log,
 										  consequents,
 										  precedence_type = c("directly_follows", "eventually_follows"),
 										  filter_method = c("all", "one_of", "none"),
-										  reverse = FALSE,
-										  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_precedence(eventlog)",
-			with = "filter_precedence(log)")
-		log <- eventlog
-	}
+										  reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_precedence.log, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_precedence, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_precedence Filter interactively
 #' @export ifilter_precedence
-ifilter_precedence <- function(eventlog) {
+ifilter_precedence <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_precedence()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter on precedences"),
@@ -180,10 +160,10 @@ ifilter_precedence <- function(eventlog) {
 			fillCol(flex = c(5,3,2),
 					fillRow(flex = c(10,1,10),
 							selectizeInput("ante", label = "Select antecedents:",
-										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
 										   	unique, selected = NA,  multiple = TRUE), " ",
 							selectizeInput("conse", label = "Select consequents:",
-										   choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+										   choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
 										   	unique, selected = NA,  multiple = TRUE)),
 					fillRow(
 						radioButtons("type", "Precedence filter: ", choices = c("Directly follows" = "directly_follows", "Eventually follows"="eventually_follows"), selected = "directly_follows"),
@@ -198,15 +178,15 @@ ifilter_precedence <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_precedence(eventlog,
-											  antecedents = input$ante,
-											  consequents = input$conse,
-											  precedence_type = input$type,
-											  filter_method = input$method,
-											  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			fun_call <- construct_call(input_cmd, list(antecedents = list(input$ante),
+													   consequents = list(input$conse),
+													   precedence_type = list(input$type, "'directly_follows'"),
+													   filter_method = list(input$method, "'all'"),
+													   reverse = list(input$reverse == "Yes", FALSE)))
 
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter on precedences", height = 400))

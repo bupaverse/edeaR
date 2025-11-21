@@ -6,6 +6,7 @@
 \alias{filter_time_period.grouped_eventlog}
 \alias{filter_time_period.activitylog}
 \alias{filter_time_period.grouped_activitylog}
+\alias{ifilter_time_period}
 \title{Filter Time Period}
 \usage{
 filter_time_period(
@@ -13,8 +14,7 @@ filter_time_period(
   interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
   force_trim = FALSE,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_time_period}{eventlog}(
@@ -22,8 +22,7 @@ filter_time_period(
   interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
   force_trim = FALSE,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_time_period}{grouped_eventlog}(
@@ -31,8 +30,7 @@ filter_time_period(
   interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
   force_trim = FALSE,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_time_period}{activitylog}(
@@ -40,8 +38,7 @@ filter_time_period(
   interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
   force_trim = FALSE,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_time_period}{grouped_activitylog}(
@@ -49,9 +46,10 @@ filter_time_period(
   interval = NULL,
   filter_method = c("contained", "intersecting", "start", "complete", "trim"),
   force_trim = FALSE,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_time_period(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -96,6 +94,11 @@ values for \code{filter_method}:
 \item \code{filter_time_period(activitylog)}: Filters activity instances for an \code{\link[bupaR]{activitylog}}.
 
 \item \code{filter_time_period(grouped_activitylog)}: Filters activity instances for a \code{\link[bupaR]{grouped_activitylog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_time_period()}: Filter interactively
 
 }}
 \references{

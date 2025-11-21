@@ -11,8 +11,7 @@ filter_precedence_condition(
   antecedent_condition,
   consequent_condition,
   precedence_type = c("directly_follows", "eventually_follows"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_precedence_condition}{log}(
@@ -20,8 +19,7 @@ filter_precedence_condition(
   antecedent_condition,
   consequent_condition,
   precedence_type = c("directly_follows", "eventually_follows"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_precedence_condition}{grouped_log}(
@@ -29,8 +27,7 @@ filter_precedence_condition(
   antecedent_condition,
   consequent_condition,
   precedence_type = c("directly_follows", "eventually_follows"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 }
 \arguments{

@@ -4,31 +4,31 @@
 \alias{filter_activity_presence}
 \alias{filter_activity_presence.log}
 \alias{filter_activity_presence.grouped_log}
+\alias{ifilter_activity_presence}
 \title{Filter Activity Presence}
 \usage{
 filter_activity_presence(
   log,
   activities = NULL,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_activity_presence}{log}(
   log,
   activities = NULL,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_activity_presence}{grouped_log}(
   log,
   activities = NULL,
   method = c("all", "none", "one_of", "exact", "only"),
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_activity_presence(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -66,6 +66,11 @@ When only one activity label is supplied, note that \code{method}s \code{"all"} 
 \item \code{filter_activity_presence(log)}: Filters activities for a \code{\link[bupaR:log]{log}}.
 
 \item \code{filter_activity_presence(grouped_log)}: Filters activities for a \code{\link[bupaR:grouped_log]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_activity_presence()}: Filter interactively
 
 }}
 \references{

@@ -6,11 +6,11 @@
 \alias{filter_trace.grouped_log}
 \title{Filter Trace}
 \usage{
-filter_trace(log, trace_ids, reverse = FALSE, eventlog = deprecated())
+filter_trace(log, trace_ids, reverse = FALSE)
 
-\method{filter_trace}{log}(log, trace_ids, reverse = FALSE, eventlog = deprecated())
+\method{filter_trace}{log}(log, trace_ids, reverse = FALSE)
 
-\method{filter_trace}{grouped_log}(log, trace_ids, reverse = FALSE, eventlog = deprecated())
+\method{filter_trace}{grouped_log}(log, trace_ids, reverse = FALSE)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}

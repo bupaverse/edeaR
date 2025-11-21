@@ -4,6 +4,7 @@
 \alias{filter_endpoints}
 \alias{filter_endpoints.log}
 \alias{filter_endpoints.grouped_log}
+\alias{ifilter_endpoints}
 \title{Filter Start and End Activities}
 \usage{
 filter_endpoints(
@@ -11,8 +12,7 @@ filter_endpoints(
   start_activities = NULL,
   end_activities = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_endpoints}{log}(
@@ -20,8 +20,7 @@ filter_endpoints(
   start_activities = NULL,
   end_activities = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_endpoints}{grouped_log}(
@@ -29,9 +28,10 @@ filter_endpoints(
   start_activities = NULL,
   end_activities = NULL,
   percentage = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_endpoints(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -60,6 +60,11 @@ For example, when set to \code{0.9}, it will select the most common endpoint pai
 \item \code{filter_endpoints(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_endpoints(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_endpoints()}: Filter interactively
 
 }}
 \references{

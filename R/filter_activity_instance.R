@@ -15,8 +15,7 @@
 #' @export filter_activity_instance
 filter_activity_instance <- function(log,
 									 activity_instances,
-									 reverse = FALSE,
-									 eventlog = deprecated()) {
+									 reverse = FALSE) {
 	UseMethod("filter_activity_instance")
 }
 
@@ -24,10 +23,7 @@ filter_activity_instance <- function(log,
 #' @export
 filter_activity_instance.eventlog <- function(log,
 											  activity_instances,
-											  reverse = FALSE,
-											  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+											  reverse = FALSE) {
 
 	if(!reverse) {
 		log %>%
@@ -42,39 +38,36 @@ filter_activity_instance.eventlog <- function(log,
 #' @export
 filter_activity_instance.grouped_eventlog <- function(log,
 													  activity_instances,
-													  reverse = FALSE,
-													  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+													  reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_instance.eventlog, activity_instances, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internals
-#' @rdname ifilter
+#' @describeIn filter_activity_instance Filter interactively
 #' @export ifilter_activity_instance
-ifilter_activity_instance <- function(eventlog) {
+ifilter_activity_instance <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_activity_instance()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
+
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Activity Instances"),
 		miniContentPanel(
 			fillRow(flex = c(10,1,8),
-					selectizeInput("selected_cases", label = "Select activity instances:", choices = eventlog %>% pull(!!as.symbol(activity_instance_id(eventlog))) %>%
-								   	unique, selected = NA,  multiple = T), " ",
+					selectizeInput("selected_aid", label = "Select activity instances:", choices = NULL, selected = NA,  multiple = T), " ",
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
 		)
 	)
 	server <- function(input, output, session){
+		updateSelectizeInput(session, "selected_aid", choices = log %>% pull(!!as.symbol(activity_instance_id(log))) %>% unique(), server = T)
+
 		observeEvent(input$done, {
 
-			filtered_log <- filter_activity_instance(eventlog,
-													 activity_instances = input$selected_cases,
-													 reverse = ifelse(input$reverse == "Yes", T, F))
+			fun_call <- construct_call(input_cmd, list("activity_instances" = list(input$selected_aid), "reverse" = list(input$reverse == "Yes", FALSE)))
 
-			stopApp(filtered_log)
+			rstudioapi::sendToConsole(fun_call)
+			stopApp()
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Activity instances", height = 400))

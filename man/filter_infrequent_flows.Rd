@@ -8,15 +8,15 @@
 \alias{filter_infrequent_flows.grouped_activitylog}
 \title{Filter Infrequent Flows}
 \usage{
-filter_infrequent_flows(log, min_n = 2, eventlog = deprecated())
+filter_infrequent_flows(log, min_n = 2)
 
-\method{filter_infrequent_flows}{eventlog}(log, min_n = 2, eventlog = deprecated())
+\method{filter_infrequent_flows}{eventlog}(log, min_n = 2)
 
-\method{filter_infrequent_flows}{grouped_eventlog}(log, min_n = 2, eventlog = deprecated())
+\method{filter_infrequent_flows}{grouped_eventlog}(log, min_n = 2)
 
-\method{filter_infrequent_flows}{activitylog}(log, min_n = 2, eventlog = deprecated())
+\method{filter_infrequent_flows}{activitylog}(log, min_n = 2)
 
-\method{filter_infrequent_flows}{grouped_activitylog}(log, min_n = 2, eventlog = deprecated())
+\method{filter_infrequent_flows}{grouped_activitylog}(log, min_n = 2)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}

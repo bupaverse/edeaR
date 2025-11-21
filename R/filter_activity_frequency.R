@@ -31,8 +31,7 @@
 filter_activity_frequency <- function(log,
 									  interval = NULL,
 									  percentage = NULL,
-									  reverse = FALSE,
-                       				  eventlog = deprecated()) {
+									  reverse = FALSE) {
 	UseMethod("filter_activity_frequency")
 }
 
@@ -41,16 +40,7 @@ filter_activity_frequency <- function(log,
 filter_activity_frequency.log <- function(log,
 										  interval = NULL,
 										  percentage = NULL,
-										  reverse = FALSE,
-										  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_activity_frequency(eventlog)",
-			with = "filter_activity_frequency(log)")
-		log <- eventlog
-	}
+										  reverse = FALSE) {
 
 	stopifnot(is.logical(reverse))
 
@@ -80,10 +70,7 @@ filter_activity_frequency.log <- function(log,
 filter_activity_frequency.grouped_log <- function(log,
 												  interval = NULL,
 												  percentage = NULL,
-												  reverse = FALSE,
-												  eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+												  reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
@@ -117,12 +104,11 @@ filter_activity_percentage <- function(log, percentage, reverse) {
 }
 
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_activity_frequency Filter interactively
 #' @export ifilter_activity_frequency
-ifilter_activity_frequency <- function(eventlog) {
+ifilter_activity_frequency <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_activity_frequency()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter activities based on frequency"),
@@ -140,12 +126,12 @@ ifilter_activity_frequency <- function(eventlog) {
 	)
 
 	server <- function(input, output, session){
-
+		max <- max(log %>% activities() %>% pull(absolute_frequency))
 		output$filter_ui <- renderUI({
 			absolute_frequency <- NULL
 			if(input$filter_type == "int") {
 				sliderInput("interval_slider", "Process time interval",
-							min = 0, max = max(eventlog %>% activities() %>% pull(absolute_frequency)), value = c(0,1))
+							min = 0, max = max, value = c(0,max))
 
 			}
 			else if(input$filter_type == "percentile") {
@@ -155,17 +141,17 @@ ifilter_activity_frequency <- function(eventlog) {
 
 		observeEvent(input$done, {
 
-			if(input$filter_type == "int")
-				filtered_log <- filter_activity_frequency(eventlog,
-														  interval =  input$interval_slider,
-														  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
-			else if(input$filter_type == "percentile") {
-				filtered_log <- filter_activity_frequency(eventlog,
-														  percentage = input$percentile_slider/100,
-														  reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
-			}
 
-			stopApp(filtered_log)
+
+			if(input$filter_type == "int")
+
+				fun_call <- construct_call(input_cmd, list("interval" = list(input$interval_slider), "reverse" =list(input$reverse == "Yes", FALSE)))
+
+			else if(input$filter_type == "percentile") {
+				fun_call <- construct_call(input_cmd, list("percentage" = list(input$percentile_slider/100), "reverse" = list(input$reverse == "Yes", FALSE)))
+			}
+			rstudioapi::sendToConsole(fun_call)
+			stopApp()
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter activities based on frequency", height = 400))

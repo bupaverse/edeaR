@@ -3,7 +3,6 @@
 #' @description Filters the log based on the life cycle identifier.
 #'
 #' @param lifecycles \code{\link{character}} vector: A vector of life cycle identifiers.
-#' @param lifecycle `r lifecycle::badge("deprecated")`; please use \code{lifecycles} instead.
 #'
 #' @inherit filter_activity_instance params references seealso return
 #'
@@ -16,9 +15,7 @@
 #' @export
 filter_lifecycle <- function(log,
 							 lifecycles,
-							 reverse = FALSE,
-							 lifecycle = deprecated(),
-							 eventlog = deprecated()) {
+							 reverse = FALSE) {
 	UseMethod("filter_lifecycle")
 }
 
@@ -26,25 +23,7 @@ filter_lifecycle <- function(log,
 #' @export
 filter_lifecycle.eventlog <- function(log,
 									  lifecycles,
-									  reverse = FALSE,
-									  lifecycle = deprecated(),
-									  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle(eventlog)",
-			with = "filter_lifecycle(log)")
-		log <- eventlog
-	}
-	if(lifecycle::is_present(lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle(lifecycle)",
-			with = "filter_lifecycle(lifecycles)")
-		lifecycles <- lifecycle
-	}
-
+									  reverse = FALSE) {
 	if(!reverse) {
 		log %>%
 			filter(.data[[lifecycle_id(.)]] %in% lifecycles)
@@ -58,34 +37,22 @@ filter_lifecycle.eventlog <- function(log,
 #' @export
 filter_lifecycle.grouped_eventlog <- function(log,
 											  lifecycles,
-											  reverse = FALSE,
-											  lifecycle = deprecated(),
-											  eventlog = deprecated()){
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
-	if(lifecycle::is_present(lifecycle)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle(lifecycle)",
-			with = "filter_lifecycle(lifecycles)")
-		lifecycles <- lifecycle
-	}
+											  reverse = FALSE){
 
 	bupaR:::apply_grouped_fun(log, fun = filter_lifecycle.eventlog, lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_lifecycle Filter interactively
 #' @export ifilter_lifecycle
-ifilter_lifecycle <- function(eventlog) {
+ifilter_lifecycle <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_lifecycle()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter life cycle"),
 		miniContentPanel(
 			fillRow(flex = c(10,1,8),
-					selectizeInput("selected_activities", label = "Select life cycle:", choices = eventlog %>% pull(!!lifecycle_id_(eventlog)) %>%
+					selectizeInput("selected_lifecycles", label = "Select life cycle:", choices = log %>% pull(!!lifecycle_id_(log)) %>%
 								   	unique %>% sort, selected = NA,  multiple = TRUE), " ",
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
@@ -94,12 +61,11 @@ ifilter_lifecycle <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_lifecycle(eventlog,
-											 lifecycle = input$selected_activities,
-											reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			fun_call <- construct_call(input_cmd, list(lifecycles = list(input$selected_lifecycles), reverse = list(input$reverse == "Yes", FALSE)))
 
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Life Cycle", height = 400))

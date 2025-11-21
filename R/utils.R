@@ -13,6 +13,65 @@ resource_id_ <- function(eventlog) sym(resource_id(eventlog))
 timestamp_ <- function(eventlog) sym(timestamp(eventlog))
 lifecycle_id_ <- function(eventlog) sym(lifecycle_id(eventlog))
 
+construct_call <- function(input_fun, argument) {
+
+	arguments <- map(argument, format_argument)
+	arguments <- arguments[!is.na(arguments)]
+	if(length(arguments) > 0) {
+		arguments <- paste0(names(arguments), " = ", arguments)
+		arguments <- paste(arguments, collapse = ",")
+		paste0(input_fun,"(",arguments, ")")
+	} else {
+		paste0(input_fun, "()")
+	}
+
+}
+construct_call_open <- function(input_fun, argument) {
+
+	arguments <- map(argument, format_argument)
+	arguments <- arguments[!is.na(arguments)]
+	if(length(arguments) > 0) {
+		arguments <- paste0(names(arguments), " = ", arguments)
+		arguments <- paste(arguments, collapse = ",")
+		paste0(input_fun,",",arguments, ")")
+	} else {
+		paste0(input_fun, ")")
+	}
+
+}
+
+format_argument <- function(arg_list) {
+	skip <- FALSE
+	if(is.character(arg_list[[1]])) {
+		arg_list[[1]] <- paste0("'", arg_list[[1]], "'")
+	}
+	if(length(arg_list[[1]]) > 1) {
+		arg_list[[1]] <- paste0("c(",paste0(arg_list[[1]], collapse = ","), ")")
+	}
+	if(length(arg_list) > 1) {
+		default <- arg_list[[2]]
+		current <- arg_list[[1]]
+		if(default == current) {
+			skip <- TRUE
+		}
+	}
+
+	if(!skip) {
+		arg_list[[1]]
+	} else {
+		NA
+	}
+}
+
+
+construct_input_call <- function(sc, log) {
+	if(as.character(sc[[1]])[1] == "%>%") {
+		input_cmd <- paste(as.character(sc[[1]])[2], "%>%", str_remove(as.character(sc[[2]][1]), "^i"))
+	} else {
+		input_cmd <- paste(as.character(log), "%>%", str_remove(as.character(sc[[1]])[1], "^i"))
+	}
+}
+
 
 
 

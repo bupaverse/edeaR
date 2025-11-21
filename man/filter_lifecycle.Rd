@@ -4,31 +4,16 @@
 \alias{filter_lifecycle}
 \alias{filter_lifecycle.eventlog}
 \alias{filter_lifecycle.grouped_eventlog}
+\alias{ifilter_lifecycle}
 \title{Filter Life Cycle}
 \usage{
-filter_lifecycle(
-  log,
-  lifecycles,
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
-)
+filter_lifecycle(log, lifecycles, reverse = FALSE)
 
-\method{filter_lifecycle}{eventlog}(
-  log,
-  lifecycles,
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
-)
+\method{filter_lifecycle}{eventlog}(log, lifecycles, reverse = FALSE)
 
-\method{filter_lifecycle}{grouped_eventlog}(
-  log,
-  lifecycles,
-  reverse = FALSE,
-  lifecycle = deprecated(),
-  eventlog = deprecated()
-)
+\method{filter_lifecycle}{grouped_eventlog}(log, lifecycles, reverse = FALSE)
+
+ifilter_lifecycle(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -36,8 +21,6 @@ filter_lifecycle(
 \item{lifecycles}{\code{\link{character}} vector: A vector of life cycle identifiers.}
 
 \item{reverse}{\code{\link{logical}} (default \code{FALSE}): Indicating whether the selection should be reversed.}
-
-\item{lifecycle}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{lifecycles} instead.}
 }
 \value{
 When given an object of type \code{\link[bupaR]{log}}, it will return a filtered \code{\link[bupaR]{log}}.
@@ -52,6 +35,11 @@ Filters the log based on the life cycle identifier.
 \item \code{filter_lifecycle(eventlog)}: Filters based on life cycle identifiers for an \code{\link[bupaR]{eventlog}}.
 
 \item \code{filter_lifecycle(grouped_eventlog)}: Filters based on life cycle identifiers a \code{\link[bupaR]{grouped_eventlog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_lifecycle()}: Filter interactively
 
 }}
 \references{

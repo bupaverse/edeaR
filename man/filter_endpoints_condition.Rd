@@ -12,40 +12,35 @@ filter_endpoints_condition(
   log,
   start_condition = NULL,
   end_condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_endpoints_condition}{eventlog}(
   log,
   start_condition = NULL,
   end_condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_endpoints_condition}{grouped_log}(
   log,
   start_condition = NULL,
   end_condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_endpoints_condition}{activitylog}(
   log,
   start_condition = NULL,
   end_condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 filter_endpoints_conditions(
   log,
   start_condition = NULL,
   end_condition = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 }
 \arguments{

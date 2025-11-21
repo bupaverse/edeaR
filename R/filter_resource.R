@@ -14,21 +14,13 @@
 #' @concept filters_event
 #'
 #' @export filter_resource
-filter_resource <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
+filter_resource <- function(log, resources, reverse = FALSE) {
 	UseMethod("filter_resource")
 }
 
 #' @describeIn filter_resource Filters resources for a \code{\link[bupaR]{log}}.
 #' @export
-filter_resource.log <- function(log, resources,	reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_resource(eventlog)",
-			with = "filter_resource(log)")
-		log <- eventlog
-	}
+filter_resource.log <- function(log, resources,	reverse = FALSE) {
 
 	if (!reverse) {
 		log %>%
@@ -41,32 +33,22 @@ filter_resource.log <- function(log, resources,	reverse = FALSE, eventlog = depr
 
 #' @describeIn filter_resource Filters resources for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_resource.grouped_log <- function(log, resources, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_resource(eventlog)",
-			with = "filter_resource(log)")
-		log <- eventlog
-	}
+filter_resource.grouped_log <- function(log, resources, reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_resource.log, resources, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_resource, resources, reverse)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_resource Filter interactively
 #' @export ifilter_resource
-ifilter_resource <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_resource()")
+ifilter_resource <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter Resources"),
 		miniContentPanel(
 			fillRow(flex = c(10,1,8),
-					selectizeInput("selected_resources", label = "Select resources:", choices = eventlog %>% pull(!!as.symbol(resource_id(eventlog))) %>%
+					selectizeInput("selected_resources", label = "Select resources:", choices = log %>% pull(!!as.symbol(resource_id(log))) %>%
 								   	unique %>% sort, selected = NA,  multiple = T), " ",
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
@@ -75,11 +57,12 @@ ifilter_resource <- function(eventlog) {
 
 	server <- function(input, output, session){
 		observeEvent(input$done, {
+			fun_call <- construct_call(input_cmd, list(resources = list(input$selected_resources),
+													   reverse = list(input$reverse == "Yes", FALSE)))
 
-			filtered_log <- filter_resource(eventlog, resources = input$selected_resources, reverse = ifelse(input$reverse == "Yes", T, F))
-
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Resources", height = 400))

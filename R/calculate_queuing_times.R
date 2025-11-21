@@ -16,15 +16,14 @@
 #' @concept queues
 #'
 #' @export
-calculate_queuing_times <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks"), eventlog = deprecated()) {
+calculate_queuing_times <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks")) {
 	UseMethod("calculate_queuing_times")
 }
 
 #' @describeIn calculate_queuing_times Calculate queueing times for \code{\link[bupaR]{eventlog}} and \code{\link[bupaR]{grouped_eventlog}}.
 #' @export
-calculate_queuing_times.eventlog <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks"), eventlog = deprecated()) {
+calculate_queuing_times.eventlog <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks")) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
 	units <- rlang::arg_match(units)
 
 	log %>%
@@ -50,9 +49,8 @@ calculate_queuing_times.eventlog <- function(log, units = c("auto", "secs", "min
 
 #' @describeIn calculate_queuing_times Calculate queueing times for \code{\link[bupaR]{activitylog}} and \code{\link[bupaR]{grouped_activitylog}}.
 #' @export
-calculate_queuing_times.activitylog <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks"), eventlog = deprecated()) {
+calculate_queuing_times.activitylog <- function(log, units = c("auto", "secs", "mins", "hours", "days", "weeks")) {
 
-	log <- lifecycle_warning_eventlog(log, eventlog)
 	units <- rlang::arg_match(units)
 
 	calculate_queuing_times.eventlog(bupaR::to_eventlog(log), units = units)

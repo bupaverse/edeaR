@@ -14,21 +14,13 @@
 #' @concept filters_case
 #'
 #' @export
-filter_infrequent_flows <- function(log, min_n = 2, eventlog = deprecated()) {
+filter_infrequent_flows <- function(log, min_n = 2) {
 	UseMethod("filter_infrequent_flows")
 }
 
 #' @describeIn filter_infrequent_flows Filters infrequent flows for an [`eventlog`][`bupaR::eventlog`].
 #' @export
-filter_infrequent_flows.eventlog <- function(log, min_n = 2, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_lifecycle(eventlog)",
-			with = "filter_lifecycle(log)")
-		log <- eventlog
-	}
+filter_infrequent_flows.eventlog <- function(log, min_n = 2) {
 
 	next_act <- NULL
 
@@ -75,18 +67,14 @@ filter_infrequent_flows.eventlog <- function(log, min_n = 2, eventlog = deprecat
 
 #' @describeIn filter_infrequent_flows Filters infrequent flows for a [`grouped_eventlog`][`bupaR::grouped_eventlog`].
 #' @export
-filter_infrequent_flows.grouped_eventlog <- function(log, min_n = 2, eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+filter_infrequent_flows.grouped_eventlog <- function(log, min_n = 2) {
 
 	bupaR:::apply_grouped_fun(log, filter_infrequent_flows.eventlog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 }
 
 #' @describeIn filter_infrequent_flows Filters infrequent flows for an [`activitylog`][`bupaR::activitylog`].
 #' @export
-filter_infrequent_flows.activitylog <- function(log, min_n = 2, eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+filter_infrequent_flows.activitylog <- function(log, min_n = 2) {
 
 	log %>%
 		to_eventlog() %>%
@@ -97,9 +85,7 @@ filter_infrequent_flows.activitylog <- function(log, min_n = 2, eventlog = depre
 
 #' @describeIn filter_infrequent_flows Filters infrequent flows for a [`grouped_activitylog`][`bupaR::grouped_activitylog`].
 #' @export
-filter_infrequent_flows.grouped_activitylog <- function(log, min_n = 2, eventlog = deprecated()) {
-
-	log <- lifecycle_warning_eventlog(log, eventlog)
+filter_infrequent_flows.grouped_activitylog <- function(log, min_n = 2) {
 
 	bupaR:::apply_grouped_fun(log, filter_infrequent_flows.activitylog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 }

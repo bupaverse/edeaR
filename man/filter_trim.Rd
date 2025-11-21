@@ -6,47 +6,45 @@
 \alias{filter_trim.grouped_eventlog}
 \alias{filter_trim.activitylog}
 \alias{filter_trim.grouped_activitylog}
+\alias{ifilter_trim}
 \title{Trim Cases}
 \usage{
 filter_trim(
   log,
   start_activities = NULL,
   end_activities = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim}{eventlog}(
   log,
   start_activities = NULL,
   end_activities = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim}{grouped_eventlog}(
   log,
   start_activities = NULL,
   end_activities = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim}{activitylog}(
   log,
   start_activities = NULL,
   end_activities = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
 
 \method{filter_trim}{grouped_activitylog}(
   log,
   start_activities = NULL,
   end_activities = NULL,
-  reverse = FALSE,
-  eventlog = deprecated()
+  reverse = FALSE
 )
+
+ifilter_trim(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -78,6 +76,11 @@ are retained. As such, this argument allows to cut intermediate parts out of tra
 \item \code{filter_trim(activitylog)}: Filters activity instances for an \code{\link[bupaR]{activitylog}}.
 
 \item \code{filter_trim(grouped_activitylog)}: Filters activity instances for a \code{\link[bupaR]{grouped_activitylog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_trim()}: Filter interactively
 
 }}
 \references{

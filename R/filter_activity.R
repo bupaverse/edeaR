@@ -18,21 +18,13 @@
 #' @concept filters_event
 #'
 #' @export
-filter_activity <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
+filter_activity <- function(log, activities, reverse = FALSE) {
 	UseMethod("filter_activity")
 }
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{log}}.
 #' @export
-filter_activity.log <- function(log, activities, reverse = FALSE, eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_activity(eventlog)",
-			with = "filter_activity(log)")
-		log <- eventlog
-	}
+filter_activity.log <- function(log, activities, reverse = FALSE) {
 
 	if (!reverse) {
 		log %>%
@@ -45,31 +37,22 @@ filter_activity.log <- function(log, activities, reverse = FALSE, eventlog = dep
 
 #' @describeIn filter_activity Filters activities for a \code{\link[bupaR]{grouped_log}}.
 #' @export
-filter_activity.grouped_log <- function(log, activities, reverse = FALSE, eventlog = deprecated()){
+filter_activity.grouped_log <- function(log, activities, reverse = FALSE){
 
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_activity(eventlog)",
-			with = "filter_activity(log)")
-		log <- eventlog
-	}
 
 	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
-#' @keywords internal
-#' @rdname ifilter
+#' @describeIn filter_activity Filter interactively
 #' @export ifilter_activity
-ifilter_activity <- function(eventlog) {
-
-	lifecycle::deprecate_warn("0.9.0", "ifilter_activity()")
+ifilter_activity <- function(log) {
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter activities"),
 		miniContentPanel(
 			fillRow(flex = c(10,1,8),
-					selectizeInput("selected_activities", label = "Select activities:", choices = eventlog %>% pull(!!as.symbol(activity_id(eventlog))) %>%
+					selectizeInput("selected_activities", label = "Select activities:", choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
 								   	unique %>% sort, selected = NA,  multiple = TRUE), " ",
 					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 			)
@@ -78,12 +61,11 @@ ifilter_activity <- function(eventlog) {
 	server <- function(input, output, session){
 		observeEvent(input$done, {
 
-			filtered_log <- filter_activity(eventlog,
-											activities = input$selected_activities,
-											reverse = ifelse(input$reverse == "Yes", TRUE, FALSE))
+			fun_call <- construct_call(input_cmd, list(activities = list(input$selected_activities), reverse = list(input$reverse == "Yes", FALSE)))
 
-
-			stopApp(filtered_log)
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter Activities", height = 400))

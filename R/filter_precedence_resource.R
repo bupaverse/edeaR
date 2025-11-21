@@ -169,5 +169,49 @@ filter_precedence_resource_single <- function(eventlog, antecedent, consequent, 
   }
 }
 
+#' @describeIn filter_precedence_resource Filter interactively
+#' @export ifilter_precedence_resource
+ifilter_precedence_resource <- function(log) {
+
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter on precedences"),
+		miniContentPanel(
+			fillCol(flex = c(5,3,2),
+					fillRow(flex = c(10,1,10),
+							selectizeInput("ante", label = "Select antecedents:",
+										   choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
+										   	unique, selected = NA,  multiple = TRUE), " ",
+							selectizeInput("conse", label = "Select consequents:",
+										   choices = log %>% pull(!!as.symbol(activity_id(log))) %>%
+										   	unique, selected = NA,  multiple = TRUE)),
+					fillRow(
+						radioButtons("type", "Precedence filter: ", choices = c("Directly follows" = "directly_follows", "Eventually follows"="eventually_follows"), selected = "directly_follows"),
+						radioButtons("method", "Reverse filter: ", choices = c("All" = "all", "One of" = "one_of", "None" = "none"), selected = "all"),
+						radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")),
+					"When directly_follows, the consequent activity should happen immediately after the antecedent activities. When eventually_follows, other events are allowed to happen in between. When each, only cases where all the relations are valid are preserved. When one_of, all the cases where at least one of the conditions hold are preserved."
+			)
+
+		)
+	)
+
+	server <- function(input, output, session){
+		observeEvent(input$done, {
+
+			fun_call <- construct_call(input_cmd, list(antecedents = list(input$ante),
+													   consequents = list(input$conse),
+													   precedence_type = list(input$type, "'directly_follows'"),
+													   filter_method = list(input$method, "'all'"),
+													   reverse = list(input$reverse == "Yes", FALSE)))
+
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter on precedences", height = 400))
+
+}
 
 

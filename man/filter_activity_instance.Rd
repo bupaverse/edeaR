@@ -4,28 +4,16 @@
 \alias{filter_activity_instance}
 \alias{filter_activity_instance.eventlog}
 \alias{filter_activity_instance.grouped_eventlog}
+\alias{ifilter_activity_instance}
 \title{Filter Activity Instance}
 \usage{
-filter_activity_instance(
-  log,
-  activity_instances,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+filter_activity_instance(log, activity_instances, reverse = FALSE)
 
-\method{filter_activity_instance}{eventlog}(
-  log,
-  activity_instances,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_activity_instance}{eventlog}(log, activity_instances, reverse = FALSE)
 
-\method{filter_activity_instance}{grouped_eventlog}(
-  log,
-  activity_instances,
-  reverse = FALSE,
-  eventlog = deprecated()
-)
+\method{filter_activity_instance}{grouped_eventlog}(log, activity_instances, reverse = FALSE)
+
+ifilter_activity_instance(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{eventlog}}: Object of class \code{\link[bupaR]{eventlog}} or derivatives (\code{\link[bupaR]{grouped_eventlog}}).}
@@ -48,6 +36,11 @@ to which a vector of identifiers can be given. The selection can be negated with
 \item \code{filter_activity_instance(eventlog)}: Filters activities for an \code{\link[bupaR]{eventlog}}.
 
 \item \code{filter_activity_instance(grouped_eventlog)}: Filters activities for a \code{\link[bupaR]{grouped_eventlog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_activity_instance()}: Filter interactively
 
 }}
 \references{

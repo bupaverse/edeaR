@@ -5,6 +5,7 @@
 \alias{filter_precedence_resource.eventlog}
 \alias{filter_precedence_resource.activitylog}
 \alias{filter_precedence_resource.grouped_log}
+\alias{ifilter_precedence_resource}
 \title{Filter Precedence Relations with Identical Resources}
 \usage{
 filter_precedence_resource(
@@ -42,6 +43,8 @@ filter_precedence_resource(
   filter_method = c("all", "one_of", "none"),
   reverse = FALSE
 )
+
+ifilter_precedence_resource(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -75,6 +78,11 @@ and consequent have to be executed by the same resource.
 \item \code{filter_precedence_resource(activitylog)}: Filters cases for an \code{\link[bupaR:activitylog]{activitylog}}.
 
 \item \code{filter_precedence_resource(grouped_log)}: Filters cases for a \code{\link[bupaR:grouped_log]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_precedence_resource()}: Filter interactively
 
 }}
 \references{

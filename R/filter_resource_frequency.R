@@ -31,8 +31,7 @@
 filter_resource_frequency <- function(log,
 									  interval = NULL,
 									  percentage = NULL,
-									  reverse = FALSE,
-									  eventlog = deprecated()) {
+									  reverse = FALSE) {
 	UseMethod("filter_resource_frequency")
 }
 
@@ -41,19 +40,9 @@ filter_resource_frequency <- function(log,
 filter_resource_frequency.log <- function(log,
 										  interval = NULL,
 										  percentage = NULL,
-										  reverse = FALSE,
-										  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_resource_frequency(eventlog)",
-			with = "filter_resource_frequency(log)")
-		log <- eventlog
-	}
+										  reverse = FALSE) {
 
 	stopifnot(is.logical(reverse))
-
 	mapping <- mapping(log)
 
 	if(!is.null(interval) && !is.null(percentage)) {
@@ -82,16 +71,7 @@ filter_resource_frequency.log <- function(log,
 filter_resource_frequency.grouped_log <- function(log,
 												  interval = NULL,
 												  percentage = NULL,
-												  reverse = FALSE,
-												  eventlog = deprecated()) {
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = "filter_resource_frequency(eventlog)",
-			with = "filter_resource_frequency(log)")
-		log <- eventlog
-	}
+												  reverse = FALSE) {
 
 	bupaR:::apply_grouped_fun(log, fun = filter_resource_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_resource_frequency, interval, percentage, reverse, ...)
@@ -125,35 +105,54 @@ filter_resource_percentage <- function(eventlog, percentage, reverse) {
 	filter_resource(eventlog, event_selection, reverse)
 }
 
-#' @keywords internals
-#' @rdname ifilter
+#' @describeIn filter_resource_frequency Filter interactively
 #' @export ifilter_resource_frequency
-ifilter_resource_frequency <- function(eventlog) {
+ifilter_resource_frequency <- function(log) {
 
-	lifecycle::deprecate_warn("0.9.0", "ifilter_resource_frequency()")
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
 
 	ui <- miniPage(
 		gadgetTitleBar("Filter resources based on frequency"),
 		miniContentPanel(
 			fillCol(flex = c(2,1),
 					fillRow(flex = c(10,1,8),
-							sliderInput("percentile_cut_off", "Cumulative Percentile Cut-off", 0, 100, value = 80),
+							radioButtons("filter_type", "Filter type:", choices = c("Interval" = "int", "Use percentile cutoff" = "percentile")),
 							" ",
 							radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
 					),
-					"A percentile of 0.9 will return the most common resources of the eventlog, which account for 90% of the events."
-			))
+					uiOutput("filter_ui")
+
+			)
+		)
 	)
 
 	server <- function(input, output, session){
+		max <- max(log %>% resources() %>% pull(absolute_frequency))
+		output$filter_ui <- renderUI({
+			absolute_frequency <- NULL
+			if(input$filter_type == "int") {
+				sliderInput("interval_slider", "Process time interval",
+							min = 0, max = max, value = c(0, max))
+
+			}
+			else if(input$filter_type == "percentile") {
+				sliderInput("percentile_slider", "Percentage", min = 0, max = 100, value = 80)
+			}
+		})
+
 		observeEvent(input$done, {
 
-			filtered_log <- filter_resource_frequency(eventlog,
-													  percentage = input$percentile_cut_off/100,
-													  reverse = ifelse(input$reverse == "Yes", T, F))
 
 
-			stopApp(filtered_log)
+			if(input$filter_type == "int")
+
+				fun_call <- construct_call(input_cmd, list("interval" = list(input$interval_slider), "reverse" =list(input$reverse == "Yes", FALSE)))
+
+			else if(input$filter_type == "percentile") {
+				fun_call <- construct_call(input_cmd, list("percentage" = list(input$percentile_slider/100), "reverse" = list(input$reverse == "Yes", FALSE)))
+			}
+			rstudioapi::sendToConsole(fun_call)
+			stopApp()
 		})
 	}
 	runGadget(ui, server, viewer = dialogViewer("Filter resources based on frequency", height = 400))
