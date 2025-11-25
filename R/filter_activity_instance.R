@@ -40,7 +40,7 @@ filter_activity_instance.grouped_eventlog <- function(log,
 													  activity_instances,
 													  reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_activity_instance.eventlog, activity_instances, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_activity_instance.eventlog, activity_instances, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_activity_instance Filter interactively

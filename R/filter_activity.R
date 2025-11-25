@@ -40,7 +40,7 @@ filter_activity.log <- function(log, activities, reverse = FALSE) {
 filter_activity.grouped_log <- function(log, activities, reverse = FALSE){
 
 
-	bupaR:::apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_activity.log, activities = activities, reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_activity Filter interactively

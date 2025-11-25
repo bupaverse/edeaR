@@ -69,7 +69,7 @@ filter_infrequent_flows.eventlog <- function(log, min_n = 2) {
 #' @export
 filter_infrequent_flows.grouped_eventlog <- function(log, min_n = 2) {
 
-	bupaR:::apply_grouped_fun(log, filter_infrequent_flows.eventlog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	apply_grouped_fun(log, filter_infrequent_flows.eventlog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 }
 
 #' @describeIn filter_infrequent_flows Filters infrequent flows for an [`activitylog`][`bupaR::activitylog`].
@@ -87,5 +87,5 @@ filter_infrequent_flows.activitylog <- function(log, min_n = 2) {
 #' @export
 filter_infrequent_flows.grouped_activitylog <- function(log, min_n = 2) {
 
-	bupaR:::apply_grouped_fun(log, filter_infrequent_flows.activitylog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	apply_grouped_fun(log, filter_infrequent_flows.activitylog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 }

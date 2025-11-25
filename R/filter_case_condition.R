@@ -33,6 +33,6 @@ filter_case_condition.log <- function(log, ..., reverse = FALSE) {
 #' @export
 filter_case_condition.grouped_log <- function(log, ..., reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_case_condition.log, ..., reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_case_condition.log, ..., reverse = reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 

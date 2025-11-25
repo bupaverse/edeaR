@@ -100,7 +100,7 @@ filter_endpoints_condition.grouped_log <- function(log,
 												   end_condition = NULL,
 												   reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_endpoints_condition, enquo(start_condition), enquo(end_condition), reverse,
+	apply_grouped_fun(log, fun = filter_endpoints_condition, enquo(start_condition), enquo(end_condition), reverse,
 							  .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints_conditions.grouped_eventlog, start_condition, end_condition, reverse, ...)
 }

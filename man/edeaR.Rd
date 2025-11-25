@@ -19,13 +19,19 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Gert Janssenswillen \email{gert.janssenswillen@uhasselt.be}
+\strong{Maintainer}: Research group Business Informatics - Hasselt University \email{beleidsinformatica@uhasselt.be}
+
+Authors:
+\itemize{
+  \item Gert Janssenswillen \email{gert.janssenswillen@uhasselt.be}
+}
 
 Other contributors:
 \itemize{
   \item Gerard van Hulzen \email{gerard.vanhulzen@uhasselt.be} [contributor]
   \item Marijke Swennen \email{marijke.swennen@uhasselt.be} [contributor]
   \item Ivan Esin \email{ivan.esin@student.uhasselt.be} [contributor]
+  \item Felix Mannhardt [contributor]
   \item Hasselt University [copyright holder]
 }
 

@@ -68,7 +68,7 @@ trace_length.grouped_eventlog <- function(log,
 				  case = trace_length_case,
 				  trace = trace_length_trace)
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	#if(!(level %in% c("log"))) {
 	#	output <- grouped_metric(eventlog, FUN)

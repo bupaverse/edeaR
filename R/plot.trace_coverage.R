@@ -11,10 +11,20 @@ plot_trace_coverage <- function(x, ...) {
 
 
 	if(level == "log") {
-		stop("Plot only available at trace level")
+		attr(x, "raw") %>%
+			ggplot(aes(relative)) +
+			geom_histogram(bins = 20, boundary = 0, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
+			theme_light() +
+			labs(x = "Relative trace coverage", y = "#traces") -> p
 	}
 	else if(level == "case") {
-		stop("Plot only available at trace level")
+		x %>%
+			ggplot(aes(relative)) +
+			geom_histogram(bins = 20, boundary = 0, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
+			theme_light() +
+			labs(x = "Relative trace coverage", y = "#cases") -> p
 
 	}
 	else if(level == "trace") {
@@ -25,7 +35,7 @@ plot_trace_coverage <- function(x, ...) {
 			geom_line(aes(id, cum_sum)) +
 			theme_light() +
 			labs(x = "Relative Number of traces", y = "(Cumulative) relative frequency") +
-			scale_fill_continuous_tableau(name = "Relative frequency", palette = "Blue") -> p
+			scale_fill_continuous_bupaR(name = "Relative frequency", palette = "green") -> p
 	}
 
 	if(!is.null(attr(x, "groups"))) {
@@ -37,7 +47,7 @@ plot_trace_coverage <- function(x, ...) {
 			geom_line(aes(id, cum_sum)) +
 			theme_light() +
 			labs(x = "Relative Number of traces", y = "(Cumulative) relative frequency") +
-			scale_fill_continuous_tableau(name = "Relative frequency", palette = "Blue") -> p
+			scale_fill_continuous_bupaR(name = "Relative frequency", palette = "green") -> p
 	}
 	if(!is.null(mapping$groups)) {
 		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")

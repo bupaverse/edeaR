@@ -35,7 +35,7 @@ filter_resource.log <- function(log, resources,	reverse = FALSE) {
 #' @export
 filter_resource.grouped_log <- function(log, resources, reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_resource.log, resources, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_resource.log, resources, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_resource, resources, reverse)
 }
 

@@ -64,7 +64,7 @@ trace_coverage.grouped_log <- function(log,
 				  case = trace_coverage_case,
 				  trace = trace_coverage_trace)
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	if(sort && level %in% c("trace", "case")) {
 		output %>%

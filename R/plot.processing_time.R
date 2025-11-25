@@ -10,23 +10,20 @@ plot_processing_time <- function(x, ...) {
 
 	if(level == "log") {
 		attr(x, "raw") %>%
-			ggplot(aes("", processing_time)) +
-			geom_boxplot() +
-			scale_y_continuous() +
+			ggplot(aes(processing_time)) +
+			geom_histogram(bins = 20, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
 			theme_light() +
-			coord_flip() +
-			labs(x = "", y = y_lab) -> p
+			labs(x = y_lab, y = "#cases") -> p
+
 	}
 	else if(level == "case") {
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, processing_time)"), "processing_time")) +
-			geom_col(aes(fill = as.numeric(processing_time))) +
-			scale_fill_continuous_tableau(palette = "Blue", name = "Processing Time") +
-			labs(x = "Cases", y = y_lab) +
-			scale_y_continuous() +
+			ggplot(aes(processing_time)) +
+			geom_histogram(bins = 20, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
 			theme_light() +
-			theme(axis.text.x = element_blank()) +
-			scale_x_discrete(breaks = NULL) -> p
+			labs(x = y_lab, y = "#cases") -> p
 	}
 	else if(level == "trace") {
 		stop("Plot not available for this level of analysis")
@@ -55,12 +52,13 @@ plot_processing_time <- function(x, ...) {
 			geom_boxplot() +
 			scale_y_continuous() +
 			theme_light() +
+			scale_color_discrete_bupaR() +
 			coord_flip() +
 			labs(x = "Activity", y = y_lab) -> p
 	}
 
 	if(!is.null(mapping$groups)) {
-		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y", space = "free")
 	}
 
 	return(p)

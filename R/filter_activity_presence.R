@@ -119,7 +119,7 @@ filter_activity_presence.grouped_log <- function(log,
 	#check activities are valid
 	check_activities(activities, activity_labels(ungroup_eventlog(log)))
 
-	bupaR:::apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_activity_presence.log, activities, method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_activity_presence, activities, method)
 }
 

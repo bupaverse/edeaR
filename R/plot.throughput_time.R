@@ -10,33 +10,43 @@ plot_throughput_time <- function(x, ...) {
 
 	if(level == "log") {
 		attr(x, "raw") %>%
-			ggplot(aes("", throughput_time)) +
-			geom_boxplot() +
+			ggplot(aes(throughput_time)) +
+			geom_histogram(bins = 20, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
 			theme_light() +
-			coord_flip() +
-			scale_y_continuous() +
-			labs(x = "", y = y_lab) -> p
+			labs(x = y_lab, y = "#cases") -> p
 	}
 	else if(level == "case") {
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, throughput_time)"), "throughput_time")) +
-			geom_col(aes(fill = as.numeric(throughput_time))) +
-			scale_fill_continuous_tableau(palette = "Blue", name = "Throughput Time") +
-			scale_y_continuous() +
-			labs(x = "Cases", y = y_lab) +
+			ggplot(aes(throughput_time)) +
+			geom_histogram(bins = 20, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
 			theme_light() +
-			coord_flip() +
-			theme(axis.text.y = element_blank()) +
-			scale_x_discrete(breaks = NULL) -> p
+			labs(x = y_lab, y = "#cases") -> p
 	}
 	else if(level == "trace") {
 		stop("Plot not available for this level of analysis")
+	} else if(level == "activity") {
+		attr(x, "raw") %>%
+			ggplot(aes_string(mapping$activity_id, "throughput_time")) +
+			geom_boxplot() +
+			scale_y_continuous() +
+			theme_light() +
+			coord_flip() +
+			labs(x = "Activity", y = y_lab) -> p
+	} else if(level == "activity-instance") {
+		x %>%
+			ggplot(aes(throughput_time)) +
+			geom_histogram(bins = 20, fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
+			theme_light() +
+			labs(x = y_lab, y = "#activity instances") -> p
 	}
 
 
 
 	if(!is.null(mapping$groups)) {
-		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")))
+		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), space = "free")
 	}
 
 	return(p)

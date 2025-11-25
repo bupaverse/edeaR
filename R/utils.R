@@ -337,4 +337,10 @@ check_activities <- function(specified_activities, found_activities, arg = "acti
 	}
 	specified_activities[!(specified_activities %in% wrong)]
 }
-
+col_vector <- function() {
+	c("#339999", "#8ADA8A","#FF8749","#6C6DAF","#008FAD", "#A44165",
+	  "#005E5E", "#5DBE7C","#A93800", "#AC76C6", "#70D0CF" , "#935592",
+	  "#324B4B","#1F884B","#956F5D", "#7E88BC", "#00C9CE","#4A5787",
+	  "#428E78", "#007851",  "#7F4C35", "#3681B7", 	  "#009EC0",
+	  "#95B1B0",   "#849237",   "#00282A")
+}

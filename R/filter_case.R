@@ -42,7 +42,7 @@ filter_case.log <- function(log, cases, reverse = FALSE) {
 #' @export
 filter_case.grouped_log <- function(log, cases, reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_case.log, cases, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_case Filter interactively

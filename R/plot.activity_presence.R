@@ -6,7 +6,7 @@ plot_activity_presence <- function(x, ...) {
 	x %>%
 		ggplot(aes_string(glue::glue("reorder({mapping$activity_id}, relative)"), "relative")) +
 		geom_col(aes(fill = relative)) +
-		scale_fill_continuous_tableau(name = "Activity Presence", palette = "Blue")+
+		scale_fill_continuous_bupaR(name = "Activity Presence", palette = "green")+
 		theme_light() +
 		coord_flip() +
 		labs(x = "Activity", y = "Relative Activity Presence") -> p

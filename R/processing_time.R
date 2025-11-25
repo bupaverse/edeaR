@@ -113,7 +113,7 @@ processing_time.grouped_eventlog <- function(log,
 				  "activity-instance" = processing_time_activity_instance)
 
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	if(level %in% c("log", "trace", "activity", "resource", "resource-activity")) {
 		time_units <- attr(output$min, "units")

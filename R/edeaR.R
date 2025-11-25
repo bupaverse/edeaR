@@ -12,7 +12,6 @@
 #' @import bupaR
 #' @import dplyr
 #' @import ggplot2
-#' @import ggthemes
 #' @import tibble
 #' @import shiny
 #' @import miniUI

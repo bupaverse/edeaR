@@ -102,7 +102,7 @@ size_of_repetitions.grouped_eventlog <- function(log,
 
 	}
 
-	output <- bupaR:::apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	output <- return_metric_v2(log, output, level,"size_of_repetitions")
 	attr(output, "type") <- type

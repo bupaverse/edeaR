@@ -32,7 +32,7 @@ number_of_traces.log <- function(log) {
 #' @export
 number_of_traces.grouped_log <- function(log) {
 
-	output <- bupaR:::apply_grouped_fun(log, fun = number_of_traces_FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = number_of_traces_FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	class(output) <- c("number_of_traces", class(output))
 	attr(output, "mapping") <- mapping(log)

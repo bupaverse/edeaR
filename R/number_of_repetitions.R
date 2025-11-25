@@ -153,7 +153,7 @@ number_of_repetitions.grouped_eventlog <- function(log,
 
 	}
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	#if(level != "log") {
 	#	grouped_metric(eventlog, FUN) -> output

@@ -86,7 +86,7 @@ filter_trim.grouped_eventlog <- function(log,
 										 end_activities = NULL,
 										 reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_trim.eventlog, start_activities, end_activities, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_trim.eventlog, start_activities, end_activities, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_trim Filters activity instances for an \code{\link[bupaR]{activitylog}}.

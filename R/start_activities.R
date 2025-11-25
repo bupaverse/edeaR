@@ -77,7 +77,7 @@ start_activities.grouped_eventlog <- function(log,
 				  resource = start_activities_resource,
 				  "resource-activity" = start_activities_resource_activity)
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	if(sort && level %in% c("activity", "resource", "resource-activity")) {
 		output %>%

@@ -58,6 +58,6 @@ filter_idle_time.grouped_log <- function(log,
 											   reverse = FALSE,
 											   units = c("secs", "mins", "hours", "days", "weeks")) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_idle_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_idle_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_processing_time, interval = interval, percentage = percentage, reverse, units, ...)
 }

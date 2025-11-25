@@ -132,7 +132,7 @@ filter_time_period.grouped_eventlog <- function(log,
 												force_trim = FALSE,
 												reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_time_period.eventlog, interval, filter_method, force_trim, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_time_period.eventlog, interval, filter_method, force_trim, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_time_period, interval, filter_method, force_trim, reverse, ...)
 }
 

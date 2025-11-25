@@ -78,7 +78,7 @@ resource_involvement.grouped_log <- function(log,
 				  resource = resource_involvement_resource,
 				  "resource-activity" = resource_involvement_resource_activity)
 
-	output <- bupaR:::apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	if(sort) {
 		output %>%

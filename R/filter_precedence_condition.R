@@ -128,7 +128,7 @@ filter_precedence_condition.grouped_log <- function(log,
 													precedence_type = c("directly_follows", "eventually_follows"),
 													reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_precedence.log, antecedent_condition, consequent_condition, precedence_type, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_precedence.log, antecedent_condition, consequent_condition, precedence_type, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_precedence_condition, antecedent_condition, consequent_condition, precedence_type, reverse)
 }
 

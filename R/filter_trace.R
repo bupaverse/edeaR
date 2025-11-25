@@ -38,5 +38,5 @@ filter_trace.log <- function(log, trace_ids, reverse = FALSE){
 #' @export
 filter_trace.grouped_log <- function(log, trace_ids, reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_trace.log, trace_ids, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_trace.log, trace_ids, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }

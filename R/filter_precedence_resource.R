@@ -118,7 +118,7 @@ filter_precedence_resource.grouped_log <- function(log,
                                                    filter_method = c("all", "one_of", "none"),
                                                    reverse = FALSE) {
 
-  bupaR:::apply_grouped_fun(log, fun = filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+  apply_grouped_fun(log, fun = filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
   #grouped_filter(eventlog, filter_precedence_resource, antecedents, consequents, precedence_type, filter_method, reverse)
 }
 

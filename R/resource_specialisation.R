@@ -80,7 +80,7 @@ resource_specialisation.grouped_log <- function(log,
 				  activity = resource_specialisation_activity,
 				  resource = resource_specialisation_resource)
 
-	output <- bupaR:::apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	#if(!(level %in% c("log"))) {
 	#	grouped_metric(eventlog, FUN) -> output

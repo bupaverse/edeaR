@@ -58,7 +58,7 @@ activity_presence.grouped_eventlog <- function(log,
 
 
 
-	output <- bupaR:::apply_grouped_fun(log, activity_presence_FUN)
+	output <- apply_grouped_fun(log, activity_presence_FUN)
 
 	if(sort) {
 		output %>%

@@ -39,7 +39,7 @@ filter_lifecycle.grouped_eventlog <- function(log,
 											  lifecycles,
 											  reverse = FALSE){
 
-	bupaR:::apply_grouped_fun(log, fun = filter_lifecycle.eventlog, lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_lifecycle.eventlog, lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_lifecycle Filter interactively

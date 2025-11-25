@@ -91,7 +91,7 @@ filter_lifecycle_presence.grouped_eventlog <- function(log,
 
 	method <- rlang::arg_match(method)
 
-	bupaR:::apply_grouped_fun(log, fun = filter_lifecycle_presence.eventlog, lifecycles, method, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_lifecycle_presence.eventlog, lifecycles, method, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 

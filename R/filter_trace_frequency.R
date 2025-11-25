@@ -64,7 +64,7 @@ filter_trace_frequency.log <- function(log, interval = NULL, percentage = NULL, 
 #' @export
 filter_trace_frequency.grouped_log <- function(log, interval = NULL, percentage = NULL,	reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_trace_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_trace_frequency.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_trace_frequency Filter interactively

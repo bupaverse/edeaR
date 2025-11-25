@@ -73,5 +73,5 @@ filter_flow_time.grouped_log <- function(log,
 										 units = c("secs", "mins", "hours", "days", "weeks")) {
 
 
-	bupaR:::apply_grouped_fun(log, fun = filter_flow_time.log, interval, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_flow_time.log, interval, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }

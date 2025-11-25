@@ -9,11 +9,11 @@ plot_activity_frequency <- function(x, ...) {
 
 	if(level == "log") {
 
-		range <- x$max - x$min
+		range <- max(attr(x, "raw")$absolute) - min(attr(x, "raw")$absolute)
 
 		attr(x, "raw") %>%
 			ggplot(aes(absolute)) +
-			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = col_vector()[1], color = "white") +
 			theme_light() +
 			labs(x = "Absolute Activity Frequency", y = "#cases") -> p
 	}
@@ -21,7 +21,7 @@ plot_activity_frequency <- function(x, ...) {
 		range <- max(x$absolute) - min(x$absolute)
 		x %>%
 			ggplot(aes(absolute)) +
-			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = col_vector()[1], color = "white") +
 			theme_light() +
 			labs(x = "Absolute Activity Frequency", y = "#traces") -> p
 	}
@@ -29,7 +29,7 @@ plot_activity_frequency <- function(x, ...) {
 		range <- max(x$absolute) - min(x$absolute)
 		x %>%
 			ggplot(aes(absolute)) +
-			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = bupaR:::col_vector()[1], color = "white") +
+			geom_histogram(bins = ifelse(range > 30, 30, range+1), fill = col_vector()[1], color = "white") +
 			theme_light() +
 			labs(x = "Absolute Activity Frequency", y = "#cases") -> p
 	}
@@ -44,7 +44,7 @@ plot_activity_frequency <- function(x, ...) {
 	}
 
 	if(!is.null(mapping$groups)) {
-		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+		p <-	p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y", space = "free")
 	}
 
 	return(p)

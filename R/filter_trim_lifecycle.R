@@ -83,7 +83,7 @@ filter_trim_lifecycle.grouped_eventlog <- function(log,
 												   end_lifecycles = NULL,
 												   reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_trim_lifecycle.eventlog, start_lifecycles, end_lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_trim_lifecycle.eventlog, start_lifecycles, end_lifecycles, reverse, .ignore_groups = TRUE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 #' @describeIn filter_trim_lifecycle Filter interactively

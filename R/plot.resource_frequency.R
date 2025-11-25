@@ -10,32 +10,32 @@ plot_resource_frequency <- function(x, ...) {
 	absolute <- NULL
 
 	if(level == "log") {
+		range <- max(attr(x, "raw")$freq) - min(attr(x, "raw")$freq)
+
 		attr(x, "raw") %>%
-			ggplot(aes("", freq)) +
-			geom_boxplot() +
+			ggplot(aes(freq)) +
+			geom_histogram(bins = ifelse(range > 20, 20, range+1), fill = col_vector()[1], color = "white") +
+			scale_x_continuous() +
 			theme_light() +
-			coord_flip() +
-			labs(x = "", y = "Resource frequency") -> p
+			labs(x = glue("#instances"), y = "#resources") -> p
 	}
 	else if(level == "case") {
+		range <- max(x$nr_of_resources) - min(x$nr_of_resources)
+
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, nr_of_resources)"), "nr_of_resources")) +
-			geom_col(aes(fill = nr_of_resources)) +
-			scale_fill_continuous_tableau(name = "Resource frequency", palette = "Blue") +
-			coord_flip() +
+			ggplot(aes(nr_of_resources)) +
+			geom_histogram(fill = col_vector()[1], bins = ifelse(range > 20, 20, range+1), color = "white") +
 			theme_light() +
-			scale_x_discrete(breaks = NULL) +
-			theme(axis.text.y = element_blank()) +
-			labs(x = "Cases",y = "Resource frequency") -> p
+			labs(x = "#resources",y = "#cases") -> p
 	}
 	else if(level == "activity") {
 		x %>%
 			ggplot(aes_string(glue("reorder({mapping$activity_id}, nr_of_resources)"), "nr_of_resources")) +
 			geom_col(aes(fill = nr_of_resources)) +
-			scale_fill_continuous_tableau(name = "Resource frequency", palette = "Blue") +
+			scale_fill_continuous_bupaR(name = "#resources", palette = "green") +
 			coord_flip() +
 			theme_light() +
-			labs(x = "Activities",y = "Resource frequency") -> p
+			labs(x = "Activities",y = "#resources") -> p
 	}
 	else if(level == "resource-activity") {
 		x %>%
@@ -44,17 +44,17 @@ plot_resource_frequency <- function(x, ...) {
 			geom_text(aes(label = absolute), fontface = "bold", color = "white") +
 			theme_light() +
 			theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-			scale_fill_continuous_tableau("Resource-activity Frequency", palette = "Blue") +
+			scale_fill_continuous_bupaR(name = "#activity instances", palette = "green") +
 			labs(x = "Activities",y = "Resources") -> p
 	}
 	else if(level == "resource") {
 		x %>%
 			ggplot(aes_string(glue("reorder({mapping$resource_id}, absolute)"), "absolute")) +
 			geom_col(aes(fill = absolute)) +
-			scale_fill_continuous_tableau(name = "Resource frequency", palette = "Blue") +
+			scale_fill_continuous_bupaR(name = "#activity instances", palette = "green") +
 			coord_flip() +
 			theme_light() +
-			labs(x = "Resources",y = "Resource frequency") -> p
+			labs(x = "Resources",y = "#activity instances") -> p
 	}
 
 	if(!is.null(mapping$groups)) {

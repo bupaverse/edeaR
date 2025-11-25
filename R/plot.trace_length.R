@@ -9,35 +9,37 @@ plot_trace_length <- function(x, ...) {
 
 
 	if(level == "log") {
+		range <- max(attr(x, "raw")$absolute) - min(attr(x, "raw")$absolute)
+
 		attr(x, "raw") %>%
-			ggplot(aes("", absolute)) +
-			geom_boxplot()+
-			labs(x = "", y = "Trace length") +
+			ggplot(aes(absolute)) +
+			geom_histogram(bins = ifelse(range > 20, 20, range+1), fill = col_vector()[1], color = "white") +
 			theme_light() +
-			coord_flip() -> p
+			labs(x = "Trace length", y = "#cases") -> p
 	}
 	else if(level == "case") {
+		range <- max(x$absolute) - min(x$absolute)
+
 		x %>%
-			ggplot(aes_string(glue("reorder({mapping$case_id}, absolute)"), "absolute")) +
-			geom_col(aes(fill = absolute)) +
-			scale_fill_continuous_tableau(palette = "Blue", name = "Trace length per case") +
+			ggplot(aes(absolute)) +
+			geom_histogram(bins = ifelse(range > 20, 20, range+1), fill = col_vector()[1], color = "white") +
 			theme_light() +
-			coord_flip() +
-			theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
-			labs(x = "Cases", y = "Trace length") -> p
+			labs(x = "Trace length", y = "#cases") -> p
 
 	}
 	else if(level == "trace") {
+		range <- max(x$absolute) - min(x$absolute)
+
 		x %>%
 			ggplot(aes(absolute)) +
-			geom_histogram(bins = 20, color = "black", fill = "white") +
-			labs(x = "Trace length", y = "Number of traces") +
+			geom_histogram(bins = ifelse(range > 20, 20, range+1), fill = col_vector()[1], color = "white") +
+			labs(x = "Trace length", y = "#traces") +
 			theme_light() -> p
 
 	}
 
 	if(!is.null(mapping$groups)) {
-		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y")
+		p <- p + facet_grid(as.formula(paste(c(paste(mapping$groups, collapse = "+"), "~." ), collapse = "")), scales = "free_y", space = "free")
 	}
 
 

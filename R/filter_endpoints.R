@@ -51,7 +51,7 @@ filter_endpoints.grouped_log <- function(log,
 										 percentage = NULL,
 										 reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_endpoints.log, start_activities, end_activities, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_endpoints.log, start_activities, end_activities, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_endpoints, start_activities, end_activities, percentage, reverse, ...)
 }
 

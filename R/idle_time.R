@@ -82,7 +82,7 @@ idle_time.grouped_eventlog <- function(log,
 				  resource = idle_time_resource,
 				  flow = idle_time_flow)
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, units, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	if(level %in% c("log", "trace")) {
 		time_units <- attr(output$min, "units")

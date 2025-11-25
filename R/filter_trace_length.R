@@ -63,7 +63,7 @@ filter_trace_length.grouped_log <- function(log,
 											percentage = NULL,
 											reverse = FALSE) {
 
-	bupaR:::apply_grouped_fun(log, fun = filter_trace_length.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
+	apply_grouped_fun(log, fun = filter_trace_length.log, interval, percentage, reverse, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 }
 
 

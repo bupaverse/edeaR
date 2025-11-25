@@ -88,11 +88,13 @@ throughput_time.grouped_eventlog <- function(log,
 	FUN <- switch(level,
 				  log = throughput_time_log,
 				  case = throughput_time_case,
-				  trace = throughput_time_trace)
+				  trace = throughput_time_trace,
+				  "activity-instance" = throughput_time_activity_instance,
+				  activity = throughput_time_activity)
 
-	output <- bupaR:::apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, fun = FUN, units, work_schedule, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
-	if(level %in% c("log", "trace")) {
+	if(level %in% c("log", "trace", "activity")) {
 		time_units <- attr(output$min, "units")
 	} else {
 		time_units <- attr(output$throughput_time, "units")

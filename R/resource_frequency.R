@@ -81,7 +81,7 @@ resource_frequency.grouped_eventlog <- function(log,
 				  resource = resource_frequency_resource,
 				  "resource-activity" = resource_frequency_resource_activity)
 
-	output <- bupaR:::apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+	output <- apply_grouped_fun(log, FUN, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
 
 	#if(!(level %in% c("log"))) {
 	#	grouped_metric(eventlog, FUN) -> output
