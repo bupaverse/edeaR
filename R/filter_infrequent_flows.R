@@ -54,13 +54,26 @@ filter_infrequent_flows.eventlog <- function(log, min_n = 2) {
 	# setorderv(dt, cols = c(case_id(log), timestamp(log)))
 
 
+	while(min(flow_info$n) < min_n & nrow(flow_info) > 0) {
+		flow_info %>%
+			filter(n < min_n) %>%
+			unnest(data) %>%
+			pull(!!case_id_(log)) %>%
+			unique() -> remove
+
+		flow_info %>%
+			filter(n >= min_n) %>%
+			mutate(data = map(data, ~filter(.x, !(!!case_id_(log) %in% remove)))) %>%
+			mutate(n = map_int(data, nrow)) -> flow_info
+
+	}
+
 	flow_info %>%
-		filter(n < min_n) %>%
 		unnest(data) %>%
 		pull(!!case_id_(log)) %>%
-		unique() -> remove
+		unique() -> keep
 
-	log <- filter_case.log(log, cases = remove, reverse = TRUE)
+	log <- filter_case.log(log, cases = keep, reverse = FALSE)
 
 	return(log)
 }
@@ -88,4 +101,74 @@ filter_infrequent_flows.activitylog <- function(log, min_n = 2) {
 filter_infrequent_flows.grouped_activitylog <- function(log, min_n = 2) {
 
 	apply_grouped_fun(log, filter_infrequent_flows.activitylog, min_n, .ignore_groups = FALSE, .keep_groups = FALSE, .returns_log = FALSE)
+}
+
+
+#' @describeIn filter_infrequent_flows Filter interactively
+#' @export ifilter_infrequent_flows
+ifilter_infrequent_flows <- function(log) {
+
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter infrequent flows"),
+		miniContentPanel(
+			fillCol(flex = c(2,1,5),
+					fillRow(
+						uiOutput("filter_ui")
+					),
+					h5("Current infrequent flows"),
+					tableOutput("infrequent_flows")
+
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+
+		AID <- NULL
+		next_activity <- NULL
+
+		max_flow_n <- suppressWarnings({log %>%
+				create_precedence_df() %>%
+				count(AID, next_activity) %>%
+				filter(AID != "Start", next_activity != "End") %>%
+				pull(n) %>%
+				max() })
+
+		flows <- reactive({
+			suppressWarnings({
+				log %>%
+					filter_infrequent_flows(min_n = ifelse(length(input$interval_slider) == 0, 2, input$interval_slider)) %>%
+					create_precedence_df() %>%
+					count(AID, next_activity) %>%
+					filter(AID != "Start", next_activity != "End")
+
+			})
+		})
+
+		output$filter_ui <- renderUI({
+			numericInput("interval_slider", "Min frequency",
+						 min = 2,
+						 value = 2)
+		})
+		output$infrequent_flows <- renderTable({
+			flows() %>%
+				arrange(n) %>%
+				rename(from = "AID",
+					   to = "next_activity") %>%
+				head(10)
+		})
+
+		observeEvent(input$done, {
+
+			fun_call <- construct_call(input_cmd, list(min_n = list(input$interval_slider)))
+
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter infrequent flows", height = 400))
+
 }

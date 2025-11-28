@@ -75,73 +75,14 @@ construct_input_call <- function(sc, log) {
 
 
 
-deprecated_level <- function(level,...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("level_of_analysis",names(l)))) {
-		warning("Argument level_of_analysis is deprecated. Use level instead.")
-		l[stringr::str_detect("level_of_analysis",names(l))][[1]]
-	} else {
-		level
-	}
-}
-
-deprecated_perc <- function(perc,...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("percentile_cut_off",names(l)))) {
-		warning("Argument percentile_cut_off is deprecated. Use percentage instead.")
-		l[stringr::str_detect("percentile_cut_off",names(l))][[1]]
-	} else {
-		perc
-	}
-}
-
-deprecated_lower_thr <- function(int_1,...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("lower_threshold",names(l)))) {
-		warning("Arguments lower_threshold and upper_threshold are deprecated. Use interval instead.")
-		l[stringr::str_detect("lower_threshold",names(l))][[1]]
-	} else {
-		int_1
-	}
-}
-
-deprecated_upper_thr <- function(int_2,...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("upper_threshold",names(l)))) {
-		warning("Arguments lower_threshold and upper_threshold are deprecated. Use interval instead.")
-		l[stringr::str_detect("upper_threshold",names(l))][[1]]
-	} else {
-		int_2
-	}
-}
-
-deprecated_starting_point <- function(s, ...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("start_point",names(l)))) {
-		warning("Arguments start_point and end_point are deprecated. Use interval instead.")
-		l[stringr::str_detect("start_point",names(l))][[1]]
-	} else {
-		s
-	}
-}
-
-deprecated_end_point <- function(e, ...) {
-	l <- list(...)
-	if(length(l) > 0 && any(stringr::str_detect("end_point",names(l)))) {
-		warning("Arguments start_point and end_point are deprecated. Use interval instead.")
-		l[stringr::str_detect("end_point",names(l))][[1]]
-	} else {
-		e
-	}
-}
 
 is_attached <- function(x) {
 	paste0("package:", x) %in% search()
 }
 
 grouped_metric <- function(grouped_eventlog, FUN, ...) {
-	# grouped_metric function should be replaced with bupaR:::apply_grouped_fun
-	bupaR:::apply_grouped_fun(grouped_eventlog, FUN, ...)
+	# grouped_metric function should be replaced with apply_grouped_fun
+	apply_grouped_fun(grouped_eventlog, FUN, ...)
 }
 
 
@@ -289,44 +230,6 @@ grouped_summary_statistics <- function(data.frame, values, na.rm = T, ...) {
 				  ...)
 }
 
-# Warning: The `eventlog` argument of `func()` is deprecated as of edeaR 0.9.0.
-# Please use the `log` argument instead.
-# WARNING: Works only on exported functions!
-lifecycle_warning_eventlog <- function (log, eventlog = deprecated()) {
-
-	cl <- sys.call(-1L)
-	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
-	func_name <- match.call(definition = func, call = cl)[[1L]]
-
-	if(lifecycle::is_present(eventlog)) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = paste0(func_name, "(eventlog)"),
-			with = paste0(func_name, "(log)"))
-		return(eventlog)
-	}
-
-	return(log)
-}
-
-lifecycle_warning_append <- function (append = deprecated(), append_column = deprecated()) {
-
-	cl <- sys.call(-1L)
-	func <- get(as.character(cl[[1L]]), mode = "function", envir = sys.frame(-2L))
-	func_name <- match.call(definition = func, call = cl)[[1L]]
-
-	if (lifecycle::is_present(append) ) {
-		lifecycle::deprecate_warn(
-			when = "0.9.0",
-			what = paste0(func_name, "(append)"),
-			with = "augment()"
-		)
-	} else {
-		append <- rlang::missing_arg()
-	}
-
-	return(rlang::maybe_missing(append))
-}
 
 check_activities <- function(specified_activities, found_activities, arg = "activities", call = caller_env(), emit_warning = TRUE) {
 	wrong <- specified_activities[!(specified_activities %in% found_activities)]

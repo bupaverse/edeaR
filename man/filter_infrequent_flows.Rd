@@ -6,6 +6,7 @@
 \alias{filter_infrequent_flows.grouped_eventlog}
 \alias{filter_infrequent_flows.activitylog}
 \alias{filter_infrequent_flows.grouped_activitylog}
+\alias{ifilter_infrequent_flows}
 \title{Filter Infrequent Flows}
 \usage{
 filter_infrequent_flows(log, min_n = 2)
@@ -17,6 +18,8 @@ filter_infrequent_flows(log, min_n = 2)
 \method{filter_infrequent_flows}{activitylog}(log, min_n = 2)
 
 \method{filter_infrequent_flows}{grouped_activitylog}(log, min_n = 2)
+
+ifilter_infrequent_flows(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -42,6 +45,11 @@ Filter cases based on infrequent flows.
 \item \code{filter_infrequent_flows(activitylog)}: Filters infrequent flows for an \code{\link[bupaR:activitylog]{activitylog}}.
 
 \item \code{filter_infrequent_flows(grouped_activitylog)}: Filters infrequent flows for a \code{\link[bupaR:grouped_activitylog]{grouped_activitylog}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_infrequent_flows()}: Filter interactively
 
 }}
 \references{

@@ -4,6 +4,7 @@
 \alias{filter_idle_time}
 \alias{filter_idle_time.log}
 \alias{filter_idle_time.grouped_log}
+\alias{ifilter_idle_time}
 \title{Filter Idle Time}
 \usage{
 filter_idle_time(
@@ -29,6 +30,8 @@ filter_idle_time(
   reverse = FALSE,
   units = c("secs", "mins", "hours", "days", "weeks")
 )
+
+ifilter_idle_time(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -61,6 +64,11 @@ in which this interval is defined can be supplied with the \code{units} argument
 \item \code{filter_idle_time(log)}: Filters cases for a \code{\link[bupaR:log]{log}}.
 
 \item \code{filter_idle_time(grouped_log)}: Filters cases for a \code{\link[bupaR:grouped_log]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_idle_time()}: Filter interactively
 
 }}
 \references{

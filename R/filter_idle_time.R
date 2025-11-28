@@ -61,3 +61,58 @@ filter_idle_time.grouped_log <- function(log,
 	apply_grouped_fun(log, fun = filter_idle_time.log, interval, percentage, reverse, units, .ignore_groups = FALSE, .keep_groups = TRUE, .returns_log = TRUE)
 	#grouped_filter(eventlog, filter_processing_time, interval = interval, percentage = percentage, reverse, units, ...)
 }
+
+#' @describeIn filter_idle_time Filter interactively
+#' @export ifilter_idle_time
+ifilter_idle_time <- function(log) {
+
+	input_cmd <- construct_input_call(sys.calls(), deparse(substitute(log)))
+
+	ui <- miniPage(
+		gadgetTitleBar("Filter Idle Time"),
+		miniContentPanel(
+			fillCol(
+				fillRow(
+					radioButtons("filter_type", "Filter type:", choices = c("Interval" = "int", "Use percentile cutoff" = "percentile")),
+					radioButtons("units", "Time units: ", choices = c("secs", "mins", "hours", "days", "weeks"), selected = "secs"),
+					radioButtons("reverse", "Reverse filter: ", choices = c("Yes","No"), selected = "No")
+				),
+				uiOutput("filter_ui")
+			)
+		)
+	)
+
+	server <- function(input, output, session){
+		my_max <- reactive({round(as.double(max(log %>% processing_time("case", units = input$units) %>% pull(processing_time))),2)})
+		output$filter_ui <- renderUI({
+			if(input$filter_type == "int") {
+				sliderInput("interval_slider", "Idle time interval",
+							min = 0, max = my_max(), value = c(0,my_max()))
+
+			}
+			else if(input$filter_type == "percentile") {
+				sliderInput("percentile_slider", "Percentile cut off:", min = 0, max = 100, value = 80)
+			}
+		})
+
+		observeEvent(input$done, {
+			if(input$filter_type == "int")
+				fun_call <- construct_call(input_cmd, list(interval = list(input$interval_slider),
+														   reverse = list(input$reverse == "Yes", FALSE),
+														   units = list(input$units, "'secs'")))
+
+			else if(input$filter_type == "percentile") {
+				fun_call <- construct_call(input_cmd, list(percentage = list(input$percentile_slider/100),
+														   reverse = list(input$reverse == "Yes", FALSE),
+														   units = list(input$units, "'secs'")))
+			}
+
+
+			result <- eval(parse_expr(fun_call))
+			rstudioapi::sendToConsole(fun_call)
+			stopApp(result)
+		})
+	}
+	runGadget(ui, server, viewer = dialogViewer("Filter Idle Time", height = 400))
+
+}

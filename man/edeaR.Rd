@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Research group Business Informatics - Hasselt University \email{beleidsinformatica@uhasselt.be}
+\strong{Maintainer}: Benoît Depaire \email{benoit.depaire@uhasselt.be}
 
 Authors:
 \itemize{

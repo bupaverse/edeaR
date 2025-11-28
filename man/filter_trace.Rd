@@ -4,6 +4,7 @@
 \alias{filter_trace}
 \alias{filter_trace.log}
 \alias{filter_trace.grouped_log}
+\alias{ifilter_trace}
 \title{Filter Trace}
 \usage{
 filter_trace(log, trace_ids, reverse = FALSE)
@@ -11,6 +12,8 @@ filter_trace(log, trace_ids, reverse = FALSE)
 \method{filter_trace}{log}(log, trace_ids, reverse = FALSE)
 
 \method{filter_trace}{grouped_log}(log, trace_ids, reverse = FALSE)
+
+ifilter_trace(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -35,6 +38,11 @@ It has a \code{trace_ids} argument, to which a vector of identifiers can be give
 \item \code{filter_trace(log)}: Filters cases for a \code{\link[bupaR]{log}}.
 
 \item \code{filter_trace(grouped_log)}: Filters cases for a \code{\link[bupaR]{grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_trace()}: Filter interactively
 
 }}
 \references{

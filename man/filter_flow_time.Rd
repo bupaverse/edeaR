@@ -4,6 +4,7 @@
 \alias{filter_flow_time}
 \alias{filter_flow_time.log}
 \alias{filter_flow_time.grouped_log}
+\alias{ifilter_flow_time}
 \title{Filter directly follows with time interval}
 \usage{
 filter_flow_time(
@@ -32,6 +33,8 @@ filter_flow_time(
   reverse = FALSE,
   units = c("secs", "mins", "hours", "days", "weeks")
 )
+
+ifilter_flow_time(log)
 }
 \arguments{
 \item{log}{\code{\link[bupaR]{log}}: Object of class \code{\link[bupaR]{log}} or derivatives (\code{\link[bupaR]{grouped_log}}, \code{\link[bupaR]{eventlog}}, \code{\link[bupaR]{activitylog}}, etc.).}
@@ -59,6 +62,11 @@ Filter cases where the activity \code{from} is followed by activity \code{to} wi
 \item \code{filter_flow_time(log)}: Filters on flow time for a \code{\link[bupaR:log]{bupaR::log}}.
 
 \item \code{filter_flow_time(grouped_log)}: Filters on flow time for a \code{\link[bupaR:grouped_log]{bupaR::grouped_log}}.
+
+}}
+\section{Functions}{
+\itemize{
+\item \code{ifilter_flow_time()}: Filter interactively
 
 }}
 \references{

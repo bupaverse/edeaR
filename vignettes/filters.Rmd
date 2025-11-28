@@ -57,7 +57,7 @@ The filter_attributes function is a very generic function an can be supplied wit
 
 ```{r}
 patients %>% 
-	filter_attributes(employee == "r1" | handling == "X-Ray") 
+	filter(employee == "r1" | handling == "X-Ray") 
 ```
 
 

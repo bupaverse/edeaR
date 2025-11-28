@@ -1,3 +1,14 @@
+# edeaR 1.0.0
+
+*  Updated pre-defined visualizations
+*  Interactive filtering has improved and now returns the used filter call for reproducibility
+*  Deprecated functionalities are defintely removed
+	* Use of append in metrics. Use `augment` instead
+	* Use of eventlog argument in all functions. Use argument `log` instead
+	
+	
+
+
 # edeaR 0.9.4
 
 ## Bugfixes
