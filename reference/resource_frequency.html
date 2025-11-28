@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,50 +54,35 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">resource_frequency</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"resource"</span>, <span class="st">"resource-activity"</span><span class="op">)</span>,</span>
-<span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  sort <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'eventlog'</span></span>
 <span><span class="fu">resource_frequency</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"resource"</span>, <span class="st">"resource-activity"</span><span class="op">)</span>,</span>
-<span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  sort <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'grouped_eventlog'</span></span>
 <span><span class="fu">resource_frequency</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"resource"</span>, <span class="st">"resource-activity"</span><span class="op">)</span>,</span>
-<span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  sort <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'activitylog'</span></span>
 <span><span class="fu">resource_frequency</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"resource"</span>, <span class="st">"resource-activity"</span><span class="op">)</span>,</span>
-<span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  sort <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'grouped_activitylog'</span></span>
 <span><span class="fu">resource_frequency</span><span class="op">(</span></span>
 <span>  <span class="va">log</span>,</span>
 <span>  level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log"</span>, <span class="st">"case"</span>, <span class="st">"activity"</span>, <span class="st">"resource"</span>, <span class="st">"resource-activity"</span><span class="op">)</span>,</span>
-<span>  append <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  append_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  sort <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,23 +100,8 @@
 see <code><a href="../articles/metrics.html">vignette("metrics", "edeaR")</a></code> and 'Details' below.</p></dd>
 
 
-<dt id="arg-append">append<a class="anchor" aria-label="anchor" href="#arg-append"></a></dt>
-<dd><p><code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></code> (default <code>FALSE</code>) <a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>: The arguments <code>append</code> and <code>append_column</code>
-have been deprecated in favour of <code><a href="augment.html">augment</a></code>.<br>
-Indicating whether to append results to original log. Ignored when level is <code>"log"</code> or <code>"trace"</code>.</p></dd>
-
-
-<dt id="arg-append-column">append_column<a class="anchor" aria-label="anchor" href="#arg-append-column"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> The arguments <code>append</code> and <code>append_column</code> have been deprecated in favour of <code><a href="augment.html">augment</a></code>.<br>
-Which of the output columns to append to log, if <code>append = TRUE</code>. Default column depends on chosen level.</p></dd>
-
-
 <dt id="arg-sort">sort<a class="anchor" aria-label="anchor" href="#arg-sort"></a></dt>
 <dd><p><code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></code> (default <code>TRUE</code>): Sort output on count. Only for levels with frequency count output.</p></dd>
-
-
-<dt id="arg-eventlog">eventlog<a class="anchor" aria-label="anchor" href="#arg-eventlog"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>; please use <code>log</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -166,20 +136,20 @@ occurrences of the activity under consideration.</p></li>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="resource_involvement.html">resource_involvement</a></code></p>
 <p>Other metrics:
-<code><a href="activity_frequency.html">activity_frequency</a>()</code>,
-<code><a href="activity_presence.html">activity_presence</a>()</code>,
-<code><a href="end_activities.html">end_activities</a>()</code>,
-<code><a href="idle_time.html">idle_time</a>()</code>,
-<code><a href="number_of_repetitions.html">number_of_repetitions</a>()</code>,
-<code><a href="number_of_selfloops.html">number_of_selfloops</a>()</code>,
-<code><a href="number_of_traces.html">number_of_traces</a>()</code>,
-<code><a href="processing_time.html">processing_time</a>()</code>,
-<code><a href="resource_involvement.html">resource_involvement</a>()</code>,
-<code><a href="resource_specialisation.html">resource_specialisation</a>()</code>,
-<code><a href="start_activities.html">start_activities</a>()</code>,
-<code><a href="throughput_time.html">throughput_time</a>()</code>,
-<code><a href="trace_coverage.html">trace_coverage</a>()</code>,
-<code><a href="trace_length.html">trace_length</a>()</code></p></div>
+<code><a href="activity_frequency.html">activity_frequency()</a></code>,
+<code><a href="activity_presence.html">activity_presence()</a></code>,
+<code><a href="end_activities.html">end_activities()</a></code>,
+<code><a href="idle_time.html">idle_time()</a></code>,
+<code><a href="number_of_repetitions.html">number_of_repetitions()</a></code>,
+<code><a href="number_of_selfloops.html">number_of_selfloops()</a></code>,
+<code><a href="number_of_traces.html">number_of_traces()</a></code>,
+<code><a href="processing_time.html">processing_time()</a></code>,
+<code><a href="resource_involvement.html">resource_involvement()</a></code>,
+<code><a href="resource_specialisation.html">resource_specialisation()</a></code>,
+<code><a href="start_activities.html">start_activities()</a></code>,
+<code><a href="throughput_time.html">throughput_time()</a></code>,
+<code><a href="trace_coverage.html">trace_coverage()</a></code>,
+<code><a href="trace_length.html">trace_length()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -187,11 +157,11 @@ occurrences of the activity under consideration.</p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gert Janssenswillen.</p>
+  <p>Developed by Benoît Depaire, Gert Janssenswillen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

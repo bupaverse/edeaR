@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,9 +55,7 @@
 <span>  <span class="va">log</span>,</span>
 <span>  <span class="va">lifecycles</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"none"</span>, <span class="st">"one_of"</span>, <span class="st">"exact"</span>, <span class="st">"only"</span><span class="op">)</span>,</span>
-<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  lifecycle <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'eventlog'</span></span>
@@ -65,9 +63,7 @@
 <span>  <span class="va">log</span>,</span>
 <span>  <span class="va">lifecycles</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"none"</span>, <span class="st">"one_of"</span>, <span class="st">"exact"</span>, <span class="st">"only"</span><span class="op">)</span>,</span>
-<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  lifecycle <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
+<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'grouped_eventlog'</span></span>
@@ -75,10 +71,10 @@
 <span>  <span class="va">log</span>,</span>
 <span>  <span class="va">lifecycles</span>,</span>
 <span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"all"</span>, <span class="st">"none"</span>, <span class="st">"one_of"</span>, <span class="st">"exact"</span>, <span class="st">"only"</span><span class="op">)</span>,</span>
-<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  lifecycle <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  eventlog <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  reverse <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ifilter_lifecycle_presence</span><span class="op">(</span><span class="va">log</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -100,14 +96,6 @@ or <code>"only"</code>. For more information, see <strong>Details</strong> below
 
 <dt id="arg-reverse">reverse<a class="anchor" aria-label="anchor" href="#arg-reverse"></a></dt>
 <dd><p><code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a></code> (default <code>FALSE</code>): Indicating whether the selection should be reversed.</p></dd>
-
-
-<dt id="arg-lifecycle">lifecycle<a class="anchor" aria-label="anchor" href="#arg-lifecycle"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>; please use <code>lifecycles</code> instead.</p></dd>
-
-
-<dt id="arg-eventlog">eventlog<a class="anchor" aria-label="anchor" href="#arg-eventlog"></a></dt>
-<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>; please use <code>log</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,6 +120,11 @@ input a vector containing one or more life cycle labels and it has a <code>metho
 <li><p><code>filter_lifecycle_presence(grouped_eventlog)</code>: Filters activity instances on the presence of life cycle labels for a <code><a href="https://bupaverse.github.io/bupaR/reference/grouped_eventlog.html" class="external-link">grouped_eventlog</a></code>.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
+
+<ul><li><p><code>ifilter_lifecycle_presence()</code>: Filter interactively</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Swennen, M. (2018). Using Event Log Knowledge to Support Operational Exellence Techniques (Doctoral dissertation). Hasselt University.</p>
     </div>
@@ -139,31 +132,31 @@ input a vector containing one or more life cycle labels and it has a <code>metho
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://bupaverse.github.io/bupaR/reference/lifecycle_id.html" class="external-link">lifecycle_id</a></code></p>
 <p>Other filters:
-<code><a href="filter_activity.html">filter_activity</a>()</code>,
-<code><a href="filter_activity_frequency.html">filter_activity_frequency</a>()</code>,
-<code><a href="filter_activity_instance.html">filter_activity_instance</a>()</code>,
-<code><a href="filter_activity_presence.html">filter_activity_presence</a>()</code>,
-<code><a href="filter_case.html">filter_case</a>()</code>,
-<code><a href="filter_case_condition.html">filter_case_condition</a>()</code>,
-<code><a href="filter_endpoints.html">filter_endpoints</a>()</code>,
-<code><a href="filter_endpoints_condition.html">filter_endpoints_condition</a>()</code>,
-<code><a href="filter_flow_time.html">filter_flow_time</a>()</code>,
-<code><a href="filter_idle_time.html">filter_idle_time</a>()</code>,
-<code><a href="filter_infrequent_flows.html">filter_infrequent_flows</a>()</code>,
-<code><a href="filter_lifecycle.html">filter_lifecycle</a>()</code>,
-<code><a href="filter_precedence.html">filter_precedence</a>()</code>,
-<code><a href="filter_precedence_condition.html">filter_precedence_condition</a>()</code>,
-<code><a href="filter_precedence_resource.html">filter_precedence_resource</a>()</code>,
-<code><a href="filter_processing_time.html">filter_processing_time</a>()</code>,
-<code><a href="filter_resource.html">filter_resource</a>()</code>,
-<code><a href="filter_resource_frequency.html">filter_resource_frequency</a>()</code>,
-<code><a href="filter_throughput_time.html">filter_throughput_time</a>()</code>,
-<code><a href="filter_time_period.html">filter_time_period</a>()</code>,
-<code><a href="filter_trace.html">filter_trace</a>()</code>,
-<code><a href="filter_trace_frequency.html">filter_trace_frequency</a>()</code>,
-<code><a href="filter_trace_length.html">filter_trace_length</a>()</code>,
-<code><a href="filter_trim.html">filter_trim</a>()</code>,
-<code><a href="filter_trim_lifecycle.html">filter_trim_lifecycle</a>()</code></p></div>
+<code><a href="filter_activity.html">filter_activity()</a></code>,
+<code><a href="filter_activity_frequency.html">filter_activity_frequency()</a></code>,
+<code><a href="filter_activity_instance.html">filter_activity_instance()</a></code>,
+<code><a href="filter_activity_presence.html">filter_activity_presence()</a></code>,
+<code><a href="filter_case.html">filter_case()</a></code>,
+<code><a href="filter_case_condition.html">filter_case_condition()</a></code>,
+<code><a href="filter_endpoints.html">filter_endpoints()</a></code>,
+<code><a href="filter_endpoints_condition.html">filter_endpoints_condition()</a></code>,
+<code><a href="filter_flow_time.html">filter_flow_time()</a></code>,
+<code><a href="filter_idle_time.html">filter_idle_time()</a></code>,
+<code><a href="filter_infrequent_flows.html">filter_infrequent_flows()</a></code>,
+<code><a href="filter_lifecycle.html">filter_lifecycle()</a></code>,
+<code><a href="filter_precedence.html">filter_precedence()</a></code>,
+<code><a href="filter_precedence_condition.html">filter_precedence_condition()</a></code>,
+<code><a href="filter_precedence_resource.html">filter_precedence_resource()</a></code>,
+<code><a href="filter_processing_time.html">filter_processing_time()</a></code>,
+<code><a href="filter_resource.html">filter_resource()</a></code>,
+<code><a href="filter_resource_frequency.html">filter_resource_frequency()</a></code>,
+<code><a href="filter_throughput_time.html">filter_throughput_time()</a></code>,
+<code><a href="filter_time_period.html">filter_time_period()</a></code>,
+<code><a href="filter_trace.html">filter_trace()</a></code>,
+<code><a href="filter_trace_frequency.html">filter_trace_frequency()</a></code>,
+<code><a href="filter_trace_length.html">filter_trace_length()</a></code>,
+<code><a href="filter_trim.html">filter_trim()</a></code>,
+<code><a href="filter_trim_lifecycle.html">filter_trim_lifecycle()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -171,11 +164,11 @@ input a vector containing one or more life cycle labels and it has a <code>metho
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gert Janssenswillen.</p>
+  <p>Developed by Benoît Depaire, Gert Janssenswillen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

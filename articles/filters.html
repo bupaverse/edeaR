@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">edeaR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@
                         <h4 data-toc-skip class="author">Gert
 Janssenswillen</h4>
             
-            <h4 data-toc-skip class="date">2025-07-09</h4>
+            <h4 data-toc-skip class="date">2025-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/bupaverse/edeaR/blob/master/vignettes/filters.Rmd" class="external-link"><code>vignettes/filters.Rmd</code></a></small>
       <div class="d-none name"><code>filters.Rmd</code></div>
@@ -179,12 +179,7 @@ required. However, it has the advantange of stating both conditions as
 OR.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/filter_attributes.html" class="external-link">filter_attributes</a></span><span class="op">(</span><span class="va">employee</span> <span class="op">==</span> <span class="st">"r1"</span> <span class="op">|</span> <span class="va">handling</span> <span class="op">==</span> <span class="st">"X-Ray"</span><span class="op">)</span> </span></code></pre></div>
-<pre><code><span><span class="co">## Warning: `filter_attributes()` was deprecated in bupaR 0.5.0.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `filter()` instead.</span></span>
-<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">employee</span> <span class="op">==</span> <span class="st">"r1"</span> <span class="op">|</span> <span class="va">handling</span> <span class="op">==</span> <span class="st">"X-Ray"</span><span class="op">)</span> </span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># Log of</span> <span style="color: #949494;">1522</span> <span style="color: #949494;">events</span> <span style="color: #949494;">consisting of:</span></span></span>
 <span><span class="co"><span style="color: #949494;">## </span>2 traces </span></span>
 <span><span class="co">## 500 cases </span></span>
@@ -221,7 +216,7 @@ OR.</p>
 </h3>
 <p>Similar to the activity filter, the resource filter can be used to
 filter events by listing on or more resources.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/filter_resource.html">filter_resource</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"r1"</span>,<span class="st">"r4"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/resource_frequency.html">resource_frequency</a></span><span class="op">(</span><span class="st">"resource"</span><span class="op">)</span></span></code></pre></div>
@@ -242,7 +237,7 @@ one for end activities. The cases will be trimmed from the first
 appearance of a start activity till the last appearance of an end
 activity. When reversed, these <em>slices</em> of the event log will be
 removed instead of preserved.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">patients</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/filter_trim.html">filter_trim</a></span><span class="op">(</span>start_activities <span class="op">=</span> <span class="st">"Registration"</span>, end_activities <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MRI SCAN"</span>,<span class="st">"X-Ray"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://bupaverse.github.io/bupaR/reference/traces.html" class="external-link">traces</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -362,11 +357,11 @@ frequent traces. This filter also contains the reverse argument.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gert Janssenswillen.</p>
+  <p>Developed by Benoît Depaire, Gert Janssenswillen.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
