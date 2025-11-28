@@ -19,7 +19,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/bupaverse/edeaR/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/bupaverse/edeaR/blob/1.0.0/DESCRIPTION)
 
 Janssenswillen G (2025). *edeaR: Exploratory and Descriptive Event-Based
 Data Analysis*. R package version 1.0.0, <https://bupar.net/>.
